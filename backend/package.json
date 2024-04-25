@@ -1,0 +1,19 @@
+{
+  "name": "backend",
+  "version": "0.0.0",
+  "description": "일기 공유 기반 매칭 웹 어플리케이션 '연다 (Yeonda)' 의 Backend 코드",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pbk95120/Yeonda.git"
+  },
+  "author": "이호성, 박재현",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pbk95120/Yeonda/issues"
+  },
+  "homepage": "https://github.com/pbk95120/Yeonda#readme"
+}
