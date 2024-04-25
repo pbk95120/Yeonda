@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'The Day Diary';
+  font-weight: normal;
+  src: url('./assets/fonts/thedaydiary.ttf') format('truetype');
+}
