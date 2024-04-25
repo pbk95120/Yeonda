@@ -1,13 +1,14 @@
-import "@testing-library/jest-dom/extend-expect";
-
 export default {
-  testEnvironment: "jsdom",
+  preset: "ts-jest",
+  testEnvironment: "jest-environment-jsdom",
   transform: {
     "^.+\\.tsx?$": "ts-jest",
   },
   moduleNameMapper: {
-    "^.+\\.svg$": "jest-svg-transformer",
     "\\.(css|less|sass|scss)$": "identity-obj-proxy",
+    "^.+\\.svg$": "jest-svg-transformer",
+    "^@/(.*)$": "<rootDir>/src/$1",
   },
-  setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
+
+  testPathIgnorePatterns: [".svg$", "path/to/ignore/"],
 };
