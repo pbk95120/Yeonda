@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/pbk95120/Yeonda/issues"
   },
-  "homepage": "https://github.com/pbk95120/Yeonda#readme"
+  "homepage": "https://github.com/pbk95120/Yeonda#readme",
+  "dependencies": {
+    "typescript": "^5.4.5"
+  }
 }
