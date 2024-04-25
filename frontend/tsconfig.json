@@ -26,6 +26,6 @@
 
     "esModuleInterop": true
   },
-  "include": ["src", "svg.d.ts"],
+  "include": ["src", "svg.d.ts", ".eslintrc.cjs"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
