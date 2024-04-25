@@ -8,6 +8,16 @@
     "lint": "eslint 'src/**/*.{js,ts,tsx}' --quiet",
     "format": "prettier --write 'src/**/*.{js,ts,tsx,css,md}'"
   },
+  "_moduleAliases": {
+    "@src": "./src",
+    "@routes": "./src/routes",
+    "@controllers": "./src/controllers",
+    "@databases": "./src/databases",
+    "@models": "./src/models",
+    "@middlewares": "./src/middlewares",
+    "@utils": "./src/utils",
+    "@tests": "./src/tests"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/pbk95120/Yeonda.git"
@@ -32,6 +42,7 @@
     "eslint-plugin-prettier": "^5.1.3",
     "eslint-plugin-react": "^7.34.1",
     "globals": "^15.0.0",
+    "module-alias": "^2.2.3",
     "prettier": "^3.2.5",
     "typescript-eslint": "^7.7.1"
   }
