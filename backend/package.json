@@ -2,8 +2,10 @@
   "name": "backend",
   "version": "0.0.0",
   "description": "일기 공유 기반 매칭 웹 어플리케이션 '연다 (Yeonda)' 의 Backend 코드",
-  "main": "index.js",
+  "main": "build/index.js",
   "scripts": {
+    "start": "node build/index.js",
+    "dev": "nodemon",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint 'src/**/*.{js,ts,tsx}' --quiet",
     "format": "prettier --write 'src/**/*.{js,ts,tsx,css,md}'"
@@ -44,7 +46,9 @@
     "eslint-plugin-react": "^7.34.1",
     "globals": "^15.0.0",
     "module-alias": "^2.2.3",
+    "nodemon": "^3.1.0",
     "prettier": "^3.2.5",
+    "ts-node": "^10.9.2",
     "typescript-eslint": "^7.7.1"
   }
 }
