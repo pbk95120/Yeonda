@@ -33,6 +33,7 @@
   "dependencies": {
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "openai": "^4.38.5",
     "typescript": "^5.4.5"
   },
   "devDependencies": {
