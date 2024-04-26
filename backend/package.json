@@ -18,6 +18,7 @@
     "@models": "./src/models",
     "@middlewares": "./src/middlewares",
     "@utils": "./src/utils",
+    "@types": "./src/types",
     "@tests": "./src/tests"
   },
   "repository": {
