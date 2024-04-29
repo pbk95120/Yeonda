@@ -1,7 +1,7 @@
 import TestSVG from '@/assets/images/testlogo.svg?react';
-import useStore from '@/store/test';
+import useStore from '@/store/store';
 import axios from 'axios';
-import { formatDate, formatNumber } from './utils/format';
+import { formatDate, formatNumber } from '../utils/format';
 
 import {
   Chart as ChartJS,
@@ -50,7 +50,7 @@ export const data = {
   ],
 };
 
-function App() {
+const TestPage = () => {
   const setSelectedButton = useStore((state) => state.setSelectedButton);
   const incrementCount = useStore((state) => state.incrementCount);
   const removeCount = useStore((state) => state.removeCount);
@@ -101,6 +101,6 @@ function App() {
       <Line data={data} options={options} />
     </>
   );
-}
+};
 
-export default App;
+export default TestPage;
