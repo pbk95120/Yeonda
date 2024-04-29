@@ -6,6 +6,9 @@
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
+    screens: {
+      sm: '320px',
+    },
     colors: {
       black: '#111111',
       blue: '#88B3E8',
