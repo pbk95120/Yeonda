@@ -78,7 +78,7 @@ const TestPage = () => {
     <>
       <TestButton />
       <TestSVG />
-      <h1 className='text-3xl font-bold underline'>Hello world!</h1>
+      <h1 className='text-3xl font-bold underline font-sans'>Hello world!</h1>
       <div>
         <div>
           <button onClick={() => handleClick('O')}>O</button>
