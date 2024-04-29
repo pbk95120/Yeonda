@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client';
 import '@/index.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Layout from '@/layout/Layout';
 import TestPage from '@/pages/TestPage';
 import LoginPage from '@/pages/LoginPage';
 import JoinPage from '@/pages/JoinPage';
@@ -21,13 +22,23 @@ import WriteDiaryPage from '@/pages/WriteDiaryPage';
 import ChatPage from '@/pages/ChatPage';
 import ChatDetailPage from '@/pages/ChatDetailPage';
 import ChatProfilePage from '@/pages/ChatProfilePage';
+import ErrorPage from '@/pages/ErrorPage';
 
 const queryClient = new QueryClient();
 
-const router = createBrowserRouter([
+/**
+ * 라우터 설정 목록
+ * path: 각 페이지의 경로
+ * elemnet: 렌더링할 컴포넌트
+ * showHeader: Header 표시 여부
+ * showFooter: Footer 표시 여부
+ */
+const routeList = [
   {
     path: '/',
     element: <TestPage />,
+    showHeader: true,
+    showFooter: false,
   },
   {
     path: '/login',
@@ -97,7 +108,24 @@ const router = createBrowserRouter([
     path: '/chat/profile/:id',
     element: <ChatProfilePage />,
   },
-]);
+];
+
+/**
+ * router 설정
+ */
+const router = createBrowserRouter(
+  routeList.map((item) => {
+    return {
+      ...item,
+      element: (
+        <Layout showHeader={item.showHeader} showFooter={item.showFooter}>
+          {item.element}
+        </Layout>
+      ),
+      errorElement: <ErrorPage />,
+    };
+  }),
+);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

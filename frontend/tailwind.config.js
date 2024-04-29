@@ -6,6 +6,9 @@
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
+    screens: {
+      sm: '320px',
+    },
     colors: {
       black: '#111111',
       blue: '#88B3E8',
@@ -24,7 +27,26 @@ export default {
       pastelpeach: '#FFC7C7',
     },
     fontFamily: {
-      diary: ['The Day Diary'],
+      diary: [
+        'The Day Diary',
+        'ui-sans-serif',
+        'system-ui',
+        'sans-serif',
+        'Apple Color Emoji',
+        'Segoe UI Emoji',
+        'Segoe UI Symbol',
+        'Noto Color Emoji',
+      ],
+      sans: [
+        'Noto Sans KR',
+        'ui-sans-serif',
+        'system-ui',
+        'sans-serif',
+        'Apple Color Emoji',
+        'Segoe UI Emoji',
+        'Segoe UI Symbol',
+        'Noto Color Emoji',
+      ],
     },
     extend: {},
   },
