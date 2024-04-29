@@ -32,6 +32,7 @@
   },
   "homepage": "https://github.com/pbk95120/Yeonda#readme",
   "dependencies": {
+    "compute-cosine-similarity": "^1.1.0",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "http-status-codes": "^2.3.0",
