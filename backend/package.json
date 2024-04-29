@@ -36,6 +36,7 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "http-status-codes": "^2.3.0",
+    "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.9.7",
     "openai": "^4.38.5",
     "typescript": "^5.4.5"
