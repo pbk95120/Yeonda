@@ -1,4 +1,4 @@
-import TestSVG from '@/assets/images/testlogo.svg?react';
+import TestSVG from '@/assets/images/logo.svg?react';
 import useStore from '@/store/store';
 import axios from 'axios';
 import { formatDate, formatNumber } from '../utils/format';
