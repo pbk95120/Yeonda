@@ -2,6 +2,7 @@ import TestSVG from '@/assets/images/testlogo.svg?react';
 import useStore from '@/store/store';
 import axios from 'axios';
 import { formatDate, formatNumber } from '../utils/format';
+import { example } from '@/api/sample.api';
 
 import {
   Chart as ChartJS,
@@ -60,8 +61,22 @@ const TestPage = () => {
     setSelectedButton(button);
   };
 
+  const TestButton = () => {
+    const handleSignupTest = async () => {
+      try {
+        const response = await example();
+        console.log('API 호출 성공:', response);
+      } catch (error) {
+        console.error('API 호출 실패:', error);
+      }
+    };
+
+    return <button onClick={handleSignupTest}>API 테스트</button>;
+  };
+
   return (
     <>
+      <TestButton />
       <TestSVG />
       <h1 className='text-3xl font-bold underline'>Hello world!</h1>
       <div>
