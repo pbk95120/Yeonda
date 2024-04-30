@@ -226,18 +226,24 @@ const router = createBrowserRouter(
     return {
       ...item,
       element: (
-        <Layout
-          showHeader={item.showHeader}
-          showFooter={item.showFooter}
-          onlyLogo={item.onlyLogo}
-          value={item.value}
-          backBtn={item.backBtn}
-          cancelStr={item.cancelStr}
-          profileImg={item.profileImg ? item.profileImg : null}
-          list={item.list ? item.list : null}
-        >
-          {item.element}
-        </Layout>
+        <>
+          {!item.path.includes('/admin') ? (
+            <Layout
+              showHeader={item.showHeader}
+              showFooter={item.showFooter}
+              onlyLogo={item.onlyLogo}
+              value={item.value}
+              backBtn={item.backBtn}
+              cancelStr={item.cancelStr}
+              profileImg={item.profileImg ? item.profileImg : null}
+              list={item.list ? item.list : null}
+            >
+              {item.element}
+            </Layout>
+          ) : (
+            item.element
+          )}
+        </>
       ),
       errorElement: <ErrorPage />,
     };
