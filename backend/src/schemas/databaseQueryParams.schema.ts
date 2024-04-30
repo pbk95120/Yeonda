@@ -1,1 +1,1 @@
-export type DBQueryParams = string | number | boolean | object | undefined;
+export type databaseQueryParams = string | number | boolean | object | undefined;
