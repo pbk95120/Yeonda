@@ -1,8 +1,12 @@
+import ChatInput from '@/components/chat/ChatInput';
+import ChatMessage from '@/components/chat/ChatMessage';
+
 const ChatDetailPage = () => {
   return (
     <>
       <section>
-        <input>예시인풋</input>
+        <ChatMessage />
+        <ChatInput />
       </section>
     </>
   );

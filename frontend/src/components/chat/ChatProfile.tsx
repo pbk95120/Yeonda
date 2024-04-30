@@ -1,5 +1,8 @@
 import { ChatProfileProps } from '@/types/type';
 
+/**
+ * 채팅 상대 프로필 페이지 컴포넌트
+ */
 const ChatProfile = ({ profileImage, nickname }: ChatProfileProps) => {
   return (
     <div className='my-16 flex flex-col items-center justify-center'>
