@@ -1,5 +1,5 @@
 // Chat ================================================
-export interface ChatMessagesProps {
+export interface ChatListProps {
   nickName: string;
   message: string;
   pendingRead: number;

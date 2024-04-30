@@ -1,7 +1,7 @@
 import Profile from '@/assets/images/Profile.svg?react';
-import { ChatMessagesProps } from '@/types/type';
+import { ChatListProps } from '@/types/type';
 
-const ChatMessages = ({ nickName, message, pendingRead }: ChatMessagesProps) => {
+const ChatList = ({ nickName, message, pendingRead }: ChatListProps) => {
   return (
     <div className='flex items-center mx-3.5 mb-4'>
       <Profile className='w-14 h-14 mr-2' />
@@ -20,4 +20,4 @@ const ChatMessages = ({ nickName, message, pendingRead }: ChatMessagesProps) => 
   );
 };
 
-export default ChatMessages;
+export default ChatList;

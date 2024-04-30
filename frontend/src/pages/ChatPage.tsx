@@ -1,4 +1,4 @@
-import ChatMessages from '@/components/chat/ChatMessages';
+import ChatList from '@/components/chat/ChatList';
 
 const ChatPage = () => {
   const mockMessages = [
@@ -60,7 +60,7 @@ const ChatPage = () => {
       </section>
       <section>
         {mockMessages.map((msg) => (
-          <ChatMessages key={msg.id} nickName={msg.nickname} message={msg.message} pendingRead={msg.isnt_read} />
+          <ChatList key={msg.id} nickName={msg.nickname} message={msg.message} pendingRead={msg.isnt_read} />
         ))}
       </section>
     </>

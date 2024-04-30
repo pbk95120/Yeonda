@@ -1,5 +1,11 @@
 const ChatDetailPage = () => {
-  return <div>페이지</div>;
+  return (
+    <>
+      <section>
+        <input>예시인풋</input>
+      </section>
+    </>
+  );
 };
 
 export default ChatDetailPage;
