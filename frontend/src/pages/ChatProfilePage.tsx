@@ -1,5 +1,14 @@
+import ChatProfile from '@/components/chat/ChatProfile';
+
 const ChatProfilePage = () => {
-  return <div>페이지</div>;
+  const mockProfile = { picture_url: 'https://placehold.co/259x259', nickname: 'nickname' };
+  return (
+    <>
+      <section>
+        <ChatProfile profileImage={mockProfile.picture_url} nickname={mockProfile.nickname} />
+      </section>
+    </>
+  );
 };
 
 export default ChatProfilePage;

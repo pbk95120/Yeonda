@@ -109,6 +109,8 @@ const routeList = [
   {
     path: '/chat/profile/:id',
     element: <ChatProfilePage />,
+    showHeader: true,
+    showFooter: true,
   },
 ];
 

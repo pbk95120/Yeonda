@@ -54,7 +54,7 @@ const ChatPage = () => {
   ];
 
   return (
-    <div>
+    <>
       <section>
         <p className='font-bold mt-5 mb-6 ml-5'>메세지</p>
       </section>
@@ -63,7 +63,7 @@ const ChatPage = () => {
           <ChatMessages key={msg.id} nickName={msg.nickname} message={msg.message} pendingRead={msg.isnt_read} />
         ))}
       </section>
-    </div>
+    </>
   );
 };
 
