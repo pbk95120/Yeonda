@@ -99,6 +99,8 @@ const routeList = [
   {
     path: '/chat',
     element: <ChatPage />,
+    showHeader: true,
+    showFooter: true,
   },
   {
     path: '/chat/:id',
