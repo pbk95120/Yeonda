@@ -19,8 +19,7 @@
     "@utils": "./src/utils",
     "@storage": "./src/storage",
     "@schemas": "./src/schemas",
-    "@tests": "./src/tests",
-    "@mocks": "./src/mocks"
+    "@tests": "./src/tests"
   },
   "repository": {
     "type": "git",
@@ -37,11 +36,13 @@
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "http-status-codes": "^2.3.0",
+    "joi": "^17.13.0",
     "jsonwebtoken": "^9.0.2",
     "multer": "^1.4.5-lts.1",
     "mysql2": "^3.9.7",
     "openai": "^4.38.5",
     "socket.io": "^4.7.5",
+    "supertest": "^7.0.0",
     "typescript": "^5.4.5"
   },
   "devDependencies": {

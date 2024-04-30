@@ -1,9 +1,9 @@
-import { DBQueryParams } from '@schemas/databaseQueryParams.schema';
+import { databaseQueryParams } from '@schemas/databaseQueryParams.schema';
 import Database from '../db';
 
 export const databaseConnector =
   (handler: Function) =>
-  async (...params: DBQueryParams[]) => {
+  async (...params: databaseQueryParams[]) => {
     let conn;
     try {
       conn = await Database.getConnection();
