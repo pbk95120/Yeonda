@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+
 interface AccountProps {
   setPage: (page: number) => void;
   nickname: string;
@@ -25,12 +27,33 @@ const Account = ({
   passwordCheck,
   setPasswordCheck,
 }: AccountProps) => {
+  const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
+  const [verified, setVerified] = useState<boolean>(false);
+
+  const validateInputs = () => {
+    if (
+      nickname.trim() !== '' &&
+      email.trim() !== '' &&
+      password.trim() !== '' &&
+      passwordCheck.trim() !== '' &&
+      vericationCode.trim() !== '' &&
+      verified
+    ) {
+      setButtonDisabled(false);
+    } else {
+      setButtonDisabled(true);
+    }
+  };
+
+  useEffect(() => {
+    validateInputs();
+  }, [nickname, email, password, passwordCheck, vericationCode, verified]);
+
   const handleNextButtonClick = () => {
     setNickname(nickname);
     setEmail(email);
     setPassword(password);
     setPasswordCheck(passwordCheck);
-
     setPage(1);
   };
 
@@ -79,7 +102,9 @@ const Account = ({
                 <button
                   type='button'
                   className='font-bold py-2 px-4 rounded-lg bg-pastelred text-white text-sm h-[40px] transition duration-300 ease-in-out transform hover:scale-105'
-                  onClick={() => {}}
+                  onClick={() => {
+                    setVerified(true);
+                  }}
                 >
                   확인
                 </button>
@@ -113,7 +138,10 @@ const Account = ({
           <div className='flex flex-col items-center justify-center mt-20'>
             <button
               onClick={handleNextButtonClick}
-              className='mb-4 w-[90%] h-[40px] font-bold py-2 px-4 rounded-xl bg-pastelred text-white text-sm '
+              className={`mb-4 w-[90%] h-[40px] font-bold py-2 px-4 rounded-xl text-white text-sm ${
+                !buttonDisabled ? 'bg-pastelred' : 'bg-gray cursor-not-allowed'
+              }`}
+              disabled={buttonDisabled}
             >
               다음
             </button>
