@@ -10,6 +10,8 @@ interface LayoutProps {
   setting?: boolean;
   cancelStr?: boolean;
   backBtn?: boolean;
+  profileImg?: null | string;
+  list?: null | boolean;
 }
 
 /**
@@ -24,11 +26,21 @@ const Layout = ({
   setting,
   cancelStr,
   backBtn,
+  profileImg,
+  list,
 }: LayoutProps) => {
   return (
     <main className='font-sans w-full mx-auto max-w-screen-sm'>
       {showHeader && (
-        <MainHeader value={value} onlyLogo={onlyLogo} setting={setting} cancelStr={cancelStr} backBtn={backBtn} />
+        <MainHeader
+          value={value}
+          onlyLogo={onlyLogo}
+          setting={setting}
+          cancelStr={cancelStr}
+          backBtn={backBtn}
+          profileImg={profileImg ? profileImg : null}
+          list={list}
+        />
       )}
       <div>{children}</div>
       {showFooter && <MainFooter />}

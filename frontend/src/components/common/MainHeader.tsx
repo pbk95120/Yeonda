@@ -3,6 +3,7 @@
  */
 import { IoSettings } from 'react-icons/io5';
 import { MdArrowBackIos } from 'react-icons/md';
+import { RiMenu4Line } from 'react-icons/ri';
 import SVG from '@/assets/images/logo.svg?react';
 
 interface HeaderProps {
@@ -11,9 +12,11 @@ interface HeaderProps {
   setting?: boolean;
   backBtn?: boolean;
   cancelStr?: boolean;
+  profileImg?: null | string;
+  list?: null | boolean;
 }
 
-const MainHeader = ({ value, onlyLogo, setting, backBtn, cancelStr }: HeaderProps) => {
+const MainHeader = ({ value, onlyLogo, setting, backBtn, cancelStr, profileImg, list }: HeaderProps) => {
   return (
     <div className='flex flex-row w-full'>
       {onlyLogo ? (
@@ -32,11 +35,18 @@ const MainHeader = ({ value, onlyLogo, setting, backBtn, cancelStr }: HeaderProp
               <MdArrowBackIos className='w-5 h-10 fill-gray' onClick={() => history.back()} />
             </div>
           ) : null}
-
+          {profileImg ? (
+            <img src={profileImg} className='absolute ml-20 rounded-full flex justify-center items-center' />
+          ) : null}
           <h1 className='font-sans text-xl text-center w-full py-5'>{value}</h1>
           {setting ? (
             <div className='absolute right-3 flex justify-center items-center'>
               <IoSettings className='w-5 h-10 fill-gray' />
+            </div>
+          ) : null}
+          {list ? (
+            <div className='absolute right-3 flex justify-center items-center'>
+              <RiMenu4Line className='w-5 h-10 fill-gray' />
             </div>
           ) : null}
         </div>

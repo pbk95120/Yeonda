@@ -199,11 +199,12 @@ const routeList = [
     element: <ChatDetailPage />,
     showHeader: true,
     showFooter: false,
-    onlyLogo: true,
+    onlyLogo: false,
     value: '박상하킹갓',
     backBtn: false,
     cancelStr: true,
     profileImg: 'favicon.ico',
+    list: true,
   },
   {
     path: '/chat/profile/:id',
@@ -232,6 +233,8 @@ const router = createBrowserRouter(
           value={item.value}
           backBtn={item.backBtn}
           cancelStr={item.cancelStr}
+          profileImg={item.profileImg ? item.profileImg : null}
+          list={item.list ? item.list : null}
         >
           {item.element}
         </Layout>
