@@ -118,9 +118,15 @@ const router = createBrowserRouter(
     return {
       ...item,
       element: (
-        <Layout showHeader={item.showHeader} showFooter={item.showFooter}>
-          {item.element}
-        </Layout>
+        <>
+          {!item.path.includes('/admin') ? (
+            <Layout showHeader={item.showHeader} showFooter={item.showFooter}>
+              {item.element}
+            </Layout>
+          ) : (
+            item.element
+          )}
+        </>
       ),
       errorElement: <ErrorPage />,
     };
