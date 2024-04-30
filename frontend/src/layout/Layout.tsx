@@ -12,7 +12,7 @@ interface LayoutProps {
  */
 const Layout = ({ children, showHeader = true, showFooter = true }: LayoutProps) => {
   return (
-    <main className='font-sans w-full mx-auto max-w-screen-sm'>
+    <main className='font-sans w-full mx-auto max-w-screen-sm border-lightgray border-2 min-h-[667px]'>
       {showHeader && <MainHeader />}
       <div>{children}</div>
       {showFooter && <MainFooter />}
