@@ -32,6 +32,7 @@
   },
   "homepage": "https://github.com/pbk95120/Yeonda#readme",
   "dependencies": {
+    "axios": "^1.6.8",
     "bcrypt": "^5.1.1",
     "compute-cosine-similarity": "^1.1.0",
     "dotenv": "^16.4.5",
