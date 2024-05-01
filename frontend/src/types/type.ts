@@ -17,6 +17,7 @@ export interface ChatMessageProps {
 }
 
 export interface ChatListProps {
+  id: number;
   nickName: string;
   message: string;
   pendingRead: number;
