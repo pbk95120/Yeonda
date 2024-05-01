@@ -48,11 +48,9 @@ const routeList = [
     path: '/login',
     element: <LoginPage />,
     showHeader: true,
-    showFooter: true,
-    onlyLogo: false,
-    value: '박상하킹갓',
+    showFooter: false,
+    onlyLogo: true,
     backBtn: false,
-    cancelStr: true,
   },
   {
     path: '/join',
