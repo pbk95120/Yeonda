@@ -5,7 +5,7 @@ const ChatProfilePage = () => {
   return (
     <>
       <section>
-        <ChatProfile profileImage={mockProfile.picture_url} nickname={mockProfile.nickname} />
+        <ChatProfile profileImage={mockProfile.picture_url} nickName={mockProfile.nickname} />
       </section>
     </>
   );

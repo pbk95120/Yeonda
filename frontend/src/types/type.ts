@@ -1,8 +1,19 @@
 // Chat ================================================
-export interface ChatMessageProps {
-  nickName: string;
+export interface ChatMessageGetProps {
+  id: number;
+  nickname: string;
   message: string;
-  pendingRead: number;
+  send_at: string;
+}
+
+export interface ChatMessageWithDate extends ChatMessageGetProps {
+  showDate: boolean;
+}
+
+export interface ChatMessageProps {
+  message: string;
+  sendAt: string;
+  showDate: boolean;
 }
 
 export interface ChatListProps {
@@ -13,5 +24,5 @@ export interface ChatListProps {
 
 export interface ChatProfileProps {
   profileImage: string;
-  nickname: string;
+  nickName: string;
 }

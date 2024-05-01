@@ -18,7 +18,7 @@ export default {
       white: '#FFFFFF',
       red: '#ED5151',
       green: '#36C07E',
-      gray: '#686868',
+      gray: 'rgba(104, 104, 104, 0.8)',
       lightgray: '#CFCFCF',
       chatgray: '#EAEBEE',
       darkgray: '#3E3E3E',
