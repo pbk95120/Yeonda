@@ -48,8 +48,8 @@ const routeList = [
     path: '/login',
     element: <LoginPage />,
     showHeader: true,
-    showFooter: false,
-    onlyLogo: true,
+    showFooter: true,
+    onlyLogo: false,
     value: '박상하킹갓',
     backBtn: false,
     cancelStr: true,
@@ -108,11 +108,11 @@ const routeList = [
     path: '/mydiary',
     element: <MyDiaryPage />,
     showHeader: true,
-    showFooter: false,
-    onlyLogo: true,
-    value: '박상하킹갓',
+    showFooter: true,
+    onlyLogo: false,
+    value: '내 일기',
     backBtn: false,
-    cancelStr: true,
+    cancelStr: false,
   },
   {
     path: '/mydiary/:id',
@@ -128,7 +128,7 @@ const routeList = [
     path: '/othersdiary/suggestion',
     element: <DiarySuggestionPage />,
     showHeader: true,
-    showFooter: false,
+    showFooter: true,
     onlyLogo: true,
     value: '박상하킹갓',
     backBtn: false,
@@ -148,11 +148,12 @@ const routeList = [
     path: '/mypage',
     element: <MyPage />,
     showHeader: true,
-    showFooter: false,
-    onlyLogo: true,
-    value: '박상하킹갓',
+    showFooter: true,
+    onlyLogo: false,
+    setting: true,
+    value: 'MyPage',
     backBtn: false,
-    cancelStr: true,
+    cancelStr: false,
   },
   {
     path: '/mypage/setting',
@@ -178,8 +179,8 @@ const routeList = [
     path: '/writeDiary',
     element: <WriteDiaryPage />,
     showHeader: true,
-    showFooter: false,
-    onlyLogo: true,
+    showFooter: true,
+    onlyLogo: false,
     value: '박상하킹갓',
     backBtn: false,
     cancelStr: true,
@@ -188,7 +189,7 @@ const routeList = [
     path: '/chat',
     element: <ChatPage />,
     showHeader: true,
-    showFooter: false,
+    showFooter: true,
     onlyLogo: true,
     value: '박상하킹갓',
     backBtn: false,
@@ -235,6 +236,7 @@ const router = createBrowserRouter(
               value={item.value}
               backBtn={item.backBtn}
               cancelStr={item.cancelStr}
+              setting={item.setting ? item.setting : null}
               profileImg={item.profileImg ? item.profileImg : null}
               list={item.list ? item.list : null}
             >

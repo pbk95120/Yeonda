@@ -7,7 +7,7 @@ interface LayoutProps {
   showFooter?: boolean;
   value?: string;
   onlyLogo?: boolean;
-  setting?: boolean;
+  setting?: null | boolean;
   cancelStr?: boolean;
   backBtn?: boolean;
   profileImg?: null | string;
@@ -42,7 +42,7 @@ const Layout = ({
           list={list}
         />
       )}
-      <div>{children}</div>
+      <div className='h-9'>{children}</div>
       {showFooter && <MainFooter />}
     </main>
   );

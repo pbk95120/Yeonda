@@ -9,7 +9,7 @@ import SVG from '@/assets/images/logo.svg?react';
 interface HeaderProps {
   value?: string;
   onlyLogo: boolean | undefined;
-  setting?: boolean;
+  setting?: null | boolean;
   backBtn?: boolean;
   cancelStr?: boolean;
   profileImg?: null | string;
@@ -36,9 +36,12 @@ const MainHeader = ({ value, onlyLogo, setting, backBtn, cancelStr, profileImg, 
             </div>
           ) : null}
           {profileImg ? (
-            <img src={profileImg} className='absolute ml-20 rounded-full flex justify-center items-center' />
+            <img
+              src='https://placehold.co/30X30'
+              className='absolute ml-20 rounded-full flex justify-center items-center'
+            />
           ) : null}
-          <h1 className='font-sans text-xl text-center w-full py-5'>{value}</h1>
+          <h1 className='font-sans font-bold text-lg text-center w-full py-5'>{value}</h1>
           {setting ? (
             <div className='absolute right-3 flex justify-center items-center'>
               <IoSettings className='w-5 h-10 fill-gray' />
