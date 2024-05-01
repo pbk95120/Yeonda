@@ -42,7 +42,7 @@ const Layout = ({
           list={list}
         />
       )}
-      <div className='h-9'>{children}</div>
+      <div>{children}</div>
       {showFooter && <MainFooter />}
     </main>
   );
