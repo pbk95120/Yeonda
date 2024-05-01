@@ -6,6 +6,9 @@
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
+    maxHeight: {
+      content: 'calc(100vh - 10rem)',
+    },
     screens: {
       sm: '375px',
     },
