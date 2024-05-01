@@ -10,7 +10,7 @@ export default {
       content: 'calc(100vh - 10rem)',
     },
     screens: {
-      sm: '320px',
+      sm: '375px',
     },
     colors: {
       black: '#111111',
