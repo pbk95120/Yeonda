@@ -30,6 +30,7 @@ const Layout = ({
   list,
 }: LayoutProps) => {
   return (
+
     <main className='font-sans w-full mx-auto max-w-screen-sm'>
       {showHeader && (
         <MainHeader
