@@ -2,7 +2,7 @@ import Account from '@/components/join/Account';
 import Interest from '@/components/join/Interest';
 import PersonalInformation from '@/components/join/PersonalInformation';
 import Preference from '@/components/join/Preference';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const JoinPage = () => {
   const [page, setPage] = useState<number>(0);
@@ -31,6 +31,10 @@ const JoinPage = () => {
 
   const [tags, setTags] = useState<string[]>([]);
 
+  useEffect(() => {
+    console.log(nickname, email, verificationCode, password, passwordCheck);
+  }, [nickname, email, verificationCode, password, passwordCheck]);
+
   return (
     <>
       {page === 0 && (
@@ -43,20 +47,20 @@ const JoinPage = () => {
           setPasswordCheck={setPasswordCheck}
         />
       )}
-      {/* {page === 1 && (
+      {page === 1 && (
         <PersonalInformation
           setPage={setPage}
-          picture={picture}
           setPicture={setPicture}
-          year={year}
           setYear={setYear}
-          month={month}
           setMonth={setMonth}
-          day={day}
           setDay={setDay}
+          setState={setState}
+          setCity={setCity}
+          setTown={setTown}
+          setAddressDetail={setAddressDetail}
         />
       )}
-      {page === 2 && (
+      {/* {page === 2 && ( 
         <Preference
           state={state}
           setState={setState}

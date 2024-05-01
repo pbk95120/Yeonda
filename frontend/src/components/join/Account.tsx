@@ -34,7 +34,6 @@ const Account = ({
   } = useForm<AccountFormInputs>();
 
   const onSubmit: SubmitHandler<AccountFormInputs> = (data) => {
-    console.log(data);
     setPage(1);
     setNickname(getValues('nickname'));
     setEmail(getValues('email'));
@@ -42,7 +41,8 @@ const Account = ({
     setPassword(getValues('password'));
     setPasswordCheck(getValues('passwordCheck'));
   };
-  const [verified, setVerified] = useState<boolean>(false);
+  const [submitBtnDisabled, setSubmitBtnDisabled] = useState<boolean>(true);
+  const [nextBtnDisabled, setNextBtnDisabled] = useState<boolean>(true);
 
   return (
     <div>
@@ -72,7 +72,9 @@ const Account = ({
               <button
                 type='button'
                 className='font-bold py-2 px-4  rounded-lg bg-pastelred text-white text-sm  h-[40px] '
-                onClick={() => {}}
+                onClick={() => {
+                  setSubmitBtnDisabled(false);
+                }}
               >
                 전송
               </button>
@@ -92,10 +94,11 @@ const Account = ({
                 />
                 <button
                   type='button'
-                  className='font-bold py-2 px-4 rounded-lg bg-pastelred text-white text-sm h-[40px] '
+                  className={`font-bold py-2 px-4 rounded-lg ${!submitBtnDisabled ? 'bg-pastelred' : 'bg-gray'}  text-white text-sm h-[40px] `}
                   onClick={() => {
-                    setVerified(true);
+                    setNextBtnDisabled(false);
                   }}
+                  disabled={submitBtnDisabled}
                 >
                   확인
                 </button>
@@ -108,7 +111,7 @@ const Account = ({
               <legend className='mb-2 text-sm'>비밀번호</legend>
               <div className='flex items-center'>
                 <input
-                  type='text'
+                  type='password'
                   placeholder='비밀번호'
                   {...register('password', { required: true, minLength: 5, maxLength: 20, pattern: /^[^\s]+$/ })}
                   className='flex-grow p-2 border rounded mr-2 w-[255px]'
@@ -122,7 +125,7 @@ const Account = ({
               <legend className='mb-2 text-sm'>비밀번호 확인</legend>
               <div className='flex items-center'>
                 <input
-                  type='text'
+                  type='password'
                   placeholder='비밀번호 확인'
                   {...register('passwordCheck', {
                     required: true,
@@ -144,7 +147,7 @@ const Account = ({
           <div className='flex flex-col items-center justify-center mt-20'>
             <button
               type='submit'
-              className='mb-4 w-[90%] h-[40px] font-bold py-2 px-4 rounded-xl text-white text-sm bg-pastelred'
+              className={`mb-4 w-[90%] h-[40px] font-bold py-2 px-4 rounded-xl text-white text-sm ${!nextBtnDisabled ? 'bg-pastelred' : 'bg-gray'} `}
             >
               다음
             </button>
