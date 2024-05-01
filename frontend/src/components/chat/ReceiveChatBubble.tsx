@@ -11,7 +11,7 @@ const ReceiveChatBubble = ({ message, sendAt, showDate }: ChatMessageProps) => {
       <div className='flex items-end mb-3 ml-6'>
         <div className='flex items-center'>
           <img src={'https://placehold.co/60x60'} alt='Thumbnail' className='w-7 h-7 rounded-full mr-3' />
-          <div className='flex bg-chatgray rounded-lg px-2.5 py-2.5 max-w-56'>
+          <div className='flex bg-chatgray rounded-lg px-2.5 py-2.5 max-w-44'>
             <p className='text-black text-xs text-justify'>{message}</p>
           </div>
         </div>

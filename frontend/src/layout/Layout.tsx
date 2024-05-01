@@ -30,7 +30,7 @@ const Layout = ({
   list,
 }: LayoutProps) => {
   return (
-    <main className='font-sans w-full mx-auto max-w-screen-sm'>
+    <main className='font-sans w-full h-screen mx-auto max-w-screen-sm'>
       {showHeader && (
         <MainHeader
           value={value}
@@ -42,7 +42,7 @@ const Layout = ({
           list={list}
         />
       )}
-      <div className='max-h-content overflow-auto'>{children}</div>
+      <div className='h-screen max-h-content overflow-auto'>{children}</div>
       {showFooter && <MainFooter />}
     </main>
   );

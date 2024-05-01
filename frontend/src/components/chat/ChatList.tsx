@@ -13,7 +13,7 @@ const ChatList = ({ id, nickName, message, pendingRead }: ChatListProps) => {
   };
 
   return (
-    <div className='flex items-center mx-3.5 mb-4 hover:cursor-pointer hover:opacity-20' onClick={handleClick}>
+    <div className='flex items-center mx-3.5 mb-4 hover:cursor-pointer hover:bg-lightgray/10' onClick={handleClick}>
       <Profile className='w-14 h-14 mr-2' />
       <div className='w-full text-sm truncate flex flex-col'>
         <p className={`mb-1 ${pendingRead ? 'font-bold' : ''}`}>{nickName}</p>

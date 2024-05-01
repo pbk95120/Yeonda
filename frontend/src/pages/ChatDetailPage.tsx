@@ -13,42 +13,6 @@ const ChatDetailPage = () => {
         '채팅 내용입니다. 채팅내용입니다. 채팅내용입니다. 채팅내용입니다. 채팅 내용입니다. 채팅내용입니다. 채팅내용입니다. 채팅내용입니다. 채팅 내용입니다. 채팅내용입니다. 채팅내용입니다. 채팅내용입니다.',
       send_at: '2024-04-27T08:26:49',
     },
-    {
-      id: 2,
-      nickname: 'UserName',
-      message: '채팅 내용입니다. 채팅내용입니다. 채팅내용입니다. 채팅내용입니다.',
-      send_at: '2024-04-27T08:26:50',
-    },
-    {
-      id: 3,
-      nickname: 'nickname',
-      message: '최근 메세지 내역입니다. 최근 메세지 내역입니다. 최근 메세지 내역입니다.',
-      send_at: '2024-04-27T08:26:49',
-    },
-    {
-      id: 4,
-      nickname: 'nickname',
-      message: '최근 메세지 내역입니다.',
-      send_at: '2024-05-01T08:26:49',
-    },
-    {
-      id: 5,
-      nickname: 'UserName',
-      message: '채팅 내용입니다. 채팅내용입니다. 채팅내용입니다. 채팅내용입니다.',
-      send_at: '2024-05-01T08:26:50',
-    },
-    {
-      id: 6,
-      nickname: 'UserName',
-      message: '채팅 내용입니다. 채팅내용입니다. 채팅내용입니다. 채팅내용입니다.',
-      send_at: '2024-05-01T08:26:51',
-    },
-    {
-      id: 7,
-      nickname: 'nickName',
-      message: '채팅 내용입니다. 채팅내용입니다. 채팅내용입니다. 채팅내용입니다.',
-      send_at: '2024-05-01T08:26:51',
-    },
   ];
 
   const [userName, setUserName] = useState('UserName');
