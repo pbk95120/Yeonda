@@ -14,22 +14,23 @@ interface InterestProps {
   setTags: (tags: string[]) => void;
 }
 
-const Interest = ({
-  setPage,
-  gender,
-  setGender,
-  preferGender,
-  setPreferGender,
-  distance,
-  setDistance,
-  startAge,
-  setStartAge,
-  endAge,
-  setEndAge,
-  tags,
-  setTags,
-}: InterestProps) => {
+const Interest = () => {
   return <div>Interest</div>;
 };
+//   {
+//   setPage,
+//   gender,
+//   setGender,
+//   preferGender,
+//   setPreferGender,
+//   distance,
+//   setDistance,
+//   startAge,
+//   setStartAge,
+//   endAge,
+//   setEndAge,
+//   tags,
+//   setTags,
+// }: InterestProps) => {
 
 export default Interest;

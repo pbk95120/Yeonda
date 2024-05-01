@@ -1,107 +1,98 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useForm, SubmitHandler } from 'react-hook-form';
+
+interface AccountFormInputs {
+  nickname: string;
+  email: string;
+  verificationCode: string;
+  password: string;
+  passwordCheck: string;
+}
 
 interface AccountProps {
   setPage: (page: number) => void;
-  nickname: string;
   setNickname: (nickname: string) => void;
-  email: string;
   setEmail: (email: string) => void;
-  vericationCode: string;
-  setVericationCode: (vericationCode: string) => void;
-  password: string;
+  setverificationCode: (verificationCode: string) => void;
   setPassword: (password: string) => void;
-  passwordCheck: string;
   setPasswordCheck: (passwordCheck: string) => void;
 }
 
 const Account = ({
   setPage,
-  nickname,
   setNickname,
-  email,
   setEmail,
-  vericationCode,
-  setVericationCode,
-  password,
+  setverificationCode,
   setPassword,
-  passwordCheck,
   setPasswordCheck,
 }: AccountProps) => {
-  const [buttonDisabled, setButtonDisabled] = useState<boolean>(false);
-  const [verified, setVerified] = useState<boolean>(false);
+  const {
+    register,
+    handleSubmit,
+    getValues,
+    formState: { errors },
+  } = useForm<AccountFormInputs>();
 
-  const validateInputs = () => {
-    if (
-      nickname.trim() !== '' &&
-      email.trim() !== '' &&
-      password.trim() !== '' &&
-      passwordCheck.trim() !== '' &&
-      vericationCode.trim() !== '' &&
-      verified
-    ) {
-      setButtonDisabled(false);
-    } else {
-      setButtonDisabled(true);
-    }
-  };
-
-  useEffect(() => {
-    validateInputs();
-  }, [nickname, email, password, passwordCheck, vericationCode, verified]);
-
-  const handleNextButtonClick = () => {
-    setNickname(nickname);
-    setEmail(email);
-    setPassword(password);
-    setPasswordCheck(passwordCheck);
+  const onSubmit: SubmitHandler<AccountFormInputs> = (data) => {
+    console.log(data);
     setPage(1);
+    setNickname(getValues('nickname'));
+    setEmail(getValues('email'));
+    setverificationCode(getValues('verificationCode'));
+    setPassword(getValues('password'));
+    setPasswordCheck(getValues('passwordCheck'));
   };
+  const [verified, setVerified] = useState<boolean>(false);
 
   return (
     <div>
       <div className='w-full h-full flex flex-col items-center justify-center mt-20'>
-        <form>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className='flex flex-col items-start justify-center '>
-            <fieldset className='px-4 pb-2'>
+            <fieldset className='px-4 pb-1'>
               <legend className='mb-2 text-sm'>닉네임</legend>
               <input
                 type='text'
                 placeholder='닉네임'
-                value={nickname}
-                onChange={(e) => setNickname(e.target.value)}
+                {...register('nickname', { required: true, maxLength: 20 })}
                 className='flex-grow p-2 border rounded mr-2 w-[255px]'
               />
             </fieldset>
-            <fieldset className='px-4 pb-2'>
+            {errors.nickname && (
+              <span className='text-red text-xs text-end pl-4'>올바른 닉네임을 입력하세요 (2-10자).</span>
+            )}
+            <fieldset className='px-4 pb-1'>
               <legend className='mb-2 text-sm'>이메일</legend>
               <input
                 type='email'
                 placeholder='이메일'
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                {...register('email', { required: true, pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i })}
                 className='flex-grow p-2 border rounded mr-2 w-48'
               />
               <button
                 type='button'
-                className='font-bold py-2 px-4  rounded-lg bg-pastelred text-white text-sm  h-[40px] transition duration-300 ease-in-out transform hover:scale-105'
+                className='font-bold py-2 px-4  rounded-lg bg-pastelred text-white text-sm  h-[40px] '
                 onClick={() => {}}
               >
                 전송
               </button>
             </fieldset>
-            <fieldset className='px-4 pb-2'>
+            {errors.email && <span className='text-red text-xs text-end pl-4'>이메일 형식을 지켜주세요.</span>}
+            <fieldset className='px-4 pb-1'>
               <legend className='mb-2 text-sm'>인증번호</legend>
               <div className='flex items-center'>
                 <input
                   type='text'
                   placeholder='인증번호'
-                  value={vericationCode}
-                  onChange={(e) => setVericationCode(e.target.value)}
+                  {...register('verificationCode', {
+                    required: true,
+                    pattern: /^[0-9]{6}$/,
+                  })}
                   className='flex-grow p-2 border rounded mr-2 w-48'
                 />
                 <button
                   type='button'
-                  className='font-bold py-2 px-4 rounded-lg bg-pastelred text-white text-sm h-[40px] transition duration-300 ease-in-out transform hover:scale-105'
+                  className='font-bold py-2 px-4 rounded-lg bg-pastelred text-white text-sm h-[40px] '
                   onClick={() => {
                     setVerified(true);
                   }}
@@ -110,38 +101,50 @@ const Account = ({
                 </button>
               </div>
             </fieldset>
-            <fieldset className='px-4 pb-2'>
+            {errors.verificationCode && (
+              <span className='text-red text-xs text-end pl-4'>인증번호를 입력해주세요.</span>
+            )}
+            <fieldset className='px-4 pb-1'>
               <legend className='mb-2 text-sm'>비밀번호</legend>
               <div className='flex items-center'>
                 <input
-                  type='password'
+                  type='text'
                   placeholder='비밀번호'
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  {...register('password', { required: true, minLength: 5, maxLength: 20, pattern: /^[^\s]+$/ })}
                   className='flex-grow p-2 border rounded mr-2 w-[255px]'
                 />
               </div>
             </fieldset>
-            <fieldset className='px-4 pb-2'>
+            {errors.password && (
+              <span className='text-red text-xs text-end pl-4'>비밀번호는 5-20자로 설정해주세요.</span>
+            )}
+            <fieldset className='px-4 pb-1'>
               <legend className='mb-2 text-sm'>비밀번호 확인</legend>
               <div className='flex items-center'>
                 <input
-                  type='password'
-                  value={passwordCheck}
-                  onChange={(e) => setPasswordCheck(e.target.value)}
+                  type='text'
                   placeholder='비밀번호 확인'
+                  {...register('passwordCheck', {
+                    required: true,
+                    minLength: 5,
+                    maxLength: 20,
+                    pattern: /^[^\s]+$/,
+                    validate: {
+                      matchesPassword: (value) => value === getValues('password'),
+                    },
+                  })}
                   className='flex-grow p-2 border rounded mr-2 w-[255px]'
                 />
               </div>
             </fieldset>
+            {errors.passwordCheck && (
+              <span className='text-red text-xs text-end pl-4'>비밀번호를 다시 확인해주세요.</span>
+            )}
           </div>
           <div className='flex flex-col items-center justify-center mt-20'>
             <button
-              onClick={handleNextButtonClick}
-              className={`mb-4 w-[90%] h-[40px] font-bold py-2 px-4 rounded-xl text-white text-sm ${
-                !buttonDisabled ? 'bg-pastelred' : 'bg-gray cursor-not-allowed'
-              }`}
-              disabled={buttonDisabled}
+              type='submit'
+              className='mb-4 w-[90%] h-[40px] font-bold py-2 px-4 rounded-xl text-white text-sm bg-pastelred'
             >
               다음
             </button>

@@ -9,7 +9,7 @@ const JoinPage = () => {
 
   const [nickname, setNickname] = useState<string>('');
   const [email, setEmail] = useState<string>('');
-  const [vericationCode, setVericationCode] = useState<string>('');
+  const [verificationCode, setverificationCode] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [passwordCheck, setPasswordCheck] = useState<string>('');
 
@@ -36,15 +36,10 @@ const JoinPage = () => {
       {page === 0 && (
         <Account
           setPage={setPage}
-          nickname={nickname}
           setNickname={setNickname}
-          email={email}
           setEmail={setEmail}
-          vericationCode={vericationCode}
-          setVericationCode={setVericationCode}
-          password={password}
+          setverificationCode={setverificationCode}
           setPassword={setPassword}
-          passwordCheck={passwordCheck}
           setPasswordCheck={setPasswordCheck}
         />
       )}
