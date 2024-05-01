@@ -18,15 +18,15 @@ const LoginPage = () => {
   };
 
   return (
-    <div className='w-full h-full mt-20 px-10'>
+    <div className='w-full h-full mt-10 px-10'>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className='items-start justify-center mb-40'>
-          <fieldset>
+        <div className='items-center justify-center mb-40'>
+          <fieldset className='pb-2'>
             <legend className='mb-2 text-sm'>이메일</legend>
             <input
               type='email'
               placeholder='이메일'
-              className=' w-full p-2 border rounded'
+              className='w-full p-2 border rounded'
               {...register('email', { required: '이메일을 입력해주세요.' })}
             />
             {errors.email && <span className='text-red text-xs'>{errors.email.message}</span>}
@@ -50,16 +50,16 @@ const LoginPage = () => {
         <div className='flex flex-col items-center justify-center'>
           <button
             type='submit'
-            className='mb-4 w-full h-[40px] font-bold py-2  rounded-xl bg-pastelred text-white text-sm '
+            className='mb-4 w-full h-[46px] font-bold py-2  rounded-xl bg-pastelred text-white text-sm '
           >
             로그인
           </button>
-          <Link to='/join' className='w-full '>
-            <button className='mb-4 w-full h-[40px] font-bold py-2 px-4 rounded-xl bg-pastelred text-white text-sm '>
-              회원가입
-            </button>
-          </Link>
         </div>
+        <Link to='/join'>
+          <button className='mb-4 w-full h-[46px] font-bold py-2 px-4 rounded-xl bg-pastelred text-white text-sm '>
+            회원가입
+          </button>
+        </Link>
       </form>
     </div>
   );

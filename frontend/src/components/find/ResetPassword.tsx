@@ -16,14 +16,15 @@ const ResetPassword = () => {
   };
 
   return (
-    <div className='w-full h-full flex flex-col items-center justify-center mt-20'>
+    <div className='w-full h-full mt-10 px-10'>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className='flex flex-col items-start justify-center mb-40'>
-          <fieldset>
+        <div className='items-start justify-center mb-[184px]'>
+          <fieldset className='pb-2'>
             <legend className='mb-2 text-sm'>비밀번호</legend>
             <input
               type='password'
               placeholder='비밀번호'
+              className='w-full p-2 border rounded'
               {...register('password', { required: true, minLength: 5, maxLength: 20, pattern: /^[^\s]+$/ })}
             />
             {errors.password && <span className='text-red text-xs'>비밀번호를 입력하세요 (5-20자).</span>}
@@ -39,11 +40,10 @@ const ResetPassword = () => {
             {errors.confirmPassword && <span className='text-red text-xs'>비밀번호를 확인하세요 (5-20자).</span>}
           </fieldset>
         </div>
-
         <Link to='/login' className='self-end text-gray text-xs pt-2'>
           <button
             type='submit'
-            className={`mb-4 w-full h-[40px] font-bold py-2 px-4 rounded-xl ${
+            className={`mb-4 w-full h-[46px] font-bold px-4 rounded-xl  ${
               password === confirmPassword && password.length > 4 && password.length < 20
                 ? 'bg-pastelred text-white'
                 : 'bg-gray text-white'
