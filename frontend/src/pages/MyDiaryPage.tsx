@@ -1,3 +1,4 @@
+
 import Filter from '@/assets/images/filter.svg?react';
 import DiariesList from '@/components/diaries/DiariesList';
 import DiaryHeader from '@/components/diaries/DiaryHeader';
@@ -27,6 +28,7 @@ const MyDiary = () => {
       </div>
       <DiariesList diariesData={diariesData} />
     </div>
+
   );
 };
 

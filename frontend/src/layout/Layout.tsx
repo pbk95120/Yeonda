@@ -43,7 +43,9 @@ const Layout = ({
           list={list}
         />
       )}
+
          <div className='max-h-content overflow-auto'>{children}</div>
+
       {showFooter && <MainFooter />}
     </main>
   );
