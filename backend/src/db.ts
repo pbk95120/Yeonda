@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import logger from 'logger';
 import mysql2, { Pool } from 'mysql2/promise';
 
 class Database {
@@ -9,6 +10,7 @@ class Database {
     const { HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_DATABASE, DB_DATABASE_TEST, DB_CONNECTION_LIMIT } = process.env;
 
     if (!HOST || !DB_PORT || !DB_USER || !DB_PASSWORD || !DB_DATABASE || !DB_DATABASE_TEST || !DB_CONNECTION_LIMIT) {
+      logger.error('DB 환경 변수 매칭 안 됨');
       throw new Error('DB 환경 변수 매칭 안 됨');
     }
 

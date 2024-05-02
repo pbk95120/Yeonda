@@ -27,8 +27,5 @@ export const ERR_MSG = {
 
 export const errorHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
   if (ERR.hasOwnProperty(err.message)) res.status(ERR_CODE[err.message]).send(ERR_MSG[err.message]);
-  else {
-    console.log(err);
-    res.status(http.INTERNAL_SERVER_ERROR).send('서버 에러 발생');
-  }
+  else res.status(http.INTERNAL_SERVER_ERROR).send('서버 에러 발생');
 };
