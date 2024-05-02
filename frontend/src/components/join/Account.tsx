@@ -13,7 +13,7 @@ interface AccountProps {
   setPage: (page: number) => void;
   setNickname: (nickname: string) => void;
   setEmail: (email: string) => void;
-  setverificationCode: (verificationCode: string) => void;
+  setVerificationCode: (verificationCode: string) => void;
   setPassword: (password: string) => void;
   setPasswordCheck: (passwordCheck: string) => void;
 }
@@ -22,7 +22,7 @@ const Account = ({
   setPage,
   setNickname,
   setEmail,
-  setverificationCode,
+  setVerificationCode,
   setPassword,
   setPasswordCheck,
 }: AccountProps) => {
@@ -37,7 +37,7 @@ const Account = ({
     setPage(1);
     setNickname(data.nickname);
     setEmail(data.email);
-    setverificationCode(data.verificationCode);
+    setVerificationCode(data.verificationCode);
     setPassword(data.password);
     setPasswordCheck(data.passwordCheck);
   };
