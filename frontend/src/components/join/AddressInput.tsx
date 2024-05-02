@@ -30,7 +30,7 @@ const AddressInput: React.FC<AddressInputProps> = ({ value, onClickModal, errors
           찾기
         </button>
       </fieldset>
-      {errors.address && <span className='text-red text-xs text-end'>생년월일을 정확하게 입력해주세요.</span>}
+      {errors.address && <span className='text-red text-xs text-end'>주소를 입력해주세요.</span>}
     </>
   );
 };

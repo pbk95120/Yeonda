@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import Button from '@/components/common/Button';
 
 interface LoginFormInputs {
   email: string;
