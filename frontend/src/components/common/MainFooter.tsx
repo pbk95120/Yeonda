@@ -1,6 +1,3 @@
-/**
- * Main Footer 컴포넌트
- */
 import { BsChatHeartFill } from 'react-icons/bs';
 import { BiSolidBook } from 'react-icons/bi';
 import { MdOutlineMenuBook } from 'react-icons/md';
@@ -8,10 +5,13 @@ import { RiPencilFill } from 'react-icons/ri';
 import { FaUserLarge } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
 
+/**
+ * Main Footer 컴포넌트
+ */
 const MainFooter = () => {
   return (
     <>
-      <div id='tab container' className='flex justify-around items-center w-full h-20 fixed bottom-0 '>
+      <div id='tab container' className='flex justify-around items-center w-full h-20 fixed bottom-0 max-w-sm '>
         <Link to='/mydiary'>
           <MdOutlineMenuBook className='fill-gray hover:fill-pastelred w-[26px] h-[26px]' />
         </Link>
