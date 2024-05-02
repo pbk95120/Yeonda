@@ -1,5 +1,5 @@
-import logger from 'logger';
 import Database from '../db';
+import logger from '../logger';
 
 export const databaseConnector =
   (handler: Function) =>
