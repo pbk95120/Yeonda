@@ -32,6 +32,10 @@ const queryClient = new QueryClient();
  * elemnet: 렌더링할 컴포넌트
  * showHeader: Header 표시 여부
  * showFooter: Footer 표시 여부
+ * onlyLogo: Logo만 표시
+ * value: 제목 값
+ * backBtn: 뒤로가기 버튼 표시 여부
+ * cancelStr: 취소 문자 표시 여부
  */
 const routeList = [
   {
@@ -200,8 +204,8 @@ const routeList = [
     showFooter: false,
     onlyLogo: false,
     value: '박상하킹갓',
-    backBtn: false,
-    cancelStr: true,
+    backBtn: true,
+    cancelStr: false,
     profileImg: 'favicon.ico',
     list: true,
   },
