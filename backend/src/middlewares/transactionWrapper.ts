@@ -1,12 +1,6 @@
-import logger from 'logger';
 import { Connection } from 'mysql2/promise';
 
-export type TransactionType = void | number;
-
-export const transactionWrapper = async (
-  conn: Connection,
-  callback: () => Promise<TransactionType>,
-): Promise<TransactionType> => {
+export const transactionWrapper = async (conn: Connection, callback: () => Promise<any>): Promise<any> => {
   try {
     await conn.beginTransaction();
     const response = await callback();
@@ -14,7 +8,6 @@ export const transactionWrapper = async (
     return response;
   } catch (error) {
     await conn.rollback();
-    logger.error('트랜잭션 에러', error);
     throw error;
   }
 };
