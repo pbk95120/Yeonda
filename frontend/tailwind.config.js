@@ -21,7 +21,7 @@ export default {
       white: '#FFFFFF',
       red: '#ED5151',
       green: '#36C07E',
-      gray: '#686868',
+      gray: '#686868CC',
       lightgray: { DEFAULT: '#CFCFCF', hover: '#C8BFBF' },
       chatgray: '#EAEBEE',
       darkgray: { DEFAULT: '#3E3E3E', hover: '#383535' },
