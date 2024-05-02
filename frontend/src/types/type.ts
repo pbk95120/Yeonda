@@ -11,6 +11,7 @@ export interface ChatMessageWithDate extends ChatMessageGetProps {
 }
 
 export interface ChatMessageProps {
+  id: number;
   message: string;
   sendAt: string;
   showDate: boolean;

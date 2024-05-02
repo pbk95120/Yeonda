@@ -20,7 +20,7 @@ const ChatTextarea = () => {
             className='w-8/12 h[2.25rem] text-xs resize-none focus:outline-none focus:ring-0 overflow-hidden'
             placeholder='메세지 입력...'
           ></textarea>
-          <button type='submit' className='fixed -right-0.5 w-14 h-[2.4rem] bg-pastelred text-white text-xs rounded-xl'>
+          <button type='submit' className='absolute right-0 w-14 h-[2.4rem] bg-pastelred text-white text-xs rounded-xl'>
             전송
           </button>
         </div>
