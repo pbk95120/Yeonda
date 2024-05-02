@@ -9,6 +9,8 @@ export const ERR = {
   Conflict: 'Conflict',
 };
 
+export type ErrorValue = (typeof ERR)[keyof typeof ERR];
+
 export const ERR_CODE = {
   [ERR.BadRequest]: http.BAD_REQUEST,
   [ERR.Unauthorized]: http.UNAUTHORIZED,
