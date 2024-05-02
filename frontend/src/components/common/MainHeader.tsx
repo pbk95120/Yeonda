@@ -32,7 +32,7 @@ const MainHeader = ({ value, onlyLogo, setting, backBtn, cancelStr, profileImg, 
           ) : null}
           {backBtn ? (
             <div className='absolute ml-7 flex justify-center items-center'>
-              <MdArrowBackIos className='w-5 h-10 fill-gray' onClick={() => history.back()} />
+              <MdArrowBackIos className='w-6 h-6 fill-gray' onClick={() => history.back()} />
             </div>
           ) : null}
           {profileImg ? (

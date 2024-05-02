@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 const MainFooter = () => {
   return (
     <>
-      <div id='tab container' className='flex justify-around items-center w-full h-20 fixed bottom-0 '>
+      <div id='tab container' className='flex justify-around items-center w-full h-20 fixed bottom-0 max-w-sm '>
         <Link to='/mydiary'>
           <MdOutlineMenuBook className='fill-gray hover:fill-pastelred w-[26px] h-[26px]' />
         </Link>
