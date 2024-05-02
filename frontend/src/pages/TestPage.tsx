@@ -2,6 +2,7 @@ import TestSVG from '@/assets/images/logo.svg?react';
 import useStore from '@/store/store';
 import axios from 'axios';
 import { example } from '@/api/sample.api';
+import DaumPostcode from 'react-daum-postcode';
 
 import {
   Chart as ChartJS,
@@ -75,6 +76,7 @@ const TestPage = () => {
 
   return (
     <>
+      <DaumPostcode />
       <TestButton />
       <TestSVG />
       <h1 className='text-3xl font-bold underline font-sans'>Hello world!</h1>
