@@ -11,11 +11,12 @@ import { Link } from 'react-router-dom';
 const MainFooter = () => {
   return (
     <>
-      <div id='tab container' className='flex justify-around items-center w-full h-20 fixed bottom-0 max-w-sm '>
-        <Link to='/mydiary'>
+
+      <div id='tab container' className='flex flex-row justify-around items-center w-full h-20 absolute bottom-0'>
+        <Link to='/othersdiary/suggestion'>
           <MdOutlineMenuBook className='fill-gray hover:fill-pastelred w-[26px] h-[26px]' />
         </Link>
-        <Link to='/othersdiary/suggestion'>
+        <Link to='/mydiary'>
           <BiSolidBook className='fill-gray hover:fill-pastelred w-7 h-6' />
         </Link>
         <Link to='/writeDiary'>

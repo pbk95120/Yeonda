@@ -2,7 +2,7 @@ import { cls } from '@/utils/cls';
 
 interface ButtonProps {
   onClick?: () => void;
-  color?: 'darkgray' | 'pastelpeach' | 'orange' | 'blue' | 'lightgray';
+  color?: 'darkgray' | 'pastelpeach' | 'orange' | 'blue' | 'lightgray' | 'pastelred';
   className?: string;
   children?: string;
   size?: 'mini' | 'small' | 'medium' | 'large';
@@ -37,6 +37,10 @@ const Button = ({ onClick, color = 'lightgray', className, children, size, disab
     }
     case 'lightgray': {
       defaultStr = cls(defaultStr, ' text-white bg-lightgray hover:bg-lightgray-hover');
+      break;
+    }
+    case 'pastelred': {
+      defaultStr = cls(defaultStr, ' text-white bg-lightgray hover:bg-pastelred-hover');
       break;
     }
   }
