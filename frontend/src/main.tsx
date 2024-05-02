@@ -31,6 +31,7 @@ const queryClient = new QueryClient();
  * path: 각 페이지의 경로
  * elemnet: 렌더링할 컴포넌트
  * showHeader: Header 표시 여부
+ * chatHeader: 채팅전용 Header 표시 여부
  * showFooter: Footer 표시 여부
  * onlyLogo: Logo만 표시
  * value: 제목 값
@@ -42,6 +43,7 @@ const routeList = [
     path: '/',
     element: <TestPage />,
     showHeader: true,
+    chatHeader: false,
     showFooter: false,
     onlyLogo: false,
     value: '박상하킹갓',
@@ -192,32 +194,22 @@ const routeList = [
     element: <ChatPage />,
     showHeader: true,
     showFooter: true,
-    onlyLogo: false,
     value: '채팅',
     backBtn: true,
-    cancelStr: false,
   },
   {
     path: '/chat/:id',
     element: <ChatDetailPage />,
-    showHeader: true,
-    showFooter: false,
-    onlyLogo: false,
-    value: '박상하킹갓',
-    backBtn: true,
-    cancelStr: false,
-    profileImg: 'favicon.ico',
-    list: true,
+    showHeader: false,
+    chatHeader: true,
   },
   {
     path: '/chat/profile/:id',
     element: <ChatProfilePage />,
     showHeader: true,
-    showFooter: false,
-    onlyLogo: true,
-    value: '박상하킹갓',
-    backBtn: false,
-    cancelStr: true,
+    showFooter: true,
+    value: '상세정보',
+    backBtn: true,
   },
 ];
 
@@ -233,14 +225,13 @@ const router = createBrowserRouter(
           {!item.path.includes('/admin') ? (
             <Layout
               showHeader={item.showHeader}
+              chatHeader={item.chatHeader}
               showFooter={item.showFooter}
               onlyLogo={item.onlyLogo}
               value={item.value}
               backBtn={item.backBtn}
               cancelStr={item.cancelStr}
               setting={item.setting ? item.setting : null}
-              profileImg={item.profileImg ? item.profileImg : null}
-              list={item.list ? item.list : null}
             >
               {item.element}
             </Layout>
