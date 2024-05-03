@@ -12,12 +12,12 @@ const Modal = ({ isOpen, children, closeModal, className }: ModalProps) => {
     <div
       className={cls(
         '',
-        isOpen ? 'fixed flex justify-center items-center top-0 left-0 bottom-0 right-0 bg-black bg-opacity-25' : '',
+        isOpen ? 'fixed flex justify-center items-center top-0 left-0 bottom-0 right-0 bg-black bg-opacity-75' : '',
       )}
     >
       <div
         className={cls(
-          `absolute shadow-xl items-center justify-center p-3 rounded-xl bg-white top-50vh left-50vw ${className}`,
+          `absolute shadow-xl items-center justify-center p-3 rounded-xl bg-white ${className}`,
           isOpen ? 'block' : 'hidden',
         )}
       >
