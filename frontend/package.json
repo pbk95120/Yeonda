@@ -16,6 +16,7 @@
     "axios": "^1.6.8",
     "chart.js": "^4.4.2",
     "dayjs": "^1.11.10",
+    "framer-motion": "^11.1.7",
     "jest-transformer-svg": "^2.0.2",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.4",
