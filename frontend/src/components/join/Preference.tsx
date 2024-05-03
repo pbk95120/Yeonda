@@ -1,6 +1,5 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import Button from '../common/Button';
-import Modal from '../common/Modal';
 import GenderSelection from './Preference/GenderSelection';
 import PreferGenderSelection from './Preference/PreferGenderSelection';
 import DistanceInput from './Preference/DistanceInput';
@@ -55,7 +54,7 @@ const Preference = ({ setPage, setGender, setPreferGender, setDistance, setStart
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className='items-center justify-center mb-20'>
           <GenderSelection register={register} setValue={setValue} errors={errors} />
-          <PreferGenderSelection setPreferGender={setPreferGender} />
+          <PreferGenderSelection setPreferGender={setPreferGender} register={register} errors={errors} />
           <DistanceInput register={register} errors={errors} />
           <AgeRangeInput register={register} errors={errors} />
         </div>

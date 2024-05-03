@@ -1,37 +1,25 @@
+import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form';
+import { PreferenceFormInputs } from '../Preference';
+
 interface PreferGenderSelectionProps {
   setPreferGender: (preferGender: string) => void;
+  register: UseFormRegister<PreferenceFormInputs>;
+  errors: FieldErrors<FieldValues>;
 }
 
-const PreferGenderSelection = ({ setPreferGender }: PreferGenderSelectionProps) => {
+const PreferGenderSelection = ({ register, errors, setPreferGender }: PreferGenderSelectionProps) => {
   return (
     <fieldset>
       <legend>선호 성별</legend>
       <div>
-        <input
-          type='radio'
-          id='male'
-          name='preferGender'
-          value='male'
-          onChange={(e) => setPreferGender(e.target.value)}
-        />
+        <input type='radio' value='male' {...register('preferGender', { required: true })} />
         <label htmlFor='male'>남성</label>
-        <input
-          type='radio'
-          id='female'
-          name='preferGender'
-          value='female'
-          onChange={(e) => setPreferGender(e.target.value)}
-        />
+        <input type='radio' value='female' {...register('preferGender', { required: true })} />
         <label htmlFor='female'>여성</label>
-        <input
-          type='radio'
-          id='both'
-          name='preferGender'
-          value='both'
-          onChange={(e) => setPreferGender(e.target.value)}
-        />
+        <input type='radio' value='both' {...register('preferGender', { required: true })} />
         <label htmlFor='both'>상관없음</label>
       </div>
+      {errors.preferGender && <p className='text-red text-xs'>선호 성별을 선택해주세요</p>}
     </fieldset>
   );
 };

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Account from '@/components/join/Account';
 import PersonalInformation from '@/components/join/PersonalInformation';
 import Preference from '@/components/join/Preference';
-import Tags from '@/components/join/Tags';
+import Interest from '@/components/join/Interest';
 
 const JoinPage = () => {
   const [page, setPage] = useState<number>(0);
@@ -24,6 +24,8 @@ const JoinPage = () => {
   const [distance, setDistance] = useState<number>(0);
   const [startAge, setStartAge] = useState<number>(0);
   const [endAge, setEndAge] = useState<number>(0);
+
+  const [tags, setTags] = useState<string[]>([]);
 
   return (
     <>
@@ -57,7 +59,7 @@ const JoinPage = () => {
           setEndAge={setEndAge}
         />
       )}
-      {page == 3 && <Tags />}
+      {page == 3 && <Interest />}
     </>
   );
 };

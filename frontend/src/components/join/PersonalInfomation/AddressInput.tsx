@@ -24,7 +24,14 @@ const AddressInput: React.FC<AddressInputProps> = ({ value, onClickModal, errors
           {...register('address', { required: true, maxLength: 100 })}
           readOnly
         />
-        <Button size='small' color='pastelred' children='찾기' onClick={onClickModal} className='self-end' />
+        <Button
+          size='small'
+          color='pastelred'
+          children='찾기'
+          onClick={onClickModal}
+          className='self-end'
+          type='button'
+        />
       </fieldset>
       {errors.address && <span className='text-red text-xs text-end'>주소를 입력해주세요.</span>}
     </>

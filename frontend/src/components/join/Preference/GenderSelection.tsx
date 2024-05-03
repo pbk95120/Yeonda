@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import Button from '../../common/Button';
-import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form';
+import { FieldErrors, FieldValues, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 import { PreferenceFormInputs } from '../Preference';
 
 interface GenderSelectionProps {
-  setValue: any;
+  setValue: UseFormSetValue<PreferenceFormInputs>;
   register: UseFormRegister<PreferenceFormInputs>;
   errors: FieldErrors<FieldValues>;
 }
