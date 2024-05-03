@@ -6,7 +6,7 @@ interface BirthdateInputProps {
   errors: FieldErrors<PersonalInformationFormInputs>;
 }
 
-const BirthdateInput: React.FC<BirthdateInputProps> = ({ register, errors }) => {
+const BirthdateInput = ({ register, errors }: BirthdateInputProps) => {
   return (
     <fieldset className='pb-2'>
       <legend className='mb-2 text-sm'>생년월일</legend>

@@ -5,7 +5,7 @@ interface ProfilePictureInputProps {
   onImageChange: (imageDataUrl: string, file: File) => void;
 }
 
-const ProfilePictureInput: React.FC<ProfilePictureInputProps> = ({ onImageChange }) => {
+const ProfilePictureInput = ({ onImageChange }: ProfilePictureInputProps) => {
   const [image, setImage] = useState<string>('');
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {

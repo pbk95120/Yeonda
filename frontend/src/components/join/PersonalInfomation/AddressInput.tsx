@@ -11,7 +11,7 @@ interface AddressInputProps {
   errors: FieldErrors<PersonalInformationFormInputs>;
 }
 
-const AddressInput: React.FC<AddressInputProps> = ({ value, onClickModal, errors, register }) => {
+const AddressInput = ({ value, onClickModal, errors, register }: AddressInputProps) => {
   return (
     <>
       <fieldset className='pb-1 flex flex-col md:flex-row'>

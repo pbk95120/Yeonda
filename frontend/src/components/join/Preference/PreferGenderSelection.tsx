@@ -2,12 +2,11 @@ import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form';
 import { PreferenceFormInputs } from '../Preference';
 
 interface PreferGenderSelectionProps {
-  setPreferGender: (preferGender: string) => void;
   register: UseFormRegister<PreferenceFormInputs>;
   errors: FieldErrors<FieldValues>;
 }
 
-const PreferGenderSelection = ({ register, errors, setPreferGender }: PreferGenderSelectionProps) => {
+const PreferGenderSelection = ({ register, errors }: PreferGenderSelectionProps) => {
   return (
     <fieldset>
       <legend>선호 성별</legend>
