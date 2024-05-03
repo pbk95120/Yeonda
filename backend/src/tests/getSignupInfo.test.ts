@@ -12,7 +12,7 @@ afterAll(async () => {
   Database.closePool();
 });
 
-describe('GET /signup', () => {
+describe('GET /signup 회원 가입 페이지 접속', () => {
   it('도, 태그 관련 정보들을 제공해야함', async () => {
     const response = await request(app).get('/signup');
     expect(response.status).toBe(http.OK);

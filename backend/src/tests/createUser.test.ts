@@ -45,7 +45,7 @@ afterAll(async () => {
   }
 });
 
-describe('POST 회원 가입 요청', () => {
+describe('POST /signup 회원 가입 요청', () => {
   let form;
   const requestFn = async () => {
     let agent = request(app)
