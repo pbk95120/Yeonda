@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { RiGalleryLine } from 'react-icons/ri';
 
 /**
@@ -7,6 +7,8 @@ import { RiGalleryLine } from 'react-icons/ri';
 const ChatTextarea = () => {
   const [uploadImg, setUploadImg] = useState<string>();
   const [message, setMessage] = useState<string>('');
+  const [isFocused, setIsFocused] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
@@ -39,14 +41,21 @@ const ChatTextarea = () => {
     }
   };
 
+  useEffect(() => {
+    console.log('스크롤이동');
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [uploadImg]);
+
   return (
     <div>
       <form onSubmit={handleSubmit}>
         {uploadImg && <img src={'https://placehold.co/60x60'} alt='Thumbnail' className='mx-6 mb-2 rounded-lg' />}
-        <div className='relative flex items-center border border-gray mx-6 rounded-xl min-h-[2.375rem] min-w-[20.425rem]'>
+        <div
+          className={`relative flex items-center border ${isFocused ? 'border-pastelred' : 'border-gray'} mx-6 rounded-xl min-h-[2.375rem] min-w-[20.425rem]`}
+        >
           {!uploadImg && (
             <label htmlFor='imageUpload' className='pl-2 py-1.5 cursor-pointer'>
-              <RiGalleryLine className='text-2xl text-gray' />
+              <RiGalleryLine className='text-2xl text-gray hover:text-pastelred' />
             </label>
           )}
           <input
@@ -63,10 +72,13 @@ const ChatTextarea = () => {
             value={message}
             onChange={handleMessageChange}
             onKeyDown={handleKeyDown}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
           ></textarea>
           <button className='absolute right-0 w-14 h-[2.4rem] bg-pastelred text-white text-xs rounded-xl'>전송</button>
         </div>
       </form>
+      <div ref={messagesEndRef}></div>
     </div>
   );
 };

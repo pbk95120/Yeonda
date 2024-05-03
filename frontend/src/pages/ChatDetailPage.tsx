@@ -55,6 +55,13 @@ const ChatDetailPage = () => {
         '채팅 내용입니다. 채팅 내용입니다. 채팅 내용입니다. 채팅 내용입니다. 채팅 내용 입니다. 채팅 내용입니다. 채팅 내용입니다.',
       send_at: '2024-05-02T08:26:49',
     },
+    {
+      id: 8,
+      nickname: 'NickName',
+      message:
+        '채팅 내용입니다. 채팅 내용입니다. 채팅 내용입니다. 채팅 내용입니다. 채팅 내용 입니다. 채팅 내용입니다. 채팅 내용입니다.',
+      send_at: '2024-05-02T08:26:49',
+    },
   ];
 
   const [userName, setUserName] = useState('UserName');
@@ -62,8 +69,9 @@ const ChatDetailPage = () => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    console.log('스크롤이동');
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, []);
+  }, [messagesWithDateVisibility]);
 
   return (
     <div className='flex flex-col h-screen max-h-content'>
@@ -84,8 +92,8 @@ const ChatDetailPage = () => {
       </section>
       <section className='basis-1/12'>
         <ChatTextarea />
+        <div ref={messagesEndRef}></div>
       </section>
-      <div ref={messagesEndRef}></div>
     </div>
   );
 };
