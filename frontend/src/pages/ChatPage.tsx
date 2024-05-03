@@ -56,7 +56,7 @@ const ChatPage = () => {
   return (
     <>
       <section>
-        <p className='font-bold  mb-6 ml-5'>메세지</p>
+        <p className='font-bold mb-6 ml-5'>메세지</p>
       </section>
       <section>
         {mockMessages.map((msg) => (
