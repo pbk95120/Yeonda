@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import Button from '../common/Button';
 
 interface EmailAuthenticationProps {
   setPage: (page: number) => void;
@@ -56,18 +57,18 @@ const EmailAuthentication = ({ setPage }: EmailAuthenticationProps) => {
                 className='flex-grow p-2 border rounded mr-2  w-[120px] '
                 {...register('email', { required: '이메일을 입력해주세요.' })}
               />
-              <button
-                type='button'
-                className='font-bold py-2 px-4 rounded-xl text-white text-sm h-[42px] w-[81px] bg-pastelred'
+              <Button
+                size='small'
+                children='전송'
+                color='pastelred'
                 onClick={() => {
                   startTimer();
                   setConfirmBtnDisabled(true);
                 }}
-              >
-                전송
-              </button>
+              />
             </div>
           </fieldset>
+
           <fieldset className='pb-2'>
             <legend className='mb-2 text-sm'>인증번호</legend>
             <div className='flex items-center'>
@@ -77,25 +78,29 @@ const EmailAuthentication = ({ setPage }: EmailAuthenticationProps) => {
                 className='flex-grow p-2 border rounded mr-2  w-[120px] '
                 {...register('code', { required: '인증번호를 입력해주세요.' })}
               />
-              <button
-                type='button'
-                className={`font-bold py-2 px-4 rounded-xl text-white text-sm h-[42px] w-[81px] ${confirmBtnDisabled ? 'bg-pastelred' : 'bg-gray'} `}
-                onClick={handleSubmit(onSubmit)}
+
+              <Button
+                size='small'
+                children='확인'
+                color='pastelred'
+                onClick={() => {
+                  handleSubmit(onSubmit);
+                  setNext(false);
+                }}
                 disabled={!confirmBtnDisabled}
-              >
-                확인
-              </button>
+              />
             </div>
             {timerActive && <p className='text-sm self-end text-red mt-2'>{formatTimer()}</p>}
           </fieldset>
         </div>
-        <button
-          className={`w-full h-[46px] font-bold py-2 rounded-xl text-sm mt-24 text-white ${next ? 'bg-pastelred ' : 'bg-gray '}`}
+        <Button
+          children='다음'
+          size='large'
+          color='pastelred'
           onClick={() => setPage(1)}
           disabled={!next}
-        >
-          다음
-        </button>
+          className='mt-24'
+        />
       </form>
     </div>
   );
