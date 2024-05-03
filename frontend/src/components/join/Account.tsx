@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import Button from '../common/Button';
 
 interface AccountFormInputs {
   nickname: string;
@@ -70,15 +71,14 @@ const Account = ({
                   {...register('email', { required: true, pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i })}
                   className='flex-grow p-2 border rounded mr-2 w-[120px]'
                 />
-                <button
-                  type='button'
-                  className='font-bold py-2 px-4 rounded-xl text-white text-sm h-[42px] w-[81px] bg-pastelred'
+                <Button
+                  size='small'
+                  color='pastelred'
+                  children='전송'
                   onClick={() => {
                     setSubmitBtnDisabled(false);
                   }}
-                >
-                  전송
-                </button>
+                />
               </div>
             </fieldset>
             {errors.email && <span className='text-red text-xs text-end '>이메일 형식을 지켜주세요.</span>}
@@ -94,16 +94,16 @@ const Account = ({
                   })}
                   className='flex-grow p-2 border rounded mr-2  w-[120px]'
                 />
-                <button
-                  type='button'
-                  className={`font-bold py-2 px-4 rounded-lg ${!submitBtnDisabled ? 'bg-pastelred' : 'bg-gray'}  text-white text-sm h-[40px] w-[81px] `}
+
+                <Button
+                  size='small'
+                  color='pastelred'
+                  children='확인'
                   onClick={() => {
                     setNextBtnDisabled(false);
                   }}
                   disabled={submitBtnDisabled}
-                >
-                  확인
-                </button>
+                />
               </div>
             </fieldset>
             {errors.verificationCode && <span className='text-red text-xs text-end '>인증번호를 입력해주세요.</span>}
@@ -141,12 +141,7 @@ const Account = ({
             {errors.passwordCheck && <span className='text-red text-xs text-end '>비밀번호를 다시 확인해주세요.</span>}
           </div>
           <div className='flex flex-col items-center justify-center pt-4'>
-            <button
-              type='submit'
-              className={`mb-4 w-full h-[40px] font-bold py-2 px-4 rounded-xl text-white text-sm ${!nextBtnDisabled ? 'bg-pastelred' : 'bg-gray'} `}
-            >
-              다음
-            </button>
+            <Button size='large' color='pastelred' children='다음' disabled={nextBtnDisabled} />
             <button
               onClick={() => {
                 setPage(1);

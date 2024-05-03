@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import Button from '../common/Button';
 
 interface PreferenceFormInputs {
   gender: string;
@@ -55,26 +56,24 @@ const Preference = ({ setPage, setGender, setPreferGender, setDistance, setStart
             <legend className='mb-1 text-sm'>성별</legend>
             <input type='text' {...register('gender', { required: true })} hidden />
             <div className='flex items-center gap-x-2'>
-              <button
-                type='button'
-                className={`w-1/2 h-12 rounded-xl text-white ${activeGender === 'male' ? 'bg-blue' : 'bg-gray'}`}
+              <Button
+                color={activeGender === 'male' ? 'blue' : 'lightgray'}
+                size='medium'
+                children='남성'
                 onClick={() => {
                   setValue('gender', 'male');
                   setActiveGender('male');
                 }}
-              >
-                남성
-              </button>
-              <button
-                type='button'
-                className={`w-1/2 h-12 rounded-xl text-white ${activeGender === 'female' ? 'bg-pastelred' : 'bg-gray'}`}
+              />
+              <Button
+                color={activeGender === 'female' ? 'pastelred' : 'lightgray'}
+                size='medium'
+                children='여성'
                 onClick={() => {
                   setValue('gender', 'female');
                   setActiveGender('female');
                 }}
-              >
-                여성
-              </button>
+              />
             </div>
           </fieldset>
           <fieldset className='pb-2'>
