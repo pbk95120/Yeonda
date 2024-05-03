@@ -1,6 +1,7 @@
 import MainHeader from '@/components/common/MainHeader';
 import MainFooter from '@/components/common/MainFooter';
 import ChatHeader from '@/components/chat/ChatHeader';
+import ScrollToTop from '@/components/common/ScrollToTop';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -34,7 +35,10 @@ const Layout = ({
         <MainHeader value={value} onlyLogo={onlyLogo} setting={setting} cancelStr={cancelStr} backBtn={backBtn} />
       )}
       {chatHeader && <ChatHeader />}
-      <main className='h-screen max-h-content overflow-auto'>{children}</main>
+      <ScrollToTop />
+      <main className='h-screen max-h-content overflow-auto' id='main-content'>
+        {children}
+      </main>
       {showFooter && <MainFooter />}
     </div>
   );
