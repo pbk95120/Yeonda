@@ -47,6 +47,7 @@ afterAll(async () => {
 
 describe('POST /signup 회원 가입 요청', () => {
   let form;
+
   const requestFn = async () => {
     let agent = request(app)
       .post('/signup')

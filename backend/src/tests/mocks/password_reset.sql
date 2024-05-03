@@ -1,4 +1,4 @@
-insert into password_reset (user_id, code) values(1, "ctcode");
+insert into password_reset (user_id, code) values(1, "CTCODE");
 
 set global event_scheduler = on;
 create event delete_old_password_reset_record

@@ -9,5 +9,12 @@ export const PasswordResetRequestSchema = Joi.object({
 });
 
 export interface PasswordResetVerify extends PasswordResetRequest {
-  validate: string;
+  code: string;
 }
+
+export const PasswordResetVerifySchema = PasswordResetRequestSchema.keys({
+  code: Joi.string()
+    .pattern(/^[A-Z\d]{6}$/)
+    .length(6)
+    .required(),
+});

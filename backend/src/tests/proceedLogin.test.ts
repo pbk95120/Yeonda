@@ -23,6 +23,7 @@ describe('POST /login 로그인 요청', () => {
 
     const regex = /access-token=([^;]+)/;
     const match = cookie.match(regex);
+
     if (match && match[1]) {
       const token = match[1];
       const email = await getEmailFromToken(token);

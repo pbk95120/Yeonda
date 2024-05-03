@@ -20,7 +20,7 @@ export const proceedLogin: Controller = async (req, res, next) => {
     sameSite: process.env.NODE_ENV === 'development' ? 'lax' : 'none',
     secure: process.env.NODE_ENV !== 'development',
     httpOnly: true,
-    maxAge: 1000 * 60 * 60,
+    maxAge: 1000 * 60 * 10,
   });
   res.sendStatus(http.OK);
 };
