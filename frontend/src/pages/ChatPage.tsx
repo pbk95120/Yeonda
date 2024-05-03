@@ -60,7 +60,13 @@ const ChatPage = () => {
       </section>
       <section>
         {mockMessages.map((msg) => (
-          <ChatList id={msg.id} nickName={msg.nickname} message={msg.message} pendingRead={msg.isnt_read} />
+          <ChatList
+            key={msg.id}
+            id={msg.id}
+            nickName={msg.nickname}
+            message={msg.message}
+            pendingRead={msg.isnt_read}
+          />
         ))}
       </section>
     </>

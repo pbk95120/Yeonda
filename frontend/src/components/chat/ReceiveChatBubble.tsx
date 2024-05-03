@@ -9,7 +9,7 @@ const ReceiveChatBubble = ({ id, message, sendAt, showDate }: ChatMessageProps) 
   const navigate = useNavigate();
 
   const handleImageClick = () => {
-    navigate(`/chat/profile/${id}`); // `id`를 사용하여 동적 라우트 경로 생성
+    navigate(`/chat/profile/${id}`);
   };
 
   return (
@@ -23,7 +23,7 @@ const ReceiveChatBubble = ({ id, message, sendAt, showDate }: ChatMessageProps) 
             className='w-7 h-7 rounded-full mr-3'
             onClick={handleImageClick}
           />
-          <div className='flex bg-chatgray rounded-lg px-2.5 py-2.5 max-w-[10.5rem] sm:max-w-[14rem]'>
+          <div className='flex bg-chatgray rounded-lg px-2.5 py-2.5 max-w-[10.5rem] sm:max-w-[13.5rem]'>
             <p className='text-black text-xs text-justify'>{message}</p>
           </div>
         </div>
