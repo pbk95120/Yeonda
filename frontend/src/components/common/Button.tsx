@@ -1,15 +1,15 @@
 import { cls } from '@/utils/cls';
 
-interface ButtonProps {
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   onClick?: () => void;
-  color?: 'darkgray' | 'pastelpeach' | 'orange' | 'blue' | 'lightgray';
+  color?: 'darkgray' | 'pastelpeach' | 'orange' | 'blue' | 'lightgray' | 'pastelred';
   className?: string;
   children?: string;
   size?: 'mini' | 'small' | 'medium' | 'large';
   disabled?: boolean;
 }
 
-const Button = ({ onClick, color = 'lightgray', className, children, size, disabled }: ButtonProps) => {
+const Button = ({ onClick, color = 'lightgray', className, children, size, disabled, ...props }: ButtonProps) => {
   let defaultStr: string = cls('rounded-xl font-sans shadow-xl');
 
   if (disabled) {
@@ -39,6 +39,10 @@ const Button = ({ onClick, color = 'lightgray', className, children, size, disab
       defaultStr = cls(defaultStr, ' text-white bg-lightgray hover:bg-lightgray-hover');
       break;
     }
+    case 'pastelred': {
+      defaultStr = cls(defaultStr, ' text-white bg-pastelred hover:bg-pastelred-hover');
+      break;
+    }
   }
 
   switch (size) {
@@ -58,7 +62,7 @@ const Button = ({ onClick, color = 'lightgray', className, children, size, disab
   }
 
   return (
-    <button onClick={onClick} disabled={disabled} className={`${defaultStr} ${className}`}>
+    <button {...props} onClick={onClick} disabled={disabled} className={`${defaultStr} ${className}`}>
       {children}
     </button>
   );
