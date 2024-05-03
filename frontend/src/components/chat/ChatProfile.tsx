@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ChatProfileProps } from '@/types/type';
 import Modal from '@/components/common/Modal';
+
 /**
  * 채팅 상대 프로필 페이지 컴포넌트
  */

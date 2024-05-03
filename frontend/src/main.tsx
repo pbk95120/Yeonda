@@ -111,12 +111,8 @@ const routeList = [
   {
     path: '/mydiary',
     element: <MyDiaryPage />,
-    showHeader: true,
     showFooter: true,
-    onlyLogo: false,
-    value: '내 일기',
-    backBtn: false,
-    cancelStr: false,
+    onlyLogo: true,
   },
   {
     path: '/mydiary/:id',

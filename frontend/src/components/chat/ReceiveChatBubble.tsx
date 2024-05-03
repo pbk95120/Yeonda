@@ -20,7 +20,7 @@ const ReceiveChatBubble = ({ id, message, sendAt, showDate }: ChatMessageProps) 
           <img
             src={'https://placehold.co/60x60'}
             alt='Thumbnail'
-            className='w-7 h-7 rounded-full mr-3'
+            className='w-7 h-7 rounded-full mr-3 cursor-pointer'
             onClick={handleImageClick}
           />
           <div className='flex bg-chatgray rounded-lg px-2.5 py-2.5 max-w-[10.5rem] sm:max-w-[13.5rem]'>
