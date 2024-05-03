@@ -25,7 +25,7 @@ const cleanUp = async (conn: Connection): Promise<void> => {
   sql = "delete from user where email = 'faker@gmail.com'";
   await conn.execute(sql);
 
-  sql = 'delete from address where id != 1';
+  sql = "delete from address where nickname != 'constant'";
   await conn.execute(sql);
 
   return;
