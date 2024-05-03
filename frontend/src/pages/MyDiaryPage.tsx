@@ -1,9 +1,9 @@
-import Filter from '@/assets/images/filter.svg?react';
 import DiariesList from '@/components/diaries/DiariesList';
 import DiaryHeader from '@/components/diaries/DiaryHeader';
 import Dropdown from '@/components/common/Dropdown';
 import useDiaries from '@/hooks/useDiaries'; // 추후 API 연결 시 이용
 import diariesData from '@/mocks/diaryData';
+import { FaSortAmountDownAlt } from 'react-icons/fa';
 
 const MyDiary = () => {
   // const { diariesData, isDiariesLoading, error } = useDiaries();
@@ -12,11 +12,11 @@ const MyDiary = () => {
 
   return (
     <div className='relative'>
-      <DiaryHeader diariesData={diariesData} />
+      <DiaryHeader diariesData={diariesData[0]} />
       <div className='absolute right-[14px] top-[90px] '>
-        <Dropdown toggleButton={<Filter />}>
+        <Dropdown toggleButton={<FaSortAmountDownAlt className='fill-gray' />}>
           <div className='text-xs'>
-            <div className=' hover:bg-lightgray'>
+            <div className='hover:bg-lightgray'>
               <div className='p-[15px]'>최신 날짜 순</div>
             </div>
             <div className=' hover:bg-lightgray'>

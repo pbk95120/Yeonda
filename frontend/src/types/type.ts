@@ -8,3 +8,7 @@ export interface Diary {
   created_at: string;
   likes: number;
 }
+
+export type DiaryHeader = Pick<Diary, 'nickname' | 'picture_url'>;
+
+export type DiaryContent = Omit<Diary, 'nickname' | 'picture_url'>;
