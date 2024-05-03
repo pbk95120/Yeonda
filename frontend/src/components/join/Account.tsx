@@ -73,6 +73,7 @@ const Account = ({
                 />
                 <Button
                   size='small'
+                  type='button'
                   color='pastelred'
                   children='전송'
                   onClick={() => {
@@ -97,6 +98,7 @@ const Account = ({
 
                 <Button
                   size='small'
+                  type='button'
                   color='pastelred'
                   children='확인'
                   onClick={() => {
@@ -138,7 +140,7 @@ const Account = ({
                 />
               </div>
             </fieldset>
-            {errors.passwordCheck && <span className='text-red text-xs text-end '>비밀번호를 다시 확인해주세요.</span>}
+            {errors.passwordCheck && <span className='text-red text-xs text-end '>비밀번호가 일치하지 않습니다.</span>}
           </div>
           <div className='flex flex-col items-center justify-center pt-4'>
             <Button size='large' color='pastelred' children='다음' disabled={nextBtnDisabled} />

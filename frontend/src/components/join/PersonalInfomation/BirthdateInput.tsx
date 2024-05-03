@@ -1,5 +1,5 @@
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
-import { PersonalInformationFormInputs } from './PersonalInformation';
+import { PersonalInformationFormInputs } from '../PersonalInformation';
 
 interface BirthdateInputProps {
   register: UseFormRegister<PersonalInformationFormInputs>;

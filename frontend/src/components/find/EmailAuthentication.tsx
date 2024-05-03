@@ -59,6 +59,7 @@ const EmailAuthentication = ({ setPage }: EmailAuthenticationProps) => {
               />
               <Button
                 size='small'
+                type='button'
                 children='전송'
                 color='pastelred'
                 onClick={() => {
@@ -73,19 +74,19 @@ const EmailAuthentication = ({ setPage }: EmailAuthenticationProps) => {
             <legend className='mb-2 text-sm'>인증번호</legend>
             <div className='flex items-center'>
               <input
-                type='number'
+                type='text'
                 placeholder='인증번호'
                 className='flex-grow p-2 border rounded mr-2  w-[120px] '
                 {...register('code', { required: '인증번호를 입력해주세요.' })}
               />
-
               <Button
                 size='small'
+                type='button'
                 children='확인'
                 color='pastelred'
                 onClick={() => {
                   handleSubmit(onSubmit);
-                  setNext(false);
+                  setNext(true);
                 }}
                 disabled={!confirmBtnDisabled}
               />

@@ -1,7 +1,7 @@
 import React from 'react';
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
-import { PersonalInformationFormInputs } from './PersonalInformation';
-import Button from '../common/Button';
+import { PersonalInformationFormInputs } from '../PersonalInformation';
+import Button from '../../common/Button';
 
 interface AddressInputProps {
   value: string;
@@ -20,6 +20,7 @@ const AddressInput: React.FC<AddressInputProps> = ({ value, onClickModal, errors
           type='text'
           value={value}
           className='w-full p-2 border rounded mb-2 '
+          placeholder='찾기 버튼을 통해 주소를 입력하세요'
           {...register('address', { required: true, maxLength: 100 })}
           readOnly
         />

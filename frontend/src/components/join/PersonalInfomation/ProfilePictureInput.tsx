@@ -24,7 +24,7 @@ const ProfilePictureInput: React.FC<ProfilePictureInputProps> = ({ onImageChange
   return (
     <div>
       <fieldset>
-        <legend>프로필 사진</legend>
+        <legend className='pb-2'>프로필 사진</legend>
         <label htmlFor='profileImage' className='cursor-pointer'>
           {image ? (
             <img src={image} alt='Profile' className='w-[72px] h-[72px] rounded-full mb-4' />

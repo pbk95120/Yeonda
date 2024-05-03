@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Account from '@/components/join/Account';
 import PersonalInformation from '@/components/join/PersonalInformation';
 import Preference from '@/components/join/Preference';
+import Tags from '@/components/join/Tags';
 
 const JoinPage = () => {
   const [page, setPage] = useState<number>(0);
@@ -56,6 +57,7 @@ const JoinPage = () => {
           setEndAge={setEndAge}
         />
       )}
+      {page == 3 && <Tags />}
     </>
   );
 };
