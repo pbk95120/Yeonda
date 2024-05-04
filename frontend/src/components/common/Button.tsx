@@ -5,7 +5,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   color?: 'darkgray' | 'pastelpeach' | 'orange' | 'blue' | 'lightgray' | 'pastelred';
   className?: string;
   children?: string;
-  size?: 'mini' | 'small' | 'medium' | 'large';
+  size?: 'small' | 'mini' | 'medium' | 'large';
   disabled?: boolean;
 }
 
@@ -50,6 +50,12 @@ const Button = ({ onClick, color = 'lightgray', className, children, size, disab
       defaultStr = cls(defaultStr, ' py-1 px-2 text-xs w-20 h-10');
       break;
     }
+
+    case 'mini': {
+      defaultStr = cls(defaultStr, ' py-1 px-2 text-xs w-[100px] h-10');
+      break;
+    }
+
     case 'medium': {
       defaultStr = cls(defaultStr, ' py-1 px-2 text-s w-[140px] h-[50px]');
       break;
