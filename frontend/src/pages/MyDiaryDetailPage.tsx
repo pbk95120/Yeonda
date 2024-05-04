@@ -8,13 +8,9 @@ import { useParams } from 'react-router-dom';
 import { useState } from 'react';
 
 const MyDiaryDetailPage = () => {
-  // const { diariesData, isDiariesLoading, error } = useDiaries();
-  // if (error) return <div>{error}</div>;
-  // if (isDiariesLoading) return <div>Loading...</div>;
-
-  const [isEditing, setIsEditing] = useState<boolean>(false);
   const { id } = useParams();
-  const isDetailPage = true;
+  const isDetailPage: boolean = true;
+  const [isEditing, setIsEditing] = useState<boolean>(false);
 
   return (
     <div className='relative'>
@@ -25,17 +21,21 @@ const MyDiaryDetailPage = () => {
             취소
           </button>
           <h1 className='font-bold text-lg'>일기 수정</h1>
-          <button className='text-base text-pastelred'>완료</button>
+          <button onClick={() => setIsEditing(false)} className='text-base text-pastelred'>
+            완료
+          </button>
         </div>
       ) : (
         <div className='absolute right-[14px] top-[90px] '>
           <Dropdown toggleButton={<RiMoreFill className='fill-gray' />}>
             <div className='text-xs'>
               <div className='hover:bg-lightgray'>
-                <div className='p-[15px]'>최신 날짜 순</div>
+                <button className='p-[15px] text-pastelred'>삭제</button>
               </div>
-              <div className=' hover:bg-lightgray'>
-                <div className='border-t border-lightgray p-[15px]'>좋아요 많은 순</div>
+              <div className='hover:bg-lightgray border-t border-lightgray'>
+                <button onClick={() => setIsEditing(true)} className='p-[15px]'>
+                  수정
+                </button>
               </div>
             </div>
           </Dropdown>

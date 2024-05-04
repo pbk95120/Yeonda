@@ -17,10 +17,10 @@ const MyDiary = () => {
         <Dropdown toggleButton={<FaSortAmountDownAlt className='fill-gray' />}>
           <div className='text-xs'>
             <div className='hover:bg-lightgray'>
-              <div className='p-[15px]'>최신 날짜 순</div>
+              <button className='p-[15px]'>최신 날짜 순</button>
             </div>
-            <div className=' hover:bg-lightgray'>
-              <div className='border-t border-lightgray p-[15px]'>좋아요 많은 순</div>
+            <div className=' hover:bg-lightgray border-t border-lightgray'>
+              <button className='p-[15px]'>좋아요 많은 순</button>
             </div>
           </div>
         </Dropdown>

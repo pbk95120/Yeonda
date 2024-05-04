@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import Button from '@/components/common/Button';
 
 interface LoginFormInputs {
   email: string;
@@ -48,18 +49,18 @@ const LoginPage = () => {
           </fieldset>
         </div>
         <div className='flex flex-col items-center justify-center'>
-          <button
-            type='submit'
-            className='mb-4 w-full h-[46px] font-bold py-2  rounded-xl bg-pastelred text-white text-sm '
-          >
-            로그인
-          </button>
+          <Button
+            color='pastelred'
+            children='로그인'
+            size='large'
+            onClick={() => {
+              handleSubmit(onSubmit);
+            }}
+          />
+          <Link to='/join'>
+            <Button color='pastelred' children='회원가입' size='large' className='mt-4' />
+          </Link>
         </div>
-        <Link to='/join'>
-          <button className='mb-4 w-full h-[46px] font-bold py-2 px-4 rounded-xl bg-pastelred text-white text-sm '>
-            회원가입
-          </button>
-        </Link>
       </form>
     </div>
   );

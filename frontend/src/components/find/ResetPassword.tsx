@@ -1,5 +1,6 @@
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import Button from '../common/Button';
 
 const ResetPassword = () => {
   const {
@@ -10,8 +11,9 @@ const ResetPassword = () => {
   } = useForm();
   const password = watch('password', '');
   const confirmPassword = watch('confirmPassword', '');
-
+  const navigate = useNavigate();
   const onSubmit = (data: any) => {
+    navigate('/login');
     console.log(data);
   };
 
@@ -40,19 +42,16 @@ const ResetPassword = () => {
             {errors.confirmPassword && <span className='text-red text-xs'>비밀번호를 확인하세요 (5-20자).</span>}
           </fieldset>
         </div>
-        <Link to='/login' className='self-end text-gray text-xs pt-2'>
-          <button
-            type='submit'
-            className={`mb-4 w-full h-[46px] font-bold px-4 rounded-xl  ${
-              password === confirmPassword && password.length > 4 && password.length < 20
-                ? 'bg-pastelred text-white'
-                : 'bg-gray text-white'
-            } text-sm flex items-center justify-center`}
-            disabled={password !== confirmPassword || password.length < 5 || password.length > 20}
-          >
-            완료
-          </button>
-        </Link>
+
+        <Button
+          size='large'
+          color='pastelred'
+          children='완료'
+          onClick={() => {
+            handleSubmit(onSubmit);
+          }}
+          disabled={password !== confirmPassword || password.length < 5 || password.length > 20}
+        />
       </form>
     </div>
   );

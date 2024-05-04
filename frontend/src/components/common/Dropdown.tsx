@@ -6,9 +6,9 @@ interface Props {
   isOpen?: boolean;
 }
 
-function Dropdown({ children, toggleButton, isOpen = false }: Props) {
+const Dropdown = ({ children, toggleButton, isOpen = false }: Props) => {
   const [open, setOpen] = useState(isOpen);
-  const dropdownRef = useRef<HTMLButtonElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleOutsideClick(e: MouseEvent) {
@@ -25,10 +25,8 @@ function Dropdown({ children, toggleButton, isOpen = false }: Props) {
   }, [dropdownRef]);
 
   return (
-    <div>
-      <button ref={dropdownRef} onClick={() => setOpen(!open)}>
-        {toggleButton}
-      </button>
+    <div ref={dropdownRef}>
+      <button onClick={() => setOpen(!open)}>{toggleButton}</button>
       {open && (
         <div className='overflow-hidden rounded-xl text-center absolute top-[20px] right-[0px] bg-white shadow-lg w-[130px]'>
           {children}
@@ -36,6 +34,6 @@ function Dropdown({ children, toggleButton, isOpen = false }: Props) {
       )}
     </div>
   );
-}
+};
 
 export default Dropdown;
