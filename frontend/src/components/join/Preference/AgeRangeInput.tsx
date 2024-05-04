@@ -9,7 +9,7 @@ interface AgeRangeInputProps {
 const AgeRangeInput = ({ register, errors }: AgeRangeInputProps) => {
   return (
     <fieldset className='pb-2'>
-      <legend>선호 나이</legend>
+      <legend className='text-sm pb-2'>선호 나이</legend>
       <div className='flex gap-x-2'>
         <input
           type='number'

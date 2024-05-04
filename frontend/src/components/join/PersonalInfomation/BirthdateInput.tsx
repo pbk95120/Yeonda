@@ -1,5 +1,7 @@
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
 import { PersonalInformationFormInputs } from '../PersonalInformation';
+import Dropdown from '@/components/common/Dropdown';
+import Button from '@/components/common/Button';
 
 interface BirthdateInputProps {
   register: UseFormRegister<PersonalInformationFormInputs>;
@@ -17,6 +19,7 @@ const BirthdateInput = ({ register, errors }: BirthdateInputProps) => {
           {...register('year', { required: true, maxLength: 4, minLength: 4, pattern: /^\d{4}$/ })}
           className='w-1/3 p-2 border rounded text-center'
         />
+
         <input
           type='text'
           placeholder='월'

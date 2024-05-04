@@ -24,7 +24,7 @@ const ProfilePictureInput = ({ onImageChange }: ProfilePictureInputProps) => {
   return (
     <div>
       <fieldset>
-        <legend className='pb-2'>프로필 사진</legend>
+        <legend className='pb-2 text-sm'>프로필 사진</legend>
         <label htmlFor='profileImage' className='cursor-pointer'>
           {image ? (
             <img src={image} alt='Profile' className='w-[72px] h-[72px] rounded-full mb-4' />

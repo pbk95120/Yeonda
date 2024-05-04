@@ -9,7 +9,7 @@ interface DistanceInputProps {
 const DistanceInput = ({ register, errors }: DistanceInputProps) => {
   return (
     <fieldset className='pb-2'>
-      <legend>거리</legend>
+      <legend className='text-sm pb-2'>거리</legend>
       <input
         type='number'
         placeholder='거리'

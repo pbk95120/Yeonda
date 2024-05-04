@@ -29,12 +29,12 @@ const Layout = ({
   backBtn,
 }: LayoutProps) => {
   return (
-    <div className='font-sans w-full mx-auto max-w-screen-sm relative h-screen'>
+    <div className='font-sans mx-auto max-w-screen-sm relative h-screen w-[375px]'>
       {showHeader && (
         <MainHeader value={value} onlyLogo={onlyLogo} setting={setting} cancelStr={cancelStr} backBtn={backBtn} />
       )}
       {chatHeader && <ChatHeader />}
-      <main className={`h-screen overflow-auto ${showFooter ? 'max-h-content' : ''}`} id='main-content'>
+      <main className={`overflow-auto ${showFooter ? 'max-h-content' : ''}`} id='main-content'>
         {children}
       </main>
       {showFooter && <MainFooter />}

@@ -4,6 +4,7 @@ import GenderSelection from './Preference/GenderSelection';
 import PreferGenderSelection from './Preference/PreferGenderSelection';
 import DistanceInput from './Preference/DistanceInput';
 import AgeRangeInput from './Preference/AgeRangeInput';
+import { useState } from 'react';
 
 export interface PreferenceFormInputs {
   gender: string;
@@ -31,6 +32,7 @@ const Preference = ({ setPage, setGender, setPreferGender, setDistance, setStart
     formState: { errors },
   } = useForm<PreferenceFormInputs>();
 
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const onSubmit: SubmitHandler<PreferenceFormInputs> = async (data) => {
     setGender(data.gender);
     setPreferGender(data.preferGender);
@@ -54,7 +56,7 @@ const Preference = ({ setPage, setGender, setPreferGender, setDistance, setStart
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className='items-center justify-center mb-20'>
           <GenderSelection register={register} setValue={setValue} errors={errors} />
-          <PreferGenderSelection register={register} errors={errors} />
+          <PreferGenderSelection register={register} setValue={setValue} errors={errors} isSubmitted={isSubmitted} />
           <DistanceInput register={register} errors={errors} />
           <AgeRangeInput register={register} errors={errors} />
         </div>
@@ -69,7 +71,7 @@ const Preference = ({ setPage, setGender, setPreferGender, setDistance, setStart
           >
             이전
           </Button>
-          <Button type='submit' size='medium' color='pastelred'>
+          <Button type='submit' size='medium' color='pastelred' onClick={() => setIsSubmitted(true)}>
             다음
           </Button>
         </div>

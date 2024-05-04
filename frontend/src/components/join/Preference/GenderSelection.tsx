@@ -14,7 +14,7 @@ const GenderSelection = ({ setValue, register, errors }: GenderSelectionProps) =
 
   return (
     <fieldset className='pb-2'>
-      <legend className='mb-1 text-sm'>성별</legend>
+      <legend className='mb-2 text-sm'>성별</legend>
       <div className='flex items-center gap-x-2'>
         <Button
           color={activeGender === 'male' ? 'blue' : 'lightgray'}
