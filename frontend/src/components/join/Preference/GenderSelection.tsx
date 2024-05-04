@@ -1,15 +1,14 @@
 import { useState } from 'react';
 import Button from '../../common/Button';
-import { FieldErrors, FieldValues, UseFormRegister, UseFormSetValue } from 'react-hook-form';
+import { UseFormRegister, UseFormSetValue } from 'react-hook-form';
 import { PreferenceFormInputs } from '../Preference';
 
 interface GenderSelectionProps {
   setValue: UseFormSetValue<PreferenceFormInputs>;
-  register: UseFormRegister<PreferenceFormInputs>;
-  errors: FieldErrors<FieldValues>;
+  isSubmitted: boolean;
 }
 
-const GenderSelection = ({ setValue, register, errors }: GenderSelectionProps) => {
+const GenderSelection = ({ setValue, isSubmitted }: GenderSelectionProps) => {
   const [activeGender, setActiveGender] = useState<string>('');
 
   return (
@@ -21,7 +20,6 @@ const GenderSelection = ({ setValue, register, errors }: GenderSelectionProps) =
           type='button'
           size='medium'
           children='남성'
-          {...register('gender', { required: true })}
           onClick={() => {
             setValue('gender', 'male');
             setActiveGender('male');
@@ -32,14 +30,13 @@ const GenderSelection = ({ setValue, register, errors }: GenderSelectionProps) =
           type='button'
           size='medium'
           children='여성'
-          {...register('gender', { required: true })}
           onClick={() => {
             setValue('gender', 'female');
             setActiveGender('female');
           }}
         />
       </div>
-      {errors.gender && <p className='text-red text-xs'>성별을 선택해주세요</p>}
+      {isSubmitted && activeGender === '' && <p className='text-red text-xs'>성별을 선택해주세요</p>}
     </fieldset>
   );
 };

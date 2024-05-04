@@ -55,8 +55,8 @@ const Preference = ({ setPage, setGender, setPreferGender, setDistance, setStart
     <div className='w-full h-full mt-10 px-10 relative'>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className='items-center justify-center mb-20'>
-          <GenderSelection register={register} setValue={setValue} errors={errors} />
-          <PreferGenderSelection register={register} setValue={setValue} errors={errors} isSubmitted={isSubmitted} />
+          <GenderSelection setValue={setValue} isSubmitted={isSubmitted} />
+          <PreferGenderSelection setValue={setValue} isSubmitted={isSubmitted} />
           <DistanceInput register={register} errors={errors} />
           <AgeRangeInput register={register} errors={errors} />
         </div>
