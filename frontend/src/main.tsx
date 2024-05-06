@@ -113,7 +113,7 @@ const routeList = [
     element: <MyDiaryPage />,
     showHeader: true,
     showFooter: true,
-    onlyLogo: false,
+    onlyLogo: true,
     value: '내 일기',
     backBtn: false,
     cancelStr: false,

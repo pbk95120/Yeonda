@@ -18,7 +18,7 @@ const MainHeader = ({ value, onlyLogo, setting, backBtn, cancelStr }: HeaderProp
   return (
     <div className='flex flex-row w-full max-w-sm'>
       {onlyLogo ? (
-        <SVG className='h-20 py-3 fixed' />
+        <SVG className='h-20 py-3' />
       ) : (
         <div className='flex h-20 justify-between items-center w-full relative'>
           {cancelStr ? (
