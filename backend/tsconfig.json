@@ -3,17 +3,18 @@
         "module": "commonjs",
         "target": "es2021", 
         "esModuleInterop": true,
-        "baseUrl": "./src",
+        "baseUrl": "./",
         "paths": {
-            "@routes/*": ["routes/*"],
-            "@controllers/*": ["controllers/*"],
-            "@databases/*": ["databases/*"],
-            "@models/*": ["models/*"],
-            "@middlewares/*": ["middlewares/*"],
-            "@utils/*": ["utils/*"],
-            "@storage/*": ["storage/*"],
-            "@schemas/*": ["schemas/*"],
-            "@tests/*": ["tests/*"],
+            "@src/*": ["src/*"],
+            "@routes/*": ["src/routes/*"],
+            "@controllers/*": ["src/controllers/*"],
+            "@databases/*": ["src/databases/*"],
+            "@models/*": ["src/models/*"],
+            "@middlewares/*": ["src/middlewares/*"],
+            "@utils/*": ["src/utils/*"],
+            "@storage/*": ["src/storage/*"],
+            "@schemas/*": ["src/schemas/*"],
+            "@tests/*": ["src/tests/*"],
         }
     }
 }

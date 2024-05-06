@@ -35,7 +35,7 @@ const logger = winston.createLogger({
       level: 'error',
       datePattern: 'YYYY-MM-DD',
       dirname: logDir + '/error',
-      filename: `%DATE%.handler.log`,
+      filename: `%DATE%.fatal.log`,
       maxFiles: 30,
       zippedArchive: true,
     }),
