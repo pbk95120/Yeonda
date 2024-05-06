@@ -1,5 +1,4 @@
-import Database from '../db';
-import logger from '../logger';
+import Database from '@src/db';
 
 export const databaseConnector =
   (handler: Function) =>
@@ -9,7 +8,6 @@ export const databaseConnector =
       conn = await Database.getConnection();
       return await handler(conn, ...params);
     } catch (error) {
-      logger.error('데이터 베이스 에러', error);
       throw error;
     } finally {
       if (conn) conn.release();

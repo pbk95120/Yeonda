@@ -2,6 +2,7 @@ export default {
     preset: "ts-jest",
     testEnvironment: "node",
     moduleNameMapper: {
+        '^@src/(.*)$': '<rootDir>/src/$1',
         '^@routes/(.*)$': '<rootDir>/src/routes/$1',
         '^@controllers/(.*)$': '<rootDir>/src/controllers/$1',
         '^@databases/(.*)$': '<rootDir>/src/databases/$1',
