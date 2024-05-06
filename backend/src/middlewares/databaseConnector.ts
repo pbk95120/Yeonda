@@ -9,8 +9,8 @@ export const databaseConnector =
       conn = await Database.getConnection();
       return await handler(conn, ...params);
     } catch (error) {
-      logger.error('데이터베이스 에러', error);
-      return error;
+      logger.error('데이터 베이스 에러', error);
+      throw error;
     } finally {
       if (conn) conn.release();
     }

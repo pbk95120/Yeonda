@@ -1,4 +1,5 @@
 import { Connection } from 'mysql2/promise';
+import logger from '../logger';
 
 export const transactionWrapper =
   (conn: Connection, callback: (...params: any[]) => Promise<any>) =>
@@ -10,6 +11,7 @@ export const transactionWrapper =
       return response;
     } catch (error) {
       await conn.rollback();
+      logger.error('트랜잭션 단계 에러', error);
       throw error;
     }
   };
