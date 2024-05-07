@@ -1,6 +1,6 @@
+import logger from '@src/logger';
 import 'dotenv/config';
 import mysql2, { Pool } from 'mysql2/promise';
-import logger from './logger';
 
 class Database {
   static #pool: Pool;
