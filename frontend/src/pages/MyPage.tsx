@@ -18,7 +18,13 @@ const MyPage = () => {
       <Input inputFor='image'></Input>
       {toast && <Toast value='가입이 완료되었습니다' valid={false} setToast={setToast} />}
       <Button children='toast button' onClick={() => setToast(!toast)} />
-      <Modal isOpen={open} closeModal={closeModal} className='' cautionMsg='진짜로 삭제???' purposeMsg='일기삭제' />
+      <Modal
+        isOpen={open}
+        closeModal={closeModal}
+        className=''
+        cautionMsg='한번 삭제한 일기는 되돌릴 수 없습니다. 정말 삭제하시겠습니까?'
+        purposeMsg='일기삭제'
+      />
     </div>
   );
 };
