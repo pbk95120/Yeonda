@@ -24,7 +24,6 @@ export const sendEmail = async (recipient: string, subject: string, text: string
     const info = await transporter.sendMail(option);
     logger.info('비밀번호 초기화 인증 코드 발송 성공', info);
   } catch (error) {
-    logger.error('이메일 전송 오류', error);
     throw error;
   }
 };

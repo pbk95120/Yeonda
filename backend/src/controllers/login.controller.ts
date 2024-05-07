@@ -1,19 +1,17 @@
 import { checkUser } from '@databases/checkUser.database';
 import { databaseConnector } from '@middlewares/databaseConnector';
-import { ERR } from '@middlewares/errorHandler';
-import { isError } from '@middlewares/isError';
 import { Controller } from '@schemas/controller.schema';
 import { Login, LoginSchema } from '@schemas/login.schema';
+import CustomError from '@src/error';
 import { issueToken } from '@utils/issueToken';
 import http from 'http-status-codes';
 
-export const proceedLogin: Controller = async (req, res, next) => {
+export const proceedLogin: Controller = async (req, res) => {
   const { error } = LoginSchema.validate(req.body);
-  if (isError(next, error, ERR.BadRequest)) return;
+  if (error) throw new CustomError(http.BAD_REQUEST, '잘못된 로그인 양식', error);
 
   const { email, password }: Login = req.body;
-  const isSame = await databaseConnector(checkUser)(email, password);
-  if (isError(next, isSame)) return;
+  await databaseConnector(checkUser)(email, password);
 
   const token = issueToken(email);
   res.cookie('access-token', token, {

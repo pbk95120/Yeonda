@@ -21,7 +21,7 @@ export interface RawSignupPicUrl extends RawSignup {
   picture_url: string;
 }
 
-const PasswordSchema = Joi.string()
+export const PasswordSchema = Joi.string()
   .min(5)
   .max(20)
   .pattern(/^[^\s]+$/)

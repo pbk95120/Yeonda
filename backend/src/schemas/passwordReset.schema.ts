@@ -1,3 +1,4 @@
+import { PasswordSchema } from '@schemas/signup.schema';
 import Joi from 'joi';
 
 export interface PasswordResetRequest {
@@ -17,4 +18,14 @@ export const PasswordResetVerifySchema = PasswordResetRequestSchema.keys({
     .pattern(/^[A-Z\d]{6}$/)
     .length(6)
     .required(),
+});
+
+export interface PasswordResetConfirm {
+  password: string;
+  password_check: string;
+}
+
+export const PasswordResetConfirmSchema = Joi.object<PasswordResetConfirm>({
+  password: PasswordSchema,
+  password_check: Joi.string().valid(Joi.ref('password')).required(),
 });

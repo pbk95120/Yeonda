@@ -6,5 +6,5 @@ export const getRandomCode = (length: number) => {
     code += characters[randomIndex];
   }
   let time = new Date(new Date().getTime() + 5 * 60000).toISOString().slice(0, 19).replace('T', ' ');
-  return [time, code];
+  return [code, time];
 };

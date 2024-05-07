@@ -1,34 +1,34 @@
-import { sendPasswordResetEmail, validatePasswordResetCode } from '@databases/sendPasswordResetEmail.database';
+import { sendPasswordResetEmail } from '@databases/sendPasswordResetEmail.database';
+import { validatePasswordResetCode } from '@databases/validatePasswordResetCode.database';
 import { databaseConnector } from '@middlewares/databaseConnector';
-import { ERR } from '@middlewares/errorHandler';
-import { isError } from '@middlewares/isError';
 import { Controller } from '@schemas/controller.schema';
 import {
+  PasswordResetConfirmSchema,
   PasswordResetRequest,
   PasswordResetRequestSchema,
   PasswordResetVerify,
   PasswordResetVerifySchema,
 } from '@schemas/passwordReset.schema';
+import CustomError from '@src/error';
+import { getEmailFromToken } from '@utils/getEmailFromToken';
 import { issueToken } from '@utils/issueToken';
 import http from 'http-status-codes';
 
 export const requestPasswordReset: Controller = async (req, res, next) => {
   const { error } = PasswordResetRequestSchema.validate(req.body);
-  if (isError(next, error, ERR.BadRequest)) return;
+  if (error) throw new CustomError(http.BAD_REQUEST, '잘못된 비밀번호 초기화 양식', error);
 
   const { email }: PasswordResetRequest = req.body;
-  const result = await databaseConnector(sendPasswordResetEmail)(email);
-  if (isError(next, result)) return;
+  await databaseConnector(sendPasswordResetEmail)(email);
   res.sendStatus(http.OK);
 };
 
 export const verifyPasswordReset: Controller = async (req, res, next) => {
   const { error } = PasswordResetVerifySchema.validate(req.body);
-  if (isError(next, error, ERR.BadRequest)) return;
+  if (error) throw new CustomError(http.BAD_REQUEST, '잘못된 비밀번호 초기화 인증 코드 양식', error);
 
   const { email, code }: PasswordResetVerify = req.body;
-  const result = await databaseConnector(validatePasswordResetCode)(email, code);
-  if (isError(next, result)) return;
+  await databaseConnector(validatePasswordResetCode)(email, code);
 
   const token = issueToken(email);
   res.cookie('access-token', token, {
@@ -38,4 +38,13 @@ export const verifyPasswordReset: Controller = async (req, res, next) => {
     maxAge: 1000 * 60 * 10,
   });
   res.sendStatus(http.OK);
+};
+
+export const confirmPasswordReset: Controller = async (req, res, next) => {
+  const { error } = PasswordResetConfirmSchema.validate(req.body);
+  if (error) throw new CustomError(http.BAD_REQUEST, '잘못된 비밀번호 초기화 확정 양식', error);
+
+  const token = req.cookies['access-token'];
+  const email = await getEmailFromToken(token);
+  const password = req.body.password;
 };
