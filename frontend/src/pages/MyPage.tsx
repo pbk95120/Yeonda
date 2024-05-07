@@ -15,6 +15,7 @@ const MyPage = () => {
       <button className='h-full w-full' onClick={openModal}>
         Open Modal
       </button>
+      <Input inputFor='search' />
       <Input inputFor='image'></Input>
       {toast && <Toast value='가입이 완료되었습니다' valid={false} setToast={setToast} />}
       <Button children='toast button' onClick={() => setToast(!toast)} />

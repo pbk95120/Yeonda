@@ -2,33 +2,37 @@ import { cls } from '@/utils/cls';
 import { RiDiscountPercentFill } from 'react-icons/ri';
 import { BsSearchHeart } from 'react-icons/bs';
 import { LuImagePlus } from 'react-icons/lu';
+import { UseFormRegisterReturn } from 'react-hook-form';
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   className?: string;
   placeholder?: string;
   inputFor: 'search' | 'default' | 'image';
+  register?: UseFormRegisterReturn;
 }
 
-const Input = ({ className, placeholder, inputFor, ...props }: InputProps) => {
-  let defaultCls = 'px-2 mx-2 border border-lightgray rounded-md focus:outline-none focus:border-pastelred font-sans';
+const Input = ({ className, placeholder, inputFor, register, ...props }: InputProps) => {
+  let defaultCls = 'px-2 mx-2 border border-lightgray focus:outline-none focus:border-pastelred font-sans';
   if (inputFor === 'search') {
-    defaultCls = cls(defaultCls, ' w-[300px] h-10');
+    defaultCls = cls(defaultCls, 'rounded-full w-[300px] h-10');
     return (
-      <div className='relative flex items-center'>
+      <div className='relative flex items-center justify-center'>
         <input {...props} placeholder={placeholder} className={cls(defaultCls, className ? className : '')}></input>
-        <div className='absolute right-0 pr-5 flex items-center'>
-          <span>
-            <BsSearchHeart className='fill-lightgray hover:fill-pastelred' />
-          </span>
-        </div>
+
+        <BsSearchHeart className='fill-pastelred absolute right-12' />
       </div>
     );
   }
   if (inputFor === 'default') {
-    defaultCls = cls(defaultCls, ' px-8');
+    defaultCls = cls(defaultCls, ' px-8  rounded-md');
     return (
       <div className='relative flex items-center'>
-        <input {...props} placeholder={placeholder} className={cls(defaultCls, className ? className : '')}></input>
+        <input
+          {...props}
+          {...register}
+          placeholder={placeholder}
+          className={cls(defaultCls, className ? className : '')}
+        ></input>
         <div className='absolute left-0 ml-5 flex items-center'>
           <span>
             <RiDiscountPercentFill className='fill-pastelred' />
