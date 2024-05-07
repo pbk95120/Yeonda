@@ -1,5 +1,5 @@
+import logger from '@src/logger';
 import { Connection } from 'mysql2/promise';
-import logger from '../logger';
 
 export const transactionWrapper =
   (conn: Connection, callback: (...params: any[]) => Promise<any>) =>
