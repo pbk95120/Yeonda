@@ -1,17 +1,28 @@
-import Filter from '@/assets/images/filter.svg?react';
+import { useState, useEffect } from 'react';
 import DiariesList from '@/components/diaries/DiariesList';
-import DiaryHeader from '@/components/diaries/DiaryHeader';
-import Dropdown from '@/components/common/Dropdown';
-import useDiaries from '@/hooks/useDiaries'; // 추후 API 연결 시 이용
 import diariesData from '@/mocks/diaryData';
 
 const UserDiary = () => {
   // const { diariesData, isDiariesLoading, error } = useDiaries();
   // if (error) return <div>{error}</div>;
   // if (isDiariesLoading) return <div>Loading...</div>;
+  const [scroll, setScroll] = useState(false);
+
+  useEffect(() => {
+    const mainContent = document.getElementById('main-content');
+    if (mainContent) {
+      const handleScroll = () => {
+        setScroll(mainContent.scrollTop > 20);
+      };
+      mainContent.addEventListener('scroll', handleScroll);
+      return () => {
+        mainContent.removeEventListener('scroll', handleScroll);
+      };
+    }
+  }, []);
 
   return (
-    <div className='relative'>
+    <div>
       <DiariesList diariesData={diariesData} />
     </div>
   );

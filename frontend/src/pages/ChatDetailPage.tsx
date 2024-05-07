@@ -90,7 +90,7 @@ const ChatDetailPage = () => {
           ),
         )}
       </section>
-      <section className='basis-1/12'>
+      <section className='basis-1/12 pb-3'>
         <ChatTextarea />
         <div ref={messagesEndRef}></div>
       </section>
