@@ -30,7 +30,7 @@ const Layout = ({
   backBtn,
 }: LayoutProps) => {
   return (
-    <div className='font-sans w-full mx-auto max-w-screen-sm relative h-screen'>
+    <div className='font-sans mx-auto max-w-screen-sm relative h-screen w-[375px]'>
       {showHeader && (
         <MainHeader value={value} onlyLogo={onlyLogo} setting={setting} cancelStr={cancelStr} backBtn={backBtn} />
       )}

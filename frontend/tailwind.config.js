@@ -29,6 +29,7 @@ export default {
       pastelgreen: '#ABD7B9',
       pastelpeach: { DEFAULT: '#FFC7C7', hover: '#FFB2B2' },
     },
+
     fontFamily: {
       diary: [
         'The Day Diary',

@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-import BirthdateInput from './BirthdateInput';
-import AddressInput from './AddressInput';
-import AddressModal from './AddressModal';
-import ProfilePictureInput from './ProfilePictureInput';
+import BirthdateInput from './PersonalInfomation/BirthdateInput';
+import AddressInput from './PersonalInfomation/AddressInput';
+import AddressModal from './PersonalInfomation/AddressModal';
+import ProfilePictureInput from './PersonalInfomation/ProfilePictureInput';
+import Button from '../common/Button';
 
 interface PersonalInformationProps {
   setPage: (page: number) => void;
@@ -75,21 +76,19 @@ const PersonalInformation = ({
           />
         </div>
         <div className='flex items-center gap-x-2'>
-          <button
+          <Button
+            color='pastelred'
+            size='medium'
             type='button'
             onClick={() => {
               setPage(0);
             }}
-            className='mb-4 w-1/2 h-[40px] font-bold py-2 px-4 rounded-xl text-white text-sm bg-pastelred'
           >
             이전
-          </button>
-          <button
-            type='submit'
-            className='mb-4 w-1/2 h-[40px] font-bold py-2 px-4 rounded-xl text-white text-sm bg-pastelred'
-          >
+          </Button>
+          <Button type='submit' color='pastelred' size='medium'>
             다음
-          </button>
+          </Button>
         </div>
       </form>
       <AddressModal

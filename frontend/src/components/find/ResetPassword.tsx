@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import Button from '../common/Button';
+import Input from '../common/Input';
 
 const ResetPassword = () => {
   const {
@@ -25,6 +26,12 @@ const ResetPassword = () => {
             <legend className='mb-2 text-sm'>비밀번호</legend>
             <input
               type='password'
+              placeholder='비밀번호'
+              className='w-full p-2 border rounded'
+              {...register('password', { required: true, minLength: 5, maxLength: 20, pattern: /^[^\s]+$/ })}
+            />
+            <Input
+              type='default'
               placeholder='비밀번호'
               className='w-full p-2 border rounded'
               {...register('password', { required: true, minLength: 5, maxLength: 20, pattern: /^[^\s]+$/ })}

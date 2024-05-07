@@ -1,14 +1,16 @@
+import { cls } from '@/utils/cls';
 import { useEffect, useRef, useState } from 'react';
 
 interface Props {
   children: React.ReactNode;
   toggleButton: React.ReactNode;
   isOpen?: boolean;
+  className?: string;
 }
 
-function Dropdown({ children, toggleButton, isOpen = false }: Props) {
+const Dropdown = ({ children, toggleButton, isOpen = false, className }: Props) => {
   const [open, setOpen] = useState(isOpen);
-  const dropdownRef = useRef<HTMLButtonElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleOutsideClick(e: MouseEvent) {
@@ -25,17 +27,15 @@ function Dropdown({ children, toggleButton, isOpen = false }: Props) {
   }, [dropdownRef]);
 
   return (
-    <div>
-      <button ref={dropdownRef} onClick={() => setOpen(!open)}>
-        {toggleButton}
-      </button>
+    <div ref={dropdownRef}>
+      <button onClick={() => setOpen(!open)}>{toggleButton}</button>
       {open && (
-        <div className='overflow-hidden rounded-xl text-center absolute top-[20px] right-[0px] bg-white shadow-lg w-[130px]'>
+        <div className={cls(`overflow-hidden rounded-xl text-center bg-white shadow-lg w-[130px] ${className}`)}>
           {children}
         </div>
       )}
     </div>
   );
-}
+};
 
 export default Dropdown;
