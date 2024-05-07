@@ -7,7 +7,7 @@ interface AddressModalProps {
   onSelectAddress: (address: string) => void;
 }
 
-const AddressModal: React.FC<AddressModalProps> = ({ isOpen, onClose, onSelectAddress }) => {
+const AddressModal = ({ isOpen, onClose, onSelectAddress }: AddressModalProps) => {
   return (
     isOpen && (
       <div

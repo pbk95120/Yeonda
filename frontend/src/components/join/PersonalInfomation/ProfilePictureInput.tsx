@@ -5,7 +5,7 @@ interface ProfilePictureInputProps {
   onImageChange: (imageDataUrl: string, file: File) => void;
 }
 
-const ProfilePictureInput: React.FC<ProfilePictureInputProps> = ({ onImageChange }) => {
+const ProfilePictureInput = ({ onImageChange }: ProfilePictureInputProps) => {
   const [image, setImage] = useState<string>('');
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,8 +24,8 @@ const ProfilePictureInput: React.FC<ProfilePictureInputProps> = ({ onImageChange
   return (
     <div>
       <fieldset>
-        <legend>프로필 사진</legend>
-        <label htmlFor='profileImage' className='cursor-pointer'>
+        <legend className='pb-2 text-sm'>프로필 사진</legend>
+        <label htmlFor='profileImage' className='cursor-pointer inline-block'>
           {image ? (
             <img src={image} alt='Profile' className='w-[72px] h-[72px] rounded-full mb-4' />
           ) : (

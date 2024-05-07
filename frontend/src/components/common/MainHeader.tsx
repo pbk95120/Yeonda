@@ -16,7 +16,7 @@ interface HeaderProps {
  */
 const MainHeader = ({ value, onlyLogo, setting, backBtn, cancelStr }: HeaderProps) => {
   return (
-    <div className='flex flex-row w-full max-w-sm'>
+    <div className='flex flex-row w-full max-w-sm h-20 relative '>
       {onlyLogo ? (
         <SVG className='h-20 py-3 fixed' />
       ) : (
