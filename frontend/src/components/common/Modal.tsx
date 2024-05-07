@@ -24,8 +24,8 @@ const Modal = ({ isOpen, closeModal, onClick, className, cautionMsg, purposeMsg 
           isOpen ? 'block' : 'hidden',
         )}
       >
-        <div className='flex flex-col space-y-7 items-center'>
-          <div className='font-sans text-2xl'>{purposeMsg}</div>
+        <div className='flex flex-col space-y-7 pt-5 items-center'>
+          <div className='font-sans text-2xl font-bold'>{purposeMsg}</div>
           <div className='font-sans text-sm text-red text-center m-5'>{cautionMsg}</div>
         </div>
         <div className='flex flex-row space-x-10 mb-5'>
