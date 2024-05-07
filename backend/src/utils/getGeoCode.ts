@@ -1,6 +1,6 @@
+import logger from '@src/logger';
 import axios from 'axios';
 import 'dotenv/config';
-import logger from '../logger';
 
 const { SGIS_KEY, SGIS_SECRET } = process.env;
 

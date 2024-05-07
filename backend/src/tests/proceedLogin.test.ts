@@ -1,8 +1,8 @@
+import app from '@src/app';
+import Database from '@src/db';
 import { getEmailFromToken } from '@utils/getEmailFromToken';
 import http from 'http-status-codes';
 import request from 'supertest';
-import app from '../app';
-import Database from '../db';
 
 beforeAll(async () => {
   Database.switchToTest();
@@ -38,6 +38,14 @@ describe('POST /login 로그인 요청', () => {
       password: 'constant',
     });
     expect(response.status).toBe(http.BAD_REQUEST);
+  });
+
+  it('존재하지 않는 사용자', async () => {
+    const response = await request(app).post('/login').send({
+      email: 'faker@gmail.com',
+      password: 'constant',
+    });
+    expect(response.status).toBe(http.NOT_FOUND);
   });
 
   it('틀린 비밀번호', async () => {

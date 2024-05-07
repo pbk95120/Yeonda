@@ -7,6 +7,7 @@ export const checkUser = async (conn: Connection, email: string, password: strin
   let sql = 'select password from user where email = :email';
   let values = { email: email };
   const [result] = await conn.execute(sql, values);
+  if (!result[0]) throw new CustomError(http.NOT_FOUND, '존재하지 않는 사용자');
   const encryptedPassword = result[0].password;
 
   const isSame = await comparePassword(password, encryptedPassword);

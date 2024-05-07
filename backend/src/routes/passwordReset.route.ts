@@ -1,6 +1,6 @@
 import { confirmPasswordReset, requestPasswordReset, verifyPasswordReset } from '@controllers/passwordReset.controller';
+import { controllerWrapper } from '@middlewares/controllerWrapper';
 import express from 'express';
-import { controllerWrapper } from './../middlewares/controllerWrapper';
 const PasswordResetRoute = express.Router();
 
 PasswordResetRoute.post('/', controllerWrapper(requestPasswordReset));

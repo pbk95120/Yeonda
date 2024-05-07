@@ -1,6 +1,6 @@
+import logger from '@src/logger';
 import 'dotenv/config';
 import nodemailer from 'nodemailer';
-import logger from '../logger';
 
 const { GMAIL_EMAIL, GMAIL_PASSWORD } = process.env;
 

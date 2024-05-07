@@ -9,8 +9,10 @@ import {
   PasswordResetVerify,
   PasswordResetVerifySchema,
 } from '@schemas/passwordReset.schema';
+import { changePassword } from '@src/databases/changePassword.database';
 import CustomError from '@src/error';
 import { getEmailFromToken } from '@utils/getEmailFromToken';
+import { getEncryptPassword } from '@utils/getEncryptPassword';
 import { issueToken } from '@utils/issueToken';
 import http from 'http-status-codes';
 
@@ -46,5 +48,8 @@ export const confirmPasswordReset: Controller = async (req, res, next) => {
 
   const token = req.cookies['access-token'];
   const email = await getEmailFromToken(token);
-  const password = req.body.password;
+  const encryptPassword = getEncryptPassword(req.body.password);
+  await databaseConnector(changePassword)(email, encryptPassword);
+
+  res.sendStatus(http.OK);
 };

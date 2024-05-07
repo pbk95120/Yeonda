@@ -1,6 +1,6 @@
+import app from '@src/app';
 import { issueToken } from '@utils/issueToken';
 import request from 'supertest';
-import app from '../app';
 
 describe('POST /logout 로그아웃 요청', () => {
   it('access-token 제거', async () => {

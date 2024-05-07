@@ -1,10 +1,10 @@
 import { databaseConnector } from '@middlewares/databaseConnector';
+import app from '@src/app';
+import Database from '@src/db';
 import { getEmailFromToken } from '@utils/getEmailFromToken';
 import http from 'http-status-codes';
 import { Connection } from 'mysql2/promise';
 import request from 'supertest';
-import app from '../app';
-import Database from '../db';
 
 beforeAll(async () => {
   Database.switchToTest();
