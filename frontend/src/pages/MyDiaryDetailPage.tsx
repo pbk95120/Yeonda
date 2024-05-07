@@ -12,7 +12,6 @@ import Modal from '@/components/common/Modal';
 const MyDiaryDetailPage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const isDetailPage: boolean = true;
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [toast, setToast] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // Modal의 상태 추가
@@ -68,7 +67,12 @@ const MyDiaryDetailPage = () => {
           />
         </div>
       )}
-      <DiaryItem diary={diariesData[Number(id) - 1]} isDetailPage={isDetailPage} isEditing={isEditing} />
+      <DiaryItem
+        diary={diariesData[Number(id) - 1]}
+        isSuggestionPage={false}
+        isDetailPage={true}
+        isEditing={isEditing}
+      />
     </div>
   );
 };

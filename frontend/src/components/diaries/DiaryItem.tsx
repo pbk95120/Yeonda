@@ -5,11 +5,12 @@ import type { DiaryContent } from '@/types/type';
 
 interface DiaryItemProps {
   diary: DiaryContent;
-  isDetailPage: boolean;
+  isDetailPage?: boolean;
   isEditing?: boolean;
+  isSuggestionPage?: boolean;
 }
 
-const DiaryItem = ({ diary, isDetailPage, isEditing }: DiaryItemProps) => {
+const DiaryItem = ({ diary, isDetailPage = true, isEditing = false, isSuggestionPage = true }: DiaryItemProps) => {
   const renderTitle = () => {
     if (isEditing) {
       return <input className='text-[26px]' value={diary.title} />;
@@ -17,12 +18,16 @@ const DiaryItem = ({ diary, isDetailPage, isEditing }: DiaryItemProps) => {
     return <h1 className='text-[26px]'>{diary.title}</h1>;
   };
 
-  const renderLikes = () => {
+  const renderInfo = () => {
     if (isEditing) return null;
+    if (isSuggestionPage) return null;
     return (
-      <div className='flex gap-[5px] items-center'>
-        <RiHeartFill className='fill-pastelred' style={{ width: '18px', height: '18px' }} />
-        <span>{formatNumber(diary.likes)}</span>
+      <div className='flex gap-[130px] font-sans text-xs'>
+        <span className='text-lightgray'>{formatDate(diary.created_at)}</span>
+        <div className='flex gap-[5px] items-center'>
+          <RiHeartFill className='fill-pastelred' style={{ width: '18px', height: '18px' }} />
+          <span>{formatNumber(diary.likes)}</span>
+        </div>
       </div>
     );
   };
@@ -54,10 +59,7 @@ const DiaryItem = ({ diary, isDetailPage, isEditing }: DiaryItemProps) => {
     <div className='border-t border-lightgray'>
       <div className='my-[20px] mx-auto font-diary w-[316px]'>
         {renderTitle()}
-        <div className='flex gap-[130px] font-sans text-xs'>
-          <span className='text-lightgray'>{formatDate(diary.created_at)}</span>
-          {renderLikes()}
-        </div>
+        {renderInfo()}
         {renderContent()}
         {renderTag()}
       </div>

@@ -23,6 +23,7 @@ import ChatPage from '@/pages/ChatPage';
 import ChatDetailPage from '@/pages/ChatDetailPage';
 import ChatProfilePage from '@/pages/ChatProfilePage';
 import ErrorPage from '@/pages/ErrorPage';
+import OthersDiaryPage from './pages/OthersDiaryPage';
 
 const queryClient = new QueryClient();
 
@@ -129,20 +130,14 @@ const routeList = [
     cancelStr: true,
   },
   {
-    path: '/othersdiary/suggestion',
-    element: <DiarySuggestionPage />,
+    path: '/othersdiary',
+    element: <OthersDiaryPage />,
+    children: [
+      { path: 'suggestion', element: <DiarySuggestionPage /> },
+      { path: 'popular', element: <DiaryPopularPage /> },
+    ],
     showHeader: true,
     showFooter: true,
-    onlyLogo: true,
-    value: '박상하킹갓',
-    backBtn: false,
-    cancelStr: true,
-  },
-  {
-    path: '/othersdiary/popular',
-    element: <DiaryPopularPage />,
-    showHeader: true,
-    showFooter: false,
     onlyLogo: true,
     value: '박상하킹갓',
     backBtn: false,
