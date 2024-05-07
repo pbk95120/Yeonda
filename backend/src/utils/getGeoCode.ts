@@ -8,7 +8,7 @@ let sgis;
 
 export interface LatLng {
   latitude: number;
-  longtitude: number;
+  longitude: number;
 }
 
 const getSgisToken = async (): Promise<void> => {
@@ -33,7 +33,7 @@ export const getGeoCode = async (address: string): Promise<LatLng> => {
 
   let geoCode = {
     latitude: 0,
-    longtitude: 0,
+    longitude: 0,
   };
 
   let errorCount = 0;
@@ -53,7 +53,7 @@ export const getGeoCode = async (address: string): Promise<LatLng> => {
           case 0:
             const data = res.data.result.resultdata[0];
             geoCode.latitude = data.y;
-            geoCode.longtitude = data.x;
+            geoCode.longitude = data.x;
             break;
           case -401:
             errorCount++;
