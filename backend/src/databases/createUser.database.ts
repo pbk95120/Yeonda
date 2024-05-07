@@ -29,10 +29,10 @@ export const insertUser = async (
 
   const callback = async (address_id: number): Promise<void> => {
     if (address_id) {
-      sql = `insert into address (latitude, longtitude, detail) values (:latitude, :longtitude, :detail)`;
+      sql = `insert into address (latitude, longitude, detail) values (:latitude, :longitude, :detail)`;
       values = {
         latitude: geoCode.latitude,
-        longtitude: geoCode.longtitude,
+        longitude: geoCode.longitude,
         detail: address,
       };
       [result] = await conn.execute<ResultSetHeader>(sql, values);

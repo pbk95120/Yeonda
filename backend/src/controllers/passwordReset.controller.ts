@@ -3,7 +3,7 @@ import { validatePasswordResetCode } from '@databases/validatePasswordResetCode.
 import { databaseConnector } from '@middlewares/databaseConnector';
 import { Controller } from '@schemas/controller.schema';
 import {
-  PasswordResetConfirmSchema,
+  PasswordConfirmSchema,
   PasswordResetRequest,
   PasswordResetRequestSchema,
   PasswordResetVerify,
@@ -43,7 +43,7 @@ export const verifyPasswordReset: Controller = async (req, res, next) => {
 };
 
 export const confirmPasswordReset: Controller = async (req, res, next) => {
-  const { error } = PasswordResetConfirmSchema.validate(req.body);
+  const { error } = PasswordConfirmSchema.validate(req.body);
   if (error) throw new CustomError(http.BAD_REQUEST, '잘못된 비밀번호 초기화 확정 양식', error);
 
   const token = req.cookies['access-token'];
