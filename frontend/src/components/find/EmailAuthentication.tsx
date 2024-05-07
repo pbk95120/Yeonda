@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Button from '../common/Button';
+import Input from '../common/Input';
 
 interface EmailAuthenticationProps {
   setPage: (page: number) => void;
@@ -51,14 +52,15 @@ const EmailAuthentication = ({ setPage }: EmailAuthenticationProps) => {
           <fieldset className='pb-2'>
             <legend className='mb-2 text-sm'>이메일</legend>
             <div className='flex items-center'>
-              <input
-                type='email'
+              <Input
+                type='default'
                 placeholder='이메일'
-                className='flex-grow p-2 border rounded mr-2  w-[120px] '
+                className='w-full p-2 border rounded'
                 {...register('email', { required: '이메일을 입력해주세요.' })}
               />
               <Button
                 size='small'
+                type='button'
                 children='전송'
                 color='pastelred'
                 onClick={() => {
@@ -72,25 +74,25 @@ const EmailAuthentication = ({ setPage }: EmailAuthenticationProps) => {
           <fieldset className='pb-2'>
             <legend className='mb-2 text-sm'>인증번호</legend>
             <div className='flex items-center'>
-              <input
-                type='number'
+              <Input
+                type='default'
                 placeholder='인증번호'
-                className='flex-grow p-2 border rounded mr-2  w-[120px] '
+                className='w-full p-2 border rounded'
                 {...register('code', { required: '인증번호를 입력해주세요.' })}
               />
-
               <Button
                 size='small'
+                type='button'
                 children='확인'
                 color='pastelred'
                 onClick={() => {
                   handleSubmit(onSubmit);
-                  setNext(false);
+                  setNext(true);
                 }}
                 disabled={!confirmBtnDisabled}
               />
             </div>
-            {timerActive && <p className='text-sm self-end text-red mt-2'>{formatTimer()}</p>}
+            {timerActive && <p className='w-full text-sm self-end text-red mt-2'>{formatTimer()}</p>}
           </fieldset>
         </div>
         <Button

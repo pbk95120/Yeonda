@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import Button from '@/components/common/Button';
+import Input from '@/components/common/Input';
 
 interface LoginFormInputs {
   email: string;
@@ -24,21 +25,22 @@ const LoginPage = () => {
         <div className='items-center justify-center mb-40'>
           <fieldset className='pb-2'>
             <legend className='mb-2 text-sm'>이메일</legend>
-            <input
-              type='email'
+            <Input
+              type='default'
               placeholder='이메일'
-              className='w-full p-2 border rounded'
               {...register('email', { required: '이메일을 입력해주세요.' })}
+              className='w-full p-2 border rounded'
             />
             {errors.email && <span className='text-red text-xs'>{errors.email.message}</span>}
           </fieldset>
+
           <fieldset>
             <legend className='mb-2 text-sm'>비밀번호</legend>
-            <input
-              type='password'
+            <Input
+              type='default'
               placeholder='비밀번호'
-              className='w-full p-2 border rounded'
               {...register('password', { required: '비밀번호를 입력해주세요.' })}
+              className='w-full p-2 border rounded'
             />
             {errors.password && <span className='text-red text-xs'>{errors.password.message}</span>}
             <div className='w-full text-right'>
