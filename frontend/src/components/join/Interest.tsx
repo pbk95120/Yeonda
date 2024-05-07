@@ -3,6 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import Button from '../common/Button';
 import { useNavigate } from 'react-router-dom';
 import { IoCloseOutline } from 'react-icons/io5';
+import Input from '../common/Input';
 
 interface InterestProps {
   setTags: (tags: string[]) => void;
@@ -127,7 +128,8 @@ const Interest = ({ setTags, setPage, tags }: InterestProps) => {
                 </p>
               </div>
             ))}
-            <input
+            <Input
+              inputFor='search'
               type='text'
               className='flex-grow p-2 border rounded w-full mb-2'
               value={inputText}
@@ -159,7 +161,7 @@ const Interest = ({ setTags, setPage, tags }: InterestProps) => {
               setPage(2);
             }}
           />
-          <Button type='submit' size='medium' color='pastelred' children='완료' />
+          <Button type='submit' size='medium' color='pastelred' children='완료' disabled={tags.length < 3} />
         </div>
       </form>
     </div>

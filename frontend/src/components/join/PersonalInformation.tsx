@@ -57,7 +57,7 @@ const PersonalInformation = ({
 
   const handleAddressSelection = (address: string) => {
     setSelectedAddress(address);
-    setValue('address', address);
+    setValue('address', address, { shouldValidate: true });
     setIsModalOpen(false);
   };
 
@@ -68,7 +68,6 @@ const PersonalInformation = ({
           <ProfilePictureInput onImageChange={(imageDataUrl, file) => setValue('picture', file)} />
           <BirthdateInput errors={errors} register={register} />
           <AddressInput
-            value={selectedAddress}
             register={register}
             errors={errors}
             onChange={(value) => setSelectedAddress(value)}

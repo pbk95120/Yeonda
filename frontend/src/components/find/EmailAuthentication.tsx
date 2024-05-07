@@ -14,6 +14,7 @@ interface FormValues {
 
 const EmailAuthentication = ({ setPage }: EmailAuthenticationProps) => {
   const { register, handleSubmit } = useForm<FormValues>();
+
   const [timer, setTimer] = useState<number>(300);
   const [timerActive, setTimerActive] = useState<boolean>(false);
   const [confirmBtnDisabled, setConfirmBtnDisabled] = useState<boolean>(false);
@@ -24,7 +25,7 @@ const EmailAuthentication = ({ setPage }: EmailAuthenticationProps) => {
   };
 
   const onSubmit = (data: FormValues) => {
-    setNext(true);
+    setPage(1);
   };
 
   useEffect(() => {
@@ -53,10 +54,11 @@ const EmailAuthentication = ({ setPage }: EmailAuthenticationProps) => {
             <legend className='mb-2 text-sm'>이메일</legend>
             <div className='flex items-center'>
               <Input
-                type='default'
+                type='email'
+                inputFor='default'
                 placeholder='이메일'
                 className='w-full p-2 border rounded'
-                {...register('email', { required: '이메일을 입력해주세요.' })}
+                register={{ ...register('email', { required: '이메일을 입력해주세요.' }) }}
               />
               <Button
                 size='small'
@@ -75,10 +77,11 @@ const EmailAuthentication = ({ setPage }: EmailAuthenticationProps) => {
             <legend className='mb-2 text-sm'>인증번호</legend>
             <div className='flex items-center'>
               <Input
-                type='default'
+                inputFor='default'
+                type='text'
                 placeholder='인증번호'
                 className='w-full p-2 border rounded'
-                {...register('code', { required: '인증번호를 입력해주세요.' })}
+                register={{ ...register('code', { required: '인증번호를 입력해주세요.' }) }}
               />
               <Button
                 size='small'
@@ -86,7 +89,6 @@ const EmailAuthentication = ({ setPage }: EmailAuthenticationProps) => {
                 children='확인'
                 color='pastelred'
                 onClick={() => {
-                  handleSubmit(onSubmit);
                   setNext(true);
                 }}
                 disabled={!confirmBtnDisabled}
@@ -95,14 +97,7 @@ const EmailAuthentication = ({ setPage }: EmailAuthenticationProps) => {
             {timerActive && <p className='w-full text-sm self-end text-red mt-2'>{formatTimer()}</p>}
           </fieldset>
         </div>
-        <Button
-          children='다음'
-          size='large'
-          color='pastelred'
-          onClick={() => setPage(1)}
-          disabled={!next}
-          className='mt-24'
-        />
+        <Button children='다음' size='large' color='pastelred' disabled={!next} className='mt-24' />
       </form>
     </div>
   );

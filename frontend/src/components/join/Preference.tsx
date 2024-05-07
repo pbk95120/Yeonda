@@ -25,14 +25,15 @@ interface PreferenceProps {
 
 const Preference = ({ setPage, setGender, setPreferGender, setDistance, setStartAge, setEndAge }: PreferenceProps) => {
   const {
-    register,
     handleSubmit,
     getValues,
     setValue,
+    register,
     formState: { errors },
   } = useForm<PreferenceFormInputs>();
 
   const [isSubmitted, setIsSubmitted] = useState(false);
+
   const onSubmit: SubmitHandler<PreferenceFormInputs> = async (data) => {
     setGender(data.gender);
     setPreferGender(data.preferGender);
@@ -55,7 +56,7 @@ const Preference = ({ setPage, setGender, setPreferGender, setDistance, setStart
     <div className='w-full h-full mt-10 px-10 relative'>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className='items-center justify-center mb-20'>
-          <GenderSelection setValue={setValue} isSubmitted={isSubmitted} />
+          <GenderSelection setValue={setValue} register={register} errors={errors} />
           <PreferGenderSelection setValue={setValue} isSubmitted={isSubmitted} />
           <DistanceInput setValue={setValue} />
           <AgeRangeInput setValue={setValue} />

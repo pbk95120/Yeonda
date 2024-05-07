@@ -52,26 +52,7 @@ const AgeRangeInput = ({ setValue }: AgeRangeInputProps) => {
             {minAge} - {maxAge}
           </span>
         </legend>
-        <div>
-          <input
-            type='range'
-            className='w-full appearance-none h-2 rounded-full accent-pastelpeach  translate-y-3'
-            style={{
-              background: calculateBackground(minAge, maxAge, 100),
-            }}
-            onChange={handleMinChange}
-            value={minAge}
-          />
-          <input
-            type='range'
-            className='w-full appearance-none h-2 rounded-full accent-pastelpeach -translate-y-3'
-            style={{
-              background: calculateBackground(minAge, maxAge, 100),
-            }}
-            onChange={handleMaxChange}
-            value={maxAge}
-          />
-        </div>
+        <div></div>
       </fieldset>
     </fieldset>
   );

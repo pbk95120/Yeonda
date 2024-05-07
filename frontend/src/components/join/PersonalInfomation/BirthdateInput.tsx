@@ -1,7 +1,7 @@
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
 import { PersonalInformationFormInputs } from '../PersonalInformation';
 import Dropdown from '@/components/common/Dropdown';
-import Button from '@/components/common/Button';
+import { RiMoreFill } from 'react-icons/ri';
 
 interface BirthdateInputProps {
   register: UseFormRegister<PersonalInformationFormInputs>;

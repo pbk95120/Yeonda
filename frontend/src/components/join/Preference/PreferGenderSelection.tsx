@@ -31,12 +31,10 @@ const PreferGenderSelection = ({ setValue, isSubmitted }: PreferGenderSelectionP
   return (
     <fieldset className='pb-2'>
       <legend className='text-sm mb-2'>선호 성별</legend>
-      <div className='flex flex-col'></div>
       <button type='button' className='h-full w-full drop-shadow-xl rounded-xl p-2' onClick={openModal}>
         <p className='flex text-xl font-bold justify-start pb-2'>상대의 성별</p>
         <div className='flex flex-row justify-between w-full'>
           <p className='text-lightgray'>{selectedGender ? genderName[selectedGender] : '선택해주세요'}</p>
-
           <IoIosArrowForward className='text-2xl' />
         </div>
       </button>

@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { UseFormRegister, UseFormSetValue } from 'react-hook-form';
+import { useEffect, useState } from 'react';
+import { UseFormSetValue } from 'react-hook-form';
 import { PreferenceFormInputs } from '../Preference';
 
 interface DistanceInputProps {
@@ -7,6 +7,10 @@ interface DistanceInputProps {
 }
 
 const DistanceInput = ({ setValue }: DistanceInputProps) => {
+  useEffect(() => {
+    setValue('distance', 100);
+  }, []);
+
   const [filledRange, setFilledRange] = useState<number>(100);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

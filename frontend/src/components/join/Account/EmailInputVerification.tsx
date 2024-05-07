@@ -2,6 +2,7 @@ import Button from '@/components/common/Button';
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
 import { AccountFormInputs } from '../Account';
 import { useState } from 'react';
+import Input from '@/components/common/Input';
 
 interface EmailVerificationInput {
   register: UseFormRegister<AccountFormInputs>;
@@ -15,11 +16,12 @@ const EmailVerificationInput = ({ register, errors, setNextBtnDisabled }: EmailV
       <fieldset className='pb-1'>
         <legend className='mb-1 text-sm'>이메일</legend>
         <div className='flex items-center'>
-          <input
+          <Input
+            inputFor='default'
             type='email'
             placeholder='이메일'
-            {...register('email', { required: true, pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i })}
-            className='flex-grow p-2 border rounded mr-2 w-[120px]'
+            register={{ ...register('email', { required: true, pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i }) }}
+            className='flex-grow p-2 border rounded mr-2 w-full'
           />
           <Button
             size='small'
@@ -34,14 +36,17 @@ const EmailVerificationInput = ({ register, errors, setNextBtnDisabled }: EmailV
       <fieldset className='pb-1'>
         <legend className='mb-1 text-sm'>인증번호</legend>
         <div className='flex items-center'>
-          <input
+          <Input
+            inputFor='default'
             type='text'
             placeholder='인증번호'
-            {...register('verificationCode', {
-              required: true,
-              pattern: /^[0-9]{6}$/,
-            })}
-            className='flex-grow p-2 border rounded mr-2  w-[120px]'
+            register={{
+              ...register('verificationCode', {
+                required: true,
+                pattern: /^[0-9]{6}$/,
+              }),
+            }}
+            className='flex-grow p-2 border rounded mr-2  w-full'
           />
           <Button
             size='small'
