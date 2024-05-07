@@ -11,7 +11,6 @@ export const transactionWrapper =
       return response;
     } catch (error) {
       await conn.rollback();
-      logger.error('트랜잭션 단계 에러', error);
       throw error;
     }
   };
