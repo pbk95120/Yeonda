@@ -1,16 +1,21 @@
-import { Link } from 'react-router-dom';
-
-import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 
 const OthersDiaryHeader = () => {
   const [selectedLink, setSelectedLink] = useState<string>('suggestion');
+  const navigate = useNavigate(); // useNavigate 훅 사용
+
+  useEffect(() => {
+    navigate('/othersdiary/suggestion');
+  }, [navigate]);
 
   const handleClick = (link: string) => {
     setSelectedLink(link);
   };
+
   return (
-    <>
-      <div className='flex justify-center gap-[80px] items-center mb-[21px] text-sm'>
+    <div className=' border-b border-lightgray'>
+      <div className='flex justify-center gap-[80px] items-center my-[15px] text-sm'>
         <Link
           to='/othersdiary/suggestion'
           onClick={() => handleClick('suggestion')}
@@ -26,7 +31,7 @@ const OthersDiaryHeader = () => {
           Popular
         </Link>
       </div>
-    </>
+    </div>
   );
 };
 

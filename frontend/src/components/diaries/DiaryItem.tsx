@@ -8,26 +8,40 @@ interface DiaryItemProps {
   isDetailPage?: boolean;
   isEditing?: boolean;
   isSuggestionPage?: boolean;
+  isMyDiaryPage?: boolean;
+  isPopularPage?: boolean;
 }
 
-const DiaryItem = ({ diary, isDetailPage = true, isEditing = false, isSuggestionPage = true }: DiaryItemProps) => {
+const DiaryItem = ({
+  diary,
+  isMyDiaryPage,
+  isDetailPage = false,
+  isEditing = false,
+  isSuggestionPage = false,
+  isPopularPage = false,
+}: DiaryItemProps) => {
   const renderTitle = () => {
     if (isEditing) {
       return <input className='text-[26px]' value={diary.title} />;
     }
-    return <h1 className='text-[26px]'>{diary.title}</h1>;
+    return <h1 className='text-[26px] font-diary'>{diary.title}</h1>;
   };
 
-  const renderInfo = () => {
+  const renderDate = () => {
     if (isEditing) return null;
     if (isSuggestionPage) return null;
+    if (isPopularPage) return null;
+    return <span className='text-lightgray'>{formatDate(diary.created_at)}</span>;
+  };
+
+  const renderLike = () => {
+    if (isEditing) return null;
+    if (isSuggestionPage) return null;
+
     return (
-      <div className='flex gap-[130px] font-sans text-xs'>
-        <span className='text-lightgray'>{formatDate(diary.created_at)}</span>
-        <div className='flex gap-[5px] items-center'>
-          <RiHeartFill className='fill-pastelred' style={{ width: '18px', height: '18px' }} />
-          <span>{formatNumber(diary.likes)}</span>
-        </div>
+      <div className='flex gap-[5px] items-center'>
+        <RiHeartFill className='fill-pastelred' style={{ width: '18px', height: '18px' }} />
+        <span>{formatNumber(diary.likes)}</span>
       </div>
     );
   };
@@ -36,15 +50,15 @@ const DiaryItem = ({ diary, isDetailPage = true, isEditing = false, isSuggestion
     if (isEditing) {
       return <textarea className='text-lg my-[20px] w-[320px] h-[220px]' value={diary.content} />;
     }
-    const contentClassName = isDetailPage ? '' : 'text-ellipsis line-clamp-4';
+    const contentClassName = isMyDiaryPage ? 'text-ellipsis line-clamp-4' : '';
     return <div className={`text-lg my-[20px] ${contentClassName}`}>{diary.content}</div>;
   };
 
   const renderTag = () => {
     return (
       <div className='flex gap-[16px]'>
-        {diary.tags.map((item) => (
-          <div className='flex text-xl items-center' key={item}>
+        {diary.tags.map((item, idx) => (
+          <div className='flex text-xl items-center' key={idx}>
             <span className='text-lightgray'>
               <RiHashtag />
             </span>
@@ -56,17 +70,21 @@ const DiaryItem = ({ diary, isDetailPage = true, isEditing = false, isSuggestion
   };
 
   const DiaryComponent = (
-    <div className='border-t border-lightgray'>
+    <div className={`${isMyDiaryPage ? 'border-b border-lightgray' : ''}`}>
       <div className='my-[20px] mx-auto font-diary w-[316px]'>
-        {renderTitle()}
-        {renderInfo()}
+        {isPopularPage ? '' : renderTitle()}
+        <div className={`flex justify-between font-sans text-xs `}>
+          {isPopularPage ? renderTitle() : ''}
+          {renderDate()}
+          {renderLike()}
+        </div>
         {renderContent()}
         {renderTag()}
       </div>
     </div>
   );
 
-  return isDetailPage ? DiaryComponent : <Link to={`/mydiary/${diary.id}`}>{DiaryComponent}</Link>;
+  return isMyDiaryPage ? <Link to={`/mydiary/${diary.id}`}>{DiaryComponent}</Link> : DiaryComponent;
 };
 
 export default DiaryItem;
