@@ -48,7 +48,7 @@ export const confirmPasswordReset: Controller = async (req, res, next) => {
 
   const token = req.cookies['access-token'];
   const email = await getEmailFromToken(token);
-  const encryptPassword = getEncryptPassword(req.body.password);
+  const encryptPassword = await getEncryptPassword(req.body.password);
   await databaseConnector(changePassword)(email, encryptPassword);
 
   res.sendStatus(http.OK);
