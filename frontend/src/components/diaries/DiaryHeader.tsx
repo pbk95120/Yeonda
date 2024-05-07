@@ -2,7 +2,7 @@ import type { DiaryHeader } from '@/types/type';
 
 const DiaryHeader = ({ diariesData }: { diariesData: DiaryHeader }) => {
   return (
-    <div className=' border-b border-lightgray'>
+    <div className='border-b border-lightgray'>
       <div className='flex justify-between items-center mb-[21px] mx-[18px] '>
         <div>
           <span className='text-2xl'>{diariesData.nickname}</span>

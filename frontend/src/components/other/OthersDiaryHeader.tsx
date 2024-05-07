@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 
 const OthersDiaryHeader = () => {
   const [selectedLink, setSelectedLink] = useState<string>('suggestion');
-  const navigate = useNavigate(); // useNavigate 훅 사용
+  const navigate = useNavigate();
 
   useEffect(() => {
     navigate('/othersdiary/suggestion');

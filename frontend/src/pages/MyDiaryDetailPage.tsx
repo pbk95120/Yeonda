@@ -14,7 +14,7 @@ const MyDiaryDetailPage = () => {
   const { id } = useParams();
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [toast, setToast] = useState<boolean>(false);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false); // Modal의 상태 추가
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const editSuccess = () => {
     setIsEditing(false);
