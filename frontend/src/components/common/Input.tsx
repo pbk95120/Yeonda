@@ -1,6 +1,7 @@
 import { cls } from '@/utils/cls';
 import { RiDiscountPercentFill } from 'react-icons/ri';
 import { BsSearchHeart } from 'react-icons/bs';
+import { LuImagePlus } from 'react-icons/lu';
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   className?: string;
@@ -32,6 +33,18 @@ const Input = ({ className, placeholder, inputFor, ...props }: InputProps) => {
           <span>
             <RiDiscountPercentFill className='fill-pastelred' />
           </span>
+        </div>
+      </div>
+    );
+  }
+  if (inputFor === 'image') {
+    return (
+      <div className='flex items-center justify-center m-2'>
+        <div className='w-[341px] h-[141px] flex items-center cursor-pointer text-lightgray hover:border-pastelred hover:text-pastelred justify-center border-2 border-dashed rounded-lg border-lightgray'>
+          <label>
+            <LuImagePlus className='w-12 h-12' />
+            <input className='hidden' type='file' />
+          </label>
         </div>
       </div>
     );
