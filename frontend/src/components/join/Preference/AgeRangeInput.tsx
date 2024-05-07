@@ -1,30 +1,78 @@
-import { FieldErrors, FieldValues, UseFormRegister } from 'react-hook-form';
+import { UseFormSetValue } from 'react-hook-form';
 import { PreferenceFormInputs } from '../Preference';
+import { useEffect, useState } from 'react';
 
 interface AgeRangeInputProps {
-  register: UseFormRegister<PreferenceFormInputs>;
-  errors: FieldErrors<FieldValues>;
+  setValue: UseFormSetValue<PreferenceFormInputs>;
 }
 
-const AgeRangeInput = ({ register, errors }: AgeRangeInputProps) => {
+const AgeRangeInput = ({ setValue }: AgeRangeInputProps) => {
+  const [minAge, setMinAge] = useState<number>(0);
+  const [maxAge, setMaxAge] = useState<number>(100);
+
+  const calculateBackground = (min: number, max: number, total: number) => {
+    const minPercentage = (min / total) * 100;
+    const maxPercentage = (max / total) * 100;
+    return `linear-gradient(90deg, #EAEBEE ${minPercentage}%, #FFC7C7 ${minPercentage}%, #FFC7C7 ${maxPercentage}%, #EAEBEE ${maxPercentage}%)`;
+  };
+
+  const handleMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = parseInt(e.target.value);
+    setMinAge(newValue);
+    if (newValue >= maxAge) {
+      setMaxAge(newValue);
+      setValue('endAge', newValue);
+    }
+    setValue('startAge', newValue);
+  };
+
+  const handleMaxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = parseInt(e.target.value);
+    setMaxAge(newValue);
+    if (newValue <= minAge) {
+      setMinAge(newValue);
+      setValue('startAge', newValue);
+    }
+    setValue('endAge', newValue);
+  };
+
+  useEffect(() => {
+    setValue('startAge', minAge);
+    setValue('endAge', maxAge);
+  }, [minAge, maxAge]);
+
   return (
     <fieldset className='pb-2'>
       <legend className='text-sm pb-2'>선호 나이</legend>
-      <div className='flex gap-x-2'>
-        <input
-          type='number'
-          placeholder='최소 나이'
-          {...register('startAge', { required: true, max: 100, min: 1 })}
-          className='flex-grow p-2 border rounded  w-full'
-        />
-        <input
-          type='number'
-          placeholder='최대 나이'
-          {...register('endAge', { required: true, max: 100, min: 1 })}
-          className='flex-grow p-2 border rounded  w-full'
-        />
-      </div>
-      {(errors.startAge || errors.endAge) && <span className='text-red text-xs'>선호 나이를 선택해주세요.</span>}{' '}
+
+      <fieldset className='pb-2'>
+        <legend className='text-sm pb-2 flex w-full justify-between'>
+          <span>나이</span>
+          <span className='text-sm'>
+            {minAge} - {maxAge}
+          </span>
+        </legend>
+        <div>
+          <input
+            type='range'
+            className='w-full appearance-none h-2 rounded-full accent-pastelpeach  translate-y-3'
+            style={{
+              background: calculateBackground(minAge, maxAge, 100),
+            }}
+            onChange={handleMinChange}
+            value={minAge}
+          />
+          <input
+            type='range'
+            className='w-full appearance-none h-2 rounded-full accent-pastelpeach -translate-y-3'
+            style={{
+              background: calculateBackground(minAge, maxAge, 100),
+            }}
+            onChange={handleMaxChange}
+            value={maxAge}
+          />
+        </div>
+      </fieldset>
     </fieldset>
   );
 };

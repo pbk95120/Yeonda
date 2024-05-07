@@ -19,7 +19,7 @@ const PreferGenderModal = ({
 }: PreferGenderModalProps) => {
   return (
     <div
-      className='fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50'
+      className='fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 '
       onClick={handleBackgroundClick}
     >
       <div className='bg-white rounded-lg p-4'>

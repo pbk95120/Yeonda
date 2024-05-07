@@ -57,8 +57,8 @@ const Preference = ({ setPage, setGender, setPreferGender, setDistance, setStart
         <div className='items-center justify-center mb-20'>
           <GenderSelection setValue={setValue} isSubmitted={isSubmitted} />
           <PreferGenderSelection setValue={setValue} isSubmitted={isSubmitted} />
-          <DistanceInput register={register} errors={errors} />
-          <AgeRangeInput register={register} errors={errors} />
+          <DistanceInput setValue={setValue} />
+          <AgeRangeInput setValue={setValue} />
         </div>
         <div className='flex items-center gap-x-2'>
           <Button
