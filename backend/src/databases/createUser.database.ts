@@ -1,16 +1,23 @@
-import { ERR } from '@middlewares/errorHandler';
 import { transactionWrapper } from '@middlewares/transactionWrapper';
 import { Signup } from '@schemas/signup.schema';
+import CustomError from '@src/error';
+import { saveFile } from '@src/utils/saveFile';
 import { getGeoCode } from '@utils/getGeoCode';
+import http from 'http-status-codes';
 import { Connection, ResultSetHeader } from 'mysql2/promise';
 
-export const insertUser = async (conn: Connection, info: Signup): Promise<void> => {
+export const insertUser = async (
+  conn: Connection,
+  info: Signup,
+  data: any,
+  file: Express.Multer.File,
+): Promise<void> => {
   const { user, address, preference, user_tag } = info;
 
   let sql = 'select id from user where email = :email';
   let values: {} = { email: user.email };
   let [result] = await conn.execute(sql, values);
-  if (result[0]) throw new Error(ERR.Conflict);
+  if (result[0]) throw new CustomError(http.CONFLICT, '이미 가입된 사용자 있음');
 
   const geoCode = await getGeoCode(address);
 
@@ -65,6 +72,8 @@ export const insertUser = async (conn: Connection, info: Signup): Promise<void> 
       };
       await conn.execute(sql, values);
     }
+
+    saveFile(data.picture_url, file.buffer);
   };
 
   await transactionWrapper(conn, callback)(address_id);

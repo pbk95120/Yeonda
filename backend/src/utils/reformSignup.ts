@@ -1,12 +1,8 @@
 import { RawSignupPicUrl, RawSignupSchema, Signup } from '@schemas/signup.schema';
-import logger from '../logger';
 
 export const reformSignup = (data: RawSignupPicUrl): [Signup, Error] => {
   const { error } = RawSignupSchema.validate(data);
-  if (error) {
-    logger.error('회원 가입 필요 데이터 유효성 검사 실패', error);
-    return [null, error];
-  }
+  if (error) return [null, error];
 
   return [
     {

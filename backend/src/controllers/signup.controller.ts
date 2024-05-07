@@ -1,14 +1,12 @@
 import { insertUser } from '@databases/createUser.database';
 import { selectTagNames } from '@databases/getSignupInfo.database';
 import { databaseConnector } from '@middlewares/databaseConnector';
-import { ERR } from '@middlewares/errorHandler';
-import { isError } from '@middlewares/isError';
 import { Controller } from '@schemas/controller.schema';
 import { SignupInfo } from '@schemas/signup.schema';
+import CustomError from '@src/error';
 import { getEncryptPassword } from '@utils/getEncryptPassword';
 import { reformImg } from '@utils/reformImg';
 import { reformSignup } from '@utils/reformSignup';
-import { saveFile } from '@utils/saveFile';
 import http from 'http-status-codes';
 
 export const getSignupInfo: Controller = async (req, res, next) => {
@@ -26,15 +24,11 @@ export const createUser: Controller = async (req, res, next) => {
   data.picture_url = url;
 
   const [info, error] = reformSignup(data);
-  if (isError(next, error, ERR.BadRequest)) return;
+  if (error) throw new CustomError(http.BAD_REQUEST, '잘못된 회원 가입 요청 양식', error);
 
   info.user.password = await getEncryptPassword(info.user.password);
 
-  const result = await databaseConnector(insertUser)(info);
-  if (isError(next, result)) return;
-
-  const save = saveFile(data.picture_url, file.buffer);
-  isError(next, save);
+  await databaseConnector(insertUser)(info, data, file);
 
   res.sendStatus(http.CREATED);
 };

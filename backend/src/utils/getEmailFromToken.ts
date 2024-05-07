@@ -1,6 +1,7 @@
+import CustomError from '@src/error';
 import 'dotenv/config';
+import http from 'http-status-codes';
 import jwt from 'jsonwebtoken';
-import { ERR } from '../middlewares/errorHandler';
 
 const { JWT_SECRET } = process.env;
 
@@ -10,7 +11,7 @@ export const getEmailFromToken = async (token: string): Promise<string> => {
       email: string;
     };
     return decoded.email;
-  } catch (err) {
-    throw new Error(ERR.Unauthorized);
+  } catch (error) {
+    throw new CustomError(http.UNAUTHORIZED, '토큰에서 이메일을 추출할 수 없음', error);
   }
 };
