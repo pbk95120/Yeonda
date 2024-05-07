@@ -2,54 +2,54 @@ import ChatList from '@/components/chat/ChatList';
 
 const ChatPage = () => {
   const mockMessages = [
-    { id: 1, nickname: 'nickname', message: '최근 메세지 내역입니다.', isnt_read: 3 },
+    { id: 1, nickname: 'nickname', message: '최근 메세지 내역입니다.', is_read: 3 },
     {
       id: 2,
       nickname: 'nickname',
       message: '최근 메세지 내역입니다. 최근 메세지 내역입니다. 최근 메세지 내역입니다.',
-      isnt_read: 0,
+      is_read: 0,
     },
     {
       id: 3,
       nickname: 'nickname',
       message: '최근 메세지 내역입니다. 최근 메세지 내역입니다. 최근 메세지 내역입니다.',
-      isnt_read: 0,
+      is_read: 0,
     },
     {
       id: 4,
       nickname: 'nickname',
       message: '최근 메세지 내역입니다. 최근 메세지 내역입니다. 최근 메세지 내역입니다.',
-      isnt_read: 1,
+      is_read: 1,
     },
     {
       id: 5,
       nickname: 'nickname',
       message: '최근 메세지 내역입니다. 최근 메세지 내역입니다. 최근 메세지 내역입니다.',
-      isnt_read: 2,
+      is_read: 2,
     },
     {
       id: 6,
       nickname: 'nickname',
       message: '최근 메세지 내역입니다. 최근 메세지 내역입니다. 최근 메세지 내역입니다.',
-      isnt_read: 3,
+      is_read: 3,
     },
     {
       id: 7,
       nickname: 'nickname',
       message: '최근 메세지 내역입니다. 최근 메세지 내역입니다. 최근 메세지 내역입니다.',
-      isnt_read: 9,
+      is_read: 9,
     },
     {
       id: 8,
       nickname: 'nickname',
       message: '최근 메세지 내역입니다. 최근 메세지 내역입니다. 최근 메세지 내역입니다.',
-      isnt_read: 9,
+      is_read: 9,
     },
     {
       id: 9,
       nickname: 'nickname',
       message: '최근 메세지 내역입니다. 최근 메세지 내역입니다. 최근 메세지 내역입니다.',
-      isnt_read: 9,
+      is_read: 9,
     },
   ];
 
@@ -60,13 +60,7 @@ const ChatPage = () => {
       </section>
       <section>
         {mockMessages.map((msg) => (
-          <ChatList
-            key={msg.id}
-            id={msg.id}
-            nickName={msg.nickname}
-            message={msg.message}
-            pendingRead={msg.isnt_read}
-          />
+          <ChatList key={msg.id} id={msg.id} nickName={msg.nickname} message={msg.message} pendingRead={msg.is_read} />
         ))}
       </section>
     </>

@@ -1,18 +1,25 @@
 import { useState, useEffect } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import { ChatProfileProps } from '@/types/type';
+import { useNavigate } from 'react-router-dom';
 import Modal from '@/components/common/Modal';
 
 /**
  * 채팅 상대 프로필 페이지 컴포넌트
  */
 const ChatProfile = ({ profileImage, nickName }: ChatProfileProps) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [scroll, setScroll] = useState<boolean>(false);
+
+  const controls = useAnimation();
+  const navigate = useNavigate();
+
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
-
-  const [scroll, setScroll] = useState(false);
-  const controls = useAnimation();
+  const deleteChat = () => {
+    console.log('삭제완료');
+    navigate('/chat');
+  };
 
   useEffect(() => {
     const mainContent = document.getElementById('main-content');
@@ -26,13 +33,13 @@ const ChatProfile = ({ profileImage, nickName }: ChatProfileProps) => {
 
       if (scroll) {
         controls.start({
-          paddingBottom: '3rem',
-          transition: { duration: 0.7, ease: 'easeInOut' },
+          height: '2.5rem',
+          transition: { duration: 0.2, ease: 'easeInOut' },
         });
       } else {
         controls.start({
-          paddingBottom: '4rem',
-          transition: { duration: 0.7, ease: 'easeInOut' },
+          height: 'auto',
+          transition: { duration: 0.2, ease: 'easeInOut' },
         });
       }
 
@@ -44,9 +51,8 @@ const ChatProfile = ({ profileImage, nickName }: ChatProfileProps) => {
 
   return (
     <motion.div
-      className='flex flex-col items-center justify-center pb-12'
+      className='flex flex-col items-center justify-center py-12 z-10'
       style={{
-        paddingTop: scroll ? '3rem' : '4rem',
         height: scroll ? '2.5rem' : 'auto',
       }}
       animate={controls}
@@ -56,13 +62,13 @@ const ChatProfile = ({ profileImage, nickName }: ChatProfileProps) => {
         alt='profile'
         className='rounded-full'
         animate={scroll ? { x: 140, y: 55, scale: 0.15 } : { x: 0.1, scale: 1 }}
-        transition={{ duration: 0.7, ease: 'easeInOut' }}
+        transition={{ duration: 0.8, ease: 'easeInOut' }}
       />
       <motion.p
         className='mt-4 text-2xl font-bold'
         initial={{ x: 0, scale: 1 }}
         animate={scroll ? { x: -120, y: -110, scale: 0.8 } : { x: 0, scale: 1 }}
-        transition={{ duration: 0.7, ease: 'easeInOut' }}
+        transition={{ duration: 0.8, ease: 'easeInOut' }}
       >
         {nickName}
       </motion.p>
@@ -79,6 +85,7 @@ const ChatProfile = ({ profileImage, nickName }: ChatProfileProps) => {
         closeModal={closeModal}
         cautionMsg='정말 유저와의 채팅을 삭제하시겠습니까?'
         purposeMsg='차단 및 채팅 삭제'
+        onClick={deleteChat}
       />
     </motion.div>
   );

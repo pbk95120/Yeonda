@@ -3,9 +3,6 @@ import DiariesList from '@/components/diaries/DiariesList';
 import diariesData from '@/mocks/diaryData';
 
 const UserDiary = () => {
-  // const { diariesData, isDiariesLoading, error } = useDiaries();
-  // if (error) return <div>{error}</div>;
-  // if (isDiariesLoading) return <div>Loading...</div>;
   const [scroll, setScroll] = useState(false);
 
   useEffect(() => {
