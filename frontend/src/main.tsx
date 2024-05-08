@@ -182,6 +182,7 @@ const routeList = [
     value: '일기 작성',
     backBtn: false,
     cancelStr: true,
+    complete: true,
   },
   {
     path: '/chat',
@@ -226,6 +227,7 @@ const router = createBrowserRouter(
               backBtn={item.backBtn}
               cancelStr={item.cancelStr}
               setting={item.setting ? item.setting : null}
+              complete={item.complete ? item.complete : null}
             >
               {item.element}
             </Layout>
