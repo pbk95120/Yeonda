@@ -24,3 +24,5 @@ export class MyProfile implements IMyProfile {
     this.tags = tags;
   }
 }
+
+export interface MySetting extends Pick<User, 'picture_url'>, Pick<Address, 'detail'> {}
