@@ -8,6 +8,7 @@ import 'dotenv/config';
 import express from 'express';
 import http from 'http';
 import { Server } from 'socket.io';
+import socketHandler from '@sockets/index';
 
 const app = express();
 
@@ -30,5 +31,7 @@ const io = new Server(server, {
   },
   pingTimeout: 120000,
 });
+
+socketHandler(io);
 
 export { server, io };
