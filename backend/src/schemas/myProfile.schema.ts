@@ -1,6 +1,6 @@
-import { Address } from '@src/models/address.model';
-import { Tag } from '@src/models/tag.model';
-import { User } from '@src/models/user.model';
+import { Address } from '@models/address.model';
+import { Tag } from '@models/tag.model';
+import { User } from '@models/user.model';
 
 interface IMyProfile
   extends Pick<User, 'email' | 'nickname' | 'gender' | 'birth' | 'picture_url'>,

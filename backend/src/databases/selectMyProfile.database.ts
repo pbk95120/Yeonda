@@ -1,5 +1,5 @@
+import { MyProfile } from '@schemas/myProfile.schema';
 import CustomError from '@src/error';
-import { MyProfile } from '@src/schemas/myProfile.schema';
 import http from 'http-status-codes';
 import { Connection } from 'mysql2/promise';
 

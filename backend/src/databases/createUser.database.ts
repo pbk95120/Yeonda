@@ -1,8 +1,8 @@
 import { transactionWrapper } from '@middlewares/transactionWrapper';
 import { RawSignupPicUrl, Signup } from '@schemas/signup.schema';
 import CustomError from '@src/error';
-import { saveFile } from '@src/utils/saveFile';
 import { getGeoCode } from '@utils/getGeoCode';
+import { saveFile } from '@utils/saveFile';
 import http from 'http-status-codes';
 import { Connection, ResultSetHeader } from 'mysql2/promise';
 

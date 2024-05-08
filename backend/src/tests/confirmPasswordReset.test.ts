@@ -1,9 +1,9 @@
 import { databaseConnector } from '@middlewares/databaseConnector';
 import app from '@src/app';
 import Database from '@src/db';
-import { getEmailFromToken } from '@src/utils/getEmailFromToken';
-import { getEncryptPassword } from '@src/utils/getEncryptPassword';
-import { issueToken } from '@src/utils/issueToken';
+import { getEmailFromToken } from '@utils/getEmailFromToken';
+import { getEncryptPassword } from '@utils/getEncryptPassword';
+import { issueToken } from '@utils/issueToken';
 import http from 'http-status-codes';
 import { Connection } from 'mysql2/promise';
 import request from 'supertest';

@@ -1,6 +1,6 @@
 import app from '@src/app';
 import Database from '@src/db';
-import { issueToken } from '@src/utils/issueToken';
+import { issueToken } from '@utils/issueToken';
 import http from 'http-status-codes';
 import request from 'supertest';
 

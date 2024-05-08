@@ -1,8 +1,8 @@
+import { Address } from '@models/address.model';
+import { Preference } from '@models/preference.model';
 import { Tag, TagName } from '@models/tag.model';
-import { Address } from '@src/models/address.model';
-import { Preference } from '@src/models/preference.model';
-import { User } from '@src/models/user.model';
-import { PasswordConfirm } from '@src/schemas/passwordReset.schema';
+import { User } from '@models/user.model';
+import { PasswordConfirm } from '@schemas/passwordReset.schema';
 import Joi from 'joi';
 
 export interface RawSignup

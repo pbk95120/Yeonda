@@ -1,3 +1,4 @@
+import { changePassword } from '@databases/changePassword.database';
 import { sendPasswordResetEmail } from '@databases/sendPasswordResetEmail.database';
 import { validatePasswordResetCode } from '@databases/validatePasswordResetCode.database';
 import { databaseConnector } from '@middlewares/databaseConnector';
@@ -9,7 +10,6 @@ import {
   PasswordResetVerify,
   PasswordResetVerifySchema,
 } from '@schemas/passwordReset.schema';
-import { changePassword } from '@src/databases/changePassword.database';
 import CustomError from '@src/error';
 import { getEncryptPassword } from '@utils/getEncryptPassword';
 import { issueToken } from '@utils/issueToken';
