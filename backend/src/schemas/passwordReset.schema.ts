@@ -1,4 +1,4 @@
-import { PasswordSchema } from '@schemas/signup.schema';
+import { EmailSchema, PasswordSchema } from '@schemas/signup.schema';
 import { User } from '@src/models/user.model';
 import Joi from 'joi';
 
@@ -23,7 +23,8 @@ export interface PasswordConfirm extends Pick<User, 'password'> {
   password_check: string;
 }
 
-export const PasswordConfirmSchema = Joi.object<PasswordConfirm>({
+export const PasswordConfirmSchema = Joi.object({
+  email: EmailSchema,
   password: PasswordSchema,
   password_check: Joi.string().valid(Joi.ref('password')).required(),
 });

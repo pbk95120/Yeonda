@@ -20,6 +20,8 @@ export interface RawSignupPicUrl extends RawSignup {
   picture_url: string;
 }
 
+export const EmailSchema = Joi.string().email().max(320).required();
+
 export const PasswordSchema = Joi.string()
   .min(5)
   .max(20)
@@ -28,7 +30,7 @@ export const PasswordSchema = Joi.string()
 
 export const RawSignupSchema = Joi.object({
   nickname: Joi.string().max(20).required(),
-  email: Joi.string().email().required(),
+  email: EmailSchema,
   password: PasswordSchema,
   password_check: Joi.string().valid(Joi.ref('password')).required(),
   gender: Joi.string().valid('Male', 'Female').required(),
