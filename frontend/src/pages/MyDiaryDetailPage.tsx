@@ -61,7 +61,7 @@ const MyDiaryDetailPage = () => {
           <Modal
             isOpen={isModalOpen}
             closeModal={() => setIsModalOpen(false)}
-            onClick={() => navigate('/mydiary', { state: true })}
+            onClick={() => navigate('/mydiary', { state: '삭제가 완료되었습니다.' })}
             purposeMsg='일기 삭제'
             cautionMsg='한번 삭제한 일기는 되돌릴 수 없습니다. 정말 삭제하시겠습니까?'
           />

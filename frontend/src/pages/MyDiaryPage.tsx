@@ -13,11 +13,15 @@ const MyDiary = () => {
   // if (error) return <div>{error}</div>;
   // if (isDiariesLoading) return <div>Loading...</div>;
   const [toast, setToast] = useState<boolean>(false);
+  const [value, setValue] = useState<string>('');
   const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
-    setToast(location.state);
+    if (location.state) {
+      setToast(true);
+      setValue(location.state);
+    }
     navigate(location.pathname, { replace: true });
   }, []);
 
@@ -39,14 +43,7 @@ const MyDiary = () => {
           </div>
         </Dropdown>
       </div>
-      {toast && (
-        <Toast
-          className='left-[50%] -translate-x-1/2'
-          value='삭제가 완료되었습니다.'
-          valid={true}
-          setToast={setToast}
-        />
-      )}
+      {toast && <Toast className='left-[50%] -translate-x-1/2' value={value} valid={true} setToast={setToast} />}
       <DiariesList isMyDiaryPage={true} diariesData={diariesData} />
     </div>
   );
