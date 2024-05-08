@@ -47,7 +47,7 @@ const MyDiary = () => {
           setToast={setToast}
         />
       )}
-      <DiariesList diariesData={diariesData} />
+      <DiariesList isMyDiaryPage={true} diariesData={diariesData} />
     </div>
   );
 };

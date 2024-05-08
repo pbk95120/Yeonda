@@ -7,8 +7,8 @@ import { FaHeart } from 'react-icons/fa';
 const DiarySuggestionPage = () => {
   return (
     <div>
-      <DiaryItem diary={diariesData[0]} />
-      <div className='flex justify-center w-full gap-[83px]'>
+      <DiaryItem diary={diariesData[0]} isSuggestionPage={true} />
+      <div className='flex justify-center w-full gap-[83px] absolute bottom-[100px]'>
         <button className='flex items-center justify-center rounded-full w-[54px] h-[54px] bg-white border border-lightgray shadow-lg'>
           <Cancel />
         </button>
