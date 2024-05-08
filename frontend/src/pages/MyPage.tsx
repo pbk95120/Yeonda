@@ -15,7 +15,11 @@ const MyPage = () => {
       <div className='flex flex-row'>
         <div className=''>32세</div>
         <div className=''></div>
-        <Input inputFor='search'></Input>
+        <div>
+          {' '}
+          <Input inputFor='search' placeholder='검색'></Input>
+          <Input inputFor='default' placeholder='검색'></Input>
+        </div>
       </div>
     </div>
   );
