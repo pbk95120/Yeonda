@@ -16,7 +16,7 @@ interface HeaderProps {
  */
 const MainHeader = ({ value, onlyLogo, setting, backBtn, cancelStr }: HeaderProps) => {
   return (
-    <div className='flex flex-row w-full max-w-sm h-20 relative '>
+    <header className='flex flex-row w-full max-w-sm h-20 relative '>
       {onlyLogo ? (
         <div className='flex h-20 justify-between items-center w-full relative'>
           {backBtn ? (
@@ -48,7 +48,7 @@ const MainHeader = ({ value, onlyLogo, setting, backBtn, cancelStr }: HeaderProp
           ) : null}
         </div>
       )}
-    </div>
+    </header>
   );
 };
 

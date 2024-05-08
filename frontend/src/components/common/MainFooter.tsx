@@ -13,7 +13,7 @@ const MainFooter = () => {
   const currentPage = location.pathname;
   return (
     <>
-      <div id='tab container' className='flex flex-row justify-around items-center w-full h-20 absolute bottom-0'>
+      <footer id='tab container' className='flex flex-row justify-around items-center w-full h-20 absolute bottom-0'>
         <Link to='/othersdiary/suggestion'>
           <MdOutlineMenuBook
             className={cls(
@@ -59,7 +59,7 @@ const MainFooter = () => {
             )}
           />
         </Link>
-      </div>
+      </footer>
     </>
   );
 };

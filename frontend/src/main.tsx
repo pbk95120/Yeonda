@@ -112,7 +112,6 @@ const routeList = [
   {
     path: '/mydiary',
     element: <MyDiaryPage />,
-    showHeader: true,
     showFooter: true,
     onlyLogo: true,
     value: '내 일기',
