@@ -12,7 +12,7 @@ afterAll(async () => {
   Database.closePool();
 });
 
-describe('GET /profile/my 회원 정보 가져오기', () => {
+describe('GET /profile/my 회원 기본 정보 가져오기', () => {
   it('정상 요청', async () => {
     const token = issueToken('constant@gmail.com');
     const response = await request(app).get('/profile/my').set('Cookie', `access-token=${token}`);
