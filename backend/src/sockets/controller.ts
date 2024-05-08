@@ -1,6 +1,6 @@
 import { Socket } from 'socket.io';
 import { databaseConnector, getUserIdByEmail, emailFromToken } from '@sockets/util';
-import { updateCouple, getPartnerInfo, getRecordChat, createChat } from '@sockets/database';
+import { updateCouple, getPartnerInfo, getRecordChat, createChat, deleteRoom } from '@sockets/database';
 import { updateCoupleSchema, getPartnerInfoSchema, getRecordChatSchema } from './schemas';
 import { saveFile } from '@utils/saveFile';
 import { reformImg } from '@utils/reformImg';
@@ -42,4 +42,10 @@ export const exchangeMessages = async (socket: Socket, data: any) => {
 
   const Chat = await databaseConnector(createChat)(socket, String(couple_id), message, file, is_read);
   io.to(coupleId).emit('receivemessage', Chat);
+};
+
+export const deleteState = async (socket: Socket) => {
+  const result = await databaseConnector(deleteRoom)(socket);
+  // if (!result) throw new CustomError(http.NOT_FOUND, 'TODO:');
+  socket.leave(result[0]);
 };

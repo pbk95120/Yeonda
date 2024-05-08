@@ -86,3 +86,19 @@ export const createChat = async (
   // if (result.length === 0) throw new CustomError(http.NOT_FOUND, "TODO:");
   return { user_id: user_id, message: message, picture_url: url, send_at: currentDate, is_read: is_read };
 };
+
+export const deleteRoom = async (conn: Connection, socket: Socket) => {
+  const sql = `select id from couple where user1_state = :user1_state or user2_state = :user2_state`;
+  const values = { user1_state: socket.id, user2_state: socket.id };
+  const [result] = await conn.execute(sql, values);
+  const sql_update = `UPDATE couple
+  SET 
+      user1_state = CASE WHEN user1_state = :user1_state THEN NULL ELSE user1_state END,
+      user2_state = CASE WHEN user2_state = :user2_state THEN NULL ELSE user2_state END
+  WHERE 
+      user1_state = :user1_state OR user2_state = :user2_state;
+  `;
+  const values_update = { user1_state: socket.id, user2_state: socket.id };
+  await conn.execute(sql_update, values_update);
+  return result;
+};

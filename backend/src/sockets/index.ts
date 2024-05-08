@@ -1,7 +1,7 @@
 import { Server } from 'socket.io';
 import CustomError from '@src/error';
 import http from 'http-status-codes';
-import { setupChat, exchangeMessages } from './controller';
+import { setupChat, exchangeMessages, deleteState } from './controller';
 
 const socketHandler = (io: Server) => {
   io.on('connection', (socket) => {
@@ -16,6 +16,10 @@ const socketHandler = (io: Server) => {
     socket.on('sendmessage', (data) => {
       exchangeMessages(socket, data);
       console.log('메시지 송수신');
+    });
+    socket.on('disconnect', async () => {
+      await deleteState(socket);
+      console.log('연결 종료', socket.id);
     });
   });
 };
