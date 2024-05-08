@@ -6,6 +6,8 @@ import SignupRoute from '@routes/signup.route';
 import cookieParser from 'cookie-parser';
 import 'dotenv/config';
 import express from 'express';
+import http from 'http';
+import { Server } from 'socket.io';
 
 const app = express();
 
@@ -20,4 +22,13 @@ app.use('/password/reset', PasswordResetRoute);
 
 app.use(errorHandler);
 
-export default app;
+const server = http.createServer(app);
+const io = new Server(server, {
+  path: process.env.PATH,
+  cors: {
+    origin: process.env.CORS_ALLOWED_ORIGIN,
+  },
+  pingTimeout: 120000,
+});
+
+export { server, io };
