@@ -1,4 +1,5 @@
 import { selectOpponentId, selectOpponentInfo, selectChats } from '@databases/getChatlist.database';
+import { archiveCouple } from '@databases/deleteRelationship.database';
 import { databaseConnector } from '@middlewares/databaseConnector';
 import { Controller } from '@schemas/controller.schema';
 import CustomError from '@src/error';
@@ -19,4 +20,11 @@ export const getChatlist: Controller = async (req, res) => {
   } else {
     res.status(http.NOT_FOUND).json({ error: '일치하는 정보를 얻지 못했습니다' });
   }
+};
+
+export const deleteRelationship: Controller = async (req, res) => {
+  const email = req.body.email;
+  const user2_id = req.params.user2_id;
+
+  await databaseConnector(archiveCouple)(email, user2_id);
 };
