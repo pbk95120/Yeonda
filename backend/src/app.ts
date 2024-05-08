@@ -16,16 +16,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
-app.use('/signup', SignupRoute);
-app.use('/login', LoginRoute);
-app.use('/logout', LogoutRoute);
-app.use('/password/reset', PasswordResetRoute);
-
-app.use(errorHandler);
-
 const server = http.createServer(app);
 const io = new Server(server, {
-  path: process.env.PATH,
+  path: '/chat',
   cors: {
     origin: process.env.CORS_ALLOWED_ORIGIN,
   },
@@ -33,5 +26,12 @@ const io = new Server(server, {
 });
 
 socketHandler(io);
+
+app.use('/signup', SignupRoute);
+app.use('/login', LoginRoute);
+app.use('/logout', LogoutRoute);
+app.use('/password/reset', PasswordResetRoute);
+
+app.use(errorHandler);
 
 export { server, io };
