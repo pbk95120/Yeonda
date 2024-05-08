@@ -20,7 +20,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div className='w-full h-full mt-10 px-10'>
+    <div className='w-full mt-10 px-10'>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className='items-center justify-center mb-40'>
           <fieldset className='pb-2'>

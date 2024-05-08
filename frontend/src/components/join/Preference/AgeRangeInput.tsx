@@ -9,11 +9,11 @@ interface AgeRangeInputProps {
 }
 
 const AgeRangeInput = ({ setValue, getValues }: AgeRangeInputProps) => {
-  const [age, setAge] = useState([0, 100]);
+  const [age, setAge] = useState([20, 80]);
 
   useEffect(() => {
-    setValue('startAge', 0);
-    setValue('endAge', 100);
+    setValue('startAge', 20);
+    setValue('endAge', 80);
   }, []);
 
   const handleChange = (_: Event, newValue: number | number[]) => {
@@ -25,7 +25,7 @@ const AgeRangeInput = ({ setValue, getValues }: AgeRangeInputProps) => {
   };
 
   return (
-    <fieldset className='pb-2'>
+    <fieldset className='pb-2 mb-4'>
       <legend className='text-sm pb-2 flex w-full justify-between'>
         <span>선호 나이</span>
         <span className='text-sm'>

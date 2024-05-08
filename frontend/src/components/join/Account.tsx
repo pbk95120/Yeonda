@@ -49,23 +49,28 @@ const Account = ({
   const [nextBtnDisabled, setNextBtnDisabled] = useState<boolean>(true);
 
   return (
-    <div className='w-full h-full mt-10 px-10'>
+    <div className='w-full px-10'>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className='items-start justify-center'>
           <NicknameInput register={register} errors={errors} />
           <EmailVerificationInput register={register} errors={errors} setNextBtnDisabled={setNextBtnDisabled} />
           <PasswordInput register={register} errors={errors} getValues={getValues} />
-        </div>
-        <div className='flex flex-col items-center justify-center pt-4'>
-          <Button size='large' color='pastelred' children='다음' disabled={nextBtnDisabled} />
           <button
+            className='absolute top-[560px]'
             onClick={() => {
               setPage(1);
             }}
           >
-            임시버튼
+            asd
           </button>
         </div>
+        <Button
+          size='large'
+          color='pastelred'
+          children='다음'
+          disabled={nextBtnDisabled}
+          className='absolute top-[580px]'
+        />
       </form>
     </div>
   );

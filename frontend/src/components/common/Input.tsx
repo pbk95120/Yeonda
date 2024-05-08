@@ -20,8 +20,7 @@ const Input = ({ className, placeholder, inputFor, register, ...props }: InputPr
     return (
       <div className='relative flex items-center justify-center'>
         <input {...props} placeholder={placeholder} className={cls(defaultCls, className ? className : '')}></input>
-
-        <BsSearchHeart className='fill-pastelred absolute right-3' />
+        <BsSearchHeart className='fill-pastelred absolute right-3 ' />
       </div>
     );
   }

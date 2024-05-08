@@ -11,8 +11,8 @@ interface PasswordInputProps {
 const PasswordInput = ({ register, errors, getValues }: PasswordInputProps) => {
   return (
     <>
-      <fieldset className='pb-1'>
-        <legend className='mb-1 text-sm'>비밀번호</legend>
+      <fieldset className='pb-1 h-24 relative'>
+        <legend className='mb-2 text-sm'>비밀번호</legend>
         <div className='flex items-center'>
           <Input
             inputFor='default'
@@ -22,9 +22,9 @@ const PasswordInput = ({ register, errors, getValues }: PasswordInputProps) => {
             className='flex-grow p-2 border rounded w-full'
           />
         </div>
-        {errors.password && <span className='text-red text-xs text-end'>비밀번호는 5-20자로 설정해주세요.</span>}
+        {errors.password && <span className='text-red text-xs text-end '>비밀번호는 5-20자로 설정해주세요.</span>}
       </fieldset>
-      <fieldset className='pb-1'>
+      <fieldset className='pb-1 relative'>
         <legend className='mb-1 text-sm'>비밀번호 확인</legend>
         <div className='flex items-center'>
           <Input
@@ -42,7 +42,7 @@ const PasswordInput = ({ register, errors, getValues }: PasswordInputProps) => {
             }}
           />
         </div>
-        {errors.passwordCheck && <span className='text-red text-xs text-end'>비밀번호가 일치하지 않습니다.</span>}
+        {errors.passwordCheck && <span className='text-red text-xs '>비밀번호가 일치하지 않습니다.</span>}
       </fieldset>
     </>
   );

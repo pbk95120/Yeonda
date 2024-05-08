@@ -17,7 +17,7 @@ const ResetPassword = () => {
   };
 
   return (
-    <div className='w-full h-full mt-10 px-10'>
+    <div className='w-full mt-10 px-10'>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className='items-start justify-center mb-[184px]'>
           <fieldset className='pb-2'>
@@ -50,7 +50,7 @@ const ResetPassword = () => {
                 }),
               }}
             />
-            {errors.confirmPassword && <span className='text-red text-xs'>비밀번호를 확인하세요 </span>}
+            {errors.confirmPassword && <span className='text-red text-xs'>비밀번호를 다시 확인하세요 </span>}
           </fieldset>
         </div>
 

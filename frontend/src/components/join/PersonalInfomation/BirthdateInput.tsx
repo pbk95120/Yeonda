@@ -1,18 +1,19 @@
 import React from 'react';
-import { FieldErrors, UseFormRegister } from 'react-hook-form';
+import { FieldErrors, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 import { PersonalInformationFormInputs } from '../PersonalInformation';
 
 interface BirthdateInputProps {
   register: UseFormRegister<PersonalInformationFormInputs>;
   errors: FieldErrors<PersonalInformationFormInputs>;
+  setValue: UseFormSetValue<PersonalInformationFormInputs>;
 }
 
-const BirthdateInput = ({ register, errors }: BirthdateInputProps) => {
+const BirthdateInput = ({ register, errors, setValue }: BirthdateInputProps) => {
   const generateOptions = (start: number, end: number): React.ReactNode[] => {
     const options: React.ReactNode[] = [];
     for (let i = start; i <= end; i++) {
       options.push(
-        <option key={i} value={i}>
+        <option key={i} value={i} onClick={() => setValue('year', i, { shouldDirty: true })}>
           {i}
         </option>,
       );
@@ -21,33 +22,34 @@ const BirthdateInput = ({ register, errors }: BirthdateInputProps) => {
   };
 
   return (
-    <fieldset className='pb-2'>
+    <fieldset className='pb-2 h-32'>
       <legend className='mb-2 text-sm'>생년월일</legend>
+      <input type='text' hidden {...register('year', { required: true })} />
+      <input type='text' hidden {...register('month', { required: true })} />
+      <input type='text' hidden {...register('day', { required: true })} />
       <div className='w-full flex items-center align-between gap-x-2'>
         <div className='relative w-full'>
           <select
-            {...register('year', { required: true })}
             className='w-full p-2 border border-lightgray rounded-xl text-center appearance-none focus:border-pastelred focus:outline-none'
+            onChange={(e) => setValue('year', parseInt(e.target.value, 10), { shouldValidate: true })}
           >
             <option value='year'>연도</option>
             {generateOptions(1900, 2024)}
           </select>
         </div>
-
         <div className='relative w-full'>
           <select
-            {...register('month', { required: true })}
             className='w-full p-2 border border-lightgray rounded-xl text-center appearance-none focus:border-pastelred focus:outline-none'
+            onChange={(e) => setValue('month', parseInt(e.target.value, 10), { shouldValidate: true })}
           >
             <option value='month'>월</option>
             {generateOptions(1, 12)}
           </select>
         </div>
-
         <div className='relative w-full'>
           <select
-            {...register('day', { required: true })}
             className='w-full p-2 border border-lightgray rounded-xl text-center appearance-none focus:border-pastelred focus:outline-none'
+            onChange={(e) => setValue('day', parseInt(e.target.value, 10), { shouldValidate: true })}
           >
             <option value='day'>일</option>
             {generateOptions(1, 31)}
