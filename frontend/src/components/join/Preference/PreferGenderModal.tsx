@@ -19,7 +19,7 @@ const PreferGenderModal = ({
 }: PreferGenderModalProps) => {
   return (
     <div
-      className='fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 '
+      className='fixed top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-50 z-50'
       onClick={handleBackgroundClick}
     >
       <div className='bg-white rounded-lg p-4'>
@@ -31,7 +31,7 @@ const PreferGenderModal = ({
               size='medium'
               children='남성'
               onClick={() => {
-                setValue('preferGender', 'male');
+                setValue('preferGender', 'male', { shouldValidate: true });
                 setSelectedGender('male');
                 closeModal();
               }}
@@ -42,7 +42,7 @@ const PreferGenderModal = ({
               size='medium'
               children='여성'
               onClick={() => {
-                setValue('preferGender', 'female');
+                setValue('preferGender', 'female', { shouldValidate: true });
                 setSelectedGender('female');
                 closeModal();
               }}
@@ -54,7 +54,7 @@ const PreferGenderModal = ({
             size='large'
             children='무관'
             onClick={() => {
-              setValue('preferGender', 'both');
+              setValue('preferGender', 'both', { shouldValidate: true });
               setSelectedGender('both');
               closeModal();
             }}

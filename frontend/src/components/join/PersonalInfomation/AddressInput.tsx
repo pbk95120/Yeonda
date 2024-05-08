@@ -1,27 +1,26 @@
-import React from 'react';
 import { FieldErrors, UseFormRegister } from 'react-hook-form';
 import { PersonalInformationFormInputs } from '../PersonalInformation';
 import Button from '../../common/Button';
+import Input from '@/components/common/Input';
 
 interface AddressInputProps {
-  value: string;
   onChange: (value: string) => void;
   onClickModal: () => void;
   register: UseFormRegister<PersonalInformationFormInputs>;
   errors: FieldErrors<PersonalInformationFormInputs>;
 }
 
-const AddressInput = ({ value, onClickModal, errors, register }: AddressInputProps) => {
+const AddressInput = ({ onClickModal, errors, register }: AddressInputProps) => {
   return (
     <>
       <fieldset className='pb-1 flex flex-col md:flex-row'>
         <legend className='mb-1 text-sm'>주소</legend>
-        <input
+        <Input
+          inputFor='default'
           type='text'
-          value={value}
-          className='w-full p-2 border rounded mb-2 '
-          placeholder='찾기 버튼을 통해 주소를 입력하세요'
-          {...register('address', { required: true, maxLength: 100 })}
+          className='w-full p-2 border rounded text-sm'
+          placeholder='주소'
+          register={{ ...register('address', { required: true, maxLength: 100 }) }}
           readOnly
         />
         <Button
@@ -29,7 +28,7 @@ const AddressInput = ({ value, onClickModal, errors, register }: AddressInputPro
           color='pastelred'
           children='찾기'
           onClick={onClickModal}
-          className='self-end'
+          className='self-end mt-2'
           type='button'
         />
       </fieldset>

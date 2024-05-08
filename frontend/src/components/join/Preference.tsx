@@ -4,7 +4,6 @@ import GenderSelection from './Preference/GenderSelection';
 import PreferGenderSelection from './Preference/PreferGenderSelection';
 import DistanceInput from './Preference/DistanceInput';
 import AgeRangeInput from './Preference/AgeRangeInput';
-import { useState } from 'react';
 
 export interface PreferenceFormInputs {
   gender: string;
@@ -25,14 +24,13 @@ interface PreferenceProps {
 
 const Preference = ({ setPage, setGender, setPreferGender, setDistance, setStartAge, setEndAge }: PreferenceProps) => {
   const {
-    register,
     handleSubmit,
     getValues,
     setValue,
+    register,
     formState: { errors },
   } = useForm<PreferenceFormInputs>();
 
-  const [isSubmitted, setIsSubmitted] = useState(false);
   const onSubmit: SubmitHandler<PreferenceFormInputs> = async (data) => {
     setGender(data.gender);
     setPreferGender(data.preferGender);
@@ -55,10 +53,10 @@ const Preference = ({ setPage, setGender, setPreferGender, setDistance, setStart
     <div className='w-full h-full mt-10 px-10 relative'>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className='items-center justify-center mb-20'>
-          <GenderSelection setValue={setValue} isSubmitted={isSubmitted} />
-          <PreferGenderSelection setValue={setValue} isSubmitted={isSubmitted} />
-          <DistanceInput setValue={setValue} />
-          <AgeRangeInput setValue={setValue} />
+          <GenderSelection setValue={setValue} register={register} errors={errors} />
+          <PreferGenderSelection setValue={setValue} register={register} errors={errors} />
+          <DistanceInput setValue={setValue} getValues={getValues} />
+          <AgeRangeInput setValue={setValue} getValues={getValues} />
         </div>
         <div className='flex items-center gap-x-2'>
           <Button
@@ -71,9 +69,7 @@ const Preference = ({ setPage, setGender, setPreferGender, setDistance, setStart
           >
             이전
           </Button>
-          <Button type='submit' size='medium' color='pastelred' onClick={() => setIsSubmitted(true)}>
-            다음
-          </Button>
+          <Button type='submit' size='medium' color='pastelred' children='다음' />
         </div>
       </form>
 

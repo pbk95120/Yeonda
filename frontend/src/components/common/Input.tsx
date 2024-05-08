@@ -1,6 +1,7 @@
 import { cls } from '@/utils/cls';
 import { RiDiscountPercentFill } from 'react-icons/ri';
 import { BsSearchHeart } from 'react-icons/bs';
+
 import { LuImagePlus } from 'react-icons/lu';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
@@ -13,6 +14,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 
 const Input = ({ className, placeholder, inputFor, register, ...props }: InputProps) => {
   let defaultCls = 'px-2 mx-2 border border-lightgray focus:outline-none focus:border-pastelred font-sans';
+  
   if (inputFor === 'search') {
     defaultCls = cls(defaultCls, 'rounded-full w-[300px] h-10');
     return (

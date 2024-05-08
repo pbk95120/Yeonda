@@ -26,9 +26,10 @@ const LoginPage = () => {
           <fieldset className='pb-2'>
             <legend className='mb-2 text-sm'>이메일</legend>
             <Input
-              type='default'
+              inputFor='default'
+              type='text'
               placeholder='이메일'
-              {...register('email', { required: '이메일을 입력해주세요.' })}
+              register={{ ...register('email', { required: '이메일을 입력해주세요.' }) }}
               className='w-full p-2 border rounded'
             />
             {errors.email && <span className='text-red text-xs'>{errors.email.message}</span>}
@@ -37,9 +38,10 @@ const LoginPage = () => {
           <fieldset>
             <legend className='mb-2 text-sm'>비밀번호</legend>
             <Input
-              type='default'
+              inputFor='default'
+              type='password'
               placeholder='비밀번호'
-              {...register('password', { required: '비밀번호를 입력해주세요.' })}
+              register={{ ...register('password', { required: '비밀번호를 입력해주세요.' }) }}
               className='w-full p-2 border rounded'
             />
             {errors.password && <span className='text-red text-xs'>{errors.password.message}</span>}
@@ -51,14 +53,7 @@ const LoginPage = () => {
           </fieldset>
         </div>
         <div className='flex flex-col items-center justify-center'>
-          <Button
-            color='pastelred'
-            children='로그인'
-            size='large'
-            onClick={() => {
-              handleSubmit(onSubmit);
-            }}
-          />
+          <Button type='submit' color='pastelred' children='로그인' size='large' />
           <Link to='/join'>
             <Button color='pastelred' children='회원가입' size='large' className='mt-4' />
           </Link>

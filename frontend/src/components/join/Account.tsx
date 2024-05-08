@@ -52,7 +52,7 @@ const Account = ({
     <div className='w-full h-full mt-10 px-10'>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className='items-start justify-center'>
-          <NicknameInput register={register} errors={errors} getValues={getValues} />
+          <NicknameInput register={register} errors={errors} />
           <EmailVerificationInput register={register} errors={errors} setNextBtnDisabled={setNextBtnDisabled} />
           <PasswordInput register={register} errors={errors} getValues={getValues} />
         </div>

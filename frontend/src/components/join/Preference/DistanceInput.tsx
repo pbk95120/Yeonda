@@ -1,45 +1,58 @@
-import { useState } from 'react';
-import { UseFormRegister, UseFormSetValue } from 'react-hook-form';
+import { useEffect, useState } from 'react';
+import { UseFormGetValues, UseFormSetValue } from 'react-hook-form';
 import { PreferenceFormInputs } from '../Preference';
+import { Slider } from '@mui/material';
 
 interface DistanceInputProps {
   setValue: UseFormSetValue<PreferenceFormInputs>;
+  getValues: UseFormGetValues<PreferenceFormInputs>;
 }
 
-const DistanceInput = ({ setValue }: DistanceInputProps) => {
-  const [filledRange, setFilledRange] = useState<number>(100);
+const DistanceInput = ({ setValue, getValues }: DistanceInputProps) => {
+  const [distance, setDistance] = useState(160);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = parseInt(e.target.value);
-    setValue('distance', newValue);
-    setFilledRange(newValue);
-  };
+  useEffect(() => {
+    setValue('distance', 160);
+  }, []);
 
-  const calculateBackground = (value: number, max: number) => {
-    const percentage = (value / max) * 100;
-    return `linear-gradient(90deg, #FFC7C7 ${percentage}%, #EAEBEE ${percentage}%)`;
+  const handleChange = (_: Event, value: number | number[]) => {
+    setDistance(value as number);
+    setValue('distance', value as number);
   };
 
   return (
-    <>
-      <fieldset className='pb-2'>
-        <legend className='text-sm pb-2 flex w-full justify-between'>
-          <span>상대와의 최대 거리</span>
-          <span className='text-sm'>{filledRange}km</span>
-        </legend>
-        <div>
-          <input
-            type='range'
-            className='w-full appearance-none h-2 rounded-full accent-pastelpeach '
-            style={{
-              background: calculateBackground(filledRange, 100),
-            }}
-            onChange={handleInputChange}
-            value={filledRange}
-          />
-        </div>
-      </fieldset>
-    </>
+    <fieldset className='pb-2'>
+      <legend className='text-sm pb-2 flex w-full justify-between'>
+        <span>거리</span>
+        <span className='text-sm'>{getValues('distance') === undefined ? 160 : distance}</span>
+      </legend>
+
+      <Slider
+        value={distance}
+        onChange={handleChange}
+        min={0}
+        max={160}
+        sx={{
+          '& .MuiSlider-track': {
+            height: 8,
+            backgroundColor: '#FFC7C7',
+            color: '#FFC7C7',
+          },
+          '& .MuiSlider-rail': {
+            height: 8,
+            backgroundColor: '#CFCFCF',
+            color: '#CFCFCF',
+          },
+          '& .MuiSlider-thumb': {
+            width: 15,
+            height: 15,
+            backgroundColor: '#FFC7C7',
+            color: '#FFC7C7',
+            boxShadow: 'none',
+          },
+        }}
+      />
+    </fieldset>
   );
 };
 
