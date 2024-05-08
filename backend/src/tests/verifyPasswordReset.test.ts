@@ -61,7 +61,7 @@ describe('POST /password/reset/verify 비밀번호 초기화 코드 인증', () 
     expect(response.status).toBe(http.NOT_FOUND);
   });
 
-  it('존재하지 않는 인증 코드', async () => {
+  it('올바르지 않은 이메일 또는 비밀번호 인증 코드', async () => {
     const response = await request(app).post('/password/reset/verify').send({
       email: 'constant@gmail.com',
       code: 'FACODE',

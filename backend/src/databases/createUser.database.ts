@@ -1,5 +1,5 @@
 import { transactionWrapper } from '@middlewares/transactionWrapper';
-import { Signup } from '@schemas/signup.schema';
+import { RawSignupPicUrl, Signup } from '@schemas/signup.schema';
 import CustomError from '@src/error';
 import { saveFile } from '@src/utils/saveFile';
 import { getGeoCode } from '@utils/getGeoCode';
@@ -9,7 +9,7 @@ import { Connection, ResultSetHeader } from 'mysql2/promise';
 export const insertUser = async (
   conn: Connection,
   info: Signup,
-  data: any,
+  data: RawSignupPicUrl,
   file: Express.Multer.File,
 ): Promise<void> => {
   const { user, address, preference, user_tag } = info;
@@ -38,6 +38,8 @@ export const insertUser = async (
       [result] = await conn.execute<ResultSetHeader>(sql, values);
       address_id = result.insertId;
     }
+
+    saveFile(data.picture_url, file.buffer);
 
     sql = `insert into user (email, password, nickname, gender, birth, picture_url, address_id) 
     values (:email, :password, :nickname, :gender, :birth, :picture_url, :address_id)`;
@@ -72,8 +74,6 @@ export const insertUser = async (
       };
       await conn.execute(sql, values);
     }
-
-    saveFile(data.picture_url, file.buffer);
   };
 
   await transactionWrapper(conn, callback)(address_id);

@@ -16,7 +16,7 @@ import { getEncryptPassword } from '@utils/getEncryptPassword';
 import { issueToken } from '@utils/issueToken';
 import http from 'http-status-codes';
 
-export const requestPasswordReset: Controller = async (req, res, next) => {
+export const requestPasswordReset: Controller = async (req, res) => {
   const { error } = PasswordResetRequestSchema.validate(req.body);
   if (error) throw new CustomError(http.BAD_REQUEST, '잘못된 비밀번호 초기화 양식', error);
 
@@ -25,7 +25,7 @@ export const requestPasswordReset: Controller = async (req, res, next) => {
   res.sendStatus(http.OK);
 };
 
-export const verifyPasswordReset: Controller = async (req, res, next) => {
+export const verifyPasswordReset: Controller = async (req, res) => {
   const { error } = PasswordResetVerifySchema.validate(req.body);
   if (error) throw new CustomError(http.BAD_REQUEST, '잘못된 비밀번호 초기화 인증 코드 양식', error);
 
@@ -42,12 +42,11 @@ export const verifyPasswordReset: Controller = async (req, res, next) => {
   res.sendStatus(http.OK);
 };
 
-export const confirmPasswordReset: Controller = async (req, res, next) => {
+export const confirmPasswordReset: Controller = async (req, res) => {
   const { error } = PasswordConfirmSchema.validate(req.body);
   if (error) throw new CustomError(http.BAD_REQUEST, '잘못된 비밀번호 초기화 확정 양식', error);
 
-  const token = req.cookies['access-token'];
-  const email = await getEmailFromToken(token);
+  const email = await getEmailFromToken(req.cookies['access-token']);
   const encryptPassword = await getEncryptPassword(req.body.password);
   await databaseConnector(changePassword)(email, encryptPassword);
 
