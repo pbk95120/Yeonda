@@ -79,6 +79,13 @@ describe('POST /signup 회원 가입 요청', () => {
   it('정상 요청', async () => {
     const response = await requestFn();
     expect(response.status).toBe(http.CREATED);
+
+    const result = await databaseConnector(async (conn: Connection) => {
+      const sql = "select id from user where email = 'faker@gmail.com'";
+      const [result] = await conn.execute(sql);
+      return result;
+    });
+    if (!result) fail();
   });
 
   it('필수 항목 누락', async () => {
