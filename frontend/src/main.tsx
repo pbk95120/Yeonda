@@ -180,7 +180,7 @@ const routeList = [
     showHeader: true,
     showFooter: true,
     onlyLogo: false,
-    value: '박상하킹갓',
+    value: '일기 작성',
     backBtn: false,
     cancelStr: true,
   },
