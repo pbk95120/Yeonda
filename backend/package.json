@@ -11,7 +11,6 @@
     "format": "prettier --write 'src/**/*.{js,ts,tsx,css,md}'"
   },
   "_moduleAliases": {
-    "@sockets": "./src/sockets",
     "@src": "./src",
     "@routes": "./src/routes",
     "@controllers": "./src/controllers",
@@ -21,6 +20,7 @@
     "@utils": "./src/utils",
     "@storage": "./src/storage",
     "@schemas": "./src/schemas",
+    "@sockets": "./src/sockets",
     "@tests": "./src/tests"
   },
   "repository": {
