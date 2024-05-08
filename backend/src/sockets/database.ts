@@ -3,6 +3,7 @@ import { Socket } from 'socket.io';
 import { RowDataPacket } from 'mysql2';
 import CustomError from '@src/error';
 import http from 'http-status-codes';
+import { createChatSchema } from './schemas';
 
 export const updateCouple = async (conn: Connection, socket: Socket, coupleId: string, user_id: number) => {
   const sql = `SELECT
@@ -42,4 +43,46 @@ export const getRecordChat = async (conn: Connection, couple_id: string) => {
   const values = { couple_id: couple_id };
   const [result] = await conn.execute<RowDataPacket[]>(sql, values);
   return result;
+};
+
+export const createChat = async (
+  conn: Connection,
+  socket: Socket,
+  couple_id: string,
+  message: string,
+  url: string,
+  is_read: number,
+) => {
+  const sql_user = `SELECT 
+    CASE 
+      WHEN user1_state = :user_state THEN user1_id 
+      ELSE user2_id 
+    END AS user_id
+  FROM 
+    couple
+  WHERE 
+    id = :id AND (user1_state = :user1_state OR user2_state = :user2_state);
+  `;
+  const values_user = { user_state: socket.id, id: couple_id, user1_state: socket.id, user2_state: socket.id };
+  const [result_user] = await conn.execute<RowDataPacket[]>(sql_user, values_user);
+  const user_id = result_user[0].user_id;
+  const currentDate = new Date().toISOString().slice(0, 10);
+
+  const sql = `insert into chat (couple_id, user_id, picture_url, message, is_read, create_at)  values(:couple_id, :user_id, :file, :message, :is_read, :currentDate)`;
+  const values = {
+    couple_id: couple_id,
+    user_id: user_id,
+    file: url,
+    message: message,
+    is_read: is_read,
+    currentDate: currentDate,
+  };
+
+  // 데이터 유효성 검사
+  // const { error } = createChatSchema.validate(values);
+  // if (error) throw new CustomError(http.NOT_FOUND, '이부분 TODO:');
+
+  const [result] = await conn.execute<RowDataPacket[]>(sql, values);
+  // if (result.length === 0) throw new CustomError(http.NOT_FOUND, "TODO:");
+  return { user_id: user_id, message: message, picture_url: url, send_at: currentDate, is_read: is_read };
 };

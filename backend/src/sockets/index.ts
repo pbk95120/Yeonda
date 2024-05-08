@@ -1,7 +1,7 @@
 import { Server } from 'socket.io';
 import CustomError from '@src/error';
 import http from 'http-status-codes';
-import { setupChat } from './controller';
+import { setupChat, exchangeMessages } from './controller';
 
 const socketHandler = (io: Server) => {
   io.on('connection', (socket) => {
@@ -12,6 +12,10 @@ const socketHandler = (io: Server) => {
       const { couple_id } = data;
       await setupChat(socket, token, couple_id);
       console.log('방 연결', couple_id);
+    });
+    socket.on('sendmessage', (data) => {
+      exchangeMessages(socket, data);
+      console.log('메시지 송수신');
     });
   });
 };

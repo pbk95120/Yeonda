@@ -1,6 +1,6 @@
 import { Socket } from 'socket.io';
 import { databaseConnector, getUserIdByEmail, emailFromToken } from '@sockets/util';
-import { updateCouple, getPartnerInfo, getRecordChat } from '@sockets/database';
+import { updateCouple, getPartnerInfo, getRecordChat, createChat } from '@sockets/database';
 import { updateCoupleSchema, getPartnerInfoSchema, getRecordChatSchema } from './schemas';
 import { saveFile } from '@utils/saveFile';
 import { reformImg } from '@utils/reformImg';
@@ -29,4 +29,17 @@ export const setupChat = async (socket: Socket, token: string, couple_id: number
 
   io.to(coupleId).emit('partnerinfo', partner);
   io.to(coupleId).emit('chatrecord', record);
+};
+
+export const exchangeMessages = async (socket: Socket, data: any) => {
+  const { couple_id, message, file } = data;
+  const coupleId = String(couple_id);
+  const room = io.sockets.adapter.rooms.get(couple_id);
+  const numberOfSockets = room ? room.size : 0;
+  const is_read = numberOfSockets == 2 ? 1 : 0;
+  const url = reformImg(file);
+  const save = saveFile(url, file.buffer);
+
+  const Chat = await databaseConnector(createChat)(socket, String(couple_id), message, file, is_read);
+  io.to(coupleId).emit('receivemessage', Chat);
 };

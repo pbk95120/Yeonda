@@ -18,3 +18,12 @@ export const getRecordChatSchema = Joi.object({
   send_at: Joi.date().iso().default('now').required(),
   is_read: Joi.boolean().required(),
 });
+
+export const createChatSchema = Joi.object({
+  couple_id: Joi.number().integer().positive().required(),
+  user_id: Joi.number().integer().positive().required(),
+  picture_url: Joi.string().max(100),
+  message: Joi.string().required(),
+  is_read: Joi.boolean().required(),
+  create_at: Joi.date().iso().default('now').required(),
+});
