@@ -24,7 +24,7 @@ const PreferGenderModal = ({
     >
       <div className='bg-white rounded-lg p-4'>
         <div className='flex flex-col'>
-          <div className='flex justify-between '>
+          <div className='flex justify-between mb-4'>
             <Button
               color={selectedGender === 'male' ? 'blue' : 'lightgray'}
               type='button'

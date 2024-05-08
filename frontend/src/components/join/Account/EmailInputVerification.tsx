@@ -31,7 +31,7 @@ const EmailVerificationInput = ({ register, errors, setNextBtnDisabled }: EmailV
             onClick={() => setSubmitBtnDisabled(false)}
           />
         </div>
-        {errors.email && <span className='text-red text-xs text-end'>이메일 형식을 지켜주세요.</span>}
+        {errors.email && <span className='text-red text-xs'>이메일 형식을 지켜주세요.</span>}
       </fieldset>
       <fieldset className='pb-1 relative h-24'>
         <legend className='mb-2 text-sm'>인증번호</legend>
@@ -59,7 +59,7 @@ const EmailVerificationInput = ({ register, errors, setNextBtnDisabled }: EmailV
             }}
           />
         </div>
-        {errors.verificationCode && <span className='text-red text-xs text-end'>인증번호를 입력해주세요.</span>}
+        {errors.verificationCode && <span className='text-red text-xs'>인증번호를 입력해주세요.</span>}
       </fieldset>
     </>
   );

@@ -31,7 +31,7 @@ const AddressInput = ({ onClickModal, errors, register }: AddressInputProps) => 
           className='self-end mt-2'
           type='button'
         />
-        {errors.address && <span className='text-red text-xs absolute top-[315px]'>주소를 입력해주세요</span>}
+        {errors.address && <span className='text-red text-xs absolute top-[300px]'>주소를 입력해주세요</span>}
       </fieldset>
     </>
   );

@@ -22,7 +22,7 @@ const PasswordInput = ({ register, errors, getValues }: PasswordInputProps) => {
             className='flex-grow p-2 border rounded w-full'
           />
         </div>
-        {errors.password && <span className='text-red text-xs text-end '>비밀번호는 5-20자로 설정해주세요.</span>}
+        {errors.password && <span className='text-red text-xs'>비밀번호는 5-20자로 설정해주세요.</span>}
       </fieldset>
       <fieldset className='pb-1 relative'>
         <legend className='mb-1 text-sm'>비밀번호 확인</legend>

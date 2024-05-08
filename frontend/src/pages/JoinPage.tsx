@@ -59,29 +59,7 @@ const JoinPage = () => {
           setEndAge={setEndAge}
         />
       )}
-      {page == 3 && (
-        <>
-          <Interest setTags={setTags} setPage={setPage} tags={tags} />
-
-          {/* <p>nickname : {nickname}</p>
-          <p>email : {email}</p>
-          <p>verificationCode : {verificationCode}</p>
-          <p>password : {password}</p>
-          <p>passwordCheck : {passwordCheck}</p>
-
-          <p>year : {year}</p>
-          <p>month : {month}</p>
-          <p>day : {day}</p>
-          <p>address : {address}</p>
-          <p>{picture}</p>
-
-          <p>gender : {gender}</p>
-          <p>preferGender : {preferGender}</p>
-          <p>distance: {distance}</p>
-          <p>startAge : {startAge}</p>
-          <p>endAge : {endAge}</p> */}
-        </>
-      )}
+      {page == 3 && <Interest setTags={setTags} setPage={setPage} tags={tags} />}
     </>
   );
 };

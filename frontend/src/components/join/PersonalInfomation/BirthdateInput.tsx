@@ -22,7 +22,7 @@ const BirthdateInput = ({ register, errors, setValue }: BirthdateInputProps) => 
   };
 
   return (
-    <fieldset className='pb-2 h-32'>
+    <fieldset className='pb-2 h-28'>
       <legend className='mb-2 text-sm'>생년월일</legend>
       <input type='text' hidden {...register('year', { required: true })} />
       <input type='text' hidden {...register('month', { required: true })} />
@@ -58,7 +58,7 @@ const BirthdateInput = ({ register, errors, setValue }: BirthdateInputProps) => 
       </div>
 
       {(errors.year || errors.month || errors.day) && (
-        <span className='text-red text-xs text-end'>생년월일을 정확하게 입력해주세요.</span>
+        <span className='text-red text-xs'>생년월일을 정확하게 입력해주세요.</span>
       )}
     </fieldset>
   );

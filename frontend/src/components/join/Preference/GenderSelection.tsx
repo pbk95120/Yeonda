@@ -27,7 +27,7 @@ const GenderSelection = ({ setValue, register, errors }: GenderSelectionProps) =
         className='border-none bg-transparent text-sm'
         hidden
       />
-      <div className='flex items-center w-full mb-4'>
+      <div className='flex items-center mb-4'>
         <Button
           color={activeGender === 'male' ? 'blue' : 'lightgray'}
           type='button'

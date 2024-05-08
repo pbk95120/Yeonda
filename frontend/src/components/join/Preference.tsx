@@ -50,7 +50,7 @@ const Preference = ({ setPage, setGender, setPreferGender, setDistance, setStart
   };
 
   return (
-    <div className='w-full  px-10 relative'>
+    <div className='px-10 relative'>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className='items-center justify-center '>
           <GenderSelection setValue={setValue} register={register} errors={errors} />
@@ -58,10 +58,11 @@ const Preference = ({ setPage, setGender, setPreferGender, setDistance, setStart
           <AgeRangeInput setValue={setValue} getValues={getValues} />
           <DistanceInput setValue={setValue} getValues={getValues} />
         </div>
-        <div className='flex items-center w-full gap-x-2 absolute top-[500px] '>
+        <div className='flex items-center gap-x-2 absolute top-[500px] '>
           <Button
             type='button'
             size='medium'
+            className='mr-2'
             color='pastelred'
             onClick={() => {
               setPage(1);

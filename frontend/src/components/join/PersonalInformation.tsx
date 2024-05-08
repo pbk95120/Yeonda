@@ -100,6 +100,7 @@ const PersonalInformation = ({
             color='pastelred'
             size='medium'
             type='button'
+            className='mr-2'
             onClick={() => {
               setPage(0);
             }}

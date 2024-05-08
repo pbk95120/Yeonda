@@ -4,6 +4,7 @@ import Button from '../common/Button';
 import { useNavigate } from 'react-router-dom';
 import { IoCloseOutline } from 'react-icons/io5';
 import Input from '../common/Input';
+import Tags from './Tags';
 
 interface InterestProps {
   setTags: (tags: string[]) => void;
@@ -43,8 +44,6 @@ const Interest = ({ setTags, setPage, tags }: InterestProps) => {
       setTags(copyTags);
     }
   };
-
-  const colors = ['bg-pastelpeach', 'bg-orange', 'bg-green', 'bg-blue', 'bg-purple'];
 
   const tempTag = [
     '태그1',
@@ -118,15 +117,7 @@ const Interest = ({ setTags, setPage, tags }: InterestProps) => {
           <fieldset>
             <legend className='text-sm mb-4'>관심사</legend>
             {tags.map((tag, i) => (
-              <div key={i} className='inline-block mb-2 mr-1'>
-                <p className={`${colors[i]} inline-block px-2 py-1 rounded-3xl  text-white text-sm`}>
-                  #{tag}
-                  <IoCloseOutline
-                    className='cursor-pointer inline-block text-gray transform -translate-y-[1px]'
-                    onClick={() => handleRemoveTag(i)}
-                  />
-                </p>
-              </div>
+              <Tags i={i} tag={tag} handleRemoveTag={handleRemoveTag} />
             ))}
             <Input
               inputFor='search'
@@ -156,6 +147,7 @@ const Interest = ({ setTags, setPage, tags }: InterestProps) => {
             size='medium'
             type='button'
             color='pastelred'
+            className='mr-2'
             children='이전'
             onClick={() => {
               setPage(2);

@@ -13,14 +13,14 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 
 const Input = ({ className, placeholder, inputFor, register, ...props }: InputProps) => {
-  let defaultCls = 'px-2 border border-lightgray focus:outline-none focus:border-pastelred font-sans';
+  let defaultCls = 'px-2 border border-lightgray focus:outline-none focus:border-pastelred font-sans ';
 
   if (inputFor === 'search') {
     defaultCls = cls(defaultCls, 'rounded-full w-[300px] h-10');
     return (
       <div className='relative flex items-center justify-center'>
         <input {...props} placeholder={placeholder} className={cls(defaultCls, className ? className : '')}></input>
-        <BsSearchHeart className='fill-pastelred absolute right-3 ' />
+        <BsSearchHeart className='fill-pastelred absolute right-3' />
       </div>
     );
   }
@@ -34,7 +34,7 @@ const Input = ({ className, placeholder, inputFor, register, ...props }: InputPr
           placeholder={placeholder}
           className={cls(defaultCls, className ? className : '')}
         ></input>
-        <div className='absolute left-0 ml-5 flex items-center'>
+        <div className='absolute ml-2 flex items-center'>
           <span>
             <RiDiscountPercentFill className='fill-pastelred' />
           </span>
