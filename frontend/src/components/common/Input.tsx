@@ -13,8 +13,8 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 
 const Input = ({ className, placeholder, inputFor, register, ...props }: InputProps) => {
-  let defaultCls = 'px-2 mx-2 border border-lightgray focus:outline-none focus:border-pastelred font-sans';
-  
+  let defaultCls = 'px-2 border border-lightgray focus:outline-none focus:border-pastelred font-sans';
+
   if (inputFor === 'search') {
     defaultCls = cls(defaultCls, 'rounded-full w-[300px] h-10');
     return (
