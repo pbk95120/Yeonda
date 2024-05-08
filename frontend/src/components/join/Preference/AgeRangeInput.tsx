@@ -1,78 +1,64 @@
-import { UseFormSetValue } from 'react-hook-form';
+import { UseFormGetValues, UseFormSetValue } from 'react-hook-form';
 import { PreferenceFormInputs } from '../Preference';
+import Slider from '@mui/material/Slider';
 import { useEffect, useState } from 'react';
 
 interface AgeRangeInputProps {
   setValue: UseFormSetValue<PreferenceFormInputs>;
+  getValues: UseFormGetValues<PreferenceFormInputs>;
 }
 
-const AgeRangeInput = ({ setValue }: AgeRangeInputProps) => {
-  const [minAge, setMinAge] = useState<number>(0);
-  const [maxAge, setMaxAge] = useState<number>(100);
-
-  const calculateBackground = (min: number, max: number, total: number) => {
-    const minPercentage = (min / total) * 100;
-    const maxPercentage = (max / total) * 100;
-    return `linear-gradient(90deg, #EAEBEE ${minPercentage}%, #FFC7C7 ${minPercentage}%, #FFC7C7 ${maxPercentage}%, #EAEBEE ${maxPercentage}%)`;
-  };
-
-  const handleMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = parseInt(e.target.value);
-    setMinAge(newValue);
-    if (newValue >= maxAge) {
-      setMaxAge(newValue);
-      setValue('endAge', newValue);
-    }
-    setValue('startAge', newValue);
-  };
-
-  const handleMaxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = parseInt(e.target.value);
-    setMaxAge(newValue);
-    if (newValue <= minAge) {
-      setMinAge(newValue);
-      setValue('startAge', newValue);
-    }
-    setValue('endAge', newValue);
-  };
+const AgeRangeInput = ({ setValue, getValues }: AgeRangeInputProps) => {
+  const [age, setAge] = useState([0, 100]);
 
   useEffect(() => {
-    setValue('startAge', minAge);
-    setValue('endAge', maxAge);
-  }, [minAge, maxAge]);
+    setValue('startAge', 0);
+    setValue('endAge', 100);
+  }, []);
+
+  const handleChange = (_: Event, newValue: number | number[]) => {
+    setAge(newValue as number[]);
+
+    const [startAge, endAge] = newValue as number[];
+    setValue('startAge', startAge);
+    setValue('endAge', endAge);
+  };
 
   return (
     <fieldset className='pb-2'>
-      <legend className='text-sm pb-2'>선호 나이</legend>
+      <legend className='text-sm pb-2 flex w-full justify-between'>
+        <span>선호 나이</span>
+        <span className='text-sm'>
+          {getValues('startAge') === undefined ? 0 : getValues('startAge')}세 -{' '}
+          {getValues('endAge') === undefined ? 100 : getValues('endAge')}세
+        </span>
+      </legend>
 
-      <fieldset className='pb-2'>
-        <legend className='text-sm pb-2 flex w-full justify-between'>
-          <span>나이</span>
-          <span className='text-sm'>
-            {minAge} - {maxAge}
-          </span>
-        </legend>
-        <div>
-          <input
-            type='range'
-            className='w-full appearance-none h-2 rounded-full accent-pastelpeach  translate-y-3'
-            style={{
-              background: calculateBackground(minAge, maxAge, 100),
-            }}
-            onChange={handleMinChange}
-            value={minAge}
-          />
-          <input
-            type='range'
-            className='w-full appearance-none h-2 rounded-full accent-pastelpeach -translate-y-3'
-            style={{
-              background: calculateBackground(minAge, maxAge, 100),
-            }}
-            onChange={handleMaxChange}
-            value={maxAge}
-          />
-        </div>
-      </fieldset>
+      <Slider
+        value={age}
+        onChange={handleChange}
+        min={0}
+        max={100}
+        sx={{
+          '& .MuiSlider-track': {
+            height: 8,
+            backgroundColor: '#FFC7C7',
+            color: '#FFC7C7',
+          },
+          '& .MuiSlider-rail': {
+            height: 8,
+            backgroundColor: '#CFCFCF',
+            color: '#CFCFCF',
+          },
+          '& .MuiSlider-thumb': {
+            width: 15,
+            height: 15,
+            backgroundColor: '#FFC7C7',
+            color: '#FFC7C7',
+            boxShadow: 'none',
+          },
+        }}
+      />
     </fieldset>
   );
 };

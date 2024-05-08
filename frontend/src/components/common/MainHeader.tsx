@@ -18,7 +18,14 @@ const MainHeader = ({ value, onlyLogo, setting, backBtn, cancelStr }: HeaderProp
   return (
     <header className='flex flex-row w-full max-w-sm h-20 relative '>
       {onlyLogo ? (
-        <SVG className='h-20 py-3 fixed' />
+        <div className='flex h-20 justify-between items-center w-full relative'>
+          {backBtn ? (
+            <div className='absolute z-20 left-7 flex justify-center items-center'>
+              <IoIosArrowBack className='w-6 h-6 fill-gray' onClick={() => history.back()} />
+            </div>
+          ) : null}
+          <SVG className='h-20 py-3 fixed' />
+        </div>
       ) : (
         <div className='flex h-20 justify-between items-center w-full relative'>
           {cancelStr ? (
