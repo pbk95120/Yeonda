@@ -3,6 +3,7 @@ import LoginRoute from '@routes/login.route';
 import LogoutRoute from '@routes/logout.route';
 import PasswordResetRoute from '@routes/passwordReset.route';
 import SignupRoute from '@routes/signup.route';
+import MyProfileRoute from '@src/routes/myProfile.route';
 import ChatsRoute from '@routes/chats.route';
 import cookieParser from 'cookie-parser';
 import 'dotenv/config';
@@ -32,6 +33,7 @@ app.use('/signup', SignupRoute);
 app.use('/login', LoginRoute);
 app.use('/logout', LogoutRoute);
 app.use('/password/reset', PasswordResetRoute);
+app.use('/profile/my', MyProfileRoute);
 app.use('/chatlist', ChatsRoute);
 
 app.use(errorHandler);

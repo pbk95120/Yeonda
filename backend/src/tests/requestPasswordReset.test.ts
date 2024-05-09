@@ -19,7 +19,7 @@ afterAll(async () => {
   try {
     await databaseConnector(cleanUp)();
   } catch (error) {
-    console.log(error);
+    console.log('클린업 도중 에러 발생', error);
   } finally {
     Database.closePool();
   }

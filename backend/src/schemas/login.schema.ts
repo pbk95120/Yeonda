@@ -1,9 +1,7 @@
+import { User } from '@src/models/user.model';
 import Joi from 'joi';
 
-export interface Login {
-  email: string;
-  password: string;
-}
+export interface Login extends Pick<User, 'email' | 'password'> {}
 
 export const LoginSchema = Joi.object({
   email: Joi.string().email().max(320).required(),

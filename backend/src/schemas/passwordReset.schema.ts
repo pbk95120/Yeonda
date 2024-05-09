@@ -1,9 +1,8 @@
-import { PasswordSchema } from '@schemas/signup.schema';
+import { EmailSchema, PasswordSchema } from '@schemas/signup.schema';
+import { User } from '@src/models/user.model';
 import Joi from 'joi';
 
-export interface PasswordResetRequest {
-  email: string;
-}
+export interface PasswordResetRequest extends Pick<User, 'email'> {}
 
 export const PasswordResetRequestSchema = Joi.object({
   email: Joi.string().email().max(320).required(),
@@ -20,12 +19,12 @@ export const PasswordResetVerifySchema = PasswordResetRequestSchema.keys({
     .required(),
 });
 
-export interface PasswordResetConfirm {
-  password: string;
+export interface PasswordConfirm extends Pick<User, 'password'> {
   password_check: string;
 }
 
-export const PasswordResetConfirmSchema = Joi.object<PasswordResetConfirm>({
+export const PasswordConfirmSchema = Joi.object({
+  email: EmailSchema,
   password: PasswordSchema,
   password_check: Joi.string().valid(Joi.ref('password')).required(),
 });

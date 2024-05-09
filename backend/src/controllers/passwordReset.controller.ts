@@ -3,7 +3,7 @@ import { validatePasswordResetCode } from '@databases/validatePasswordResetCode.
 import { databaseConnector } from '@middlewares/databaseConnector';
 import { Controller } from '@schemas/controller.schema';
 import {
-  PasswordResetConfirmSchema,
+  PasswordConfirmSchema,
   PasswordResetRequest,
   PasswordResetRequestSchema,
   PasswordResetVerify,
@@ -11,12 +11,11 @@ import {
 } from '@schemas/passwordReset.schema';
 import { changePassword } from '@src/databases/changePassword.database';
 import CustomError from '@src/error';
-import { getEmailFromToken } from '@utils/getEmailFromToken';
 import { getEncryptPassword } from '@utils/getEncryptPassword';
 import { issueToken } from '@utils/issueToken';
 import http from 'http-status-codes';
 
-export const requestPasswordReset: Controller = async (req, res, next) => {
+export const requestPasswordReset: Controller = async (req, res) => {
   const { error } = PasswordResetRequestSchema.validate(req.body);
   if (error) throw new CustomError(http.BAD_REQUEST, '잘못된 비밀번호 초기화 양식', error);
 
@@ -25,7 +24,7 @@ export const requestPasswordReset: Controller = async (req, res, next) => {
   res.sendStatus(http.OK);
 };
 
-export const verifyPasswordReset: Controller = async (req, res, next) => {
+export const verifyPasswordReset: Controller = async (req, res) => {
   const { error } = PasswordResetVerifySchema.validate(req.body);
   if (error) throw new CustomError(http.BAD_REQUEST, '잘못된 비밀번호 초기화 인증 코드 양식', error);
 
@@ -42,12 +41,11 @@ export const verifyPasswordReset: Controller = async (req, res, next) => {
   res.sendStatus(http.OK);
 };
 
-export const confirmPasswordReset: Controller = async (req, res, next) => {
-  const { error } = PasswordResetConfirmSchema.validate(req.body);
+export const confirmPasswordReset: Controller = async (req, res) => {
+  const { error } = PasswordConfirmSchema.validate(req.body);
   if (error) throw new CustomError(http.BAD_REQUEST, '잘못된 비밀번호 초기화 확정 양식', error);
 
-  const token = req.cookies['access-token'];
-  const email = await getEmailFromToken(token);
+  const email = req.body.email;
   const encryptPassword = await getEncryptPassword(req.body.password);
   await databaseConnector(changePassword)(email, encryptPassword);
 

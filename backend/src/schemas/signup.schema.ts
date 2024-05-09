@@ -1,25 +1,26 @@
-import { TagName } from '@models/tag.model';
+import { Tag, TagName } from '@models/tag.model';
+import { Address } from '@src/models/address.model';
+import { Preference } from '@src/models/preference.model';
+import { User } from '@src/models/user.model';
+import { PasswordConfirm } from '@src/schemas/passwordReset.schema';
 import Joi from 'joi';
 
-export interface RawSignup {
-  nickname: string;
-  email: string;
-  password: string;
-  password_check: string;
-  gender: string;
+export interface RawSignup
+  extends Pick<User, 'nickname' | 'email' | 'birth'>,
+    PasswordConfirm,
+    Pick<Preference, 'distance' | 'start_age' | 'end_age'> {
+  gender: User['gender'];
   picture: string;
-  birth: string;
-  address: string;
-  prefer_gender: string;
-  distance: string;
-  start_age: string;
-  end_age: string;
+  address: Address['detail'];
+  prefer_gender: Preference['gender'];
   tags: string;
 }
 
 export interface RawSignupPicUrl extends RawSignup {
   picture_url: string;
 }
+
+export const EmailSchema = Joi.string().email().max(320).required();
 
 export const PasswordSchema = Joi.string()
   .min(5)
@@ -29,7 +30,7 @@ export const PasswordSchema = Joi.string()
 
 export const RawSignupSchema = Joi.object({
   nickname: Joi.string().max(20).required(),
-  email: Joi.string().email().required(),
+  email: EmailSchema,
   password: PasswordSchema,
   password_check: Joi.string().valid(Joi.ref('password')).required(),
   gender: Joi.string().valid('Male', 'Female').required(),
@@ -48,24 +49,11 @@ export const RawSignupSchema = Joi.object({
 });
 
 export interface Signup {
-  user: {
-    nickname: string;
-    email: string;
-    password: string;
-    password_check: string;
-    gender: 'Male' | 'Female';
-    picture_url: string;
-    birth: string;
-  };
-  address: string;
-  preference: {
-    gender: 'Male' | 'Female' | 'Neutral';
-    distance: number;
-    start_age: number;
-    end_age: number;
-  };
+  user: Pick<User, 'email' | 'nickname' | 'gender' | 'birth' | 'picture_url'> & PasswordConfirm;
+  address: Address['detail'];
+  preference: Pick<Preference, 'gender' | 'distance' | 'start_age' | 'end_age'>;
   user_tag: {
-    tags: number[];
+    tags: Tag['id'][];
   };
 }
 
