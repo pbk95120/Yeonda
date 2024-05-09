@@ -33,7 +33,8 @@ const ChatProfile = ({ profileImage, nickName }: ChatProfileProps) => {
 
       if (scroll) {
         controls.start({
-          height: '2.5rem',
+          height: '2rem',
+          paddingBottom: '1rem',
           transition: { duration: 0.2, ease: 'easeInOut' },
         });
       } else {
@@ -51,7 +52,7 @@ const ChatProfile = ({ profileImage, nickName }: ChatProfileProps) => {
 
   return (
     <motion.div
-      className='flex flex-col items-center justify-center py-12 z-10'
+      className='flex flex-col items-center justify-center py-12'
       style={{
         height: scroll ? '2.5rem' : 'auto',
       }}
