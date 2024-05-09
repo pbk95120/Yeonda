@@ -50,18 +50,19 @@ const Preference = ({ setPage, setGender, setPreferGender, setDistance, setStart
   };
 
   return (
-    <div className='w-full h-full mt-10 px-10 relative'>
+    <div className='px-10 relative'>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className='items-center justify-center mb-20'>
+        <div className='items-center justify-center '>
           <GenderSelection setValue={setValue} register={register} errors={errors} />
           <PreferGenderSelection setValue={setValue} register={register} errors={errors} />
-          <DistanceInput setValue={setValue} getValues={getValues} />
           <AgeRangeInput setValue={setValue} getValues={getValues} />
+          <DistanceInput setValue={setValue} getValues={getValues} />
         </div>
-        <div className='flex items-center gap-x-2'>
+        <div className='flex items-center gap-x-2 absolute top-[500px] '>
           <Button
             type='button'
             size='medium'
+            className='mr-2'
             color='pastelred'
             onClick={() => {
               setPage(1);
@@ -82,7 +83,7 @@ const Preference = ({ setPage, setGender, setPreferGender, setDistance, setStart
           console.log(getValues('endAge'));
         }}
       >
-        ㅁㄴㅇ
+        변수확인
       </button>
       <br />
       <button

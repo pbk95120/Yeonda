@@ -13,8 +13,8 @@ const EmailVerificationInput = ({ register, errors, setNextBtnDisabled }: EmailV
   const [submitBtnDisabled, setSubmitBtnDisabled] = useState<boolean>(true);
   return (
     <>
-      <fieldset className='pb-1'>
-        <legend className='mb-1 text-sm'>이메일</legend>
+      <fieldset className='pb-1 h-24'>
+        <legend className='mb-2 text-sm'>이메일</legend>
         <div className='flex items-center'>
           <Input
             inputFor='default'
@@ -31,10 +31,10 @@ const EmailVerificationInput = ({ register, errors, setNextBtnDisabled }: EmailV
             onClick={() => setSubmitBtnDisabled(false)}
           />
         </div>
-        {errors.email && <span className='text-red text-xs text-end'>이메일 형식을 지켜주세요.</span>}
+        {errors.email && <span className='text-red text-xs'>이메일 형식을 지켜주세요.</span>}
       </fieldset>
-      <fieldset className='pb-1'>
-        <legend className='mb-1 text-sm'>인증번호</legend>
+      <fieldset className='pb-1 relative h-24'>
+        <legend className='mb-2 text-sm'>인증번호</legend>
         <div className='flex items-center'>
           <Input
             inputFor='default'
@@ -59,7 +59,7 @@ const EmailVerificationInput = ({ register, errors, setNextBtnDisabled }: EmailV
             }}
           />
         </div>
-        {errors.verificationCode && <span className='text-red text-xs text-end'>인증번호를 입력해주세요.</span>}
+        {errors.verificationCode && <span className='text-red text-xs'>인증번호를 입력해주세요.</span>}
       </fieldset>
     </>
   );

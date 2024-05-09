@@ -21,10 +21,10 @@ const DistanceInput = ({ setValue, getValues }: DistanceInputProps) => {
   };
 
   return (
-    <fieldset className='pb-2'>
+    <fieldset className='pb-2 w-full'>
       <legend className='text-sm pb-2 flex w-full justify-between'>
-        <span>거리</span>
-        <span className='text-sm'>{getValues('distance') === undefined ? 160 : distance}</span>
+        <span>상대와의 거리</span>
+        <span className='text-sm'>{getValues('distance') === undefined ? 160 : distance}km</span>
       </legend>
 
       <Slider
