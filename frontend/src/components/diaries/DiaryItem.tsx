@@ -6,21 +6,21 @@ import type { DiaryContent } from '@/types/type';
 
 interface DiaryItemProps {
   diary: DiaryContent;
-  isDetailPage?: boolean;
   isEditing?: boolean;
   isSuggestionPage?: boolean;
   isMyDiaryPage?: boolean;
   isPopularPage?: boolean;
+  isChatProfilePage?: boolean;
 }
 
 const DiaryItem = memo(
   ({
     diary,
     isMyDiaryPage = false,
-    isDetailPage = false,
     isEditing = false,
     isSuggestionPage = false,
     isPopularPage = false,
+    isChatProfilePage = false,
   }: DiaryItemProps) => {
     const renderTitle = () => {
       if (isEditing) {
@@ -68,20 +68,28 @@ const DiaryItem = memo(
     };
 
     const DiaryComponent = (
-      <div className={`${isMyDiaryPage ? 'border-b border-lightgray' : ''} my-[20px] mx-auto font-diary w-[316px]`}>
-        <div className='flex justify-between'>
-          <div>
-            {renderTitle()}
-            {renderDate()}
+      <div className={`${isChatProfilePage ? 'border-b border-lightgray' : ''}`}>
+        <div className=' my-[20px] mx-auto font-diary w-[316px]'>
+          <div className='flex justify-between'>
+            <div>
+              {renderTitle()}
+              {renderDate()}
+            </div>
+            {renderLike()}
           </div>
-          {renderLike()}
+          {renderContent()}
+          {renderTags()}
         </div>
-        {renderContent()}
-        {renderTags()}
       </div>
     );
 
-    return isMyDiaryPage ? <Link to={`/mydiary/${diary.id}`}>{DiaryComponent}</Link> : DiaryComponent;
+    return isMyDiaryPage ? (
+      <div className='border-b border-lightgray'>
+        <Link to={`/mydiary/${diary.id}`}>{DiaryComponent}</Link>
+      </div>
+    ) : (
+      DiaryComponent
+    );
   },
 );
 

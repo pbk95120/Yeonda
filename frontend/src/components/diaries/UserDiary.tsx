@@ -20,7 +20,7 @@ const UserDiary = () => {
 
   return (
     <div>
-      <DiariesList diariesData={diariesData} />
+      <DiariesList isChatProfilePage={true} diariesData={diariesData} />
     </div>
   );
 };

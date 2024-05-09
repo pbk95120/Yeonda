@@ -67,7 +67,7 @@ const MyDiaryDetailPage = () => {
           />
         </div>
       )}
-      <DiaryItem diary={diariesData[Number(id) - 1]} isDetailPage={true} isEditing={isEditing} />
+      <DiaryItem diary={diariesData[Number(id) - 1]} isEditing={isEditing} />
     </div>
   );
 };
