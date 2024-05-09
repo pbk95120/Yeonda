@@ -25,7 +25,7 @@ const Input = ({ className, placeholder, inputFor, register, ...props }: InputPr
     );
   }
   if (inputFor === 'default') {
-    defaultCls = cls(defaultCls, ' px-8  rounded-md');
+    defaultCls = cls(defaultCls, ' px-8  rounded-xl');
     return (
       <div className='relative flex items-center'>
         <input
