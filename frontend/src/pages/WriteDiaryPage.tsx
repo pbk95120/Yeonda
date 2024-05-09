@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 const WriteDiaryPage = () => {
   const navigate = useNavigate();
 
-  useEffect(() => {
+  const writeDiary = () => {
     const handleCompleteButtonClick = () => {
       navigate('/mydiary', { state: '일기 작성이 완료되었습니다.' });
     };
@@ -15,7 +15,9 @@ const WriteDiaryPage = () => {
     return () => {
       completeBtn?.removeEventListener('click', handleCompleteButtonClick);
     };
-  }, []);
+  };
+
+  useEffect(writeDiary, []);
 
   return (
     <div className='w-[316px] mx-auto'>

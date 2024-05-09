@@ -29,6 +29,8 @@ export interface ChatProfileProps {
   nickName: string;
 }
 
+// Diary ================================================
+
 export interface Diary {
   id: number;
   nickname: string;

@@ -8,17 +8,38 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useState } from 'react';
 import Toast from '@/components/common/Toast';
 import Modal from '@/components/common/Modal';
+import { useDiaryItemStore } from '@/store/diaryStore';
 
 const MyDiaryDetailPage = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const [isEditing, setIsEditing] = useState<boolean>(false);
   const [toast, setToast] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const { setIsEditing, isEditing } = useDiaryItemStore();
 
   const editSuccess = () => {
     setIsEditing(false);
     setToast(true);
+  };
+
+  const editDiary = () => {
+    setIsEditing(true);
+  };
+
+  const deleteDiary = () => {
+    navigate('/mydiary', { state: '삭제가 완료되었습니다.' });
+  };
+
+  const editCancel = () => {
+    setIsEditing(false);
+  };
+
+  const modalOpen = () => {
+    setIsModalOpen(true);
+  };
+
+  const modalClose = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -26,7 +47,7 @@ const MyDiaryDetailPage = () => {
       <DiaryHeader diariesData={diariesData[0]} />
       {isEditing ? (
         <div className='flex justify-around my-[20px]'>
-          <button onClick={() => setIsEditing(false)} className='text-base'>
+          <button onClick={editCancel} className='text-base'>
             취소
           </button>
           <h1 className='font-bold text-lg'>일기 수정</h1>
@@ -39,12 +60,12 @@ const MyDiaryDetailPage = () => {
           <Dropdown className='absolute top-[20px] right-[0px]' toggleButton={<RiMoreFill className='fill-gray' />}>
             <div className='text-xs'>
               <div className='hover:bg-lightgray'>
-                <button onClick={() => setIsModalOpen(true)} className='p-[15px] text-pastelred'>
+                <button onClick={modalOpen} className='p-[15px] text-pastelred'>
                   삭제
                 </button>
               </div>
               <div className='hover:bg-lightgray border-t border-lightgray'>
-                <button onClick={() => setIsEditing(true)} className='p-[15px]'>
+                <button onClick={editDiary} className='p-[15px]'>
                   수정
                 </button>
               </div>
@@ -60,14 +81,14 @@ const MyDiaryDetailPage = () => {
           )}
           <Modal
             isOpen={isModalOpen}
-            closeModal={() => setIsModalOpen(false)}
-            onClick={() => navigate('/mydiary', { state: '삭제가 완료되었습니다.' })}
+            closeModal={modalClose}
+            onClick={deleteDiary}
             purposeMsg='일기 삭제'
             cautionMsg='한번 삭제한 일기는 되돌릴 수 없습니다. 정말 삭제하시겠습니까?'
           />
         </div>
       )}
-      <DiaryItem diary={diariesData[Number(id) - 1]} isEditing={isEditing} />
+      <DiaryItem diary={diariesData[Number(id) - 1]} />
     </div>
   );
 };
