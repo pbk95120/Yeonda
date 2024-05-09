@@ -1,5 +1,5 @@
 import Button from '@/components/common/Button';
-import { UseFormRegister, UseFormSetValue } from 'react-hook-form';
+import { UseFormSetValue } from 'react-hook-form';
 import { PreferenceFormInputs } from '../Preference';
 
 interface PreferGenderModalProps {

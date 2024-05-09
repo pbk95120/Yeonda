@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import Button from '../common/Button';
 import { useNavigate } from 'react-router-dom';
-import { IoCloseOutline } from 'react-icons/io5';
 import Input from '../common/Input';
 import Tags from './Tags';
+import { MAX_TAGS, MIN_TAGS } from '@/constants/constants';
 
 interface InterestProps {
   setTags: (tags: string[]) => void;
@@ -34,7 +34,7 @@ const Interest = ({ setTags, setPage, tags }: InterestProps) => {
   };
 
   const handleAddTag = (tag: string) => {
-    if (tags.length < 5 && !tags.includes(tag)) {
+    if (tags.length < MAX_TAGS && !tags.includes(tag)) {
       let copyTags = [...tags];
       copyTags.push(tag);
       setTags(copyTags);
@@ -149,7 +149,7 @@ const Interest = ({ setTags, setPage, tags }: InterestProps) => {
               setPage(2);
             }}
           />
-          <Button type='submit' size='medium' color='pastelred' children='완료' disabled={tags.length < 3} />
+          <Button type='submit' size='medium' color='pastelred' children='완료' disabled={tags.length < MIN_TAGS} />
         </div>
       </form>
     </div>
