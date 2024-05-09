@@ -49,6 +49,9 @@ const DistanceInput = ({ setValue, getValues }: DistanceInputProps) => {
             backgroundColor: '#FFC7C7',
             color: '#FFC7C7',
             boxShadow: 'none',
+            '&.Mui-active': {
+              boxShadow: 'none',
+            },
           },
         }}
       />

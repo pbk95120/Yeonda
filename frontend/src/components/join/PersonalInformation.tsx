@@ -95,7 +95,7 @@ const PersonalInformation = ({
           변수확인
         </p>
 
-        <div className='flex items-center gap-x-2 absolute top-[500px] '>
+        <div className='flex items-center gap-x-2 absolute top-[500px]'>
           <Button
             color='pastelred'
             size='medium'
