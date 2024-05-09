@@ -20,6 +20,7 @@
     "@utils": "./src/utils",
     "@storage": "./src/storage",
     "@schemas": "./src/schemas",
+    "@sockets": "./src/sockets",
     "@tests": "./src/tests"
   },
   "repository": {
