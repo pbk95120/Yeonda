@@ -2,7 +2,6 @@ import { selectOpponentId, selectOpponentInfo, selectChats } from '@databases/ge
 import { archiveCouple } from '@databases/deleteRelationship.database';
 import { databaseConnector } from '@middlewares/databaseConnector';
 import { Controller } from '@schemas/controller.schema';
-import CustomError from '@src/error';
 import http from 'http-status-codes';
 
 export const getChatlist: Controller = async (req, res) => {

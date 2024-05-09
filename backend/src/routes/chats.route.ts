@@ -5,7 +5,7 @@ import { controllerWrapper } from '@middlewares/controllerWrapper';
 const ChatsRoute = express.Router();
 ChatsRoute.use(express.json());
 
-ChatsRoute.get('/', authenticateUser, controllerWrapper(getChatlist));
-ChatsRoute.delete('/:user2_id', authenticateUser, controllerWrapper(deleteRelationship));
+ChatsRoute.get('/', controllerWrapper(authenticateUser, getChatlist));
+ChatsRoute.delete('/:user2_id', controllerWrapper(authenticateUser, deleteRelationship));
 
 export default ChatsRoute;
