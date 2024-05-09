@@ -23,7 +23,7 @@ const io = new Server(server, {
   cors: {
     origin: process.env.CORS_ALLOWED_ORIGIN,
   },
-  pingTimeout: 120000,
+  pingTimeout: 1200000,
 });
 
 socketHandler(io);
