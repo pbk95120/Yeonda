@@ -19,11 +19,7 @@ export interface InterestFormInputs {
 const Interest = ({ setTags, setPage, tags }: InterestProps) => {
   const [inputText, setInputText] = useState('');
   const navigate = useNavigate();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<InterestFormInputs>();
+  const { handleSubmit } = useForm<InterestFormInputs>();
 
   const onSubmit: SubmitHandler<InterestFormInputs> = (data) => {
     setTags(data.tags);
@@ -130,7 +126,7 @@ const Interest = ({ setTags, setPage, tags }: InterestProps) => {
             <div className='overflow-y-scroll h-80 my-4'>
               {filteredTags.map((tag, i) => (
                 <p
-                  key={i}
+                  key={tag[i]}
                   className='bg-chatgray w-auto inline-block p-1 px-2 rounded-xl m-1 text-xs cursor-pointer'
                   onClick={() => {
                     handleAddTag(tag);

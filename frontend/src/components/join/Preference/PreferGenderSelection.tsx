@@ -42,7 +42,7 @@ const PreferGenderSelection = ({ setValue, errors, register }: PreferGenderSelec
       />
       <button type='button' className='w-full drop-shadow-xl rounded-xl mb-4  ' onClick={openModal}>
         <div className='flex flex-row justify-between w-full p-2 border border-lightgray shadow-lg rounded-xl'>
-          <p className='text-lightgray'>{selectedGender ? genderName[selectedGender] : '선택해주세요'}</p>
+          <p className='text-black '>{selectedGender ? genderName[selectedGender] : '선택해주세요'}</p>
           <IoIosArrowForward className='text-2xl' />
         </div>
       </button>

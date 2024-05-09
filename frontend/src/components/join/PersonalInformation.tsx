@@ -92,7 +92,7 @@ const PersonalInformation = ({
             );
           }}
         >
-          asd
+          변수확인
         </p>
 
         <div className='flex items-center gap-x-2 absolute top-[500px] '>

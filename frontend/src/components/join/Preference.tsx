@@ -83,7 +83,7 @@ const Preference = ({ setPage, setGender, setPreferGender, setDistance, setStart
           console.log(getValues('endAge'));
         }}
       >
-        ㅁㄴㅇ
+        변수확인
       </button>
       <br />
       <button

@@ -34,7 +34,7 @@ const GenderSelection = ({ setValue, register, errors }: GenderSelectionProps) =
           size='medium'
           children='남성'
           onClick={() => handleGenderSelection('male')}
-          className='mr-[25px]'
+          className='mr-4'
         />
         <Button
           color={activeGender === 'female' ? 'pastelred' : 'lightgray'}
