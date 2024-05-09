@@ -15,14 +15,31 @@ export interface PreferenceFormInputs {
 
 interface PreferenceProps {
   setPage: (page: number) => void;
+  gender: string;
   setGender: (gender: string) => void;
+  preferGender: string;
   setPreferGender: (preferGender: string) => void;
+  distance: number;
   setDistance: (distance: number) => void;
+  startAge: number;
   setStartAge: (startAge: number) => void;
+  endAge: number;
   setEndAge: (endAge: number) => void;
 }
 
-const Preference = ({ setPage, setGender, setPreferGender, setDistance, setStartAge, setEndAge }: PreferenceProps) => {
+const Preference = ({
+  setPage,
+  setGender,
+  setPreferGender,
+  setDistance,
+  setStartAge,
+  setEndAge,
+  gender,
+  preferGender,
+  distance,
+  startAge,
+  endAge,
+}: PreferenceProps) => {
   const {
     handleSubmit,
     getValues,
@@ -53,10 +70,10 @@ const Preference = ({ setPage, setGender, setPreferGender, setDistance, setStart
     <div className='px-10 relative'>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className='items-center justify-center '>
-          <GenderSelection setValue={setValue} register={register} errors={errors} />
-          <PreferGenderSelection setValue={setValue} register={register} errors={errors} />
-          <AgeRangeInput setValue={setValue} getValues={getValues} />
-          <DistanceInput setValue={setValue} getValues={getValues} />
+          <GenderSelection setValue={setValue} register={register} errors={errors} gender={gender} />
+          <PreferGenderSelection setValue={setValue} register={register} errors={errors} preferGender={preferGender} />
+          <AgeRangeInput setValue={setValue} getValues={getValues} startAge={startAge} endAge={endAge} />
+          <DistanceInput setValue={setValue} getValues={getValues} distance={distance} />
         </div>
         <div className='flex items-center gap-x-2 absolute top-[500px] '>
           <Button

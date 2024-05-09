@@ -7,10 +7,11 @@ interface GenderSelectionProps {
   setValue: UseFormSetValue<PreferenceFormInputs>;
   register: UseFormRegister<PreferenceFormInputs>;
   errors: FieldErrors<PreferenceFormInputs>;
+  gender: string;
 }
 
-const GenderSelection = ({ setValue, register, errors }: GenderSelectionProps) => {
-  const [activeGender, setActiveGender] = useState<string>('');
+const GenderSelection = ({ setValue, register, errors, gender }: GenderSelectionProps) => {
+  const [activeGender, setActiveGender] = useState<string>(gender);
 
   const handleGenderSelection = (gender: string) => {
     setValue('gender', gender, { shouldValidate: true });
