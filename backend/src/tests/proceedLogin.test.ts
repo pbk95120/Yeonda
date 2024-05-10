@@ -1,4 +1,4 @@
-import app from '@src/app';
+import { server } from '@src/app';
 import Database from '@src/db';
 import { getEmailFromToken } from '@utils/getEmailFromToken';
 import http from 'http-status-codes';
@@ -14,7 +14,7 @@ afterAll(async () => {
 
 describe('POST /login 로그인 요청', () => {
   it('정상 요청', async () => {
-    const response = await request(app).post('/login').send({
+    const response = await request(server).post('/login').send({
       email: 'constant@gmail.com',
       password: 'constant',
     });
@@ -33,7 +33,7 @@ describe('POST /login 로그인 요청', () => {
   });
 
   it('잘못된 이메일', async () => {
-    const response = await request(app).post('/login').send({
+    const response = await request(server).post('/login').send({
       email: 'constant@gmail',
       password: 'constant',
     });
@@ -41,7 +41,7 @@ describe('POST /login 로그인 요청', () => {
   });
 
   it('존재하지 않는 사용자', async () => {
-    const response = await request(app).post('/login').send({
+    const response = await request(server).post('/login').send({
       email: 'faker@gmail.com',
       password: 'constant',
     });
@@ -49,7 +49,7 @@ describe('POST /login 로그인 요청', () => {
   });
 
   it('틀린 비밀번호', async () => {
-    const response = await request(app).post('/login').send({
+    const response = await request(server).post('/login').send({
       email: 'constant@gmail.com',
       password: 'incorrect',
     });

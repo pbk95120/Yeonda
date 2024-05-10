@@ -1,5 +1,5 @@
 import { databaseConnector } from '@middlewares/databaseConnector';
-import app from '@src/app';
+import { server } from '@src/app';
 import Database from '@src/db';
 import { getEmailFromToken } from '@utils/getEmailFromToken';
 import { getEncryptPassword } from '@utils/getEncryptPassword';
@@ -43,13 +43,13 @@ describe('POST /password/reset/confirm 비밀번호 변경 요청', () => {
 
   it('정상 요청', async () => {
     const token = issueToken(form.email);
-    let response = await request(app).post('/password/reset/confirm').set('Cookie', `access-token=${token}`).send({
+    let response = await request(server).post('/password/reset/confirm').set('Cookie', `access-token=${token}`).send({
       password: form.password,
       password_check: form.password_check,
     });
     expect(response.status).toBe(http.OK);
 
-    response = await request(app).post('/login').send({
+    response = await request(server).post('/login').send({
       email: form.email,
       password: form.password,
     });
@@ -70,7 +70,7 @@ describe('POST /password/reset/confirm 비밀번호 변경 요청', () => {
   it('잘못된 양식', async () => {
     form.password_check = 'notchanged';
     const token = issueToken(form.email);
-    const response = await request(app).post('/password/reset/confirm').set('Cookie', `access-token=${token}`).send({
+    const response = await request(server).post('/password/reset/confirm').set('Cookie', `access-token=${token}`).send({
       password: form.password,
       password_check: form.password_check,
     });
@@ -78,7 +78,7 @@ describe('POST /password/reset/confirm 비밀번호 변경 요청', () => {
   });
 
   it('토큰 없음', async () => {
-    const response = await request(app).post('/password/reset/confirm').send({
+    const response = await request(server).post('/password/reset/confirm').send({
       password: form.password,
       password_check: form.password_check,
     });
@@ -88,7 +88,7 @@ describe('POST /password/reset/confirm 비밀번호 변경 요청', () => {
   it('존재하지 않는 사용자', async () => {
     form.email = 'faker@gmail.com';
     const token = issueToken(form.email);
-    let response = await request(app).post('/password/reset/confirm').set('Cookie', `access-token=${token}`).send({
+    let response = await request(server).post('/password/reset/confirm').set('Cookie', `access-token=${token}`).send({
       password: form.password,
       password_check: form.password_check,
     });

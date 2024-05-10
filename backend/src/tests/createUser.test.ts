@@ -1,5 +1,5 @@
 import { databaseConnector } from '@middlewares/databaseConnector';
-import app from '@src/app';
+import { server } from '@src/app';
 import Database from '@src/db';
 import fs from 'fs';
 import http from 'http-status-codes';
@@ -25,7 +25,7 @@ const cleanUp = async (conn: Connection): Promise<void> => {
   sql = "delete from user where email = 'faker@gmail.com'";
   await conn.execute(sql);
 
-  sql = 'delete from address where id != 1';
+  sql = 'delete from address where id > 2';
   await conn.execute(sql);
 
   return;
@@ -49,7 +49,7 @@ describe('POST /signup 회원 가입 요청', () => {
   let form;
 
   const requestFn = async () => {
-    let agent = request(app)
+    let agent = request(server)
       .post('/signup')
       .set('Content-Type', 'multipart/form-data')
       .attach('picture', path.join(__dirname, 'mocks', 'mock.png'));
@@ -84,7 +84,7 @@ describe('POST /signup 회원 가입 요청', () => {
       const sql = "select id from user where email = 'faker@gmail.com'";
       const [result] = await conn.execute(sql);
       return result;
-    });
+    })();
     if (!result) fail();
   });
 
@@ -108,7 +108,7 @@ describe('POST /signup 회원 가입 요청', () => {
   });
 
   it('잘못된 파일 양식', async () => {
-    let agent = request(app)
+    let agent = request(server)
       .post('/signup')
       .set('Content-Type', 'multipart/form-data')
       .attach('picture', path.join(__dirname, 'mocks', 'mock.txt'));
