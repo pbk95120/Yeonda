@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
+import { useAuth } from '@/hooks/useAuth';
 
 interface LoginFormInputs {
   email: string;
@@ -9,6 +10,8 @@ interface LoginFormInputs {
 }
 
 const LoginPage = () => {
+  const { userLogin } = useAuth();
+
   const {
     register,
     handleSubmit,
@@ -17,6 +20,7 @@ const LoginPage = () => {
 
   const onSubmit: SubmitHandler<LoginFormInputs> = (data) => {
     console.log(data);
+    userLogin(data);
   };
 
   return (
