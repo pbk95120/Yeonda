@@ -3,11 +3,24 @@ import useDiaries from '@/hooks/useDiaries'; // 추후 API 연결 시 이용
 import diariesData from '@/mocks/diaryData';
 import Cancel from '@/assets/images/cancel.svg?react';
 import { FaHeart } from 'react-icons/fa';
+import { useDiaryItemStore } from '@/store/diaryStore';
+import { useEffect } from 'react';
 
 const DiarySuggestionPage = () => {
+  const { setIsSuggestionPage } = useDiaryItemStore();
+
+  const isSuggestionPage = () => {
+    setIsSuggestionPage(true);
+    return () => {
+      setIsSuggestionPage(false);
+    };
+  };
+
+  useEffect(isSuggestionPage, []);
+
   return (
     <div>
-      <DiaryItem diary={diariesData[0]} isSuggestionPage={true} />
+      <DiaryItem diary={diariesData[0]} />
       <div className='flex justify-center w-full gap-[83px] absolute bottom-[100px]'>
         <button className='flex items-center justify-center rounded-full w-[54px] h-[54px] bg-white border border-lightgray shadow-lg'>
           <Cancel />
