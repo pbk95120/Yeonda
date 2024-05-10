@@ -1,22 +1,22 @@
 // import Button from '@/components/common/Button';
-import Input from '@/components/common/Input';
 // import Modal from '@/components/common/Modal';
 // import Toast from '@/components/common/Toast';
 // import { useState } from 'react';
 import SVG from '@/assets/images/Profile.svg?react';
-
 import { IoFemale } from 'react-icons/io5';
 import { IoMale } from 'react-icons/io5';
 import { useState } from 'react';
 import Tags from '@/components/join/Tags';
-import { dividerClasses } from '@mui/material';
+
 
 const tags = ['롤토체스', '농구', '게임', '우주파괴', '취뽀'];
 
 const MyPage = () => {
+  const handleRemoveTag=()=>{
+    }
   const [gender, setGender] = useState<'male' | 'female'>('male');
   return (
-    <div className='flex flex-col items-center space-y-2'>
+    <div className='flex flex-col items-center justify-center space-y-2'>
       <SVG className='h-[221px] w-[230px] m-2' />
       <div className='font-sans font-bold text-xl'>킹상하</div>
       <div className='flex flex-row justify-center items-center space-x-2'>
@@ -26,9 +26,11 @@ const MyPage = () => {
         </div>
       </div>
       <div className='font-sans font-bold text-xl'>대구</div>
-      <div id='tag container'>
+      <div id='tag container' className='w-80 flex-wrap justify-center items-center pt-6'>
         {tags.map((tag, i) => (
-          <div></div>
+            <div key={i} className='inline-block'>
+              <Tags i ={i} tag={tag} className='px-3 py-2 mx-4'/>
+            </div>
         ))}
       </div>
     </div>

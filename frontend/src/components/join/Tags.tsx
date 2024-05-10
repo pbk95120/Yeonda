@@ -3,19 +3,21 @@ import { IoCloseOutline } from 'react-icons/io5';
 interface TagsProps {
   i: number;
   tag: string;
-  handleRemoveTag: (indexToRemove: number) => void;
+  handleRemoveTag?: (indexToRemove: number) => void;
+  className?: string
 }
 
-const Tags = ({ i, tag, handleRemoveTag }: TagsProps) => {
+const Tags = ({ i, tag, handleRemoveTag ,className }: TagsProps) => {
   const colors = ['bg-pastelpeach', 'bg-orange', 'bg-green', 'bg-blue', 'bg-purple'];
   return (
     <div key={i} className='inline-block mb-2 mr-1'>
-      <p className={`${colors[i]} inline-block px-2 py-1 rounded-3xl  text-white text-sm`}>
+      <p className={`${colors[i]} inline-block rounded-3xl  text-white text-sm text-nowrap ${className}`}>
         #{tag}
-        <IoCloseOutline
+        {handleRemoveTag ? <IoCloseOutline
           className='cursor-pointer inline-block text-gray transform -translate-y-[1px]'
           onClick={() => handleRemoveTag(i)}
-        />
+        /> : null}
+        
       </p>
     </div>
   );
