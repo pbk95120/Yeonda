@@ -51,9 +51,11 @@ const ChatProfile = ({ profileImage, nickName }: ChatProfileProps) => {
 
   return (
     <motion.div
-      className='flex flex-col items-center justify-center py-12 z-10'
+      className='z-10 flex flex-col items-center justify-center py-12'
       style={{
         height: scroll ? '2.5rem' : 'auto',
+        paddingTop: scroll ? '2.5rem' : '3rem',
+        paddingBottom: scroll ? '1rem' : '3rem',
       }}
       animate={controls}
     >
@@ -61,14 +63,14 @@ const ChatProfile = ({ profileImage, nickName }: ChatProfileProps) => {
         src={profileImage}
         alt='profile'
         className='rounded-full'
-        animate={scroll ? { x: 140, y: 55, scale: 0.15 } : { x: 0.1, scale: 1 }}
-        transition={{ duration: 0.8, ease: 'easeInOut' }}
+        animate={scroll ? { x: 140, y: 55, scale: 0.15 } : { x: 0, scale: 1 }}
+        transition={{ duration: 0.7, ease: 'easeInOut' }}
       />
       <motion.p
         className='mt-4 text-2xl font-bold'
         initial={{ x: 0, scale: 1 }}
         animate={scroll ? { x: -120, y: -110, scale: 0.8 } : { x: 0, scale: 1 }}
-        transition={{ duration: 0.8, ease: 'easeInOut' }}
+        transition={{ duration: 0.7, ease: 'easeInOut' }}
       >
         {nickName}
       </motion.p>

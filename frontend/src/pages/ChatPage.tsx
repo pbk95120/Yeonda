@@ -1,4 +1,6 @@
+import { fetchChatList } from '@/api/chat.api';
 import ChatList from '@/components/chat/ChatList';
+import { useEffect } from 'react';
 
 const ChatPage = () => {
   const mockMessages = [
@@ -53,10 +55,16 @@ const ChatPage = () => {
     },
   ];
 
+  useEffect(() => {
+    fetchChatList().then((log) => {
+      console.log(log);
+    });
+  }, []);
+
   return (
     <>
       <section>
-        <p className='font-bold mb-6 ml-5'>메세지</p>
+        <p className='mb-6 ml-5 font-bold'>메세지</p>
       </section>
       <section>
         {mockMessages.map((msg) => (
