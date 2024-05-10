@@ -4,6 +4,8 @@ import 'dotenv/config';
 import jwt from 'jsonwebtoken';
 import Database from '@src/db';
 import { Socket } from 'socket.io';
+import { errorHandler } from '@sockets/middleware';
+import http from 'http-status-codes';
 
 const { JWT_SECRET } = process.env;
 
@@ -14,20 +16,8 @@ export const emailFromToken = async (socket: Socket, token: string): Promise<str
     };
     return decoded.email;
   } catch (err) {
-    socket.emit('error', { message: '토큰 값이 유효하지 않습니다.' });
-    socket.disconnect();
+    errorHandler(socket, http.BAD_REQUEST, '토큰 값이 유효하지 않습니다.', err);
   }
-};
-
-export const getUserIdByEmail = async (conn: Connection, socket: Socket, email: string) => {
-  const sql = 'select id from users where email =:email';
-  const values = { email: email };
-  const [result] = await conn.execute<RowDataPacket[]>(sql, values);
-  if (result.length == 0) {
-    socket.emit('error', { message: '인증되지 않은 사용자 접근입니다.' });
-    socket.disconnect();
-  }
-  return result;
 };
 
 export const databaseConnector =
