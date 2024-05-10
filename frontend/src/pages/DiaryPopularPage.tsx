@@ -1,8 +1,21 @@
 import DiaryItem from '@/components/diaries/DiaryItem';
 import useDiaries from '@/hooks/useDiaries'; // 추후 API 연결 시 이용
 import diariesData from '@/mocks/diaryData';
+import { useDiaryItemStore } from '@/store/diaryStore';
+import { useEffect } from 'react';
 
 const DiaryPopularPage = () => {
+  const { setIsPopularPage } = useDiaryItemStore();
+
+  const isPopularPage = () => {
+    setIsPopularPage(true);
+    return () => {
+      setIsPopularPage(false);
+    };
+  };
+
+  useEffect(isPopularPage, []);
+
   const colors = ['bg-pastelpeach', 'bg-orange', 'bg-pastelgreen', 'bg-blue', 'bg-purple'];
 
   const tempTag = ['노래방', '제테크', '패션', '스키', '커피'];
@@ -16,7 +29,7 @@ const DiaryPopularPage = () => {
           </button>
         ))}
       </div>
-      <DiaryItem diary={diariesData[0]} isPopularPage={true} />
+      <DiaryItem diary={diariesData[0]} />
     </div>
   );
 };

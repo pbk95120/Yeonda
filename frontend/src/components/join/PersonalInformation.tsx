@@ -10,9 +10,13 @@ import Button from '../common/Button';
 interface PersonalInformationProps {
   setPage: (page: number) => void;
   setPicture: (picture: File) => void;
+  year: number;
   setYear: (year: number) => void;
+  month: number;
   setMonth: (month: number) => void;
+  day: number;
   setDay: (day: number) => void;
+  address: string;
   setAddress: (address: string) => void;
 }
 
@@ -26,11 +30,15 @@ export interface PersonalInformationFormInputs {
 
 const PersonalInformation = ({
   setPage,
-  setYear,
-  setMonth,
-  setDay,
-  setAddress,
   setPicture,
+  year,
+  setYear,
+  month,
+  setMonth,
+  day,
+  setDay,
+  address,
+  setAddress,
 }: PersonalInformationProps) => {
   const {
     register,
@@ -66,8 +74,9 @@ const PersonalInformation = ({
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className='items-center justify-center mb-20'>
           <ProfilePictureInput onImageChange={(imageDataUrl, file) => setValue('picture', file)} />
-          <BirthdateInput errors={errors} register={register} setValue={setValue} />
+          <BirthdateInput errors={errors} register={register} setValue={setValue} year={year} month={month} day={day} />
           <AddressInput
+            address={address}
             register={register}
             errors={errors}
             onChange={(value) => setSelectedAddress(value)}
@@ -95,7 +104,7 @@ const PersonalInformation = ({
           변수확인
         </p>
 
-        <div className='flex items-center gap-x-2 absolute top-[500px] '>
+        <div className='flex items-center gap-x-2 absolute top-[500px]'>
           <Button
             color='pastelred'
             size='medium'

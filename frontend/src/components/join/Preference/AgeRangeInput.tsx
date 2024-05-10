@@ -2,18 +2,21 @@ import { UseFormGetValues, UseFormSetValue } from 'react-hook-form';
 import { PreferenceFormInputs } from '../Preference';
 import Slider from '@mui/material/Slider';
 import { useEffect, useState } from 'react';
+import { DEFAULT_ENDAGE, DEFAULT_STARTAGE, MAX_AGE, MIN_AGE } from '@/constants/constants';
 
 interface AgeRangeInputProps {
   setValue: UseFormSetValue<PreferenceFormInputs>;
   getValues: UseFormGetValues<PreferenceFormInputs>;
+  startAge: number;
+  endAge: number;
 }
 
-const AgeRangeInput = ({ setValue, getValues }: AgeRangeInputProps) => {
-  const [age, setAge] = useState([20, 80]);
+const AgeRangeInput = ({ setValue, getValues, startAge, endAge }: AgeRangeInputProps) => {
+  const [age, setAge] = useState([startAge, endAge]);
 
   useEffect(() => {
-    setValue('startAge', 20);
-    setValue('endAge', 80);
+    setValue('startAge', startAge);
+    setValue('endAge', endAge);
   }, []);
 
   const handleChange = (_: Event, newValue: number | number[]) => {
@@ -29,16 +32,16 @@ const AgeRangeInput = ({ setValue, getValues }: AgeRangeInputProps) => {
       <legend className='text-sm pb-2 flex w-full justify-between'>
         <span>선호 나이</span>
         <span className='text-sm'>
-          {getValues('startAge') === undefined ? 0 : getValues('startAge')}세 -{' '}
-          {getValues('endAge') === undefined ? 100 : getValues('endAge')}세
+          {getValues('startAge') === undefined ? startAge : getValues('startAge')}세 -{' '}
+          {getValues('endAge') === undefined ? endAge : getValues('endAge')}세
         </span>
       </legend>
 
       <Slider
         value={age}
         onChange={handleChange}
-        min={0}
-        max={100}
+        min={MIN_AGE}
+        max={MAX_AGE}
         sx={{
           '& .MuiSlider-track': {
             height: 8,
@@ -56,6 +59,9 @@ const AgeRangeInput = ({ setValue, getValues }: AgeRangeInputProps) => {
             backgroundColor: '#FFC7C7',
             color: '#FFC7C7',
             boxShadow: 'none',
+            '&.Mui-active': {
+              boxShadow: 'none',
+            },
           },
         }}
       />

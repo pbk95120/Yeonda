@@ -45,7 +45,10 @@ const Layout = ({
       )}
       {chatHeader && <ChatHeader />}
       <ScrollToTop />
-      <main className='h-screen overflow-auto max-h-content' id='main-content'>
+      <main
+        className={`h-screen overflow-auto  ${showFooter ? 'max-h-content' : 'max-h-contentExpanded'}`}
+        id='main-content'
+      >
         {children}
       </main>
       {showFooter && <MainFooter />}

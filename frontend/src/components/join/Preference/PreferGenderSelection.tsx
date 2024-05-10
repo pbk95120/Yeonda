@@ -8,16 +8,17 @@ interface PreferGenderSelectionProps {
   setValue: UseFormSetValue<PreferenceFormInputs>;
   register: UseFormRegister<PreferenceFormInputs>;
   errors: FieldErrors<PreferenceFormInputs>;
+  preferGender: string;
 }
 
-const PreferGenderSelection = ({ setValue, errors, register }: PreferGenderSelectionProps) => {
+const PreferGenderSelection = ({ setValue, errors, register, preferGender }: PreferGenderSelectionProps) => {
   const [open, setOpen] = useState(false);
 
   const openModal = () => setOpen(true);
   const closeModal = () => setOpen(false);
-  const [selectedGender, setSelectedGender] = useState<'male' | 'female' | 'both' | ''>('');
+  const [selectedGender, setSelectedGender] = useState<string>(preferGender);
 
-  const genderName = {
+  const genderName: { [key: string]: string } = {
     male: '남성',
     female: '여성',
     both: '무관',

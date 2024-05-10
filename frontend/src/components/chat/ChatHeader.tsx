@@ -12,20 +12,20 @@ const ChatHeader = () => {
 
   return (
     <header className='min-h-20'>
-      <div className='flex w-full max-w-sm relative py-[1.875rem]'>
+      <div className='relative flex w-full max-w-sm py-[1.875rem]'>
         <div>
-          <IoIosArrowBack className='absolute left-7 w-6 h-6 fill-gray cursor-pointer' onClick={() => navigate(-1)} />
+          <IoIosArrowBack className='absolute left-7 h-6 w-6 cursor-pointer fill-gray' onClick={() => navigate(-1)} />
         </div>
         <div>
-          <Profile className='w-8 h-8 absolute left-[3.5rem] bottom-0.5 cursor-pointer' onClick={handleClick} />
+          <Profile className='absolute bottom-0.5 left-[3.5rem] h-8 w-8 cursor-pointer' onClick={handleClick} />
         </div>
         <div>
-          <p className='absolute left-[6rem] bottom-2 font-bold cursor-pointer' onClick={handleClick}>
+          <p className='absolute bottom-2 left-[6rem] cursor-pointer font-bold' onClick={handleClick}>
             UserName
           </p>
         </div>
         <div>
-          <RiMenu4Line className='absolute right-5 bottom-2 w-6 h-6 fill-gray cursor-pointer' onClick={handleClick} />
+          <RiMenu4Line className='absolute bottom-2 right-5 h-6 w-6 cursor-pointer fill-gray' onClick={handleClick} />
         </div>
       </div>
     </header>
