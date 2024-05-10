@@ -40,4 +40,5 @@ export const patchMyAddress: Controller = async (req, res) => {
 
 export const getMyPreference: Controller = async (req, res) => {
   const preference = await databaseConnector(selectMyPreference)(req.body.email);
+  res.status(http.OK).json(preference);
 };
