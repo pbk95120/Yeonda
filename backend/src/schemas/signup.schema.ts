@@ -28,17 +28,21 @@ export const PasswordSchema = Joi.string()
   .pattern(/^[^\s]+$/)
   .required();
 
+export const PictureUrlSchema = Joi.string().regex(/^.+\.(jpg|jpeg|png|webp)$/);
+
+export const AddressDetailSchema = Joi.string().max(100).required();
+
 export const RawSignupSchema = Joi.object({
   nickname: Joi.string().max(20).required(),
   email: EmailSchema,
   password: PasswordSchema,
   password_check: Joi.string().valid(Joi.ref('password')).required(),
   gender: Joi.string().valid('Male', 'Female').required(),
-  picture_url: Joi.string().regex(/^.+\.(jpg|jpeg|png|webp)$/),
+  picture_url: PictureUrlSchema,
   birth: Joi.string()
     .pattern(/^\d{4}-\d{2}-\d{2}$/)
     .required(),
-  address: Joi.string().required(),
+  address: AddressDetailSchema,
   prefer_gender: Joi.string().valid('Male', 'Female', 'Neutral').required(),
   distance: Joi.string().regex(/^\d{1,4}$/),
   start_age: Joi.string().regex(/^\d{2}$/),
