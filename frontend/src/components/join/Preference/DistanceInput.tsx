@@ -26,7 +26,7 @@ const DistanceInput = ({ setValue, getValues, distance }: DistanceInputProps) =>
     <fieldset className='pb-2 w-full'>
       <legend className='text-sm pb-2 flex w-full justify-between'>
         <span>상대와의 거리</span>
-        <span className='text-sm'>{getValues('distance') === undefined ? distance : currentDistance}km</span>
+        <span className='text-sm'>{getValues('distance') === undefined ? distance : currentDistance} km</span>
       </legend>
 
       <Slider
