@@ -25,7 +25,7 @@ export const EmailSchema = Joi.string().email().max(320).required();
 export const PasswordSchema = Joi.string()
   .min(5)
   .max(20)
-  .pattern(/^[^\s]+$/)
+  .pattern(/^[A-Za-z0-9]+$/)
   .required();
 
 export const PictureUrlSchema = Joi.string().regex(/^.+\.(jpg|jpeg|png|webp)$/);

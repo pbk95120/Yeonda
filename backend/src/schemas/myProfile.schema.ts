@@ -1,7 +1,7 @@
 import { Address } from '@models/address.model';
+import { Preference } from '@models/preference.model';
 import { Tag } from '@models/tag.model';
 import { User } from '@models/user.model';
-import { Preference } from '@src/models/preference.model';
 
 interface IMyProfile
   extends Pick<User, 'email' | 'nickname' | 'gender' | 'birth' | 'picture_url'>,

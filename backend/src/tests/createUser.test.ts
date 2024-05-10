@@ -96,7 +96,7 @@ describe('POST /signup 회원 가입 요청', () => {
 
   it('잘못된 비밀번호 양식', async () => {
     form.password = 'password!@';
-    form.password = 'password!@';
+    form.password_check = 'password!@';
     const response = await requestFn();
     expect(response.status).toBe(http.BAD_REQUEST);
   });
