@@ -1,6 +1,8 @@
+import CustomError from '@src/error';
 import logger from '@src/logger';
 import axios from 'axios';
 import 'dotenv/config';
+import http from 'http-status-codes';
 
 const { SGIS_KEY, SGIS_SECRET } = process.env;
 
@@ -38,6 +40,7 @@ export const getGeoCode = async (address: string): Promise<LatLng> => {
 
   let errorCount = 0;
   const retryCount = 3;
+  let specificError;
   let retryError;
 
   while (errorCount < retryCount) {
@@ -61,6 +64,11 @@ export const getGeoCode = async (address: string): Promise<LatLng> => {
             break;
           case -100:
             errorCount = 3;
+            specificError = new CustomError(http.NOT_FOUND, '주소 검색 결과 존재하지 않음');
+            break;
+          case -200:
+            errorCount = 3;
+            specificError = new CustomError(http.BAD_REQUEST, '올바르지 않은 주소');
             break;
         }
       })
@@ -69,6 +77,11 @@ export const getGeoCode = async (address: string): Promise<LatLng> => {
         retryError = error;
       });
     if (geoCode.latitude !== 0) break;
+  }
+
+  if (specificError) {
+    logger.error('GeoCode 에러', specificError);
+    throw specificError;
   }
 
   if (errorCount === retryCount) {

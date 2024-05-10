@@ -33,6 +33,6 @@ export const patchMyAddress: Controller = async (req, res) => {
   const { error } = AddressDetailSchema.validate(req.body.address);
   if (error) throw new CustomError(http.BAD_REQUEST, '잘못된 주소 양식');
 
-  await databaseConnector(updateMyAddress)(req.body.address);
+  await databaseConnector(updateMyAddress)(req.body.email, req.body.address);
   res.sendStatus(http.OK);
 };
