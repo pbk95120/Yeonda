@@ -7,7 +7,7 @@ import { DEFAULT_TIMEOUT } from '@/constants/constants';
  */
 export const createClient = (config?: AxiosRequestConfig) => {
   const axiosInstance = axios.create({
-    baseURL: import.meta.env.BASE_URL,
+    baseURL: import.meta.env.VITE_BASE_URL,
     timeout: DEFAULT_TIMEOUT,
     headers: {
       'Content-Type': 'application/json',

@@ -1,0 +1,8 @@
+node_modules
+build
+.env
+temp
+logs
+img
+
+/backend

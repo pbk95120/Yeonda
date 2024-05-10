@@ -1,3 +1,4 @@
+import { getCookie, removeCookie, setCookie } from '@/utils/cookie';
 import { create } from 'zustand';
 
 interface StoreState {
@@ -7,16 +8,16 @@ interface StoreState {
 }
 
 export const getToken = () => {
-  const token = localStorage.getItem('token');
+  const token = getCookie('access-token');
   return token;
 };
 
 export const setToken = (token: string) => {
-  localStorage.setItem('token', token);
+  setCookie('access-token', token, { path: '/' });
 };
 
 export const removeToken = () => {
-  localStorage.removeItem('token');
+  removeCookie('access-token', { path: '/' });
 };
 
 export const useAuthStore = create<StoreState>((set) => ({
