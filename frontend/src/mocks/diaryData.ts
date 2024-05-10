@@ -3,7 +3,7 @@ export default [
     id: 1,
     nickname: '리종석',
     picture_url: 'https://picsum.photos/200/300',
-    title: '오늘의 일기',
+    title: '오늘의 일기1',
     content: `일기 쓰면 여친 생기나? 일기 쓰면 여친 생기나? 일기 쓰면 여친 생기나?
      일기 쓰면 여친 생기나? 일기 쓰면 여친 생기나? 일기 쓰면 여친 생기나?
      일기 쓰면 여친 생기나? 일기 쓰면 여친 생기나? 일기 쓰면 여친 생기나?
@@ -18,7 +18,7 @@ export default [
     id: 2,
     nickname: '리종석',
     picture_url: 'https://picsum.photos/200/300',
-    title: '오늘의 일기',
+    title: '오늘의 일기2',
     content: `일기 쓰면 여친 생기나? 일기 쓰면 여친 생기나? 일기 쓰면 여친 생기나?
      일기 쓰면 여친 생기나? 일기 쓰면 여친 생기나? 일기 쓰면 여친 생기나?
      일기 쓰면 여친 생기나? 일기 쓰면 여친 생기나? 일기 쓰면 여친 생기나?
@@ -33,7 +33,7 @@ export default [
     id: 3,
     nickname: '리종석',
     picture_url: 'https://picsum.photos/200/300',
-    title: '오늘의 일기',
+    title: '오늘의 일기3',
     content: `일기 쓰면 여친 생기나? 일기 쓰면 여친 생기나? 일기 쓰면 여친 생기나?
      일기 쓰면 여친 생기나? 일기 쓰면 여친 생기나? 일기 쓰면 여친 생기나?
      일기 쓰면 여친 생기나? 일기 쓰면 여친 생기나? 일기 쓰면 여친 생기나?

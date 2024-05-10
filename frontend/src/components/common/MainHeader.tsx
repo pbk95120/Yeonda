@@ -9,16 +9,24 @@ interface HeaderProps {
   backBtn?: boolean;
   cancelStr?: boolean;
   list?: null | boolean;
+  complete?: boolean | null;
 }
 
 /**
  * Main Header 컴포넌트
  */
-const MainHeader = ({ value, onlyLogo, setting, backBtn, cancelStr }: HeaderProps) => {
+const MainHeader = ({ value, onlyLogo, setting, backBtn, cancelStr, complete }: HeaderProps) => {
   return (
-    <div className='flex flex-row w-full max-w-sm'>
+    <header className='flex flex-row w-full max-w-sm h-20 relative '>
       {onlyLogo ? (
-        <SVG className='h-20 py-3 w-full' />
+        <div className='flex h-20 justify-between items-center w-full relative'>
+          {backBtn ? (
+            <div className='absolute z-20 left-7 flex justify-center items-center'>
+              <IoIosArrowBack className='w-6 h-6 fill-gray' onClick={() => history.back()} />
+            </div>
+          ) : null}
+          <SVG className='h-20 py-3 fixed' />
+        </div>
       ) : (
         <div className='flex h-20 justify-between items-center w-full relative'>
           {cancelStr ? (
@@ -39,9 +47,16 @@ const MainHeader = ({ value, onlyLogo, setting, backBtn, cancelStr }: HeaderProp
               <IoSettings className='w-5 h-10 fill-gray' />
             </div>
           ) : null}
+          {complete ? (
+            <div className='absolute right-7 flex justify-center items-center'>
+              <button id='completeBtn' className='right-7 text-sans text-xs text-pastelred'>
+                완료
+              </button>
+            </div>
+          ) : null}
         </div>
       )}
-    </div>
+    </header>
   );
 };
 

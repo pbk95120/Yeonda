@@ -1,4 +1,3 @@
-import React from 'react';
 import DaumPostcode from 'react-daum-postcode';
 
 interface AddressModalProps {
@@ -7,7 +6,7 @@ interface AddressModalProps {
   onSelectAddress: (address: string) => void;
 }
 
-const AddressModal: React.FC<AddressModalProps> = ({ isOpen, onClose, onSelectAddress }) => {
+const AddressModal = ({ isOpen, onClose, onSelectAddress }: AddressModalProps) => {
   return (
     isOpen && (
       <div

@@ -1,8 +1,11 @@
 import { useState } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import Button from '../common/Button';
+import NicknameInput from './Account/NicknameInput';
+import PasswordInput from './Account/PasswordInput';
+import EmailVerificationInput from './Account/EmailInputVerification';
 
-interface AccountFormInputs {
+export interface AccountFormInputs {
   nickname: string;
   email: string;
   verificationCode: string;
@@ -12,10 +15,15 @@ interface AccountFormInputs {
 
 interface AccountProps {
   setPage: (page: number) => void;
+  nickname: string;
   setNickname: (nickname: string) => void;
+  email: string;
   setEmail: (email: string) => void;
+  verificationCode: string;
   setVerificationCode: (verificationCode: string) => void;
+  password: string;
   setPassword: (password: string) => void;
+  passwordCheck: string;
   setPasswordCheck: (passwordCheck: string) => void;
 }
 
@@ -26,6 +34,11 @@ const Account = ({
   setVerificationCode,
   setPassword,
   setPasswordCheck,
+  nickname,
+  email,
+  verificationCode,
+  password,
+  passwordCheck,
 }: AccountProps) => {
   const {
     register,
@@ -42,116 +55,60 @@ const Account = ({
     setPassword(data.password);
     setPasswordCheck(data.passwordCheck);
   };
-  const [submitBtnDisabled, setSubmitBtnDisabled] = useState<boolean>(true);
+
   const [nextBtnDisabled, setNextBtnDisabled] = useState<boolean>(true);
 
   return (
-    <div>
-      <div className='w-full h-full mt-10 px-10'>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className='items-start justify-center'>
-            <fieldset className='pb-1'>
-              <legend className='mb-1 text-sm'>닉네임</legend>
-              <input
-                type='text'
-                placeholder='닉네임'
-                {...register('nickname', { required: true, maxLength: 20 })}
-                className='w-full p-2 border rounded'
-              />
-            </fieldset>
-            {errors.nickname && (
-              <span className='text-red text-xs text-end '>올바른 닉네임을 입력하세요 (2-10자).</span>
-            )}
-            <fieldset className='pb-1'>
-              <legend className='mb-1 text-sm'>이메일</legend>
-              <div className='flex items-center'>
-                <input
-                  type='email'
-                  placeholder='이메일'
-                  {...register('email', { required: true, pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i })}
-                  className='flex-grow p-2 border rounded mr-2 w-[120px]'
-                />
-                <Button
-                  size='small'
-                  color='pastelred'
-                  children='전송'
-                  onClick={() => {
-                    setSubmitBtnDisabled(false);
-                  }}
-                />
-              </div>
-            </fieldset>
-            {errors.email && <span className='text-red text-xs text-end '>이메일 형식을 지켜주세요.</span>}
-            <fieldset className='pb-1'>
-              <legend className='mb-1 text-sm'>인증번호</legend>
-              <div className='flex items-center'>
-                <input
-                  type='text'
-                  placeholder='인증번호'
-                  {...register('verificationCode', {
-                    required: true,
-                    pattern: /^[0-9]{6}$/,
-                  })}
-                  className='flex-grow p-2 border rounded mr-2  w-[120px]'
-                />
-
-                <Button
-                  size='small'
-                  color='pastelred'
-                  children='확인'
-                  onClick={() => {
-                    setNextBtnDisabled(false);
-                  }}
-                  disabled={submitBtnDisabled}
-                />
-              </div>
-            </fieldset>
-            {errors.verificationCode && <span className='text-red text-xs text-end '>인증번호를 입력해주세요.</span>}
-            <fieldset className=' pb-1'>
-              <legend className='mb-1 text-sm'>비밀번호</legend>
-              <div className='flex items-center'>
-                <input
-                  type='password'
-                  placeholder='비밀번호'
-                  {...register('password', { required: true, minLength: 5, maxLength: 20, pattern: /^[^\s]+$/ })}
-                  className='flex-grow p-2 border rounded w-full'
-                />
-              </div>
-            </fieldset>
-            {errors.password && <span className='text-red text-xs text-end '>비밀번호는 5-20자로 설정해주세요.</span>}
-            <fieldset className=' pb-1'>
-              <legend className='mb-1 text-sm'>비밀번호 확인</legend>
-              <div className='flex items-center'>
-                <input
-                  type='password'
-                  placeholder='비밀번호 확인'
-                  {...register('passwordCheck', {
-                    required: true,
-                    minLength: 5,
-                    maxLength: 20,
-                    pattern: /^[^\s]+$/,
-                    validate: {
-                      matchesPassword: (value) => value === getValues('password'),
-                    },
-                  })}
-                  className='flex-grow p-2 border rounded  w-full'
-                />
-              </div>
-            </fieldset>
-            {errors.passwordCheck && <span className='text-red text-xs text-end '>비밀번호를 다시 확인해주세요.</span>}
-          </div>
-          <div className='flex flex-col items-center justify-center pt-4'>
-            <Button size='large' color='pastelred' children='다음' disabled={nextBtnDisabled} />
-            <button
-              onClick={() => {
-                setPage(1);
-              }}
-            >
-              임시버튼
-            </button>
-          </div>
-        </form>
-      </div>
+    <div className='w-full px-10'>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className='items-start justify-center'>
+          <NicknameInput register={register} errors={errors} nickname={nickname} />
+          <EmailVerificationInput
+            register={register}
+            errors={errors}
+            setNextBtnDisabled={setNextBtnDisabled}
+            email={email}
+            verificationCode={verificationCode}
+          />
+          <PasswordInput
+            register={register}
+            errors={errors}
+            getValues={getValues}
+            password={password}
+            passwordCheck={passwordCheck}
+          />
+          <button
+            className='absolute top-[560px]'
+            onClick={() => {
+              setPage(1);
+            }}
+          >
+            임시버튼
+          </button>
+          <button
+            className='absolute top-[530px]'
+            type='button'
+            onClick={() => {
+              console.log(
+                getValues('nickname'),
+                getValues('email'),
+                getValues('verificationCode'),
+                getValues('password'),
+                getValues('passwordCheck'),
+              );
+            }}
+          >
+            변수확인
+          </button>
+        </div>
+        <Button
+          size='large'
+          color='pastelred'
+          children='다음'
+          disabled={nextBtnDisabled}
+          className='absolute top-[580px]'
+        />
+      </form>
     </div>
   );
 };

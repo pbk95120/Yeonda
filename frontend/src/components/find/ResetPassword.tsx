@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import Button from '../common/Button';
+import Input from '../common/Input';
 
 const ResetPassword = () => {
   const {
@@ -9,8 +10,6 @@ const ResetPassword = () => {
     watch,
     formState: { errors },
   } = useForm();
-  const password = watch('password', '');
-  const confirmPassword = watch('confirmPassword', '');
   const navigate = useNavigate();
   const onSubmit = (data: any) => {
     navigate('/login');
@@ -18,28 +17,40 @@ const ResetPassword = () => {
   };
 
   return (
-    <div className='w-full h-full mt-10 px-10'>
+    <div className='w-full mt-10 px-10'>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className='items-start justify-center mb-[184px]'>
           <fieldset className='pb-2'>
             <legend className='mb-2 text-sm'>비밀번호</legend>
-            <input
+            <Input
+              inputFor='default'
               type='password'
               placeholder='비밀번호'
               className='w-full p-2 border rounded'
-              {...register('password', { required: true, minLength: 5, maxLength: 20, pattern: /^[^\s]+$/ })}
+              register={{
+                ...register('password', { required: true, minLength: 5, maxLength: 20, pattern: /^[^\s]+$/ }),
+              }}
             />
             {errors.password && <span className='text-red text-xs'>비밀번호를 입력하세요 (5-20자).</span>}
           </fieldset>
           <fieldset>
             <legend className='mb-2 text-sm'>비밀번호 확인</legend>
-            <input
+            <Input
+              inputFor='default'
               type='password'
               placeholder='비밀번호 확인'
               className='w-full p-2 border rounded'
-              {...register('confirmPassword', { required: true, minLength: 5, maxLength: 20, pattern: /^[^\s]+$/ })}
+              register={{
+                ...register('confirmPassword', {
+                  required: true,
+                  minLength: 5,
+                  maxLength: 20,
+                  pattern: /^[^\s]+$/,
+                  validate: (value) => value === watch('password', ''),
+                }),
+              }}
             />
-            {errors.confirmPassword && <span className='text-red text-xs'>비밀번호를 확인하세요 (5-20자).</span>}
+            {errors.confirmPassword && <span className='text-red text-xs'>비밀번호를 다시 확인하세요 </span>}
           </fieldset>
         </div>
 
@@ -47,10 +58,7 @@ const ResetPassword = () => {
           size='large'
           color='pastelred'
           children='완료'
-          onClick={() => {
-            handleSubmit(onSubmit);
-          }}
-          disabled={password !== confirmPassword || password.length < 5 || password.length > 20}
+          disabled={!watch('password', '') || !watch('confirmPassword', '')}
         />
       </form>
     </div>

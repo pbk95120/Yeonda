@@ -1,17 +1,22 @@
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 
-import BirthdateInput from './BirthdateInput';
-import AddressInput from './AddressInput';
-import AddressModal from './AddressModal';
-import ProfilePictureInput from './ProfilePictureInput';
+import BirthdateInput from './PersonalInfomation/BirthdateInput';
+import AddressInput from './PersonalInfomation/AddressInput';
+import AddressModal from './PersonalInfomation/AddressModal';
+import ProfilePictureInput from './PersonalInfomation/ProfilePictureInput';
+import Button from '../common/Button';
 
 interface PersonalInformationProps {
   setPage: (page: number) => void;
   setPicture: (picture: File) => void;
+  year: number;
   setYear: (year: number) => void;
+  month: number;
   setMonth: (month: number) => void;
+  day: number;
   setDay: (day: number) => void;
+  address: string;
   setAddress: (address: string) => void;
 }
 
@@ -25,11 +30,15 @@ export interface PersonalInformationFormInputs {
 
 const PersonalInformation = ({
   setPage,
-  setYear,
-  setMonth,
-  setDay,
-  setAddress,
   setPicture,
+  year,
+  setYear,
+  month,
+  setMonth,
+  day,
+  setDay,
+  address,
+  setAddress,
 }: PersonalInformationProps) => {
   const {
     register,
@@ -56,40 +65,61 @@ const PersonalInformation = ({
 
   const handleAddressSelection = (address: string) => {
     setSelectedAddress(address);
-    setValue('address', address);
+    setValue('address', address, { shouldValidate: true });
     setIsModalOpen(false);
   };
 
   return (
-    <div className='w-full h-full mt-10 px-10 relative'>
+    <div className='w-full  px-10 relative'>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className='items-center justify-center mb-20'>
           <ProfilePictureInput onImageChange={(imageDataUrl, file) => setValue('picture', file)} />
-          <BirthdateInput errors={errors} register={register} />
+          <BirthdateInput errors={errors} register={register} setValue={setValue} year={year} month={month} day={day} />
           <AddressInput
-            value={selectedAddress}
+            address={address}
             register={register}
             errors={errors}
             onChange={(value) => setSelectedAddress(value)}
             onClickModal={() => setIsModalOpen(true)}
           />
         </div>
-        <div className='flex items-center gap-x-2'>
-          <button
+        <button
+          onClick={() => {
+            setPage(2);
+          }}
+        >
+          임시버튼
+        </button>
+        <p
+          onClick={() => {
+            console.log(
+              getValues('address'),
+              getValues('picture'),
+              getValues('year'),
+              getValues('month'),
+              getValues('day'),
+            );
+          }}
+        >
+          변수확인
+        </p>
+
+        <div className='flex items-center gap-x-2 absolute top-[500px]'>
+          <Button
+            color='pastelred'
+            size='medium'
             type='button'
+            className='mr-2'
             onClick={() => {
               setPage(0);
             }}
-            className='mb-4 w-1/2 h-[40px] font-bold py-2 px-4 rounded-xl text-white text-sm bg-pastelred'
           >
             이전
-          </button>
-          <button
-            type='submit'
-            className='mb-4 w-1/2 h-[40px] font-bold py-2 px-4 rounded-xl text-white text-sm bg-pastelred'
-          >
+          </Button>
+
+          <Button type='submit' color='pastelred' size='medium'>
             다음
-          </button>
+          </Button>
         </div>
       </form>
       <AddressModal
@@ -97,13 +127,6 @@ const PersonalInformation = ({
         onClose={() => setIsModalOpen(false)}
         onSelectAddress={handleAddressSelection}
       />
-      <button
-        onClick={() => {
-          setPage(2);
-        }}
-      >
-        임시버튼
-      </button>
     </div>
   );
 };

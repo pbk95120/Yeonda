@@ -1,7 +1,11 @@
 import DiaryItem from '@/components/diaries/DiaryItem';
-import { Diary } from '@/types/type';
+import type { DiaryContent } from '@/types/type';
 
-const DiariesList = ({ diariesData }: { diariesData: Diary[] }) => {
+interface DiariesListProps {
+  diariesData: DiaryContent[];
+}
+
+const DiariesList = ({ diariesData }: DiariesListProps) => {
   return <>{diariesData?.map((item) => <DiaryItem key={item.id} diary={item} />)}</>;
 };
 

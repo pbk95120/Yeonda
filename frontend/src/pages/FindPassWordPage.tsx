@@ -4,7 +4,6 @@ import { useState } from 'react';
 
 const FindPassWordPage = () => {
   const [page, setPage] = useState<number>(0);
-
   return (
     <>
       {page == 0 && <EmailAuthentication setPage={setPage} />}

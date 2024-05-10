@@ -23,6 +23,7 @@ import ChatPage from '@/pages/ChatPage';
 import ChatDetailPage from '@/pages/ChatDetailPage';
 import ChatProfilePage from '@/pages/ChatProfilePage';
 import ErrorPage from '@/pages/ErrorPage';
+import OthersDiaryPage from './pages/OthersDiaryPage';
 
 const queryClient = new QueryClient();
 
@@ -111,9 +112,8 @@ const routeList = [
   {
     path: '/mydiary',
     element: <MyDiaryPage />,
-    showHeader: true,
     showFooter: true,
-    onlyLogo: false,
+    onlyLogo: true,
     value: '내 일기',
     backBtn: false,
     cancelStr: false,
@@ -122,27 +122,21 @@ const routeList = [
     path: '/mydiary/:id',
     element: <MyDiaryDetailPage />,
     showHeader: true,
-    showFooter: false,
-    onlyLogo: true,
-    value: '박상하킹갓',
-    backBtn: false,
-    cancelStr: true,
-  },
-  {
-    path: '/othersdiary/suggestion',
-    element: <DiarySuggestionPage />,
-    showHeader: true,
     showFooter: true,
     onlyLogo: true,
     value: '박상하킹갓',
-    backBtn: false,
-    cancelStr: true,
+    backBtn: true,
+    cancelStr: false,
   },
   {
-    path: '/othersdiary/popular',
-    element: <DiaryPopularPage />,
+    path: '/othersdiary',
+    element: <OthersDiaryPage />,
+    children: [
+      { path: 'suggestion', element: <DiarySuggestionPage /> },
+      { path: 'popular', element: <DiaryPopularPage /> },
+    ],
     showHeader: true,
-    showFooter: false,
+    showFooter: true,
     onlyLogo: true,
     value: '박상하킹갓',
     backBtn: false,
@@ -185,9 +179,10 @@ const routeList = [
     showHeader: true,
     showFooter: true,
     onlyLogo: false,
-    value: '박상하킹갓',
+    value: '일기 작성',
     backBtn: false,
     cancelStr: true,
+    complete: true,
   },
   {
     path: '/chat',
@@ -232,6 +227,7 @@ const router = createBrowserRouter(
               backBtn={item.backBtn}
               cancelStr={item.cancelStr}
               setting={item.setting ? item.setting : null}
+              complete={item.complete ? item.complete : null}
             >
               {item.element}
             </Layout>

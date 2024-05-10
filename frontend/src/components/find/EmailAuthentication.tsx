@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Button from '../common/Button';
+import Input from '../common/Input';
 
 interface EmailAuthenticationProps {
   setPage: (page: number) => void;
@@ -13,6 +14,7 @@ interface FormValues {
 
 const EmailAuthentication = ({ setPage }: EmailAuthenticationProps) => {
   const { register, handleSubmit } = useForm<FormValues>();
+
   const [timer, setTimer] = useState<number>(300);
   const [timerActive, setTimerActive] = useState<boolean>(false);
   const [confirmBtnDisabled, setConfirmBtnDisabled] = useState<boolean>(false);
@@ -23,7 +25,7 @@ const EmailAuthentication = ({ setPage }: EmailAuthenticationProps) => {
   };
 
   const onSubmit = (data: FormValues) => {
-    setNext(true);
+    setPage(1);
   };
 
   useEffect(() => {
@@ -45,20 +47,22 @@ const EmailAuthentication = ({ setPage }: EmailAuthenticationProps) => {
   };
 
   return (
-    <div className='w-full h-full mt-10 px-10'>
+    <div className='w-full  mt-10 px-10'>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className=' items-center justify-center mb-20'>
           <fieldset className='pb-2'>
             <legend className='mb-2 text-sm'>이메일</legend>
             <div className='flex items-center'>
-              <input
+              <Input
                 type='email'
+                inputFor='default'
                 placeholder='이메일'
-                className='flex-grow p-2 border rounded mr-2  w-[120px] '
-                {...register('email', { required: '이메일을 입력해주세요.' })}
+                className='w-full p-2 mr-2'
+                register={{ ...register('email', { required: '이메일을 입력해주세요.' }) }}
               />
               <Button
                 size='small'
+                type='button'
                 children='전송'
                 color='pastelred'
                 onClick={() => {
@@ -72,35 +76,28 @@ const EmailAuthentication = ({ setPage }: EmailAuthenticationProps) => {
           <fieldset className='pb-2'>
             <legend className='mb-2 text-sm'>인증번호</legend>
             <div className='flex items-center'>
-              <input
-                type='number'
+              <Input
+                inputFor='default'
+                type='text'
                 placeholder='인증번호'
-                className='flex-grow p-2 border rounded mr-2  w-[120px] '
-                {...register('code', { required: '인증번호를 입력해주세요.' })}
+                className='w-full p-2 mr-2'
+                register={{ ...register('code', { required: '인증번호를 입력해주세요.' }) }}
               />
-
               <Button
                 size='small'
+                type='button'
                 children='확인'
                 color='pastelred'
                 onClick={() => {
-                  handleSubmit(onSubmit);
-                  setNext(false);
+                  setNext(true);
                 }}
                 disabled={!confirmBtnDisabled}
               />
             </div>
-            {timerActive && <p className='text-sm self-end text-red mt-2'>{formatTimer()}</p>}
+            {timerActive && <p className='w-full text-sm self-end text-red mt-2'>{formatTimer()}</p>}
           </fieldset>
         </div>
-        <Button
-          children='다음'
-          size='large'
-          color='pastelred'
-          onClick={() => setPage(1)}
-          disabled={!next}
-          className='mt-24'
-        />
+        <Button children='다음' size='large' color='pastelred' disabled={!next} className='mt-24' />
       </form>
     </div>
   );

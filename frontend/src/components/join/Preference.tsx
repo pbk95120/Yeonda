@@ -1,8 +1,11 @@
-import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import Button from '../common/Button';
+import GenderSelection from './Preference/GenderSelection';
+import PreferGenderSelection from './Preference/PreferGenderSelection';
+import DistanceInput from './Preference/DistanceInput';
+import AgeRangeInput from './Preference/AgeRangeInput';
 
-interface PreferenceFormInputs {
+export interface PreferenceFormInputs {
   gender: string;
   preferGender: string;
   distance: number;
@@ -12,19 +15,36 @@ interface PreferenceFormInputs {
 
 interface PreferenceProps {
   setPage: (page: number) => void;
+  gender: string;
   setGender: (gender: string) => void;
+  preferGender: string;
   setPreferGender: (preferGender: string) => void;
+  distance: number;
   setDistance: (distance: number) => void;
+  startAge: number;
   setStartAge: (startAge: number) => void;
+  endAge: number;
   setEndAge: (endAge: number) => void;
 }
 
-const Preference = ({ setPage, setGender, setPreferGender, setDistance, setStartAge, setEndAge }: PreferenceProps) => {
+const Preference = ({
+  setPage,
+  setGender,
+  setPreferGender,
+  setDistance,
+  setStartAge,
+  setEndAge,
+  gender,
+  preferGender,
+  distance,
+  startAge,
+  endAge,
+}: PreferenceProps) => {
   const {
-    register,
     handleSubmit,
     getValues,
     setValue,
+    register,
     formState: { errors },
   } = useForm<PreferenceFormInputs>();
 
@@ -46,72 +66,41 @@ const Preference = ({ setPage, setGender, setPreferGender, setDistance, setStart
     setPage(3);
   };
 
-  const [activeGender, setActiveGender] = useState<string>(''); // State to track active gender
-
   return (
-    <div className='w-full h-full mt-10 px-10 relative'>
+    <div className='px-10 relative'>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className='items-center justify-center mb-20'>
-          <fieldset className='pb-2'>
-            <legend className='mb-1 text-sm'>성별</legend>
-            <input type='text' {...register('gender', { required: true })} hidden />
-            <div className='flex items-center gap-x-2'>
-              <Button
-                color={activeGender === 'male' ? 'blue' : 'lightgray'}
-                size='medium'
-                children='남성'
-                onClick={() => {
-                  setValue('gender', 'male');
-                  setActiveGender('male');
-                }}
-              />
-              <Button
-                color={activeGender === 'female' ? 'pastelred' : 'lightgray'}
-                size='medium'
-                children='여성'
-                onClick={() => {
-                  setValue('gender', 'female');
-                  setActiveGender('female');
-                }}
-              />
-            </div>
-          </fieldset>
-          <fieldset className='pb-2'>
-            <input
-              type='range'
-              id='distance'
-              value='distance'
-              min={0}
-              max={100}
-              {...register('distance', { required: true })}
-            />
-          </fieldset>
+        <div className='items-center justify-center '>
+          <GenderSelection setValue={setValue} register={register} errors={errors} gender={gender} />
+          <PreferGenderSelection setValue={setValue} register={register} errors={errors} preferGender={preferGender} />
+          <AgeRangeInput setValue={setValue} getValues={getValues} startAge={startAge} endAge={endAge} />
+          <DistanceInput setValue={setValue} getValues={getValues} distance={distance} />
         </div>
-        <div className='flex items-center gap-x-2'>
-          <button
+        <div className='flex items-center gap-x-2 absolute top-[500px] '>
+          <Button
             type='button'
+            size='medium'
+            className='mr-2'
+            color='pastelred'
             onClick={() => {
               setPage(1);
             }}
-            className='mb-4 w-1/2 h-[40px] font-bold py-2 px-4 rounded-xl text-white text-sm bg-pastelred'
           >
             이전
-          </button>
-          <button
-            type='submit'
-            className='mb-4 w-1/2 h-[40px] font-bold py-2 px-4 rounded-xl text-white text-sm bg-pastelred'
-          >
-            다음
-          </button>
+          </Button>
+          <Button type='submit' size='medium' color='pastelred' children='다음' />
         </div>
       </form>
 
       <button
         onClick={() => {
           console.log(getValues('gender'));
+          console.log(getValues('preferGender'));
+          console.log(getValues('distance'));
+          console.log(getValues('startAge'));
+          console.log(getValues('endAge'));
         }}
       >
-        ㅁㄴㅇ
+        변수확인
       </button>
       <br />
       <button

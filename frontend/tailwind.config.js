@@ -8,6 +8,7 @@ export default {
   theme: {
     maxHeight: {
       content: 'calc(100vh - 10rem)',
+      contentExpanded: 'calc(100vh - 5rem)',
     },
     screens: {
       sm: '375px',
@@ -29,6 +30,7 @@ export default {
       pastelgreen: '#ABD7B9',
       pastelpeach: { DEFAULT: '#FFC7C7', hover: '#FFB2B2' },
     },
+
     fontFamily: {
       diary: [
         'The Day Diary',
