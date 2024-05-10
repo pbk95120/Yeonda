@@ -1,21 +1,28 @@
 import { errorHandler } from '@middlewares/errorHandler';
+import ChatsRoute from '@routes/chats.route';
 import LoginRoute from '@routes/login.route';
 import LogoutRoute from '@routes/logout.route';
 import PasswordResetRoute from '@routes/passwordReset.route';
 import SignupRoute from '@routes/signup.route';
+import socketHandler from '@sockets/index';
 import MyProfileRoute from '@src/routes/myProfile.route';
-import ChatsRoute from '@routes/chats.route';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 import 'dotenv/config';
 import express from 'express';
 import http from 'http';
 import { Server } from 'socket.io';
-import socketHandler from '@sockets/index';
 
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(
+  cors({
+    origin: process.env.CORS_ALLOWED_ORIGIN,
+    credentials: true,
+  }),
+);
 app.use(cookieParser());
 
 const server = http.createServer(app);
@@ -38,4 +45,4 @@ app.use('/chatlist', ChatsRoute);
 
 app.use(errorHandler);
 
-export { server, io };
+export { io, server };
