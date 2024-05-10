@@ -45,9 +45,8 @@ export const confirmPasswordReset: Controller = async (req, res) => {
   const { error } = PasswordConfirmSchema.validate(req.body);
   if (error) throw new CustomError(http.BAD_REQUEST, '잘못된 비밀번호 초기화 확정 양식', error);
 
-  const email = req.body.email;
   const encryptPassword = await getEncryptPassword(req.body.password);
-  await databaseConnector(changePassword)(email, encryptPassword);
+  await databaseConnector(changePassword)(req.body.email, encryptPassword);
 
   res.sendStatus(http.OK);
 };
