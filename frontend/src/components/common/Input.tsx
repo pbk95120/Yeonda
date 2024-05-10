@@ -45,7 +45,7 @@ const Input = ({ className, placeholder, inputFor, register, ...props }: InputPr
   if (inputFor === 'image') {
     return (
       <div className='flex items-center justify-center m-2'>
-        <div className='w-[341px] h-[141px] flex items-center cursor-pointer text-lightgray hover:border-pastelred hover:text-pastelred justify-center border-2 border-dashed rounded-lg border-lightgray'>
+        <div className='w-[341px] h-[141px] flex items-center cursor-pointer text-lightgray hover:border-pastelred hover:text-pastelred justify-center border-2 border-dashed rounded-3xl border-lightgray'>
           <label>
             <LuImagePlus className='w-12 h-12' />
             <input className='hidden' type='file' />
