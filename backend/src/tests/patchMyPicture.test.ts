@@ -1,7 +1,7 @@
 import { databaseConnector } from '@middlewares/databaseConnector';
 import { server } from '@src/app';
 import Database from '@src/db';
-import { issueToken } from '@src/utils/issueToken';
+import { issueToken } from '@utils/issueToken';
 import http from 'http-status-codes';
 import { Connection } from 'mysql2/promise';
 import path from 'path';

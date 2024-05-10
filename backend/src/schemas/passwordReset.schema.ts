@@ -1,5 +1,5 @@
+import { User } from '@models/user.model';
 import { EmailSchema, PasswordSchema } from '@schemas/signup.schema';
-import { User } from '@src/models/user.model';
 import Joi from 'joi';
 
 export interface PasswordResetRequest extends Pick<User, 'email'> {}

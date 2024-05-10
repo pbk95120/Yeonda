@@ -1,6 +1,6 @@
+import { transactionWrapper } from '@middlewares/transactionWrapper';
 import CustomError from '@src/error';
-import { transactionWrapper } from '@src/middlewares/transactionWrapper';
-import { getGeoCode } from '@src/utils/getGeoCode';
+import { getGeoCode } from '@utils/getGeoCode';
 import http from 'http-status-codes';
 import { Connection, ResultSetHeader } from 'mysql2/promise';
 

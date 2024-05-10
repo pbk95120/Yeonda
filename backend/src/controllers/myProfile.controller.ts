@@ -1,12 +1,13 @@
+import { selectMyPreference } from '@databases/selectMyPreference.database';
 import { selectMyProfile } from '@databases/selectMyProfile.database';
 import { selectMySetting } from '@databases/selectMySetting.database';
+import { updateMyAddress } from '@databases/updateMyAddress.database';
+import { updateMyPicture } from '@databases/updateMyPicture.database';
 import { databaseConnector } from '@middlewares/databaseConnector';
 import { Controller } from '@schemas/controller.schema';
-import { updateMyAddress } from '@src/databases/updateMyAddress.database';
-import { updateMyPicture } from '@src/databases/updateMyPicture.database';
+import { AddressDetailSchema, PictureUrlSchema } from '@schemas/signup.schema';
 import CustomError from '@src/error';
-import { AddressDetailSchema, PictureUrlSchema } from '@src/schemas/signup.schema';
-import { reformImg } from '@src/utils/reformImg';
+import { reformImg } from '@utils/reformImg';
 import http from 'http-status-codes';
 
 export const getMyProfile: Controller = async (req, res) => {
@@ -35,4 +36,8 @@ export const patchMyAddress: Controller = async (req, res) => {
 
   await databaseConnector(updateMyAddress)(req.body.email, req.body.address);
   res.sendStatus(http.OK);
+};
+
+export const getMyPreference: Controller = async (req, res) => {
+  const preference = await databaseConnector(selectMyPreference)(req.body.email);
 };
