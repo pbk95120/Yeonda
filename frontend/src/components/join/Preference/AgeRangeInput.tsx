@@ -7,14 +7,16 @@ import { DEFAULT_ENDAGE, DEFAULT_STARTAGE, MAX_AGE, MIN_AGE } from '@/constants/
 interface AgeRangeInputProps {
   setValue: UseFormSetValue<PreferenceFormInputs>;
   getValues: UseFormGetValues<PreferenceFormInputs>;
+  startAge: number;
+  endAge: number;
 }
 
-const AgeRangeInput = ({ setValue, getValues }: AgeRangeInputProps) => {
-  const [age, setAge] = useState([DEFAULT_STARTAGE, DEFAULT_ENDAGE]);
+const AgeRangeInput = ({ setValue, getValues, startAge, endAge }: AgeRangeInputProps) => {
+  const [age, setAge] = useState([startAge, endAge]);
 
   useEffect(() => {
-    setValue('startAge', DEFAULT_STARTAGE);
-    setValue('endAge', DEFAULT_ENDAGE);
+    setValue('startAge', startAge);
+    setValue('endAge', endAge);
   }, []);
 
   const handleChange = (_: Event, newValue: number | number[]) => {
@@ -30,8 +32,8 @@ const AgeRangeInput = ({ setValue, getValues }: AgeRangeInputProps) => {
       <legend className='text-sm pb-2 flex w-full justify-between'>
         <span>선호 나이</span>
         <span className='text-sm'>
-          {getValues('startAge') === undefined ? DEFAULT_STARTAGE : getValues('startAge')}세 -{' '}
-          {getValues('endAge') === undefined ? DEFAULT_ENDAGE : getValues('endAge')}세
+          {getValues('startAge') === undefined ? startAge : getValues('startAge')}세 -{' '}
+          {getValues('endAge') === undefined ? endAge : getValues('endAge')}세
         </span>
       </legend>
 

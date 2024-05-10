@@ -11,6 +11,9 @@ export const MIN_DISTANCE = 0;
 
 export const MAX_AGE = 100;
 export const MIN_AGE = 0;
+
+export const DEFAULT_DISTANCE = 160;
+
 export const DEFAULT_STARTAGE = 20;
 export const DEFAULT_ENDAGE = 80;
 
