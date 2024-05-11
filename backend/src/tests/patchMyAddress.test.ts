@@ -97,6 +97,15 @@ describe('PATCH /profile/my/setting/address 주소 수정', () => {
     expect(response.status).toBe(http.NOT_FOUND);
   });
 
+  it('address 값이 없는 경우', async () => {
+    token = issueToken('faker@gmail.com');
+    const response = await request(server)
+      .patch('/profile/my/setting/address')
+      .set('Cookie', `access-token=${token}`)
+      .send({});
+    expect(response.status).toBe(http.BAD_REQUEST);
+  });
+
   it('존재할 수 없는 주소', async () => {
     const response = await request(server)
       .patch('/profile/my/setting/address')
