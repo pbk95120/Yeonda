@@ -83,7 +83,7 @@ describe('POST /signup 회원 가입 요청', () => {
     const result = await databaseConnector(async (conn: Connection) => {
       const sql = "select id from user where email = 'faker@gmail.com'";
       const [result] = await conn.execute(sql);
-      return result;
+      return result[0];
     })();
     if (!result) fail();
   });

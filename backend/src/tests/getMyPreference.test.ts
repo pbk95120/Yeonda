@@ -23,7 +23,7 @@ describe('GET /profile/my/preference 취향 정보 가져오기', () => {
     const response = await request(server).get('/profile/my/preference').set('Cookie', `access-token=${token}`);
     expect(response.status).toBe(http.OK);
     expect(response.body).toEqual({
-      gender: 'Male',
+      gender: 'Female',
       distance: 100,
       start_age: 20,
       end_age: 30,
