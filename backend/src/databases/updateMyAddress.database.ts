@@ -1,20 +1,14 @@
 import { transactionWrapper } from '@middlewares/transactionWrapper';
-import CustomError from '@src/error';
 import { getGeoCode } from '@utils/getGeoCode';
-import http from 'http-status-codes';
+import { getUserIdByEmail } from '@utils/getUserIdByEmail';
 import { Connection, ResultSetHeader } from 'mysql2/promise';
 
 export const updateMyAddress = async (conn: Connection, email: string, address: string): Promise<void> => {
-  let sql = 'select id from user where email = :email';
-  let values: {} = { email: email };
-  let [result] = await conn.execute(sql, values);
-  let user_id;
-  if (!result[0]) throw new CustomError(http.NOT_FOUND, '존재하지 않는 사용자');
-  user_id = result[0].id;
+  const user_id = await getUserIdByEmail(conn, email);
 
-  sql = 'select id from address where detail = :detail';
-  values = { detail: address };
-  [result] = await conn.execute(sql, values);
+  let sql = 'select id from address where detail = :detail';
+  let values: {} = { detail: address };
+  let [result] = await conn.execute(sql, values);
   let address_id;
   if (result[0]?.id) address_id = result[0].id;
 
