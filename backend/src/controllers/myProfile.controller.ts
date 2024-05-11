@@ -5,10 +5,11 @@ import { selectMyTag } from '@databases/selectMyTag.database';
 import { updateMyAddress } from '@databases/updateMyAddress.database';
 import { updateMyPicture } from '@databases/updateMyPicture.database';
 import { updateMyPreference } from '@databases/updateMyPreference.database';
+import { updateMyTag } from '@databases/updateMyTag.database';
 import { databaseConnector } from '@middlewares/databaseConnector';
 import { Controller } from '@schemas/controller.schema';
 import { MyPreferenceSchema } from '@schemas/myProfile.schema';
-import { AddressDetailSchema, PictureUrlSchema } from '@schemas/signup.schema';
+import { AddressDetailSchema, PictureUrlSchema, TagsSchema } from '@schemas/signup.schema';
 import CustomError from '@src/error';
 import { reformImg } from '@utils/reformImg';
 import { reformPreference } from '@utils/reformPreference';
@@ -35,7 +36,7 @@ export const patchMyPicture: Controller = async (req, res) => {
 };
 
 export const patchMyAddress: Controller = async (req, res) => {
-  const { error } = AddressDetailSchema.validate(req.body.address);
+  const { error } = AddressDetailSchema.validate(req.body?.address);
   if (error) throw new CustomError(http.BAD_REQUEST, '잘못된 주소 양식', error);
 
   await databaseConnector(updateMyAddress)(req.body.email, req.body.address);
@@ -59,4 +60,12 @@ export const patchMyPreference: Controller = async (req, res) => {
 export const getMyTag: Controller = async (req, res) => {
   const tag = await databaseConnector(selectMyTag)(req.body.email);
   res.status(http.OK).json(tag);
+};
+
+export const changeMyTag: Controller = async (req, res) => {
+  const { error } = TagsSchema.validate(req.body?.tags);
+  if (error) throw new CustomError(http.BAD_REQUEST, '잘못된 사용자 선호 태그 수정 양식', error);
+
+  await databaseConnector(updateMyTag)(req.body.email, req.body.tags);
+  res.sendStatus(http.OK);
 };

@@ -40,6 +40,10 @@ export const StartAgeSchema = Joi.string().regex(/^\d{2}$/);
 
 export const EndAgeSchema = Joi.string().regex(/^\d{2}$/);
 
+export const TagsSchema = Joi.string()
+  .regex(/^\d+(,\d+)*$/)
+  .required();
+
 export const RawSignupSchema = Joi.object({
   nickname: Joi.string().max(20).required(),
   email: EmailSchema,
@@ -55,9 +59,7 @@ export const RawSignupSchema = Joi.object({
   distance: DistanceSchema,
   start_age: StartAgeSchema,
   end_age: EndAgeSchema,
-  tags: Joi.string()
-    .regex(/^\d+(,\d+)*$/)
-    .required(),
+  tags: TagsSchema,
 });
 
 export interface Signup {

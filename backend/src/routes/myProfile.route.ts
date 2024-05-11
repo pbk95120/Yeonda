@@ -1,4 +1,5 @@
 import {
+  changeMyTag,
   getMyPreference,
   getMyProfile,
   getMySetting,
@@ -24,5 +25,6 @@ MyProfileRoute.patch('/setting/address', controllerWrapper(authenticateUser, pat
 MyProfileRoute.get('/preference', controllerWrapper(authenticateUser, getMyPreference));
 MyProfileRoute.patch('/preference', controllerWrapper(authenticateUser, patchMyPreference));
 MyProfileRoute.get('/tag', controllerWrapper(authenticateUser, getMyTag));
+MyProfileRoute.put('/tag', controllerWrapper(authenticateUser, changeMyTag));
 
 export default MyProfileRoute;
