@@ -2,6 +2,7 @@ import {
   getMyPreference,
   getMyProfile,
   getMySetting,
+  getMyTag,
   patchMyAddress,
   patchMyPicture,
   patchMyPreference,
@@ -22,5 +23,6 @@ MyProfileRoute.patch(
 MyProfileRoute.patch('/setting/address', controllerWrapper(authenticateUser, patchMyAddress));
 MyProfileRoute.get('/preference', controllerWrapper(authenticateUser, getMyPreference));
 MyProfileRoute.patch('/preference', controllerWrapper(authenticateUser, patchMyPreference));
+MyProfileRoute.get('/tag', controllerWrapper(authenticateUser, getMyTag));
 
 export default MyProfileRoute;

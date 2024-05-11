@@ -1,6 +1,7 @@
 import { selectMyPreference } from '@databases/selectMyPreference.database';
 import { selectMyProfile } from '@databases/selectMyProfile.database';
 import { selectMySetting } from '@databases/selectMySetting.database';
+import { selectMyTag } from '@databases/selectMyTag.database';
 import { updateMyAddress } from '@databases/updateMyAddress.database';
 import { updateMyPicture } from '@databases/updateMyPicture.database';
 import { updateMyPreference } from '@databases/updateMyPreference.database';
@@ -53,4 +54,9 @@ export const patchMyPreference: Controller = async (req, res) => {
 
   const preference = await databaseConnector(updateMyPreference)(req.body);
   res.status(http.OK).json(preference);
+};
+
+export const getMyTag: Controller = async (req, res) => {
+  const tag = await databaseConnector(selectMyTag)(req.body.email);
+  res.status(http.OK).json(tag);
 };
