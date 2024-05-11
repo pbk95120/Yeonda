@@ -32,6 +32,14 @@ export const PictureUrlSchema = Joi.string().regex(/^.+\.(jpg|jpeg|png|webp)$/);
 
 export const AddressDetailSchema = Joi.string().max(100).required();
 
+export const PreferGenderSchema = Joi.string().valid('Male', 'Female', 'Neutral').required();
+
+export const DistanceSchema = Joi.string().regex(/^\d{1,4}$/);
+
+export const StartAgeSchema = Joi.string().regex(/^\d{2}$/);
+
+export const EndAgeSchema = Joi.string().regex(/^\d{2}$/);
+
 export const RawSignupSchema = Joi.object({
   nickname: Joi.string().max(20).required(),
   email: EmailSchema,
@@ -43,10 +51,10 @@ export const RawSignupSchema = Joi.object({
     .pattern(/^\d{4}-\d{2}-\d{2}$/)
     .required(),
   address: AddressDetailSchema,
-  prefer_gender: Joi.string().valid('Male', 'Female', 'Neutral').required(),
-  distance: Joi.string().regex(/^\d{1,4}$/),
-  start_age: Joi.string().regex(/^\d{2}$/),
-  end_age: Joi.string().regex(/^\d{2}$/),
+  prefer_gender: PreferGenderSchema,
+  distance: DistanceSchema,
+  start_age: StartAgeSchema,
+  end_age: EndAgeSchema,
   tags: Joi.string()
     .regex(/^\d+(,\d+)*$/)
     .required(),

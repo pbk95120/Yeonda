@@ -4,6 +4,7 @@ import {
   getMySetting,
   patchMyAddress,
   patchMyPicture,
+  patchMyPreference,
 } from '@controllers/myProfile.controller';
 import { authenticateUser } from '@middlewares/authenticateUser';
 import { controllerWrapper } from '@middlewares/controllerWrapper';
@@ -20,5 +21,6 @@ MyProfileRoute.patch(
 );
 MyProfileRoute.patch('/setting/address', controllerWrapper(authenticateUser, patchMyAddress));
 MyProfileRoute.get('/preference', controllerWrapper(authenticateUser, getMyPreference));
+MyProfileRoute.patch('/preference', controllerWrapper(authenticateUser, patchMyPreference));
 
 export default MyProfileRoute;

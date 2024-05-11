@@ -2,6 +2,8 @@ import { Address } from '@models/address.model';
 import { Preference } from '@models/preference.model';
 import { Tag } from '@models/tag.model';
 import { User } from '@models/user.model';
+import { DistanceSchema, EmailSchema, EndAgeSchema, PreferGenderSchema, StartAgeSchema } from '@schemas/signup.schema';
+import Joi from 'joi';
 
 interface IMyProfile
   extends Pick<User, 'email' | 'nickname' | 'gender' | 'birth' | 'picture_url'>,
@@ -28,6 +30,14 @@ export class MyProfile implements IMyProfile {
 
 interface IMyPreference extends Pick<Preference, 'gender' | 'distance' | 'start_age' | 'end_age'> {}
 
+export interface PatchMyPreference {
+  email: string;
+  gender: 'Male' | 'Female' | 'Neutral';
+  distance: string;
+  start_age: string;
+  end_age: string;
+}
+
 export class MyPreference implements IMyPreference {
   gender: 'Male' | 'Female' | 'Neutral';
   distance: number;
@@ -44,3 +54,11 @@ export class MyPreference implements IMyPreference {
 }
 
 export interface MySetting extends Pick<User, 'picture_url'>, Pick<Address, 'detail'> {}
+
+export const MyPreferenceSchema = Joi.object({
+  email: EmailSchema,
+  gender: PreferGenderSchema,
+  distance: DistanceSchema,
+  start_age: StartAgeSchema,
+  end_age: EndAgeSchema,
+});
