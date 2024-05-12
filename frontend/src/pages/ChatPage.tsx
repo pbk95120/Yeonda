@@ -1,4 +1,6 @@
+import { fetchChatList } from '@/api/chat.api';
 import ChatList from '@/components/chat/ChatList';
+import { useEffect } from 'react';
 
 const ChatPage = () => {
   const mockMessages = [
@@ -52,6 +54,12 @@ const ChatPage = () => {
       is_read: 9,
     },
   ];
+
+  useEffect(() => {
+    fetchChatList().then((data) => {
+      console.log(data);
+    });
+  }, []);
 
   return (
     <>
