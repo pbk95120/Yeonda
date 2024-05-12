@@ -10,9 +10,13 @@ import Button from '../common/Button';
 interface PersonalInformationProps {
   setPage: (page: number) => void;
   setPicture: (picture: File) => void;
+  year: number;
   setYear: (year: number) => void;
+  month: number;
   setMonth: (month: number) => void;
+  day: number;
   setDay: (day: number) => void;
+  address: string;
   setAddress: (address: string) => void;
 }
 
@@ -26,11 +30,15 @@ export interface PersonalInformationFormInputs {
 
 const PersonalInformation = ({
   setPage,
-  setYear,
-  setMonth,
-  setDay,
-  setAddress,
   setPicture,
+  year,
+  setYear,
+  month,
+  setMonth,
+  day,
+  setDay,
+  address,
+  setAddress,
 }: PersonalInformationProps) => {
   const {
     register,
@@ -62,29 +70,53 @@ const PersonalInformation = ({
   };
 
   return (
-    <div className='w-full h-full mt-10 px-10 relative'>
+    <div className='w-full  px-10 relative'>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className='items-center justify-center mb-20'>
           <ProfilePictureInput onImageChange={(imageDataUrl, file) => setValue('picture', file)} />
-          <BirthdateInput errors={errors} register={register} />
+          <BirthdateInput errors={errors} register={register} setValue={setValue} year={year} month={month} day={day} />
           <AddressInput
+            address={address}
             register={register}
             errors={errors}
             onChange={(value) => setSelectedAddress(value)}
             onClickModal={() => setIsModalOpen(true)}
           />
         </div>
-        <div className='flex items-center gap-x-2'>
+        <button
+          onClick={() => {
+            setPage(2);
+          }}
+        >
+          임시버튼
+        </button>
+        <p
+          onClick={() => {
+            console.log(
+              getValues('address'),
+              getValues('picture'),
+              getValues('year'),
+              getValues('month'),
+              getValues('day'),
+            );
+          }}
+        >
+          변수확인
+        </p>
+
+        <div className='flex items-center gap-x-2 absolute top-[500px]'>
           <Button
             color='pastelred'
             size='medium'
             type='button'
+            className='mr-2'
             onClick={() => {
               setPage(0);
             }}
           >
             이전
           </Button>
+
           <Button type='submit' color='pastelred' size='medium'>
             다음
           </Button>
@@ -95,13 +127,6 @@ const PersonalInformation = ({
         onClose={() => setIsModalOpen(false)}
         onSelectAddress={handleAddressSelection}
       />
-      <button
-        onClick={() => {
-          setPage(2);
-        }}
-      >
-        임시버튼
-      </button>
     </div>
   );
 };

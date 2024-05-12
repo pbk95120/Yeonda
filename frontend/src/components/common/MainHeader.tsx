@@ -9,12 +9,13 @@ interface HeaderProps {
   backBtn?: boolean;
   cancelStr?: boolean;
   list?: null | boolean;
+  complete?: boolean | null;
 }
 
 /**
  * Main Header 컴포넌트
  */
-const MainHeader = ({ value, onlyLogo, setting, backBtn, cancelStr }: HeaderProps) => {
+const MainHeader = ({ value, onlyLogo, setting, backBtn, cancelStr, complete }: HeaderProps) => {
   return (
     <header className='flex flex-row w-full max-w-sm h-20 relative '>
       {onlyLogo ? (
@@ -44,6 +45,13 @@ const MainHeader = ({ value, onlyLogo, setting, backBtn, cancelStr }: HeaderProp
           {setting ? (
             <div className='absolute right-5 flex justify-center items-center'>
               <IoSettings className='w-5 h-10 fill-gray' />
+            </div>
+          ) : null}
+          {complete ? (
+            <div className='absolute right-7 flex justify-center items-center'>
+              <button id='completeBtn' className='right-7 text-sans text-xs text-pastelred'>
+                완료
+              </button>
             </div>
           ) : null}
         </div>

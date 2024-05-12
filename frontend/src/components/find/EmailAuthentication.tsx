@@ -47,7 +47,7 @@ const EmailAuthentication = ({ setPage }: EmailAuthenticationProps) => {
   };
 
   return (
-    <div className='w-full h-full mt-10 px-10'>
+    <div className='w-full  mt-10 px-10'>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className=' items-center justify-center mb-20'>
           <fieldset className='pb-2'>
@@ -57,7 +57,7 @@ const EmailAuthentication = ({ setPage }: EmailAuthenticationProps) => {
                 type='email'
                 inputFor='default'
                 placeholder='이메일'
-                className='w-full p-2 border rounded'
+                className='w-full p-2 mr-2'
                 register={{ ...register('email', { required: '이메일을 입력해주세요.' }) }}
               />
               <Button
@@ -80,7 +80,7 @@ const EmailAuthentication = ({ setPage }: EmailAuthenticationProps) => {
                 inputFor='default'
                 type='text'
                 placeholder='인증번호'
-                className='w-full p-2 border rounded'
+                className='w-full p-2 mr-2'
                 register={{ ...register('code', { required: '인증번호를 입력해주세요.' }) }}
               />
               <Button

@@ -13,6 +13,7 @@ interface LayoutProps {
   setting?: null | boolean;
   cancelStr?: boolean;
   backBtn?: boolean;
+  complete?: boolean | null;
 }
 
 /**
@@ -28,15 +29,26 @@ const Layout = ({
   setting,
   cancelStr,
   backBtn,
+  complete,
 }: LayoutProps) => {
   return (
     <div className='font-sans mx-auto max-w-screen-sm relative h-screen w-[375px]'>
       {showHeader && (
-        <MainHeader value={value} onlyLogo={onlyLogo} setting={setting} cancelStr={cancelStr} backBtn={backBtn} />
+        <MainHeader
+          value={value}
+          onlyLogo={onlyLogo}
+          setting={setting}
+          cancelStr={cancelStr}
+          backBtn={backBtn}
+          complete={complete}
+        />
       )}
       {chatHeader && <ChatHeader />}
       <ScrollToTop />
-      <main className={`h-screen overflow-auto ${showFooter ? 'max-h-content' : ''}`} id='main-content'>
+      <main
+        className={`h-screen overflow-auto  ${showFooter ? 'max-h-content' : 'max-h-contentExpanded'}`}
+        id='main-content'
+      >
         {children}
       </main>
       {showFooter && <MainFooter />}

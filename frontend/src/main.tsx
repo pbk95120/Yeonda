@@ -24,6 +24,7 @@ import ChatDetailPage from '@/pages/ChatDetailPage';
 import ChatProfilePage from '@/pages/ChatProfilePage';
 import ErrorPage from '@/pages/ErrorPage';
 import OthersDiaryPage from './pages/OthersDiaryPage';
+import { CookiesProvider } from 'react-cookie';
 
 const queryClient = new QueryClient();
 
@@ -182,6 +183,7 @@ const routeList = [
     value: '일기 작성',
     backBtn: false,
     cancelStr: true,
+    complete: true,
   },
   {
     path: '/chat',
@@ -226,6 +228,7 @@ const router = createBrowserRouter(
               backBtn={item.backBtn}
               cancelStr={item.cancelStr}
               setting={item.setting ? item.setting : null}
+              complete={item.complete ? item.complete : null}
             >
               {item.element}
             </Layout>
@@ -242,7 +245,9 @@ const router = createBrowserRouter(
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
+      <CookiesProvider>
+        <RouterProvider router={router} />
+      </CookiesProvider>
     </QueryClientProvider>
   </React.StrictMode>,
 );

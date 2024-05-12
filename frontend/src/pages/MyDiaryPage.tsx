@@ -7,22 +7,40 @@ import { FaSortAmountDownAlt } from 'react-icons/fa';
 import Toast from '@/components/common/Toast';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useDiaryItemStore } from '@/store/diaryStore';
 
 const MyDiary = () => {
   // const { diariesData, isDiariesLoading, error } = useDiaries();
   // if (error) return <div>{error}</div>;
   // if (isDiariesLoading) return <div>Loading...</div>;
+
   const [toast, setToast] = useState<boolean>(false);
+  const [value, setValue] = useState<string>('');
+  const { setIsMyDiaryPage } = useDiaryItemStore();
   const location = useLocation();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    setToast(location.state);
+  const showToast = () => {
+    if (location.state) {
+      setToast(true);
+      setValue(location.state);
+    }
     navigate(location.pathname, { replace: true });
-  }, []);
+  };
+
+  const isMyDiaryPage = () => {
+    setIsMyDiaryPage(true);
+    return () => {
+      setIsMyDiaryPage(false);
+    };
+  };
+
+  useEffect(showToast, []);
+
+  useEffect(isMyDiaryPage, []);
 
   return (
-    <div className='relative'>
+    <section className='relative'>
       <DiaryHeader diariesData={diariesData[0]} />
       <div className='absolute right-[14px] top-[90px] '>
         <Dropdown
@@ -39,16 +57,9 @@ const MyDiary = () => {
           </div>
         </Dropdown>
       </div>
-      {toast && (
-        <Toast
-          className='left-[50%] -translate-x-1/2'
-          value='삭제가 완료되었습니다.'
-          valid={true}
-          setToast={setToast}
-        />
-      )}
-      <DiariesList isMyDiaryPage={true} diariesData={diariesData} />
-    </div>
+      {toast && <Toast className='left-[50%] -translate-x-1/2' value={value} valid={true} setToast={setToast} />}
+      <DiariesList diariesData={diariesData} />
+    </section>
   );
 };
 

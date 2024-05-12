@@ -7,10 +7,11 @@ interface GenderSelectionProps {
   setValue: UseFormSetValue<PreferenceFormInputs>;
   register: UseFormRegister<PreferenceFormInputs>;
   errors: FieldErrors<PreferenceFormInputs>;
+  gender: string;
 }
 
-const GenderSelection = ({ setValue, register, errors }: GenderSelectionProps) => {
-  const [activeGender, setActiveGender] = useState<string>('');
+const GenderSelection = ({ setValue, register, errors, gender }: GenderSelectionProps) => {
+  const [activeGender, setActiveGender] = useState<string>(gender);
 
   const handleGenderSelection = (gender: string) => {
     setValue('gender', gender, { shouldValidate: true });
@@ -18,7 +19,7 @@ const GenderSelection = ({ setValue, register, errors }: GenderSelectionProps) =
   };
 
   return (
-    <fieldset className='pb-2'>
+    <fieldset className='pb-2 h-32'>
       <legend className='mb-2 text-sm'>성별</legend>
       <input
         type='text'
@@ -27,13 +28,14 @@ const GenderSelection = ({ setValue, register, errors }: GenderSelectionProps) =
         className='border-none bg-transparent text-sm'
         hidden
       />
-      <div className='flex items-center gap-x-2'>
+      <div className='flex items-center mb-4'>
         <Button
           color={activeGender === 'male' ? 'blue' : 'lightgray'}
           type='button'
           size='medium'
           children='남성'
           onClick={() => handleGenderSelection('male')}
+          className='mr-4'
         />
         <Button
           color={activeGender === 'female' ? 'pastelred' : 'lightgray'}

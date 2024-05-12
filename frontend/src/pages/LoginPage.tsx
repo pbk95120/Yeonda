@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
+import { useAuth } from '@/hooks/useAuth';
 
 interface LoginFormInputs {
   email: string;
@@ -9,6 +10,8 @@ interface LoginFormInputs {
 }
 
 const LoginPage = () => {
+  const { userLogin } = useAuth();
+
   const {
     register,
     handleSubmit,
@@ -17,13 +20,14 @@ const LoginPage = () => {
 
   const onSubmit: SubmitHandler<LoginFormInputs> = (data) => {
     console.log(data);
+    userLogin(data);
   };
 
   return (
-    <div className='w-full h-full mt-10 px-10'>
+    <div className='w-full mt-10 px-10'>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className='items-center justify-center mb-40'>
-          <fieldset className='pb-2'>
+          <fieldset className='pb-2 h-24'>
             <legend className='mb-2 text-sm'>이메일</legend>
             <Input
               inputFor='default'
@@ -44,9 +48,9 @@ const LoginPage = () => {
               register={{ ...register('password', { required: '비밀번호를 입력해주세요.' }) }}
               className='w-full p-2 border rounded'
             />
-            {errors.password && <span className='text-red text-xs'>{errors.password.message}</span>}
-            <div className='w-full text-right'>
-              <Link to='/find' className='text-gray text-xs'>
+            <div className='w-full relative mt-1'>
+              {errors.password && <span className='text-red text-xs'>{errors.password.message}</span>}
+              <Link to='/find' className='text-gray text-xs text-end self-end absolute top-0 right-0'>
                 비밀번호 찾기
               </Link>
             </div>
