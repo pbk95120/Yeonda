@@ -6,7 +6,7 @@ import SVG from '@/assets/images/Profile.svg?react';
 import { IoFemale } from 'react-icons/io5';
 import { IoMale } from 'react-icons/io5';
 import { useState } from 'react';
-import Tags from '@/components/join/Tags';
+import Tags from '@/components/common/Tags';
 
 
 const tags = ['롤토체스', '농구', '게임', '우주파괴', '취뽀'];

@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import Button from '../common/Button';
 import { useNavigate } from 'react-router-dom';
 import Input from '../common/Input';
-import Tags from './Tags';
+import Tags from '../common/Tags';
 import { MAX_TAGS, MIN_TAGS } from '@/constants/constants';
 
 interface InterestProps {
