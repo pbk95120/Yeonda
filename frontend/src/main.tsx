@@ -82,12 +82,12 @@ const routeList = [
   {
     path: '/tutorial',
     element: <TutorialPage />,
-    showHeader: true,
+    showHeader: false,
     showFooter: false,
-    onlyLogo: true,
+    onlyLogo: false,
     value: '박상하킹갓',
     backBtn: false,
-    cancelStr: true,
+    cancelStr: false,
   },
   {
     path: '/admin/statistics',
