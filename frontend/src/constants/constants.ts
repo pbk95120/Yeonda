@@ -33,4 +33,4 @@ export const TUTORIAL_PAGE_CONTENT = [
   '마이페이지에서는 내 정보를 확인하거나 수정할 수 있습니다',
 ];
 
-export const TAIL_LOCATION = [50, 112, 175, 237, 300];
+export const TUTORIAL_PAGE_BALLOON_POSITION = [50, 112, 175, 237, 300];
