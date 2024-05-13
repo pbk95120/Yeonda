@@ -83,8 +83,8 @@ const TestPage = () => {
 
   return (
     <>
-      {email == 'constant@gmail.com' && <div>asd</div>}
-      {email == '' && <div>asd</div>}
+      {getEmail()}
+      {isLoggedIn && <div>로그인 되었습니다.</div>}
       <div>
         <button
           onClick={() => {
@@ -97,7 +97,6 @@ const TestPage = () => {
           로그아웃
         </button>
       </div>
-      {getEmail}
       <DaumPostcode />
       <TestButton />
       <TestSVG />

@@ -9,7 +9,7 @@ export const WithAuthenticated = (Component: React.ComponentType<any>) => {
 
     useEffect(() => {
       const checkAuth = async () => {
-        if (!(await isLoggedIn())) {
+        if (!isLoggedIn) {
           alert('로그인을 해주세요');
           navigate('/login');
         }

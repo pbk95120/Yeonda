@@ -1,18 +1,9 @@
 import { httpClient } from './http';
-import { LoginProps, LoginResponse, SignupProps, verifyData } from '@/types/user';
+import { LoginProps, SignupProps, verifyData } from '@/types/user';
 
 export const signup = async (userData: SignupProps) => {
   const response = await httpClient.post('/signup', userData);
   return response.data;
-};
-
-export const authenticated = async () => {
-  const res = await httpClient.post('/authenticated');
-  if (res.status >= 200 && res.status < 300) {
-    return true;
-  } else {
-    return false;
-  }
 };
 
 export const signupEmail = async (email: string) => {
@@ -26,7 +17,7 @@ export const verifyEmail = async (email: string, code: string) => {
 };
 
 export const login = async (data: LoginProps) => {
-  const response = await httpClient.post<LoginResponse>('/login', data);
+  const response = await httpClient.post('/login', data);
   return response.data;
 };
 

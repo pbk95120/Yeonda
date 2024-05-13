@@ -4,6 +4,7 @@ import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import { useAuthStore } from '@/store/authStore';
 import { login } from '@/api/user.api';
+import { WithUnauthenticated } from '@/components/hoc/WithUnauthenticated';
 
 interface LoginFormInputs {
   email: string;
@@ -12,7 +13,6 @@ interface LoginFormInputs {
 
 const LoginPage = () => {
   const navigate = useNavigate();
-
   const { storeLogin } = useAuthStore();
   const {
     register,
@@ -23,8 +23,7 @@ const LoginPage = () => {
   const onSubmit = async (data: LoginFormInputs) => {
     try {
       await login(data).then((res) => {
-        const email = data.email;
-        storeLogin({ ...{ email }, ...res });
+        storeLogin(data.email);
         alert('로그인 성공');
         navigate('/othersdiary/suggestion');
       });
@@ -77,4 +76,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default WithUnauthenticated(LoginPage);

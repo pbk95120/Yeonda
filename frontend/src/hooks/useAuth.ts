@@ -10,13 +10,7 @@ export const useAuth = () => {
   const userLogin = (data: LoginProps) => {
     login(data).then(
       (res) => {
-        storeLogin({
-          email: data.email,
-          preferGender: res.preferGender,
-          startAge: res.startAge,
-          endAge: res.endAge,
-          distance: res.distance,
-        });
+        storeLogin(data.email);
         alert('로그인 성공');
         navigate('/othersdiary/suggestion');
       },

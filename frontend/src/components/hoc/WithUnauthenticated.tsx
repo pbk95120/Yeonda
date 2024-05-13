@@ -9,9 +9,9 @@ export const WithUnauthenticated = (Component: React.ComponentType<any>) => {
 
     useEffect(() => {
       const checkAuth = async () => {
-        if (await isLoggedIn()) {
+        if (isLoggedIn) {
           alert('이미 로그인하셨습니다');
-          navigate('/notes');
+          navigate('/othersdiary/suggestion');
         }
       };
       checkAuth();

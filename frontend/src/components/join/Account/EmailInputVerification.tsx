@@ -1,8 +1,9 @@
 import Button from '@/components/common/Button';
-import { FieldErrors, UseFormRegister } from 'react-hook-form';
+import { FieldErrors, UseFormGetValues, UseFormRegister } from 'react-hook-form';
 import { AccountFormInputs } from '../Account';
 import { useState } from 'react';
 import Input from '@/components/common/Input';
+import { signupEmail, verifyEmail } from '@/api/user.api';
 
 interface EmailVerificationInput {
   register: UseFormRegister<AccountFormInputs>;
@@ -10,6 +11,7 @@ interface EmailVerificationInput {
   email: string;
   verificationCode: string;
   setNextBtnDisabled: (nextBtnDisabled: boolean) => void;
+  getValues: UseFormGetValues<AccountFormInputs>;
 }
 const EmailVerificationInput = ({
   register,
@@ -17,11 +19,12 @@ const EmailVerificationInput = ({
   setNextBtnDisabled,
   email,
   verificationCode,
+  getValues,
 }: EmailVerificationInput) => {
   const [submitBtnDisabled, setSubmitBtnDisabled] = useState<boolean>(true);
   return (
     <>
-      <fieldset className='pb-1 h-24'>
+      <fieldset className='h-24 pb-1'>
         <legend className='mb-2 text-sm'>이메일</legend>
         <div className='flex items-center'>
           <Input
@@ -30,19 +33,28 @@ const EmailVerificationInput = ({
             defaultValue={email}
             placeholder='이메일'
             register={{ ...register('email', { required: true, pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i }) }}
-            className='flex-grow p-2 border rounded mr-2 w-full'
+            className='mr-2 w-full flex-grow rounded border p-2'
           />
           <Button
             size='small'
             type='button'
             color='pastelred'
             children='전송'
-            onClick={() => setSubmitBtnDisabled(false)}
+            onClick={() => {
+              signupEmail(getValues('email')).then(
+                () => {
+                  setSubmitBtnDisabled(false);
+                },
+                (err) => {
+                  alert(err.response.data);
+                },
+              );
+            }}
           />
         </div>
-        {errors.email && <span className='text-red text-xs'>이메일 형식을 지켜주세요.</span>}
+        {errors.email && <span className='text-xs text-red'>이메일 형식을 지켜주세요.</span>}
       </fieldset>
-      <fieldset className='pb-1 relative h-24'>
+      <fieldset className='relative h-24 pb-1'>
         <legend className='mb-2 text-sm'>인증번호</legend>
         <div className='flex items-center'>
           <Input
@@ -53,10 +65,9 @@ const EmailVerificationInput = ({
             register={{
               ...register('verificationCode', {
                 required: true,
-                pattern: /^[0-9]{6}$/,
               }),
             }}
-            className='flex-grow p-2 border rounded mr-2  w-full'
+            className='mr-2 w-full flex-grow rounded border  p-2'
           />
           <Button
             size='small'
@@ -65,11 +76,19 @@ const EmailVerificationInput = ({
             children='확인'
             disabled={submitBtnDisabled}
             onClick={() => {
-              setNextBtnDisabled(false);
+              verifyEmail(getValues('email'), getValues('verificationCode')).then(
+                (res) => {
+                  alert('인증 완료');
+                  setNextBtnDisabled(false);
+                },
+                (err) => {
+                  alert(err.response.data);
+                },
+              );
             }}
           />
         </div>
-        {errors.verificationCode && <span className='text-red text-xs'>인증번호를 입력해주세요.</span>}
+        {errors.verificationCode && <span className='text-xs text-red'>인증번호를 입력해주세요.</span>}
       </fieldset>
     </>
   );

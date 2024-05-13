@@ -19,14 +19,6 @@ export interface LoginProps {
   password: string;
 }
 
-export interface LoginResponse {
-  email: string;
-  preferGender: string;
-  startAge: number;
-  endAge: number;
-  distance: number;
-}
-
 export interface verifyData {
   email: string;
   code: string;
