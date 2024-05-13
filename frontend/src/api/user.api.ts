@@ -21,4 +21,7 @@ export const resetVerify = async (verifyData: verifyData) => {
   return response.data;
 };
 
-export const resetPassword = async (password: string, passwordCheck: string, token: string) => {};
+export const resetPassword = async (password: string, passwordCheck: string, token: string) => {
+  const response = await httpClient.post('/password/confirm', { password, passwordCheck, token });
+  return response.data;
+};
