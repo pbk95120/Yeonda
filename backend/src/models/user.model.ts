@@ -9,3 +9,5 @@ export interface User {
   address_id: number;
   created_at: string;
 }
+
+export type ProfileInfo = Pick<User, 'email' | 'nickname' | 'picture_url'>;
