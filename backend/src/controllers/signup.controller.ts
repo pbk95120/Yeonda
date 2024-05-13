@@ -1,8 +1,9 @@
 import { insertUser } from '@databases/createUser.database';
 import { selectTagNames } from '@databases/selectTagNames.database';
+import { sendSignupEmail } from '@databases/sendSignupEmail.database';
 import { databaseConnector } from '@middlewares/databaseConnector';
 import { Controller } from '@schemas/controller.schema';
-import { SignupInfo } from '@schemas/signup.schema';
+import { EmailSchema, SignupInfo } from '@schemas/signup.schema';
 import CustomError from '@src/error';
 import { getEncryptPassword } from '@utils/getEncryptPassword';
 import { reformImg } from '@utils/reformImg';
@@ -15,6 +16,13 @@ export const getSignupInfo: Controller = async (req, res) => {
   };
   await databaseConnector(selectTagNames)(info);
   res.status(http.OK).json(info);
+};
+
+export const requestSignupEmail: Controller = async (req, res) => {
+  const { error } = EmailSchema.validate(req.body?.email);
+  if (error) throw new CustomError(http.BAD_REQUEST, '잘못된 이메일 양식');
+  await databaseConnector(sendSignupEmail)(req.body.email);
+  res.sendStatus(http.OK);
 };
 
 export const createUser: Controller = async (req, res) => {
