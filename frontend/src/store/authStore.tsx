@@ -1,4 +1,3 @@
-import { getCookie, removeCookie, setCookie } from '@/utils/cookie';
 import { create } from 'zustand';
 
 interface StoreState {
@@ -7,27 +6,28 @@ interface StoreState {
   storeLogout: () => void;
 }
 
-export const getToken = () => {
-  const token = getCookie('access-token');
-  return token;
+export const getEmail = () => {
+  const email = localStorage.getItem('email');
+  return email;
 };
 
-export const setToken = (token: string) => {
-  setCookie('access-token', token, { path: '/' });
+export const setEmail = (email: string) => {
+  localStorage.setItem('email', email);
 };
 
-export const removeToken = () => {
-  removeCookie('access-token', { path: '/' });
+export const removeEmail = () => {
+  localStorage.removeItem('email');
 };
 
 export const useAuthStore = create<StoreState>((set) => ({
-  isLoggedIn: getToken() ? true : false,
-  storeLogin: (token: string) => {
+  isLoggedIn: getEmail() ? true : false,
+  email: getEmail(),
+  storeLogin: (email: string) => {
+    setEmail(email);
     set({ isLoggedIn: true });
-    setToken(token);
   },
   storeLogout: () => {
+    removeEmail();
     set({ isLoggedIn: false });
-    removeToken();
   },
 }));
