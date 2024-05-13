@@ -5,6 +5,7 @@ import LogoutRoute from '@routes/logout.route';
 import MyProfileRoute from '@routes/myProfile.route';
 import PasswordResetRoute from '@routes/passwordReset.route';
 import SignupRoute from '@routes/signup.route';
+import YourProfileRoute from '@routes/yourProfile.route';
 import socketHandler from '@sockets/index';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -41,6 +42,7 @@ app.use('/login', LoginRoute);
 app.use('/logout', LogoutRoute);
 app.use('/password/reset', PasswordResetRoute);
 app.use('/profile/my', MyProfileRoute);
+app.use('/profile/your', YourProfileRoute);
 app.use('/chatlist', ChatsRoute);
 
 app.use(errorHandler);
