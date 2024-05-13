@@ -16,6 +16,8 @@ export const sendPasswordResetEmail = async (conn: Connection, email: string): P
 
   const [code, time] = getRandomCode(6);
 
+  await sendEmail(email, 'Yeonda 비밀번호 초기화 인증 코드입니다', `유효 기간: ${time} 인증 코드: ${code}`);
+
   const callback = async (user_id: string, code: string) => {
     sql = 'insert into password_reset (user_id, code) values(:user_id, :code)';
     values = { user_id: user_id, code: code };
@@ -23,8 +25,6 @@ export const sendPasswordResetEmail = async (conn: Connection, email: string): P
   };
 
   await transactionWrapper(conn, callback)(user_id, code);
-
-  await sendEmail(email, 'Yeonda 비밀번호 초기화 인증 코드입니다', `유효 기간: ${time} 인증 코드: ${code}`);
 
   return;
 };
