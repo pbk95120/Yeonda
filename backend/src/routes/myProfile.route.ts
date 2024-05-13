@@ -8,9 +8,9 @@ import {
   patchMyPicture,
   patchMyPreference,
 } from '@controllers/myProfile.controller';
-import { authenticateUser } from '@middlewares/authenticateUser';
-import { controllerWrapper } from '@middlewares/controllerWrapper';
-import { memoryStorage } from '@middlewares/memoryStorage';
+import { authenticateUser } from '@middlewares/authenticateUser.middleware';
+import { controllerWrapper } from '@middlewares/controllerWrapper.middleware';
+import { memoryStorage } from '@middlewares/memoryStorage.middleware';
 import express from 'express';
 const MyProfileRoute = express.Router();
 

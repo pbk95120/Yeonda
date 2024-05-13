@@ -1,11 +1,8 @@
-import { transactionWrapper } from '@middlewares/transactionWrapper';
+import { transactionWrapper } from '@middlewares/transactionWrapper.middleware';
 import { getGeoCode } from '@utils/getGeoCode';
-import { getUserIdByEmail } from '@utils/getUserIdByEmail';
 import { Connection, ResultSetHeader } from 'mysql2/promise';
 
-export const updateMyAddress = async (conn: Connection, email: string, address: string): Promise<void> => {
-  const user_id = await getUserIdByEmail(conn, email);
-
+export const updateMyAddress = async (conn: Connection, user_id: number, address: string): Promise<void> => {
   let sql = 'select id from address where detail = :detail';
   let values: {} = { detail: address };
   let [result] = await conn.execute(sql, values);
