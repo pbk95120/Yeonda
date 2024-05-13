@@ -1,4 +1,4 @@
-import { databaseConnector } from '@middlewares/databaseConnector';
+import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { server } from '@src/app';
 import Database from '@src/db';
 import { getEmailFromToken } from '@utils/getEmailFromToken';
@@ -39,8 +39,9 @@ describe('POST /password/reset/verify 비밀번호 초기화 코드 인증', () 
 
     if (match && match[1]) {
       const token = match[1];
-      const email = await getEmailFromToken(token);
-      expect(email).toEqual('constant@gmail.com');
+      const decoded = await getEmailFromToken(token);
+      expect(decoded.user_id).toEqual(1);
+      expect(decoded.email).toEqual('constant@gmail.com');
       expect(response.status).toBe(http.OK);
     } else fail();
   });

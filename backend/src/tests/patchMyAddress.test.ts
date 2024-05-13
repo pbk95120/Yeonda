@@ -1,4 +1,4 @@
-import { databaseConnector } from '@middlewares/databaseConnector';
+import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { server } from '@src/app';
 import Database from '@src/db';
 import { issueToken } from '@utils/issueToken';
@@ -33,7 +33,7 @@ describe('PATCH /profile/my/setting/address 주소 수정', () => {
   let token;
 
   beforeEach(() => {
-    token = issueToken('constant@gmail.com');
+    token = issueToken(1, 'constant@gmail.com');
   });
 
   it('이미 데이터 베이스에 있는 주소로 정상 요청', async () => {
@@ -86,19 +86,7 @@ describe('PATCH /profile/my/setting/address 주소 수정', () => {
     expect(response.status).toBe(http.BAD_REQUEST);
   });
 
-  it('존재하지 않는 사용자', async () => {
-    token = issueToken('faker@gmail.com');
-    const response = await request(server)
-      .patch('/profile/my/setting/address')
-      .set('Cookie', `access-token=${token}`)
-      .send({
-        address: '충남 아산시 염치읍 현충사길 126',
-      });
-    expect(response.status).toBe(http.NOT_FOUND);
-  });
-
   it('address 값이 없는 경우', async () => {
-    token = issueToken('faker@gmail.com');
     const response = await request(server)
       .patch('/profile/my/setting/address')
       .set('Cookie', `access-token=${token}`)

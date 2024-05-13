@@ -1,4 +1,4 @@
-import { databaseConnector } from '@middlewares/databaseConnector';
+import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { server } from '@src/app';
 import Database from '@src/db';
 import { issueToken } from '@utils/issueToken';
@@ -36,7 +36,7 @@ describe('PUT /profile/my/tag 회원 선호 태그 수정', () => {
   let token;
 
   beforeEach(() => {
-    token = issueToken('constant@gmail.com');
+    token = issueToken(1, 'constant@gmail.com');
   });
 
   it('정상 요청', async () => {
@@ -85,14 +85,6 @@ describe('PUT /profile/my/tag 회원 선호 태그 수정', () => {
         tags: [5, 6, 7],
       });
     expect(response.status).toBe(http.BAD_REQUEST);
-  });
-
-  it('존재하지 않는 사용자', async () => {
-    token = issueToken('faker@gmail.com');
-    const response = await request(server).put('/profile/my/tag').set('Cookie', `access-token=${token}`).send({
-      tags: '4,5,6',
-    });
-    expect(response.status).toBe(http.NOT_FOUND);
   });
 
   it('존재하지 않는 태그', async () => {

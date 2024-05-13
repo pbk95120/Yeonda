@@ -26,8 +26,9 @@ describe('POST /login 로그인 요청', () => {
 
     if (match && match[1]) {
       const token = match[1];
-      const email = await getEmailFromToken(token);
-      expect(email).toEqual('constant@gmail.com');
+      const decoded = await getEmailFromToken(token);
+      expect(decoded.user_id).toEqual(1);
+      expect(decoded.email).toEqual('constant@gmail.com');
       expect(response.status).toBe(http.OK);
     } else fail();
   });

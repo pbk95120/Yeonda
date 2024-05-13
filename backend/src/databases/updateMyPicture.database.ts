@@ -1,16 +1,13 @@
-import { transactionWrapper } from '@middlewares/transactionWrapper';
-import { getUserIdByEmail } from '@utils/getUserIdByEmail';
+import { transactionWrapper } from '@middlewares/transactionWrapper.middleware';
 import { saveFile } from '@utils/saveFile';
 import { Connection } from 'mysql2/promise';
 
 export const updateMyPicture = async (
   conn: Connection,
-  email: string,
+  user_id: number,
   url: string,
   file: Express.Multer.File,
 ): Promise<void> => {
-  const user_id = await getUserIdByEmail(conn, email);
-
   const callback = async (user_id: number, picture_url: string, file: Express.Multer.File) => {
     saveFile(picture_url, file.buffer);
 

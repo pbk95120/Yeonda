@@ -1,19 +1,12 @@
-import { transactionWrapper } from '@middlewares/transactionWrapper';
-import CustomError from '@src/error';
-import http from 'http-status-codes';
+import { transactionWrapper } from '@middlewares/transactionWrapper.middleware';
 import { Connection } from 'mysql2/promise';
 
-export const changePassword = async (conn: Connection, email: string, password: string): Promise<void> => {
-  let sql = 'select email from user where email = :email';
-  let values: {} = { email: email };
-  const [result] = await conn.execute(sql, values);
-  if (!result[0]) throw new CustomError(http.NOT_FOUND, '존재하지 않는 사용자');
-
-  const callback = async (email: string, password: string) => {
-    sql = 'update user set password = :password where email = :email';
-    values = { email: email, password: password };
+export const changePassword = async (conn: Connection, user_id: number, password: string): Promise<void> => {
+  const callback = async (user_id: string, password: string) => {
+    const sql = 'update user set password = :password where id = :user_id';
+    const values = { user_id: user_id, password: password };
     await conn.execute(sql, values);
   };
 
-  await transactionWrapper(conn, callback)(email, password);
+  await transactionWrapper(conn, callback)(user_id, password);
 };

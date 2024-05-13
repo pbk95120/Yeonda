@@ -2,7 +2,7 @@ import { insertUser } from '@databases/createUser.database';
 import { selectTagNames } from '@databases/selectTagNames.database';
 import { sendSignupEmail } from '@databases/sendSignupEmail.database';
 import { validateSignupCode } from '@databases/validateSignupCode.database';
-import { databaseConnector } from '@middlewares/databaseConnector';
+import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { Controller } from '@schemas/controller.schema';
 import { VerifyCodeSchema } from '@schemas/passwordReset.schema';
 import { EmailSchema, SignupInfo } from '@schemas/signup.schema';

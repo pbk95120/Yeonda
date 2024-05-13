@@ -7,16 +7,16 @@ interface TagId {
   tag_id: number;
 }
 
-export const selectMyProfile = async (conn: Connection, email: string): Promise<MyProfile> => {
+export const selectMyProfile = async (conn: Connection, user_id: number): Promise<MyProfile> => {
   let sql = `select u.id, u.email, u.nickname, u.gender, u.birth, u.picture_url, a.latitude, a.longitude, a.detail 
-  from user u join address a on a.id = u.address_id where u.email = :email`;
-  let values: {} = { email: email };
+  from user u join address a on a.id = u.address_id where u.id = :user_id`;
+  let values: {} = { user_id: user_id };
   let [result] = await conn.execute(sql, values);
   if (!result[0]) throw new CustomError(http.NOT_FOUND, '존재하지 않는 사용자');
   const userAddress = result[0];
 
-  sql = 'select tag_id from user_tag where user_id = :id';
-  values = { id: userAddress.id };
+  sql = 'select tag_id from user_tag where user_id = :user_id';
+  values = { user_id: userAddress.id };
   [result] = await conn.execute(sql, values);
   let tags = [];
   for (const row of result as TagId[]) tags.push(row.tag_id);

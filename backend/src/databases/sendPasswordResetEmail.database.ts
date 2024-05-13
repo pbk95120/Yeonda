@@ -1,4 +1,4 @@
-import { transactionWrapper } from '@middlewares/transactionWrapper';
+import { transactionWrapper } from '@middlewares/transactionWrapper.middleware';
 import CustomError from '@src/error';
 import { getRandomCode } from '@utils/getRandomCode';
 import { getUserIdByEmail } from '@utils/getUserIdByEmail';

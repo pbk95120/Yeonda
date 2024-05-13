@@ -1,4 +1,4 @@
-import { databaseConnector } from '@middlewares/databaseConnector';
+import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { server } from '@src/app';
 import Database from '@src/db';
 import { issueToken } from '@utils/issueToken';
@@ -31,7 +31,7 @@ describe('PATCH /profile/my/picture 프로필 사진 수정', () => {
   let token;
 
   beforeEach(() => {
-    token = issueToken('constant@gmail.com');
+    token = issueToken(1, 'constant@gmail.com');
   });
 
   it('정상 요청', async () => {
@@ -82,15 +82,5 @@ describe('PATCH /profile/my/picture 프로필 사진 수정', () => {
       .set('Cookie', `access-token=${token}`)
       .attach('picture', path.join(__dirname, 'mocks', 'mock.txt'));
     expect(response.status).toBe(http.BAD_REQUEST);
-  });
-
-  it('존재하지 않는 사용자', async () => {
-    token = issueToken('faker@gmail.com');
-    const response = await request(server)
-      .patch('/profile/my/setting/picture')
-      .set('Content-Type', 'multipart/form-data')
-      .set('Cookie', `access-token=${token}`)
-      .attach('picture', path.join(__dirname, 'mocks', 'mock.png'));
-    expect(response.status).toBe(http.NOT_FOUND);
   });
 });

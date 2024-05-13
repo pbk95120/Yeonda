@@ -1,9 +1,14 @@
 import { User } from '@models/user.model';
+import { EmailSchema, PasswordSchema } from '@schemas/signup.schema';
 import Joi from 'joi';
 
 export interface Login extends Pick<User, 'email' | 'password'> {}
 
 export const LoginSchema = Joi.object({
-  email: Joi.string().email().max(320).required(),
-  password: Joi.string().max(20).required(),
+  email: EmailSchema,
+  password: PasswordSchema,
 });
+
+export interface Logon extends Pick<User, 'email'> {
+  user_id: User['id'];
+}

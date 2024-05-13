@@ -1,6 +1,7 @@
 import { PatchMyPreference } from '@schemas/myProfile.schema';
 export const reformPreference = (preference: PatchMyPreference) => {
   return {
+    user_id: preference.user_id,
     email: preference.email,
     gender: preference.gender,
     distance: parseInt(preference.distance),

@@ -1,3 +1,5 @@
 import Joi from 'joi';
 
-export const UserIDSchema = Joi.string().pattern(/^[1-9]\d*$/);
+export const UserIDSchema = Joi.number().integer().positive();
+
+export const UserIDParamsSchema = Joi.string().pattern(/^[1-9]\d*$/);

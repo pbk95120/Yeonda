@@ -1,4 +1,4 @@
-import { transactionWrapper } from '@middlewares/transactionWrapper';
+import { transactionWrapper } from '@middlewares/transactionWrapper.middleware';
 import { RawSignupPicUrl, Signup } from '@schemas/signup.schema';
 import CustomError from '@src/error';
 import { getGeoCode } from '@utils/getGeoCode';

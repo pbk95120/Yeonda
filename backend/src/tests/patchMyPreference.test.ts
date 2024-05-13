@@ -1,4 +1,4 @@
-import { databaseConnector } from '@middlewares/databaseConnector';
+import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { server } from '@src/app';
 import Database from '@src/db';
 import { issueToken } from '@utils/issueToken';
@@ -31,7 +31,7 @@ describe('PATCH /profile/my/preference 회원 선호도 설정 수정', () => {
   let form;
 
   beforeEach(() => {
-    token = issueToken('constant@gmail.com');
+    token = issueToken(1, 'constant@gmail.com');
     form = {
       gender: 'Neutral',
       distance: '200',
@@ -76,14 +76,5 @@ describe('PATCH /profile/my/preference 회원 선호도 설정 수정', () => {
       .set('Cookie', `access-token=${token}`)
       .send(form);
     expect(response.status).toBe(http.BAD_REQUEST);
-  });
-
-  it('존재하지 않는 사용자', async () => {
-    token = issueToken('faker@gmail.com');
-    const response = await request(server)
-      .patch('/profile/my/preference')
-      .set('Cookie', `access-token=${token}`)
-      .send(form);
-    expect(response.status).toBe(http.NOT_FOUND);
   });
 });
