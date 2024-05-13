@@ -1,8 +1,8 @@
 import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { server } from '@src/app';
 import Database from '@src/db';
-import { getEmailFromToken } from '@src/utils/getLogonFromToken';
 import { getEncryptPassword } from '@utils/getEncryptPassword';
+import { getLogonFromToken } from '@utils/getLogonFromToken';
 import { issueToken } from '@utils/issueToken';
 import http from 'http-status-codes';
 import { Connection } from 'mysql2/promise';
@@ -61,7 +61,7 @@ describe('POST /password/reset/confirm 비밀번호 변경 요청', () => {
 
     if (match && match[1]) {
       const token = match[1];
-      const email = await getEmailFromToken(token);
+      const email = await getLogonFromToken(token);
       expect(email).toEqual(email);
       expect(response.status).toBe(http.OK);
     } else fail();

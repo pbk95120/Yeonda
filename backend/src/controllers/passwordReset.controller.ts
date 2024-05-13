@@ -1,5 +1,5 @@
-import { changePassword } from '@databases/changePassword.database';
 import { sendPasswordResetEmail } from '@databases/sendPasswordResetEmail.database';
+import { updatePassword } from '@databases/updatePassword.database';
 import { validatePasswordResetCode } from '@databases/validatePasswordResetCode.database';
 import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { Controller } from '@schemas/controller.schema';
@@ -39,7 +39,7 @@ export const confirmPasswordReset: Controller = async (req, res) => {
   if (error) throw new CustomError(http.BAD_REQUEST, '잘못된 비밀번호 초기화 확정 양식', error);
 
   const encryptPassword = await getEncryptPassword(req.body.password);
-  await databaseConnector(changePassword)(req.body.user_id, encryptPassword);
+  await databaseConnector(updatePassword)(req.body.user_id, encryptPassword);
 
   res.sendStatus(http.OK);
 };

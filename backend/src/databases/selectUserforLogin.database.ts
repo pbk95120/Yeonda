@@ -3,7 +3,7 @@ import { comparePassword } from '@utils/comparePassword';
 import http from 'http-status-codes';
 import { Connection } from 'mysql2/promise';
 
-export const checkUser = async (conn: Connection, email: string, password: string): Promise<number> => {
+export const selectUserforLogin = async (conn: Connection, email: string, password: string): Promise<number> => {
   let sql = 'select id, password from user where email = :email';
   let values = { email: email };
   const [result] = await conn.execute(sql, values);
