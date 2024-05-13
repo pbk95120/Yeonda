@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import { getToken, removeToken } from '@/store/authStore';
+import { getEmail, removeEmail } from '@/store/authStore';
 import { DEFAULT_TIMEOUT } from '@/constants/constants';
 
 /**
@@ -11,7 +11,7 @@ export const createClient = (config?: AxiosRequestConfig) => {
     timeout: DEFAULT_TIMEOUT,
     headers: {
       'Content-Type': 'application/json',
-      Authorization: getToken() ? getToken() : '',
+      Authorization: getEmail() ? getEmail() : '',
     },
     withCredentials: true,
     ...config,
@@ -22,7 +22,7 @@ export const createClient = (config?: AxiosRequestConfig) => {
     },
     (error) => {
       if (error.response.status === 401) {
-        removeToken();
+        removeEmail();
         window.location.href = '/login';
         return;
       }

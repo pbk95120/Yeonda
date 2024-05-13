@@ -3,6 +3,8 @@ import useStore from '@/store/store';
 import axios from 'axios';
 import { example } from '@/api/sample.api';
 import DaumPostcode from 'react-daum-postcode';
+import { useAuthStore } from '@/store/authStore';
+import { useCookies } from 'react-cookie';
 
 import {
   Chart as ChartJS,
@@ -61,6 +63,8 @@ const TestPage = () => {
     setSelectedButton(button);
   };
 
+  const [cookies, setCookie] = useCookies(['access-token']);
+
   const TestButton = () => {
     const handleSignupTest = async () => {
       try {
@@ -74,12 +78,24 @@ const TestPage = () => {
     return <button onClick={handleSignupTest}>API 테스트</button>;
   };
 
+  const { isLoggedIn } = useAuthStore();
+
   return (
     <>
+      <div>
+        <button
+          onClick={() => {
+            console.log(cookies);
+          }}
+        >
+          asd
+        </button>
+      </div>
+      {isLoggedIn ? <p>로그인 되어있습니다.</p> : <p>로그인 되어있지 않습니다.</p>}
       <DaumPostcode />
       <TestButton />
       <TestSVG />
-      <h1 className='text-3xl font-bold underline font-sans'>Hello world!</h1>
+      <h1 className='font-sans text-3xl font-bold underline'>Hello world!</h1>
       <div>
         <div>
           <button onClick={() => handleClick('O')}>O</button>
@@ -91,7 +107,7 @@ const TestPage = () => {
         </div>
       </div>
       <div>
-        <p className='text-pastelgreen text-xl p-10 m-10'>카운트: {count}</p>
+        <p className='m-10 p-10 text-xl text-pastelgreen'>카운트: {count}</p>
         <p>선택한 버튼: {selectedButton}</p>
       </div>
       <button

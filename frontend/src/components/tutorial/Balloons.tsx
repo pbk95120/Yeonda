@@ -1,4 +1,4 @@
-import { TUTORIAL_PAGE_NAME, TUTORIAL_PAGE_CONTENT, TAIL_LOCATION } from '@/constants/constants';
+import { TUTORIAL_PAGE_NAME, TUTORIAL_PAGE_CONTENT, TUTORIAL_PAGE_BALLOON_POSITION } from '@/constants/constants';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import Button from '../common/Button';
 import { useNavigate } from 'react-router-dom';
@@ -12,15 +12,17 @@ const Balloons = ({ setPage, page }: BalloonsProps) => {
   const navigate = useNavigate();
 
   return (
-    <div className='flex flex-col items-center justify-center w-full h-full relative'>
-      <div className='w-[324px] h-[180px] bg-peach rounded-xl shadow-2xl p-8 py-4 after:conte'>
+    <div
+      className={`flex flex-col items-center justify-center w-full relative h-[667px] ${page == 0 ? 'translate-y-20' : 'translate-y-40'}`}
+    >
+      <div className='w-[324px] h-[180px] bg-peach rounded-xl shadow-2xl p-8 py-4 '>
         <div className='flex flex-row justify-between items-center mb-4'>
           <p className='font-bold text-xl'>{TUTORIAL_PAGE_NAME[page]}</p>
           <p>{page + 1}/5</p>
         </div>
         <p>
-          {TUTORIAL_PAGE_CONTENT[page].split('.').map((a) => {
-            return <p key={a}>{a}.</p>;
+          {TUTORIAL_PAGE_CONTENT[page].split('.').map((a, index) => {
+            return <p key={index}>{a}.</p>;
           })}
         </p>
       </div>
@@ -36,14 +38,14 @@ const Balloons = ({ setPage, page }: BalloonsProps) => {
           if (page >= 1) setPage(page - 1);
         }}
       />
-      <div className={`absolute w-6 h-6 bg-peach rotate-45 -bottom-3 left-[${TAIL_LOCATION[page]}px]`}></div>
+
       {page === 4 && (
         <Button
           color='pastelred'
           size='small'
           onClick={() => navigate('/login')}
           children='시작하기'
-          className='absolute bottom-4 right-10'
+          className='absolute right-10 top-[360px]'
         />
       )}
     </div>
