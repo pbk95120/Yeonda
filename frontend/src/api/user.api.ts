@@ -6,8 +6,32 @@ export const signup = async (userData: SignupProps) => {
   return response.data;
 };
 
+export const authenticated = async () => {
+  const res = await httpClient.post('/authenticated');
+  if (res.status >= 200 && res.status < 300) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+export const signupEmail = async (email: string) => {
+  const response = await httpClient.post('/signup/email', { email });
+  return response.data;
+};
+
+export const verifyEmail = async (email: string, code: string) => {
+  const response = await httpClient.post('/signup/email/verify', { email, code });
+  return response.data;
+};
+
 export const login = async (data: LoginProps) => {
   const response = await httpClient.post<LoginResponse>('/login', data);
+  return response.data;
+};
+
+export const logout = async () => {
+  const response = await httpClient.post('/logout');
   return response.data;
 };
 

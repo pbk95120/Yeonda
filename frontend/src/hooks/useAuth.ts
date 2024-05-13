@@ -4,13 +4,19 @@ import { LoginProps } from '@/types/user';
 import { useNavigate } from 'react-router-dom';
 
 export const useAuth = () => {
-  const { storeLogin, isLoggedIn } = useAuthStore();
+  const { storeLogin } = useAuthStore();
   const navigate = useNavigate();
 
   const userLogin = (data: LoginProps) => {
     login(data).then(
       (res) => {
-        storeLogin(res.token);
+        storeLogin({
+          email: data.email,
+          preferGender: res.preferGender,
+          startAge: res.startAge,
+          endAge: res.endAge,
+          distance: res.distance,
+        });
         alert('로그인 성공');
         navigate('/othersdiary/suggestion');
       },

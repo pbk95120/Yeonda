@@ -1,10 +1,9 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import { useAuthStore } from '@/store/authStore';
 import { login } from '@/api/user.api';
-import { useEffect } from 'react';
 
 interface LoginFormInputs {
   email: string;
@@ -12,13 +11,7 @@ interface LoginFormInputs {
 }
 
 const LoginPage = () => {
-  const { isLoggedIn } = useAuthStore();
   const navigate = useNavigate();
-  useEffect(() => {
-    if (isLoggedIn) {
-      navigate('/othersdiary/suggestion');
-    }
-  }, [isLoggedIn]);
 
   const { storeLogin } = useAuthStore();
   const {
@@ -29,10 +22,12 @@ const LoginPage = () => {
 
   const onSubmit = async (data: LoginFormInputs) => {
     try {
-      await login(data);
-      storeLogin(data.email);
-      alert('로그인 성공');
-      navigate('/othersdiary/suggestion');
+      await login(data).then((res) => {
+        const email = data.email;
+        storeLogin({ ...{ email }, ...res });
+        alert('로그인 성공');
+        navigate('/othersdiary/suggestion');
+      });
     } catch (error) {
       alert('로그인 실패');
     }

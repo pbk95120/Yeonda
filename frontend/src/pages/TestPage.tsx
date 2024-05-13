@@ -3,7 +3,7 @@ import useStore from '@/store/store';
 import axios from 'axios';
 import { example } from '@/api/sample.api';
 import DaumPostcode from 'react-daum-postcode';
-import { useAuthStore } from '@/store/authStore';
+import { getEmail, useAuthStore } from '@/store/authStore';
 import { useCookies } from 'react-cookie';
 
 import {
@@ -17,6 +17,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
+import { logout } from '@/api/user.api';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -78,20 +79,25 @@ const TestPage = () => {
     return <button onClick={handleSignupTest}>API 테스트</button>;
   };
 
-  const { isLoggedIn } = useAuthStore();
+  const { email, isLoggedIn, storeLogout } = useAuthStore();
 
   return (
     <>
+      {email == 'constant@gmail.com' && <div>asd</div>}
+      {email == '' && <div>asd</div>}
       <div>
         <button
           onClick={() => {
-            console.log(cookies);
+            logout().then(() => {
+              storeLogout();
+              alert('로그아웃 되었습니다.');
+            });
           }}
         >
-          asd
+          로그아웃
         </button>
       </div>
-      {isLoggedIn ? <p>로그인 되어있습니다.</p> : <p>로그인 되어있지 않습니다.</p>}
+      {getEmail}
       <DaumPostcode />
       <TestButton />
       <TestSVG />
@@ -125,7 +131,6 @@ const TestPage = () => {
         버튼
       </button>
       <p className='font-diary text-5xl'>폰트테스트</p>
-
       <Line data={data} options={options} />
     </>
   );
