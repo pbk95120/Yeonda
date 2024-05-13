@@ -1,0 +1,1 @@
+INSERT INTO `yeonda_test`.`preference` (`user_id`, `gender`, `distance`, `start_age`, `end_age`) VALUES ('1', 'Female', '100', '20', '30');

@@ -1,3 +1,4 @@
+import { changePassword } from '@databases/changePassword.database';
 import { sendPasswordResetEmail } from '@databases/sendPasswordResetEmail.database';
 import { validatePasswordResetCode } from '@databases/validatePasswordResetCode.database';
 import { databaseConnector } from '@middlewares/databaseConnector';
@@ -9,7 +10,6 @@ import {
   PasswordResetVerify,
   PasswordResetVerifySchema,
 } from '@schemas/passwordReset.schema';
-import { changePassword } from '@src/databases/changePassword.database';
 import CustomError from '@src/error';
 import { getEncryptPassword } from '@utils/getEncryptPassword';
 import { issueToken } from '@utils/issueToken';
@@ -45,9 +45,8 @@ export const confirmPasswordReset: Controller = async (req, res) => {
   const { error } = PasswordConfirmSchema.validate(req.body);
   if (error) throw new CustomError(http.BAD_REQUEST, '잘못된 비밀번호 초기화 확정 양식', error);
 
-  const email = req.body.email;
   const encryptPassword = await getEncryptPassword(req.body.password);
-  await databaseConnector(changePassword)(email, encryptPassword);
+  await databaseConnector(changePassword)(req.body.email, encryptPassword);
 
   res.sendStatus(http.OK);
 };

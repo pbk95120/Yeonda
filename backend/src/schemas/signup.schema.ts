@@ -1,8 +1,8 @@
+import { Address } from '@models/address.model';
+import { Preference } from '@models/preference.model';
 import { Tag, TagName } from '@models/tag.model';
-import { Address } from '@src/models/address.model';
-import { Preference } from '@src/models/preference.model';
-import { User } from '@src/models/user.model';
-import { PasswordConfirm } from '@src/schemas/passwordReset.schema';
+import { User } from '@models/user.model';
+import { PasswordConfirm } from '@schemas/passwordReset.schema';
 import Joi from 'joi';
 
 export interface RawSignup
@@ -25,7 +25,23 @@ export const EmailSchema = Joi.string().email().max(320).required();
 export const PasswordSchema = Joi.string()
   .min(5)
   .max(20)
-  .pattern(/^[^\s]+$/)
+  .pattern(/^[A-Za-z0-9]+$/)
+  .required();
+
+export const PictureUrlSchema = Joi.string().regex(/^.+\.(jpg|jpeg|png|webp)$/);
+
+export const AddressDetailSchema = Joi.string().max(100).required();
+
+export const PreferGenderSchema = Joi.string().valid('Male', 'Female', 'Neutral').required();
+
+export const DistanceSchema = Joi.string().regex(/^\d{1,4}$/);
+
+export const StartAgeSchema = Joi.string().regex(/^\d{2}$/);
+
+export const EndAgeSchema = Joi.string().regex(/^\d{2}$/);
+
+export const TagsSchema = Joi.string()
+  .regex(/^\d+(,\d+)*$/)
   .required();
 
 export const RawSignupSchema = Joi.object({
@@ -34,18 +50,16 @@ export const RawSignupSchema = Joi.object({
   password: PasswordSchema,
   password_check: Joi.string().valid(Joi.ref('password')).required(),
   gender: Joi.string().valid('Male', 'Female').required(),
-  picture_url: Joi.string().regex(/^.+\.(jpg|jpeg|png|webp)$/),
+  picture_url: PictureUrlSchema,
   birth: Joi.string()
     .pattern(/^\d{4}-\d{2}-\d{2}$/)
     .required(),
-  address: Joi.string().required(),
-  prefer_gender: Joi.string().valid('Male', 'Female', 'Neutral').required(),
-  distance: Joi.string().regex(/^\d{1,4}$/),
-  start_age: Joi.string().regex(/^\d{2}$/),
-  end_age: Joi.string().regex(/^\d{2}$/),
-  tags: Joi.string()
-    .regex(/^\d+(,\d+)*$/)
-    .required(),
+  address: AddressDetailSchema,
+  prefer_gender: PreferGenderSchema,
+  distance: DistanceSchema,
+  start_age: StartAgeSchema,
+  end_age: EndAgeSchema,
+  tags: TagsSchema,
 });
 
 export interface Signup {

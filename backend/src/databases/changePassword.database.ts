@@ -1,5 +1,5 @@
+import { transactionWrapper } from '@middlewares/transactionWrapper';
 import CustomError from '@src/error';
-import { transactionWrapper } from '@src/middlewares/transactionWrapper';
 import http from 'http-status-codes';
 import { Connection } from 'mysql2/promise';
 

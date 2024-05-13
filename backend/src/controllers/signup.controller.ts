@@ -1,8 +1,8 @@
 import { insertUser } from '@databases/createUser.database';
+import { selectTagNames } from '@databases/selectTagNames.database';
 import { databaseConnector } from '@middlewares/databaseConnector';
 import { Controller } from '@schemas/controller.schema';
 import { SignupInfo } from '@schemas/signup.schema';
-import { selectTagNames } from '@src/databases/selectTagNames.database';
 import CustomError from '@src/error';
 import { getEncryptPassword } from '@utils/getEncryptPassword';
 import { reformImg } from '@utils/reformImg';
