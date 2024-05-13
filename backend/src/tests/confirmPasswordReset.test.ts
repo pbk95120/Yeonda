@@ -1,7 +1,7 @@
 import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { server } from '@src/app';
 import Database from '@src/db';
-import { getEmailFromToken } from '@utils/getEmailFromToken';
+import { getEmailFromToken } from '@src/utils/getLogonFromToken';
 import { getEncryptPassword } from '@utils/getEncryptPassword';
 import { issueToken } from '@utils/issueToken';
 import http from 'http-status-codes';

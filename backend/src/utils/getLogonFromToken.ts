@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken';
 
 const { JWT_SECRET } = process.env;
 
-export const getEmailFromToken = async (token: string): Promise<Logon> => {
+export const getLogonFromToken = async (token: string): Promise<Logon> => {
   try {
     const decoded = (await jwt.verify(token, JWT_SECRET)) as Logon;
     return decoded;

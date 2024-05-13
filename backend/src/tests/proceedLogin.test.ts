@@ -1,6 +1,6 @@
 import { server } from '@src/app';
 import Database from '@src/db';
-import { getEmailFromToken } from '@utils/getEmailFromToken';
+import { getEmailFromToken } from '@src/utils/getLogonFromToken';
 import http from 'http-status-codes';
 import request from 'supertest';
 
