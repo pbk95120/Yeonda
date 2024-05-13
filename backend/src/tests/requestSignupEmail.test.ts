@@ -6,7 +6,7 @@ import { Connection } from 'mysql2/promise';
 import request from 'supertest';
 
 const cleanUp = async (conn: Connection): Promise<void> => {
-  let sql = 'truncate table signup';
+  let sql = 'delete from signup where id > 1';
   await conn.execute(sql);
   return;
 };
