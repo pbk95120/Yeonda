@@ -22,7 +22,7 @@ export const getSignupInfo: Controller = async (req, res) => {
 
 export const requestSignupEmail: Controller = async (req, res) => {
   const { error } = EmailSchema.validate(req.body?.email);
-  if (error) throw new CustomError(http.BAD_REQUEST, '잘못된 이메일 양식');
+  if (error) throw new CustomError(http.BAD_REQUEST, '잘못된 이메일 양식', error);
 
   await databaseConnector(sendSignupEmail)(req.body.email);
   res.sendStatus(http.OK);
@@ -30,7 +30,7 @@ export const requestSignupEmail: Controller = async (req, res) => {
 
 export const verifySignupEmail: Controller = async (req, res) => {
   const { error } = VerifyCodeSchema.validate(req.body);
-  if (error) throw new CustomError(http.BAD_REQUEST, '잘못된 인증 코드 확인 양식');
+  if (error) throw new CustomError(http.BAD_REQUEST, '잘못된 인증 코드 확인 양식', error);
 
   await databaseConnector(validateSignupCode)(req.body.email, req.body.code);
   res.sendStatus(http.OK);
