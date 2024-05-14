@@ -53,9 +53,10 @@ export const selectFirstRandomDiary = async (
   const random_id = selectRandomElementInArray(prefer_id);
   sql = `
   select d.* from diary d
-  where d.user_id = :random_id
+  left join likes l on l.diary_id = d.id
+  where d.user_id = :random_id and l.user_id is null
   order by rand()
-  limit 1
+  limit 1;
   `;
   values = { random_id: random_id };
   [result] = await conn.execute(sql, values);
