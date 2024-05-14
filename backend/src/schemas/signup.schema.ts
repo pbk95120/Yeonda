@@ -36,11 +36,11 @@ export const AddressDetailSchema = Joi.string().max(100).required();
 
 export const PreferGenderSchema = Joi.string().valid('Male', 'Female', 'Neutral').required();
 
-export const DistanceSchema = Joi.string().pattern(/^\d{1,4}$/);
+export const SignDistanceSchema = Joi.string().pattern(/^\d{1,4}$/);
 
-export const StartAgeSchema = Joi.string().pattern(/^\d{2}$/);
+export const SignStartAgeSchema = Joi.string().pattern(/^\d{2}$/);
 
-export const EndAgeSchema = Joi.string().pattern(/^\d{2}$/);
+export const SignEndAgeSchema = Joi.string().pattern(/^\d{2}$/);
 
 export const TagsSchema = Joi.string()
   .pattern(/^\d+(,\d+)*$/)
@@ -58,9 +58,9 @@ export const RawSignupSchema = Joi.object({
     .required(),
   address: AddressDetailSchema,
   prefer_gender: PreferGenderSchema,
-  distance: DistanceSchema,
-  start_age: StartAgeSchema,
-  end_age: EndAgeSchema,
+  distance: SignDistanceSchema,
+  start_age: SignStartAgeSchema,
+  end_age: SignEndAgeSchema,
   tags: TagsSchema,
 });
 
@@ -81,7 +81,7 @@ export const SignupInfoSchema = Joi.object({
   tags: Joi.array()
     .items(
       Joi.object({
-        id: Joi.number().required(),
+        id: Joi.number().strict().required(),
         name: Joi.string().required(),
       }),
     )
