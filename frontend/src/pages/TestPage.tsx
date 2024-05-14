@@ -79,7 +79,7 @@ const TestPage = () => {
     return <button onClick={handleSignupTest}>API 테스트</button>;
   };
 
-  const { email, isLoggedIn, storeLogout } = useAuthStore();
+  const { isLoggedIn, storeLogout } = useAuthStore();
 
   return (
     <>

@@ -21,15 +21,16 @@ const LoginPage = () => {
   } = useForm<LoginFormInputs>();
 
   const onSubmit = async (data: LoginFormInputs) => {
-    try {
-      await login(data).then((res) => {
+    login(data).then(
+      () => {
         storeLogin(data.email);
         alert('로그인 성공');
         navigate('/othersdiary/suggestion');
-      });
-    } catch (error) {
-      alert('로그인 실패');
-    }
+      },
+      () => {
+        alert('이메일과 비밀번호를 다시 확인해주세요.');
+      },
+    );
   };
 
   return (

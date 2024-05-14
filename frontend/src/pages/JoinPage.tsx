@@ -4,6 +4,7 @@ import PersonalInformation from '@/components/join/PersonalInformation';
 import Preference from '@/components/join/Preference';
 import Interest from '@/components/join/Interest';
 import { DEFAULT_DISTANCE, DEFAULT_ENDAGE, DEFAULT_STARTAGE } from '@/constants/constants';
+import { WithUnauthenticated } from '@/components/hoc/WithUnauthenticated';
 
 const JoinPage = () => {
   const [page, setPage] = useState<number>(0);
@@ -79,4 +80,4 @@ const JoinPage = () => {
   );
 };
 
-export default JoinPage;
+export default WithUnauthenticated(JoinPage);

@@ -1,9 +1,10 @@
 import Button from '@/components/common/Button';
 import { FieldErrors, UseFormGetValues, UseFormRegister } from 'react-hook-form';
 import { AccountFormInputs } from '../Account';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Input from '@/components/common/Input';
 import { signupEmail, verifyEmail } from '@/api/user.api';
+import { formatTimer } from '@/utils/format';
 
 interface EmailVerificationInput {
   register: UseFormRegister<AccountFormInputs>;
@@ -22,6 +23,24 @@ const EmailVerificationInput = ({
   getValues,
 }: EmailVerificationInput) => {
   const [submitBtnDisabled, setSubmitBtnDisabled] = useState<boolean>(true);
+
+  const [timer, setTimer] = useState<number>(300);
+  const [timerActive, setTimerActive] = useState<boolean>(false);
+
+  const startTimer = () => {
+    setTimerActive(true);
+  };
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    if (timerActive && timer > 0) {
+      interval = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [timerActive, timer]);
+
   return (
     <>
       <fieldset className='h-24 pb-1'>
@@ -43,6 +62,7 @@ const EmailVerificationInput = ({
             onClick={() => {
               signupEmail(getValues('email')).then(
                 () => {
+                  startTimer();
                   setSubmitBtnDisabled(false);
                 },
                 (err) => {
@@ -52,7 +72,10 @@ const EmailVerificationInput = ({
             }}
           />
         </div>
-        {errors.email && <span className='text-xs text-red'>이메일 형식을 지켜주세요.</span>}
+        <div className='between flex items-center'>
+          {errors.email && <span className='w-full text-xs text-red'>이메일 형식을 지켜주세요.</span>}
+          {timerActive && <p className='mt-2 w-full -translate-x-2 text-end text-xs text-red'>{formatTimer(timer)}</p>}
+        </div>
       </fieldset>
       <fieldset className='relative h-24 pb-1'>
         <legend className='mb-2 text-sm'>인증번호</legend>
@@ -76,13 +99,13 @@ const EmailVerificationInput = ({
             children='확인'
             disabled={submitBtnDisabled}
             onClick={() => {
-              verifyEmail(getValues('email'), getValues('verificationCode')).then(
-                (res) => {
+              verifyEmail({ email: getValues('email'), code: getValues('verificationCode') }).then(
+                () => {
                   alert('인증 완료');
                   setNextBtnDisabled(false);
                 },
-                (err) => {
-                  alert(err.response.data);
+                () => {
+                  alert('코드를 다시 확인해주세요.');
                 },
               );
             }}

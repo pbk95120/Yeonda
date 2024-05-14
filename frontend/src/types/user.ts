@@ -2,16 +2,16 @@ export interface SignupProps {
   nickname: string;
   email: string;
   password: string;
-  passwordCheck: string;
+  password_check: string;
   gender: string;
   birth: string;
-  picture_url: string | null;
+  picture_url: File | string | null;
   address: string;
   prefer_gender: string;
-  distance: number;
-  start_age: number;
-  end_age: number;
-  tags: string[];
+  distance: string;
+  start_age: string;
+  end_age: string;
+  tags: string;
 }
 
 export interface LoginProps {
@@ -22,4 +22,9 @@ export interface LoginProps {
 export interface verifyData {
   email: string;
   code: string;
+}
+
+export interface resetPasswordData {
+  password: string;
+  password_check: string;
 }

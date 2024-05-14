@@ -23,3 +23,11 @@ export const formatToKoreaTime = (date: string) => {
 export const formatToKoreaDate = (date: string) => {
   return dayjs(date).format('YYYY년 M월 D일 ddd요일');
 };
+
+export const formatTimer = (timer: number): string => {
+  const minutes: string = Math.floor(timer / 60)
+    .toString()
+    .padStart(2, '0');
+  const seconds: string = (timer % 60).toString().padStart(2, '0');
+  return `${minutes}:${seconds}`;
+};

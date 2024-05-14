@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { DEFAULT_TIMEOUT } from '@/constants/constants';
+import { removeEmail, useAuthStore } from '@/store/authStore';
 
 /**
  * Axios 인스턴스 생성
@@ -21,6 +22,7 @@ export const createClient = (config?: AxiosRequestConfig) => {
     (error) => {
       if (error.response.status === 401) {
         window.location.href = '/login';
+        useAuthStore.getState().storeLogout();
         return;
       }
       return Promise.reject(error);
