@@ -1,5 +1,5 @@
-import { checkUser } from '@databases/checkUser.database';
-import { databaseConnector } from '@middlewares/databaseConnector';
+import { selectUserforLogin } from '@databases/selectUserforLogin.database';
+import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { Controller } from '@schemas/controller.schema';
 import { Login, LoginSchema } from '@schemas/login.schema';
 import CustomError from '@src/error';
@@ -11,9 +11,9 @@ export const proceedLogin: Controller = async (req, res) => {
   if (error) throw new CustomError(http.BAD_REQUEST, '잘못된 로그인 양식', error);
 
   const { email, password }: Login = req.body;
-  await databaseConnector(checkUser)(email, password);
+  const user_id = await databaseConnector(selectUserforLogin)(email, password);
+  const token = issueToken(user_id, email);
 
-  const token = issueToken(email);
   res.cookie('access-token', token, {
     sameSite: process.env.NODE_ENV === 'development' ? 'lax' : 'none',
     secure: process.env.NODE_ENV !== 'development',

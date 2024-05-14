@@ -1,11 +1,9 @@
-import { transactionWrapper } from '@middlewares/transactionWrapper';
+import { transactionWrapper } from '@middlewares/transactionWrapper.middleware';
 import CustomError from '@src/error';
-import { getUserIdByEmail } from '@utils/getUserIdByEmail';
 import http from 'http-status-codes';
 import { Connection } from 'mysql2/promise';
 
-export const updateMyTag = async (conn: Connection, email: string, tags: string): Promise<void> => {
-  const user_id = await getUserIdByEmail(conn, email);
+export const updateMyTag = async (conn: Connection, user_id: number, tags: string): Promise<void> => {
   const tagArray: number[] = tags.split(',').map((e) => parseInt(e));
 
   const callback = async (user_id: number, tagArray: number[]) => {

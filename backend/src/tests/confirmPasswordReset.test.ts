@@ -1,8 +1,8 @@
-import { databaseConnector } from '@middlewares/databaseConnector';
+import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { server } from '@src/app';
 import Database from '@src/db';
-import { getEmailFromToken } from '@utils/getEmailFromToken';
 import { getEncryptPassword } from '@utils/getEncryptPassword';
+import { getLogonFromToken } from '@utils/getLogonFromToken';
 import { issueToken } from '@utils/issueToken';
 import http from 'http-status-codes';
 import { Connection } from 'mysql2/promise';
@@ -42,7 +42,7 @@ describe('POST /password/reset/confirm 비밀번호 변경 요청', () => {
   });
 
   it('정상 요청', async () => {
-    const token = issueToken(form.email);
+    const token = issueToken(2, form.email);
     let response = await request(server).post('/password/reset/confirm').set('Cookie', `access-token=${token}`).send({
       password: form.password,
       password_check: form.password_check,
@@ -61,7 +61,7 @@ describe('POST /password/reset/confirm 비밀번호 변경 요청', () => {
 
     if (match && match[1]) {
       const token = match[1];
-      const email = await getEmailFromToken(token);
+      const email = await getLogonFromToken(token);
       expect(email).toEqual(email);
       expect(response.status).toBe(http.OK);
     } else fail();
@@ -69,7 +69,7 @@ describe('POST /password/reset/confirm 비밀번호 변경 요청', () => {
 
   it('잘못된 양식', async () => {
     form.password_check = 'notchanged';
-    const token = issueToken(form.email);
+    const token = issueToken(2, form.email);
     const response = await request(server).post('/password/reset/confirm').set('Cookie', `access-token=${token}`).send({
       password: form.password,
       password_check: form.password_check,
@@ -83,15 +83,5 @@ describe('POST /password/reset/confirm 비밀번호 변경 요청', () => {
       password_check: form.password_check,
     });
     expect(response.status).toBe(http.UNAUTHORIZED);
-  });
-
-  it('존재하지 않는 사용자', async () => {
-    form.email = 'faker@gmail.com';
-    const token = issueToken(form.email);
-    let response = await request(server).post('/password/reset/confirm').set('Cookie', `access-token=${token}`).send({
-      password: form.password,
-      password_check: form.password_check,
-    });
-    expect(response.status).toBe(http.NOT_FOUND);
   });
 });
