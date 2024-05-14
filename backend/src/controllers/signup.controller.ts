@@ -38,8 +38,10 @@ export const verifySignupEmail: Controller = async (req, res) => {
 
 export const createUser: Controller = async (req, res) => {
   const data = req.body;
-  const url = reformImg(req.file);
-  data.picture_url = url;
+  if (req.file) {
+    let url = reformImg(req.file);
+    data.picture_url = url;
+  } else data.picture_url = null;
 
   const [info, error] = reformSignup(data);
   if (error) throw new CustomError(http.BAD_REQUEST, '잘못된 회원 가입 요청 양식', error);

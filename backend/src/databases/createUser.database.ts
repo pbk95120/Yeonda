@@ -21,14 +21,14 @@ export const insertUser = async (
 
   const geoCode = await getGeoCode(address);
 
-  let address_id = null;
+  let address_id;
   sql = 'select id from address where detail = :detail';
   values = { detail: address };
   [result] = await conn.execute(sql, values);
-  if (result[0].id) address_id = result[0].id;
+  if (result[0]) address_id = result[0].id;
 
   const callback = async (address_id: number): Promise<void> => {
-    if (address_id) {
+    if (!address_id) {
       sql = `insert into address (latitude, longitude, detail) values (:latitude, :longitude, :detail)`;
       values = {
         latitude: geoCode.latitude,
@@ -39,7 +39,7 @@ export const insertUser = async (
       address_id = result.insertId;
     }
 
-    saveFile(data.picture_url, file.buffer);
+    if (data.picture_url) saveFile(data.picture_url, file.buffer);
 
     sql = `insert into user (email, password, nickname, gender, birth, picture_url, address_id) 
     values (:email, :password, :nickname, :gender, :birth, :picture_url, :address_id)`;
