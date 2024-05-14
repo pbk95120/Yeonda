@@ -1,11 +1,13 @@
-import { errorHandler } from '@middlewares/errorHandler';
+import { errorHandler } from '@middlewares/errorHandler.middleware';
 import ChatsRoute from '@routes/chats.route';
+import DiaryRoute from '@routes/diary.route';
 import LoginRoute from '@routes/login.route';
 import LogoutRoute from '@routes/logout.route';
+import MyProfileRoute from '@routes/myProfile.route';
 import PasswordResetRoute from '@routes/passwordReset.route';
 import SignupRoute from '@routes/signup.route';
+import YourProfileRoute from '@routes/yourProfile.route';
 import socketHandler from '@sockets/index';
-import MyProfileRoute from '@src/routes/myProfile.route';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import 'dotenv/config';
@@ -41,7 +43,9 @@ app.use('/login', LoginRoute);
 app.use('/logout', LogoutRoute);
 app.use('/password/reset', PasswordResetRoute);
 app.use('/profile/my', MyProfileRoute);
+app.use('/profile/your', YourProfileRoute);
 app.use('/chatlist', ChatsRoute);
+app.use('/diary', DiaryRoute);
 
 app.use(errorHandler);
 

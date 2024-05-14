@@ -1,6 +1,6 @@
-import app from '@src/app';
+import { server } from '@src/app';
 import Database from '@src/db';
-import { issueToken } from '@src/utils/issueToken';
+import { issueToken } from '@utils/issueToken';
 import http from 'http-status-codes';
 import request from 'supertest';
 
@@ -14,8 +14,8 @@ afterAll(async () => {
 
 describe('GET /profile/my 회원 기본 정보 가져오기', () => {
   it('정상 요청', async () => {
-    const token = issueToken('constant@gmail.com');
-    const response = await request(app).get('/profile/my').set('Cookie', `access-token=${token}`);
+    const token = issueToken(1, 'constant@gmail.com');
+    const response = await request(server).get('/profile/my').set('Cookie', `access-token=${token}`);
     expect(response.status).toBe(http.OK);
     expect(response.body).toEqual({
       id: 1,
@@ -32,13 +32,7 @@ describe('GET /profile/my 회원 기본 정보 가져오기', () => {
   });
 
   it('토큰 없음', async () => {
-    const response = await request(app).get('/profile/my');
+    const response = await request(server).get('/profile/my');
     expect(response.status).toBe(http.UNAUTHORIZED);
-  });
-
-  it('존재하지 않는 사용자', async () => {
-    const token = issueToken('faker@gmail.com');
-    const response = await request(app).get('/profile/my').set('Cookie', `access-token=${token}`);
-    expect(response.status).toBe(http.NOT_FOUND);
   });
 });

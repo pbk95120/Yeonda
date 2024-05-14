@@ -1,8 +1,8 @@
-import { transactionWrapper } from '@middlewares/transactionWrapper';
+import { transactionWrapper } from '@middlewares/transactionWrapper.middleware';
 import { RawSignupPicUrl, Signup } from '@schemas/signup.schema';
 import CustomError from '@src/error';
-import { saveFile } from '@src/utils/saveFile';
 import { getGeoCode } from '@utils/getGeoCode';
+import { saveFile } from '@utils/saveFile';
 import http from 'http-status-codes';
 import { Connection, ResultSetHeader } from 'mysql2/promise';
 
@@ -14,10 +14,10 @@ export const insertUser = async (
 ): Promise<void> => {
   const { user, address, preference, user_tag } = info;
 
-  let sql = 'select id from user where email = :email';
+  let sql = 'select id from user where email =:email';
   let values: {} = { email: user.email };
   let [result] = await conn.execute(sql, values);
-  if (result[0]) throw new CustomError(http.CONFLICT, '이미 가입된 사용자 있음');
+  if (result[0]) throw new CustomError(http.CONFLICT, '이미 존재하는 사용자');
 
   const geoCode = await getGeoCode(address);
 

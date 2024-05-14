@@ -1,7 +1,7 @@
+import { deleteRelationship, getChatlist } from '@controllers/chats.controller';
+import { authenticateUser } from '@middlewares/authenticateUser.middleware';
+import { controllerWrapper } from '@middlewares/controllerWrapper.middleware';
 import express from 'express';
-import { getChatlist, deleteRelationship } from '@controllers/chats.controller';
-import { authenticateUser } from '@middlewares/authenticateUser';
-import { controllerWrapper } from '@middlewares/controllerWrapper';
 const ChatsRoute = express.Router();
 ChatsRoute.use(express.json());
 
