@@ -1,5 +1,6 @@
 import { selectMyDiary } from '@databases/selectMyDiary.database';
 import { selectMyDiaryDetail } from '@databases/selectMyDiaryDetail.database';
+import { updateMyDiary } from '@databases/updateMyDiary.database';
 import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { Controller } from '@schemas/controller.schema';
 import http from 'http-status-codes';
@@ -27,4 +28,11 @@ export const getMyDiaryDetail: Controller = async (req, res) => {
     };
   });
   res.status(http.OK).json(transTags);
+};
+
+export const changeMyDiary: Controller = async (req, res) => {
+  const { title, content } = req.body;
+
+  await databaseConnector(updateMyDiary)(parseInt(req.params.id), title, content);
+  res.sendStatus(http.OK);
 };
