@@ -1,15 +1,13 @@
-import { Diary } from '@models/diary.model';
+import { Diary, DiarySchema } from '@models/diary.model';
 import { Preferences } from '@models/preference.model';
 import { Tag } from '@models/tag.model';
 import { User } from '@models/user.model';
-import { LogonSchema } from '@schemas/login.schema';
+import { Logon, LogonSchema } from '@schemas/login.schema';
 import { DistanceSchema, EndAgeSchema, StartAgeSchema } from '@schemas/myProfile.schema';
 import { PreferGenderSchema } from '@schemas/signup.schema';
 import Joi from 'joi';
 
-export interface PreferencesRequest extends Pick<User, 'email'>, Preferences {
-  user_id: User['id'];
-}
+export interface PreferencesRequest extends Logon, Preferences {}
 
 export const PreferencesRequestSchema = LogonSchema.concat(
   Joi.object({
@@ -25,8 +23,20 @@ export interface FirstRandomDiaryResponse extends Diary {
   prefer_id: User['id'][];
 }
 
-export const PreferIdRequestSchema = LogonSchema.concat(
+export const PositiveIntegerArraySchema = Joi.array().items(Joi.number().integer().positive().strict()).required();
+
+export const TagsSchema = PositiveIntegerArraySchema.label('Tags');
+export const PreferIdSchema = PositiveIntegerArraySchema.label('PreferId');
+
+export const FirstRandomDiaryResponseSchema = DiarySchema.concat(
   Joi.object({
-    prefer_id: Joi.array().items(Joi.number().strict()).required(),
+    tags: TagsSchema,
+    prefer_id: PreferIdSchema,
   }),
 );
+
+export interface PreferIdRequest extends Logon {
+  prefer_id: User['id'];
+}
+
+export const PreferIdRequestSchema = LogonSchema.concat(Joi.object({ prefer_id: Joi.number().strict() }));

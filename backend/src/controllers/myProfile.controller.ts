@@ -9,7 +9,7 @@ import { updateMyTag } from '@databases/updateMyTag.database';
 import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { Controller } from '@schemas/controller.schema';
 import { PatchMyPreferenceSchema } from '@schemas/myProfile.schema';
-import { AddressDetailSchema, PictureUrlSchema, TagsSchema } from '@schemas/signup.schema';
+import { AddressDetailSchema, PictureUrlSchema, SignTagsSchema } from '@schemas/signup.schema';
 import CustomError from '@src/error';
 import { reformImg } from '@utils/reformImg';
 import { reformPreference } from '@utils/reformPreference';
@@ -63,7 +63,7 @@ export const getMyTag: Controller = async (req, res) => {
 };
 
 export const changeMyTag: Controller = async (req, res) => {
-  const { error } = TagsSchema.validate(req.body?.tags);
+  const { error } = SignTagsSchema.validate(req.body?.tags);
   if (error) throw new CustomError(http.BAD_REQUEST, '잘못된 사용자 선호 태그 수정 양식', error);
 
   await databaseConnector(updateMyTag)(req.body.user_id, req.body.tags);

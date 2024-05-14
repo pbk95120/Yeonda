@@ -1,3 +1,4 @@
+import { FirstRandomDiaryResponseSchema } from '@schemas/diary.schema';
 import { server } from '@src/app';
 import Database from '@src/db';
 import { issueToken } from '@utils/issueToken';
@@ -27,6 +28,9 @@ describe('GET /diary/pre-random 첫 랜덤 일기 가져오기', () => {
       end_age: 30,
     });
     expect(response.status).toBe(http.OK);
+
+    const { error } = FirstRandomDiaryResponseSchema.validate(response.body);
+    expect(error).toBeUndefined();
   });
 
   it('토큰 없음', async () => {

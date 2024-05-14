@@ -42,7 +42,7 @@ export const SignStartAgeSchema = Joi.string().pattern(/^\d{2}$/);
 
 export const SignEndAgeSchema = Joi.string().pattern(/^\d{2}$/);
 
-export const TagsSchema = Joi.string()
+export const SignTagsSchema = Joi.string()
   .pattern(/^\d+(,\d+)*$/)
   .required();
 
@@ -61,7 +61,7 @@ export const RawSignupSchema = Joi.object({
   distance: SignDistanceSchema,
   start_age: SignStartAgeSchema,
   end_age: SignEndAgeSchema,
-  tags: TagsSchema,
+  tags: SignTagsSchema,
 });
 
 export interface Signup {
