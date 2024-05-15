@@ -50,7 +50,7 @@ const MyPref=()=>{
       <DistanceInput sliderClassName='mb-5' className='font-sans font-bold text-base' setValue={setValue} getValues={getValues} distance={distance}/>
     </div>
     <div className="shadow-lg w-[339px] h-[86px] flex flex-col p-3 mt-3">
-      <AgeRangeInput className="font-sans font-bold text-base"setValue={setValue} getValues={getValues} startAge={startAge} endAge={endAge} />
+      <AgeRangeInput className="font-sans font-bold text-base" setValue={setValue} getValues={getValues} startAge={startAge} endAge={endAge} />
     </div>
     <div className="shadow-lg w-[339px] h-[86px] flex flex-col p-3 mt-3" onClick={()=>navigate("preference")}>
       <span className="font-sans font-bold mb-3">관심사</span>

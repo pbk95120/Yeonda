@@ -182,8 +182,8 @@ const routeList = [
     showFooter: false,
     onlyLogo: true,
     value: '박상하킹갓',
-    backBtn: false,
-    cancelStr: true,
+    backBtn: true,
+    cancelStr: false,
   },
   {
     path: '/writeDiary',

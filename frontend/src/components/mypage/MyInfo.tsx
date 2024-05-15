@@ -3,13 +3,14 @@ import Button from "../common/Button"
 import Input from "../common/Input"
 import { IoIosArrowBack } from 'react-icons/io';
 import AddressModal from "../common/AddressModal";
+import { useNavigate } from "react-router-dom";
 
 
 
 const MyInfo =()=>{
   const [isModalOpen,setIsModalOpen] =useState<boolean>(false)
   const [address,setAddress] = useState<string>("")
-
+  const navigate = useNavigate();
 
   const handleAddressSelection = (address: string) => {
     setAddress(address);
@@ -29,7 +30,7 @@ const MyInfo =()=>{
     </div>
     <div className="flex flex-col space-y-4 items-center justify-center p-2 absolute bottom-20"> 
       <Button size="large" children="로그아웃" className="" color="lightgray"/>
-      <Button size="large" children="회원탈퇴" color="pastelred"/>
+      <Button size="large" children="회원탈퇴" color="pastelred" onClick={()=>navigate("/withdrawal")}/>
     </div>
     <AddressModal isOpen={isModalOpen} onClose={()=>setIsModalOpen(false)} onSelectAddress={handleAddressSelection} />
   </div>)
