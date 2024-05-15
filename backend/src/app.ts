@@ -9,6 +9,7 @@ import SignupRoute from '@routes/signup.route';
 import YourProfileRoute from '@routes/yourProfile.route';
 import MyDiaryRoute from '@routes/myDiary.route';
 import YourDiaryRoute from '@routes/yourDiary.route';
+import AdminRoute from './routes/admin.route';
 import socketHandler from '@sockets/index';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -49,7 +50,8 @@ app.use('/profile/your', YourProfileRoute);
 app.use('/diary/my', MyDiaryRoute);
 app.use('/diary/your', YourDiaryRoute);
 app.use('/chatlist', ChatsRoute);
-// app.use('/diary', DiaryRoute);
+app.use('/diary', DiaryRoute);
+app.use('/admin/user', AdminRoute);
 
 app.use(errorHandler);
 
