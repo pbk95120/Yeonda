@@ -1,7 +1,7 @@
 import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { server } from '@src/app';
 import Database from '@src/db';
-import { issueToken } from '@utils/issueToken';
+import { issueAccessToken } from '@utils/issueToken';
 import http from 'http-status-codes';
 import { Connection } from 'mysql2/promise';
 import request from 'supertest';
@@ -36,7 +36,7 @@ describe('PUT /profile/my/tag 회원 선호 태그 수정', () => {
   let token;
 
   beforeEach(() => {
-    token = issueToken(1, 'constant@gmail.com');
+    token = issueAccessToken(1, 'constant@gmail.com');
   });
 
   it('정상 요청', async () => {

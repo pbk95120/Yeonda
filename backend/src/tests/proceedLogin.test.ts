@@ -18,19 +18,29 @@ describe('POST /login 로그인 요청', () => {
       email: 'constant@gmail.com',
       password: 'constant',
     });
-    const cookie = response.headers['set-cookie'][0];
-    expect(cookie).toBeDefined();
+    expect(response.status).toBe(http.OK);
 
-    const regex = /access-token=([^;]+)/;
-    const match = cookie.match(regex);
+    const cookies = response.headers['set-cookie'];
+    expect(cookies).toBeDefined();
 
-    if (match && match[1]) {
-      const token = match[1];
-      const decoded = await getLogonFromToken(token);
+    const accessRegex = /access-token=([^;]+)/;
+    const refreshRegex = /refresh-token=([^;]+)/;
+
+    const accessToken = cookies.find((cookie) => accessRegex.test(cookie));
+    const refreshToken = cookies.find((cookie) => refreshRegex.test(cookie));
+
+    const accessTokenValue = accessToken.match(accessRegex)[1];
+    const refreshTokenValue = refreshToken.match(refreshRegex)[1];
+
+    if (accessTokenValue && refreshTokenValue) {
+      let decoded = getLogonFromToken(accessTokenValue, false);
       expect(decoded.user_id).toEqual(1);
       expect(decoded.email).toEqual('constant@gmail.com');
-      expect(response.status).toBe(http.OK);
-    } else fail();
+
+      decoded = getLogonFromToken(refreshTokenValue, true);
+      expect(decoded.user_id).toEqual(1);
+      expect(decoded.email).toEqual('constant@gmail.com');
+    } else throw new Error();
   });
 
   it('잘못된 이메일', async () => {

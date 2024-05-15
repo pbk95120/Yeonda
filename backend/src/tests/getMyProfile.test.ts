@@ -1,6 +1,6 @@
 import { server } from '@src/app';
 import Database from '@src/db';
-import { issueToken } from '@utils/issueToken';
+import { issueAccessToken } from '@utils/issueToken';
 import http from 'http-status-codes';
 import request from 'supertest';
 
@@ -14,7 +14,7 @@ afterAll(async () => {
 
 describe('GET /profile/my 회원 기본 정보 가져오기', () => {
   it('정상 요청', async () => {
-    const token = issueToken(1, 'constant@gmail.com');
+    const token = issueAccessToken(1, 'constant@gmail.com');
     const response = await request(server).get('/profile/my').set('Cookie', `access-token=${token}`);
     expect(response.status).toBe(http.OK);
     expect(response.body).toEqual({

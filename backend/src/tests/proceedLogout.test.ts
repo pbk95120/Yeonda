@@ -1,18 +1,26 @@
 import { server } from '@src/app';
-import { issueToken } from '@utils/issueToken';
+import { issueAccessToken, issueRefreshToken } from '@utils/issueToken';
 import request from 'supertest';
 
 describe('POST /logout 로그아웃 요청', () => {
-  it('access-token 제거', async () => {
-    const token = issueToken(1, 'email');
-    const res = await request(server).post('/logout').set('Cookie', `access-token=${token}`);
-    const cookie = res.headers['set-cookie'][0];
-    expect(cookie).toBeDefined();
+  it('access, refresh token 제거', async () => {
+    const accessToken = issueAccessToken(1, 'email');
+    const refreshToken = issueRefreshToken(1, 'email');
+    const res = await request(server)
+      .post('/logout')
+      .set('Cookie', `access-token=${accessToken}`)
+      .set('Cookie', `refresh-token=${refreshToken}`);
 
-    const regex = /access-token=([^;]*)/;
-    const match = cookie.match(regex);
-    if (match && match[1].trim() === '') {
-      expect(true).toBe(true);
-    } else fail();
+    const cookies = res.headers['set-cookie'];
+    expect(cookies).toBeDefined();
+
+    const accessRegex = /access-token=([^;]+)/;
+    const refreshRegex = /refresh-token=([^;]+)/;
+
+    const isAccessToken = cookies.find((cookie) => accessRegex.test(cookie)) ? true : false;
+    const isRefreshToken = cookies.find((cookie) => refreshRegex.test(cookie)) ? true : false;
+
+    expect(isAccessToken).toBeFalsy();
+    expect(isRefreshToken).toBeFalsy();
   });
 });
