@@ -10,7 +10,7 @@ const cleanUp = async (conn: Connection): Promise<void> => {
   let sql = 'update user set address_id = 1 where id = 1';
   await conn.execute(sql);
 
-  sql = "delete from address where detail = '충남 아산시 염치읍 현충사길 126'";
+  sql = "delete from address where detail = '충청남도 아산시 염치읍 현충사길 126'";
   await conn.execute(sql);
   return;
 };
@@ -58,7 +58,7 @@ describe('PATCH /profile/my/setting/address 주소 수정', () => {
       .patch('/profile/my/setting/address')
       .set('Cookie', `access-token=${token}`)
       .send({
-        address: '충남 아산시 염치읍 현충사길 126',
+        address: '충청남도 아산시 염치읍 현충사길 126',
       });
     expect(response.status).toBe(http.OK);
 
@@ -109,7 +109,7 @@ describe('PATCH /profile/my/setting/address 주소 수정', () => {
       .patch('/profile/my/setting/address')
       .set('Cookie', `access-token=${token}`)
       .send({
-        address: '충남 아산시 염치읍 현충사길 9999',
+        address: '충청남도 아산시 염치읍 현충사길 9999',
       });
     expect(response.status).toBe(http.NOT_FOUND);
   });
