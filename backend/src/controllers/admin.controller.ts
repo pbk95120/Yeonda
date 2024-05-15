@@ -1,6 +1,6 @@
 import { selectDiaryCount, selectmatchingCount, selectuserCount } from '@databases/getStatistic.database';
 import { selectGenderCount, selectAverageDiary } from '@databases/getAnalysis.database';
-import { databaseConnector } from '@middlewares/databaseConnector';
+import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { Controller } from '@schemas/controller.schema';
 import http from 'http-status-codes';
 import CustomError from '@src/error';
