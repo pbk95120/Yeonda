@@ -12,19 +12,26 @@ afterAll(async () => {
   Database.closePool();
 });
 
-describe('GET /profile/my/setting 회원 설정 정보 가져오기', () => {
+describe('GET /profile/my/preference 취향 정보 가져오기', () => {
+  let token;
+
+  beforeEach(() => {
+    token = issueToken(1, 'constant@gmail.com');
+  });
+
   it('정상 요청', async () => {
-    const token = issueToken(1, 'constant@gmail.com');
-    const response = await request(server).get('/profile/my/setting').set('Cookie', `access-token=${token}`);
+    const response = await request(server).get('/profile/my/preference').set('Cookie', `access-token=${token}`);
     expect(response.status).toBe(http.OK);
     expect(response.body).toEqual({
-      picture_url: 'constant',
-      detail: '서울 서초구 강남대로 327',
+      gender: 'Female',
+      distance: 100,
+      start_age: 20,
+      end_age: 30,
     });
   });
 
   it('토큰 없음', async () => {
-    const response = await request(server).get('/profile/my/setting');
+    const response = await request(server).get('/profile/my/preference');
     expect(response.status).toBe(http.UNAUTHORIZED);
   });
 });
