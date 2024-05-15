@@ -63,7 +63,7 @@ describe('PATCH /profile/my/setting/address 주소 수정', () => {
     expect(response.status).toBe(http.OK);
 
     const isSame = await databaseConnector(async (conn: Connection) => {
-      let sql = "select id from address where detail = '충남 아산시 염치읍 현충사길 126'";
+      let sql = "select id from address where detail = '충청남도 아산시 염치읍 현충사길 126'";
       let [result] = await conn.execute(sql);
       const address_id = result[0].id;
 
