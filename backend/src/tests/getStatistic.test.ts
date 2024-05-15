@@ -18,6 +18,7 @@ describe('Get /admin/user/statistic 관리자 이용자 통계', () => {
     const response = await request(server).get('/admin/user/statistic');
     expect(response.status).toBe(http.UNAUTHORIZED);
   });
+  
   it('오늘 index, 일주일 (다이어리, 매칭, 유저) 수', async () => {
     const token = issueToken('admin');
     const response = await request(server).get('/admin/user/statistic').set('Cookie', `access-token=${token}`);

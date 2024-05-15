@@ -6,7 +6,6 @@ function transArr(data) {
   return result;
 }
 
-// 주간 일기 수
 export const selectDiaryCount = async (conn: Connection) => {
   const sql = `SELECT 
     SUM(DAYOFWEEK(created_at) = 1),
@@ -24,7 +23,6 @@ export const selectDiaryCount = async (conn: Connection) => {
   return transResult;
 };
 
-// 주간 매칭 수
 export const selectmatchingCount = async (conn: Connection) => {
   const sql = `SELECT 
       SUM(DAYOFWEEK(created_at) = 1),
@@ -42,7 +40,6 @@ export const selectmatchingCount = async (conn: Connection) => {
   return transResult;
 };
 
-// 전체 이용자 수 - 주간
 export const selectuserCount = async (conn: Connection) => {
   const sql = `SELECT
       (SELECT COUNT(*) FROM user WHERE DATE(created_at) = CURDATE() - INTERVAL 6 DAY) AS day6_count,
