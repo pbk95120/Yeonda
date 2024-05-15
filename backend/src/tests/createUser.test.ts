@@ -93,7 +93,7 @@ describe('POST /signup 회원 가입 요청', () => {
       const [result] = await conn.execute(sql);
       return result[0];
     })();
-    if (!result) fail();
+    if (!result) throw new Error();
   });
 
   it('사진을 포함하지 않은 정상 요청', async () => {
@@ -106,7 +106,7 @@ describe('POST /signup 회원 가입 요청', () => {
       const [result] = await conn.execute(sql);
       return result[0];
     })();
-    if (!result) fail();
+    if (!result) throw new Error();
   });
 
   it('새로운 주소로 정상 요청', async () => {
@@ -120,7 +120,7 @@ describe('POST /signup 회원 가입 요청', () => {
       const [result] = await conn.execute(sql);
       return result[0];
     })();
-    if (!result) fail();
+    if (!result) throw new Error();
   });
 
   it('필수 항목 누락', async () => {

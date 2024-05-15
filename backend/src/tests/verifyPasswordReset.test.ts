@@ -39,11 +39,11 @@ describe('POST /password/reset/verify 비밀번호 초기화 코드 인증', () 
 
     if (match && match[1]) {
       const token = match[1];
-      const decoded = await getLogonFromToken(token);
+      const decoded = await getLogonFromToken(token, false);
       expect(decoded.user_id).toEqual(1);
       expect(decoded.email).toEqual('constant@gmail.com');
       expect(response.status).toBe(http.OK);
-    } else fail();
+    } else throw new Error();
   });
 
   it('형식이 잘못된 인증 코드', async () => {
