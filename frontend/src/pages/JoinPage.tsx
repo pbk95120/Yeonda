@@ -2,9 +2,11 @@ import { useState } from 'react';
 import Account from '@/components/join/Account';
 import PersonalInformation from '@/components/join/PersonalInformation';
 import Preference from '@/components/join/Preference';
-import Interest from '@/components/join/Interest';
+import Interest, { Tag } from '@/components/join/Interest';
 import { DEFAULT_DISTANCE, DEFAULT_ENDAGE, DEFAULT_STARTAGE } from '@/constants/constants';
 import { WithUnauthenticated } from '@/components/hoc/WithUnauthenticated';
+import { signup } from '@/api/user.api';
+import { formatBirth } from '@/utils/format';
 
 const JoinPage = () => {
   const [page, setPage] = useState<number>(0);
@@ -27,7 +29,36 @@ const JoinPage = () => {
   const [startAge, setStartAge] = useState<number>(DEFAULT_STARTAGE);
   const [endAge, setEndAge] = useState<number>(DEFAULT_ENDAGE);
 
-  const [tags, setTags] = useState<string[]>([]);
+  const [tags, setTags] = useState<Tag[]>([]);
+
+  const join = () => {
+    signup({
+      nickname: nickname,
+      email: email,
+      password: password,
+      password_check: passwordCheck,
+      birth: formatBirth(year, month, day),
+      gender: gender,
+      prefer_gender: preferGender,
+      distance: distance.toString(),
+      start_age: startAge.toString(),
+      end_age: endAge.toString(),
+      picture_url: picture ? picture : null,
+      address: address,
+      tags: tags
+        .map((tag) => {
+          return tag.id;
+        })
+        .toString(),
+    }).then(
+      () => {
+        alert('회원가입 성공');
+      },
+      () => {
+        alert('회원가입 실패');
+      },
+    );
+  };
 
   return (
     <>
@@ -75,7 +106,7 @@ const JoinPage = () => {
           setEndAge={setEndAge}
         />
       )}
-      {page == 3 && <Interest setTags={setTags} setPage={setPage} tags={tags} />}
+      {page == 3 && <Interest setTags={setTags} setPage={setPage} tags={tags} join={join} />}
     </>
   );
 };

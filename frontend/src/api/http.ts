@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { DEFAULT_TIMEOUT } from '@/constants/constants';
-import { removeEmail, useAuthStore } from '@/store/authStore';
+import { useAuthStore } from '@/store/authStore';
 
 /**
  * Axios 인스턴스 생성

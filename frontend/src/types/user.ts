@@ -5,7 +5,7 @@ export interface SignupProps {
   password_check: string;
   gender: string;
   birth: string;
-  picture_url: File | string | null;
+  picture_url?: File | string | null;
   address: string;
   prefer_gender: string;
   distance: string;

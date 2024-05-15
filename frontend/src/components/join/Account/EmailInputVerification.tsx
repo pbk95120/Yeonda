@@ -62,6 +62,7 @@ const EmailVerificationInput = ({
             onClick={() => {
               signupEmail(getValues('email')).then(
                 () => {
+                  alert('인증메일을 발송했습니다.');
                   startTimer();
                   setSubmitBtnDisabled(false);
                 },
