@@ -1,6 +1,6 @@
 import { createUser, getSignupInfo, requestSignupEmail, verifySignupEmail } from '@controllers/signup.controller';
-import { controllerWrapper } from '@middlewares/controllerWrapper';
-import { memoryStorage } from '@middlewares/memoryStorage';
+import { controllerWrapper } from '@middlewares/controllerWrapper.middleware';
+import { memoryStorage } from '@middlewares/memoryStorage.middleware';
 import express from 'express';
 
 const SignupRoute = express.Router();

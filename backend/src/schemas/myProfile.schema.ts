@@ -1,8 +1,15 @@
 import { Address } from '@models/address.model';
-import { Preference } from '@models/preference.model';
+import { Preference, Preferences } from '@models/preference.model';
 import { Tag } from '@models/tag.model';
 import { User } from '@models/user.model';
-import { DistanceSchema, EmailSchema, EndAgeSchema, PreferGenderSchema, StartAgeSchema } from '@schemas/signup.schema';
+import {
+  EmailSchema,
+  PreferGenderSchema,
+  SignDistanceSchema,
+  SignEndAgeSchema,
+  SignStartAgeSchema,
+} from '@schemas/signup.schema';
+import { UserIDSchema } from '@schemas/yourProfile.schema';
 import Joi from 'joi';
 
 interface IMyProfile
@@ -28,23 +35,20 @@ export class MyProfile implements IMyProfile {
   }
 }
 
-interface IMyPreference extends Pick<Preference, 'gender' | 'distance' | 'start_age' | 'end_age'> {}
-
-export interface PatchMyPreference {
-  email: string;
-  gender: 'Male' | 'Female' | 'Neutral';
+export interface PatchMyPreference extends Pick<User, 'email'>, Pick<Preference, 'gender'> {
+  user_id: User['id'];
   distance: string;
   start_age: string;
   end_age: string;
 }
 
-export class MyPreference implements IMyPreference {
+export class MyPreference implements Preferences {
   gender: 'Male' | 'Female' | 'Neutral';
   distance: number;
   start_age: number;
   end_age: number;
 
-  constructor(preference: Preference) {
+  constructor(preference: Preferences) {
     const { gender, distance, start_age, end_age } = preference;
     this.gender = gender;
     this.distance = distance;
@@ -55,10 +59,17 @@ export class MyPreference implements IMyPreference {
 
 export interface MySetting extends Pick<User, 'picture_url'>, Pick<Address, 'detail'> {}
 
-export const MyPreferenceSchema = Joi.object({
+export const DistanceSchema = Joi.number().min(0).max(9999).strict();
+
+export const StartAgeSchema = Joi.number().min(10).max(99).strict();
+
+export const EndAgeSchema = Joi.number().min(10).max(99).strict();
+
+export const PatchMyPreferenceSchema = Joi.object({
+  user_id: UserIDSchema,
   email: EmailSchema,
   gender: PreferGenderSchema,
-  distance: DistanceSchema,
-  start_age: StartAgeSchema,
-  end_age: EndAgeSchema,
+  distance: SignDistanceSchema,
+  start_age: SignStartAgeSchema,
+  end_age: SignEndAgeSchema,
 });

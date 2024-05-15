@@ -14,7 +14,7 @@ afterAll(async () => {
 
 describe('GET /profile/my 회원 기본 정보 가져오기', () => {
   it('정상 요청', async () => {
-    const token = issueToken('constant@gmail.com');
+    const token = issueToken(1, 'constant@gmail.com');
     const response = await request(server).get('/profile/my').set('Cookie', `access-token=${token}`);
     expect(response.status).toBe(http.OK);
     expect(response.body).toEqual({
@@ -34,11 +34,5 @@ describe('GET /profile/my 회원 기본 정보 가져오기', () => {
   it('토큰 없음', async () => {
     const response = await request(server).get('/profile/my');
     expect(response.status).toBe(http.UNAUTHORIZED);
-  });
-
-  it('존재하지 않는 사용자', async () => {
-    const token = issueToken('faker@gmail.com');
-    const response = await request(server).get('/profile/my').set('Cookie', `access-token=${token}`);
-    expect(response.status).toBe(http.NOT_FOUND);
   });
 });

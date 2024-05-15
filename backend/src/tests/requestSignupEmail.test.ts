@@ -1,4 +1,4 @@
-import { databaseConnector } from '@middlewares/databaseConnector';
+import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { server } from '@src/app';
 import Database from '@src/db';
 import http from 'http-status-codes';
