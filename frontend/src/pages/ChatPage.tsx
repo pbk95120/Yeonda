@@ -1,74 +1,25 @@
-import { fetchChatList } from '@/api/chat.api';
+import { useChatList } from '@/hooks/chat/useChatList';
 import ChatList from '@/components/chat/ChatList';
-import { useEffect } from 'react';
 
 const ChatPage = () => {
-  const mockMessages = [
-    { id: 1, nickname: 'nickname', message: '최근 메세지 내역입니다.', is_read: 3 },
-    {
-      id: 2,
-      nickname: 'nickname',
-      message: '최근 메세지 내역입니다. 최근 메세지 내역입니다. 최근 메세지 내역입니다.',
-      is_read: 0,
-    },
-    {
-      id: 3,
-      nickname: 'nickname',
-      message: '최근 메세지 내역입니다. 최근 메세지 내역입니다. 최근 메세지 내역입니다.',
-      is_read: 0,
-    },
-    {
-      id: 4,
-      nickname: 'nickname',
-      message: '최근 메세지 내역입니다. 최근 메세지 내역입니다. 최근 메세지 내역입니다.',
-      is_read: 1,
-    },
-    {
-      id: 5,
-      nickname: 'nickname',
-      message: '최근 메세지 내역입니다. 최근 메세지 내역입니다. 최근 메세지 내역입니다.',
-      is_read: 2,
-    },
-    {
-      id: 6,
-      nickname: 'nickname',
-      message: '최근 메세지 내역입니다. 최근 메세지 내역입니다. 최근 메세지 내역입니다.',
-      is_read: 3,
-    },
-    {
-      id: 7,
-      nickname: 'nickname',
-      message: '최근 메세지 내역입니다. 최근 메세지 내역입니다. 최근 메세지 내역입니다.',
-      is_read: 9,
-    },
-    {
-      id: 8,
-      nickname: 'nickname',
-      message: '최근 메세지 내역입니다. 최근 메세지 내역입니다. 최근 메세지 내역입니다.',
-      is_read: 9,
-    },
-    {
-      id: 9,
-      nickname: 'nickname',
-      message: '최근 메세지 내역입니다. 최근 메세지 내역입니다. 최근 메세지 내역입니다.',
-      is_read: 9,
-    },
-  ];
-
-  useEffect(() => {
-    fetchChatList().then((data) => {
-      console.log(data);
-    });
-  }, []);
+  const { chatList } = useChatList();
 
   return (
     <>
       <section>
-        <p className='font-bold mb-6 ml-5'>메세지</p>
+        <p className='mb-6 ml-5 font-bold'>메세지</p>
       </section>
       <section>
-        {mockMessages.map((msg) => (
-          <ChatList key={msg.id} id={msg.id} nickName={msg.nickname} message={msg.message} pendingRead={msg.is_read} />
+        {chatList.map((data) => (
+          <ChatList
+            key={data.couple_id}
+            couple_id={data.couple_id}
+            picture_url={data.picture_url}
+            user2_id={data.user2_id}
+            nickname={data.nickname}
+            message={data.message}
+            is_read={data.is_read}
+          />
         ))}
       </section>
     </>

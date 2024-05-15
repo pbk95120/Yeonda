@@ -18,10 +18,13 @@ export interface ChatMessageProps {
 }
 
 export interface ChatListProps {
-  id: number;
-  nickName: string;
+  commu_streak?: number;
+  couple_id: number;
+  is_read: number;
   message: string;
-  pendingRead: number;
+  nickname: string;
+  picture_url: string;
+  user2_id: number;
 }
 
 export interface ChatProfileProps {
