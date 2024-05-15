@@ -90,8 +90,8 @@ const Interest = ({ setTags, setPage, tags, join }: InterestProps) => {
         <div className='items-start justify-center'>
           <fieldset>
             <legend className='mb-4 text-sm'>관심사</legend>
-            {tags.map((tag) => (
-              <Tags i={tag.id} tag={tag} handleRemoveTag={handleRemoveTag} />
+            {tags.map((tag, i) => (
+              <Tags i={i} tag={tag} handleRemoveTag={handleRemoveTag} />
             ))}
             <Input
               inputFor='search'
