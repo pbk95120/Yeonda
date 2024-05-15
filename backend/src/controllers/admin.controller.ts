@@ -6,7 +6,7 @@ import http from 'http-status-codes';
 import CustomError from '@src/error';
 
 export const getStatistic: Controller = async (req, res) => {
-  if (req.body.email !== 'admin') throw new CustomError(http.UNAUTHORIZED, '잘못된 접근');
+  if (req.body.email !== 'admin@admin.com') throw new CustomError(http.UNAUTHORIZED, '잘못된 접근');
 
   const today = (): number => {
     const now: Date = new Date();
@@ -27,7 +27,7 @@ export const getStatistic: Controller = async (req, res) => {
 };
 
 export const getAnalysis: Controller = async (req, res) => {
-  if (req.body.email !== 'admin') throw new CustomError(http.UNAUTHORIZED, '잘못된 접근');
+  if (req.body.email !== 'admin@admin.com') throw new CustomError(http.UNAUTHORIZED, '잘못된 접근');
 
   const gender_count = await databaseConnector(selectGenderCount)();
   const average_diary = await databaseConnector(selectAverageDiary)();
