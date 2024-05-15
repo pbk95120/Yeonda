@@ -3,7 +3,7 @@ import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { Controller } from '@schemas/controller.schema';
 import { Login, LoginSchema } from '@schemas/login.schema';
 import CustomError from '@src/error';
-import { decodeLogonFromToken } from '@utils/decodeLogonFromToken';
+import { getLogonFromExpiredAccessToken } from '@utils/getLogonFromExpiredAccessToken';
 import { getLogonFromToken } from '@utils/getLogonFromToken';
 import { issueAccessToken, issueRefreshToken } from '@utils/issueToken';
 import { setLoginCookie } from '@utils/setLoginCookie';
@@ -26,7 +26,7 @@ export const proceedLogin: Controller = async (req, res) => {
 export const refreshUser: Controller = async (req, res) => {
   const accessToken = req.cookies['access-token'];
   if (!accessToken) throw new CustomError(http.UNAUTHORIZED, '만료된 엑세스 토큰 없음');
-  const decoded = decodeLogonFromToken(accessToken);
+  const decoded = getLogonFromExpiredAccessToken(accessToken);
 
   const refreshToken = req.cookies['refresh-token'];
   if (!refreshToken) throw new CustomError(http.UNAUTHORIZED, '유효한 리프레시 토큰 없음');
