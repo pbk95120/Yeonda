@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { UseFormGetValues, UseFormSetValue } from 'react-hook-form';
-import { PreferenceFormInputs } from '../join/Preference';
+import { PreferenceFormInputs } from '@/components/join/Preference';
 import { Slider } from '@mui/material';
 import { DEFAULT_DISTANCE } from '@/constants/constants';
 

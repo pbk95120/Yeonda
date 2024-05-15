@@ -24,6 +24,8 @@ import ChatDetailPage from '@/pages/ChatDetailPage';
 import ChatProfilePage from '@/pages/ChatProfilePage';
 import ErrorPage from '@/pages/ErrorPage';
 import OthersDiaryPage from './pages/OthersDiaryPage';
+import PreferencePage from './pages/PreferencePage';
+
 
 const queryClient = new QueryClient();
 
@@ -160,6 +162,16 @@ const routeList = [
     showFooter: false,
     onlyLogo: false,
     value: '설정',
+    backBtn: true,
+    cancelStr: false,
+  },
+  {
+    path: '/mypage/setting/preference',
+    element: <PreferencePage />,
+    showHeader: true,
+    showFooter: false,
+    onlyLogo: false,
+    value: '관심사',
     backBtn: true,
     cancelStr: false,
   },

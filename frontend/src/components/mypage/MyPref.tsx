@@ -4,6 +4,10 @@ import PreferGenderModal from '../common/PreferGenderModal';
 import DistanceInput from '../common/DistanceInput';
 import AgeRangeInput from '../common/AgeRangeInput';
 import { useForm } from 'react-hook-form';
+import Tags from '../common/Tags';
+import { useNavigate } from 'react-router-dom';
+
+
 
 interface PreferenceFormInputs {
   gender: string;
@@ -13,7 +17,11 @@ interface PreferenceFormInputs {
   endAge: number;
 }
 
+const tags = ['롤토체스', '농구', '게임', '우주파괴', '취뽀']  
+
 const MyPref=()=>{
+  
+  const navigate = useNavigate();
   const {setValue, getValues} = useForm<PreferenceFormInputs>();
   const [open,setOpen]=useState<boolean>(false)
   let distance=0;
@@ -44,10 +52,14 @@ const MyPref=()=>{
     <div className="shadow-lg w-[339px] h-[86px] flex flex-col p-3 mt-3">
       <AgeRangeInput className="font-sans font-bold text-base"setValue={setValue} getValues={getValues} startAge={startAge} endAge={endAge} />
     </div>
-    <div className="shadow-lg w-[339px] h-[86px] flex flex-col p-3 mt-3">
+    <div className="shadow-lg w-[339px] h-[86px] flex flex-col p-3 mt-3" onClick={()=>navigate("preference")}>
       <span className="font-sans font-bold mb-3">관심사</span>
       <div className="flex flex-row">
-        <div className="text-lightgray font-sans">{selectedGender==="female"? "여성" : selectedGender==="male" ? "남성" : selectedGender==="both" ? "무관": null }</div>
+      {tags.map((tag, i) => (
+            <div key={i} className='inline-block'>
+              <Tags i ={i} tag={tag} className='px-1 py-1 mx-[2px]'/>
+            </div>
+        ))}
       </div>
     </div>
     {open && <PreferGenderModal selectedGender={selectedGender} handleBackgroundClick={handleBackgroundClick} setSelectedGender={setSelectedGender} closeModal={closeModal}/>}
