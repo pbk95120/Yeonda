@@ -1,7 +1,7 @@
+import { getAnalysis, getStatistic } from '@controllers/admin.controller';
+import { authenticateUser } from '@middlewares/authenticateUser.middleware';
+import { controllerWrapper } from '@middlewares/controllerWrapper.middleware';
 import express from 'express';
-import { getStatistic, getAnalysis } from '@controllers/admin.controller';
-import { authenticateUser } from '@middlewares/authenticateUser';
-import { controllerWrapper } from '@middlewares/controllerWrapper';
 const AdminRoute = express.Router();
 AdminRoute.use(express.json());
 
