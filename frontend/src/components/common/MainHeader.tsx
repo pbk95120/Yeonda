@@ -44,7 +44,7 @@ const MainHeader = ({ value, onlyLogo, setting, backBtn, cancelStr, complete }: 
           <h1 className='font-bold text-lg text-center w-full pb-1'>{value}</h1>
           {setting ? (
             <div className='absolute right-5 flex justify-center items-center'>
-              <IoSettings className='w-5 h-10 fill-gray' />
+              <IoSettings id='setting' className='w-5 h-10 fill-gray' />
             </div>
           ) : null}
           {complete ? (

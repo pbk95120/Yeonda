@@ -5,15 +5,21 @@
 import SVG from '@/assets/images/Profile.svg?react';
 import { IoFemale } from 'react-icons/io5';
 import { IoMale } from 'react-icons/io5';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Tags from '@/components/common/Tags';
+import { useNavigate } from 'react-router-dom';
 
 
 const tags = ['롤토체스', '농구', '게임', '우주파괴', '취뽀'];
 
 const MyPage = () => {
-  const handleRemoveTag=()=>{
-    }
+  const navigate = useNavigate();
+  useEffect(()=>{ goToSettingPage();},[])
+  const goToSettingPage =()=>{
+    const setting = document.querySelector("#setting")
+    setting?.addEventListener("click",()=>navigate("/mypage/setting"))
+  }
+ 
   const [gender, setGender] = useState<'male' | 'female'>('male');
   return (
     <div className='flex flex-col items-center justify-center space-y-2'>

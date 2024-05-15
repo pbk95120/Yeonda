@@ -16,9 +16,9 @@ const MyInfo =()=>{
     setIsModalOpen(false);
   };
   return (
-  <div className="flex flex-col items-center space-y-2 justify-center"> 
+  <div className="flex flex-col items-center justify-around"> 
     <Input inputFor="image" className="mt-3"/>
-    <div className="shadow-xl w-[339px] h-[86px] flex flex-col p-3">
+    <div className="shadow-lg w-[339px] h-[86px] flex flex-col p-3">
       <span className="font-sans font-bold mb-3">주소</span>
       <div className="flex flex-row">
         <div className="text-lightgray font-sans">{address}</div>

@@ -1,11 +1,11 @@
 import Button from '@/components/common/Button';
 import { UseFormSetValue } from 'react-hook-form';
-import { PreferenceFormInputs } from '../Preference';
+import { PreferenceFormInputs } from '../join/Preference';
 
 interface PreferGenderModalProps {
   selectedGender: string;
   setSelectedGender: (gender: 'male' | 'female' | 'both' | '') => void;
-  setValue: UseFormSetValue<PreferenceFormInputs>;
+  setValue?: UseFormSetValue<PreferenceFormInputs>;
   closeModal: () => void;
   handleBackgroundClick: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
@@ -31,7 +31,7 @@ const PreferGenderModal = ({
               size='medium'
               children='남성'
               onClick={() => {
-                setValue('preferGender', 'male', { shouldValidate: true });
+                {setValue ? setValue('preferGender', 'male', { shouldValidate: true }):null}
                 setSelectedGender('male');
                 closeModal();
               }}
@@ -42,7 +42,7 @@ const PreferGenderModal = ({
               size='medium'
               children='여성'
               onClick={() => {
-                setValue('preferGender', 'female', { shouldValidate: true });
+                {setValue ? setValue('preferGender', 'female', { shouldValidate: true }): null}
                 setSelectedGender('female');
                 closeModal();
               }}
@@ -54,7 +54,7 @@ const PreferGenderModal = ({
             size='large'
             children='무관'
             onClick={() => {
-              setValue('preferGender', 'both', { shouldValidate: true });
+              {setValue? setValue('preferGender', 'both', { shouldValidate: true }):null}
               setSelectedGender('both');
               closeModal();
             }}

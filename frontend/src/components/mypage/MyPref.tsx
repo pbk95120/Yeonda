@@ -1,19 +1,56 @@
 import { useState } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
+import PreferGenderModal from '../common/PreferGenderModal';
+import DistanceInput from '../common/DistanceInput';
+import AgeRangeInput from '../common/AgeRangeInput';
+import { useForm } from 'react-hook-form';
 
+interface PreferenceFormInputs {
+  gender: string;
+  preferGender: string;
+  distance: number;
+  startAge: number;
+  endAge: number;
+}
 
 const MyPref=()=>{
-  const [prefGender ,setPrefGender]=useState<"남성"|"여성">("여성")
-  return (<div className="flex flex-col items-center space-y-2 justify-center"> 
-    <div className="shadow-xl w-[339px] h-[86px] flex flex-col p-3">
-      <span className="font-sans font-bold mb-3">상대의 성별</span>
+  const {setValue, getValues} = useForm<PreferenceFormInputs>();
+  const [open,setOpen]=useState<boolean>(false)
+  let distance=0;
+  let startAge=0;
+  let endAge=100;
+  const openModal =()=> setOpen(true)
+  const closeModal =()=> setOpen(false)
+  const [selectedGender, setSelectedGender] = useState<string>("남성");
+  const handleBackgroundClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if (event.target === event.currentTarget) {
+      closeModal();
+    }
+  };
+  return (
+  <div className="flex flex-col items-center justify-center"> 
+    <div className="shadow-lg w-[339px] h-[86px] flex flex-col p-3 mt-3">
+      <span className="font-sans font-bold text-base mb-3" >상대의 성별</span>
       <div className="flex flex-row">
-        <div className="text-lightgray font-sans">{prefGender}</div>
+        <div className="text-lightgray font-sans">{selectedGender==="female"? "여성" : selectedGender==="male" ? "남성" : selectedGender==="both" ? "무관": null }</div>
         <div className='absolute z-20 right-7 flex justify-center items-center'>
-          <IoIosArrowBack className='w-6 h-6 fill-gray rotate-180' />
+          <IoIosArrowBack className='w-6 h-6 fill-gray rotate-180' onClick={openModal}/>
        </div>
       </div>
     </div>
+    <div className="shadow-lg w-[339px] h-[86px] flex flex-col p-3 mt-3">
+      <DistanceInput sliderClassName='mb-5' className='font-sans font-bold text-base' setValue={setValue} getValues={getValues} distance={distance}/>
+    </div>
+    <div className="shadow-lg w-[339px] h-[86px] flex flex-col p-3 mt-3">
+      <AgeRangeInput className="font-sans font-bold text-base"setValue={setValue} getValues={getValues} startAge={startAge} endAge={endAge} />
+    </div>
+    <div className="shadow-lg w-[339px] h-[86px] flex flex-col p-3 mt-3">
+      <span className="font-sans font-bold mb-3">관심사</span>
+      <div className="flex flex-row">
+        <div className="text-lightgray font-sans">{selectedGender==="female"? "여성" : selectedGender==="male" ? "남성" : selectedGender==="both" ? "무관": null }</div>
+      </div>
+    </div>
+    {open && <PreferGenderModal selectedGender={selectedGender} handleBackgroundClick={handleBackgroundClick} setSelectedGender={setSelectedGender} closeModal={closeModal}/>}
   </div>)
 }
 
