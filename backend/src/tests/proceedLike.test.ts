@@ -1,7 +1,7 @@
 import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { server } from '@src/app';
 import Database from '@src/db';
-import { issueToken } from '@utils/issueToken';
+import { issueAccessToken } from '@utils/issueToken';
 import http from 'http-status-codes';
 import { Connection } from 'mysql2/promise';
 import request from 'supertest';
@@ -30,7 +30,7 @@ describe('POST /diary/like/:id', () => {
   let token;
 
   beforeEach(() => {
-    token = issueToken(2, 'leehoosgg@gmail.com');
+    token = issueAccessToken(2, 'leehoosgg@gmail.com');
   });
 
   it('좋아요 활성', async () => {

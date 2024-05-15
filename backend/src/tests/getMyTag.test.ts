@@ -1,6 +1,6 @@
 import { server } from '@src/app';
 import Database from '@src/db';
-import { issueToken } from '@utils/issueToken';
+import { issueAccessToken } from '@utils/issueToken';
 import http from 'http-status-codes';
 import request from 'supertest';
 
@@ -16,7 +16,7 @@ describe('GET /profile/my/tag 선호 태그 가져오기', () => {
   let token;
 
   beforeEach(async () => {
-    token = issueToken(1, 'constant@gmail.com');
+    token = issueAccessToken(1, 'constant@gmail.com');
   });
 
   it('정상 요청', async () => {

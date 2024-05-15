@@ -1,7 +1,7 @@
 import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { server } from '@src/app';
 import Database from '@src/db';
-import { issueToken } from '@utils/issueToken';
+import { issueAccessToken } from '@utils/issueToken';
 import http from 'http-status-codes';
 import { Connection } from 'mysql2/promise';
 import request from 'supertest';
@@ -33,7 +33,7 @@ describe('PATCH /profile/my/setting/address 주소 수정', () => {
   let token;
 
   beforeEach(() => {
-    token = issueToken(1, 'constant@gmail.com');
+    token = issueAccessToken(1, 'constant@gmail.com');
   });
 
   it('이미 데이터 베이스에 있는 주소로 정상 요청', async () => {
@@ -63,7 +63,7 @@ describe('PATCH /profile/my/setting/address 주소 수정', () => {
     expect(response.status).toBe(http.OK);
 
     const isSame = await databaseConnector(async (conn: Connection) => {
-      let sql = "select id from address where detail = '충남 아산시 염치읍 현충사길 126'";
+      let sql = "select id from address where detail = '충청남도 아산시 염치읍 현충사길 126'";
       let [result] = await conn.execute(sql);
       const address_id = result[0].id;
 
