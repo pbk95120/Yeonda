@@ -1,8 +1,9 @@
 import { selectFirstRandomDiary } from '@databases/selectFirstRandomDiary.database';
 import { selectRandomDiary } from '@databases/selectRandomDiary.database';
+import { updateLike } from '@databases/updateLike.database';
 import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { Controller } from '@schemas/controller.schema';
-import { PreferIdRequestSchema, PreferencesRequestSchema } from '@schemas/diary.schema';
+import { PositiveIntegerURLSchema, PreferIdRequestSchema, PreferencesRequestSchema } from '@schemas/diary.schema';
 import CustomError from '@src/error';
 import http from 'http-status-codes';
 
@@ -20,4 +21,12 @@ export const getRandomDiary: Controller = async (req, res) => {
 
   const diary = await databaseConnector(selectRandomDiary)(req.body.prefer_id);
   res.status(http.OK).json(diary);
+};
+
+export const proceedLike: Controller = async (req, res) => {
+  const { error } = PositiveIntegerURLSchema.validate(req.params.id);
+  if (error) throw new CustomError(http.BAD_REQUEST, '유효하지 않은 좋아요 URL', error);
+
+  await databaseConnector(updateLike)(parseInt(req.params.id), req.body.user_id);
+  res.sendStatus(http.OK);
 };

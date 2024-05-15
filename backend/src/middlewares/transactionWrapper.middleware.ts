@@ -1,4 +1,3 @@
-import logger from '@src/logger';
 import { Connection } from 'mysql2/promise';
 
 export const transactionWrapper =

@@ -25,7 +25,7 @@ describe('GET /diary/random 기본 랜덤 일기 가져오기', () => {
     });
     expect(response.status).toBe(http.OK);
     expect(response.body).toEqual({
-      id: 20,
+      id: 22,
       user_id: 31,
       title: '31 의 일기',
       content: '내용 채우기',
