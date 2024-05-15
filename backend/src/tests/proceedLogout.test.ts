@@ -8,8 +8,7 @@ describe('POST /logout 로그아웃 요청', () => {
     const refreshToken = issueRefreshToken(1, 'email');
     const res = await request(server)
       .post('/logout')
-      .set('Cookie', `access-token=${accessToken}`)
-      .set('Cookie', `refresh-token=${refreshToken}`);
+      .set('Cookie', [`access-token=${accessToken}`, `refresh-token=${refreshToken}`]);
 
     const cookies = res.headers['set-cookie'];
     expect(cookies).toBeDefined();
