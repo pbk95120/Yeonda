@@ -1,6 +1,7 @@
 import { selectMyDiary } from '@databases/selectMyDiary.database';
 import { selectMyDiaryDetail } from '@databases/selectMyDiaryDetail.database';
 import { updateMyDiary } from '@databases/updateMyDiary.database';
+import { deleteMyDiary } from '@databases/deletMyDiary.database';
 import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { Controller } from '@schemas/controller.schema';
 import http from 'http-status-codes';
@@ -34,5 +35,10 @@ export const changeMyDiary: Controller = async (req, res) => {
   const { title, content } = req.body;
 
   await databaseConnector(updateMyDiary)(parseInt(req.params.id), title, content);
+  res.sendStatus(http.OK);
+};
+
+export const removeMyDiary: Controller = async (req, res) => {
+  await databaseConnector(deleteMyDiary)(parseInt(req.params.id));
   res.sendStatus(http.OK);
 };
