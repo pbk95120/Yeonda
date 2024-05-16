@@ -1,5 +1,7 @@
 import { selectFirstRandomDiary } from '@databases/selectFirstRandomDiary.database';
+import { selectPopularDiaries } from '@databases/selectPopularDiaries.database';
 import { selectRandomDiary } from '@databases/selectRandomDiary.database';
+import { selectTaggedPopularDiaries } from '@databases/selectTaggedPopularDiaries.database';
 import { updateLike } from '@databases/updateLike.database';
 import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { Controller } from '@schemas/controller.schema';
@@ -19,14 +21,27 @@ export const getRandomDiary: Controller = async (req, res) => {
   const { error } = PreferIdRequestSchema.validate(req.body);
   if (error) throw new CustomError(http.BAD_REQUEST, '잘못된 랜덤 일기 요청 양식', error);
 
-  const diary = await databaseConnector(selectRandomDiary)(req.body.prefer_id);
+  const diary = await databaseConnector(selectRandomDiary)(req.body);
   res.status(http.OK).json(diary);
 };
 
 export const proceedLike: Controller = async (req, res) => {
-  const { error } = PositiveIntegerURLSchema.validate(req.params.id);
+  const { error } = PositiveIntegerURLSchema.validate(req.params?.id);
   if (error) throw new CustomError(http.BAD_REQUEST, '유효하지 않은 좋아요 URL', error);
 
   await databaseConnector(updateLike)(parseInt(req.params.id), req.body.user_id);
   res.sendStatus(http.OK);
+};
+
+export const getPopularDiaries: Controller = async (req, res) => {
+  const diaries = await databaseConnector(selectPopularDiaries)();
+  res.status(http.OK).json(diaries);
+};
+
+export const getTaggedPopularDiaries: Controller = async (req, res) => {
+  const { error } = PositiveIntegerURLSchema.validate(req.params?.tag_id);
+  if (error) throw new CustomError(http.BAD_REQUEST, '유효하지 않은 인기 일기의 태그 URL', error);
+
+  const diaries = await databaseConnector(selectTaggedPopularDiaries)(req.params.tag_id);
+  res.status(http.OK).json(diaries);
 };

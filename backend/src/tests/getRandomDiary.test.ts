@@ -56,4 +56,11 @@ describe('GET /diary/random 기본 랜덤 일기 가져오기', () => {
     });
     expect(response.status).toBe(http.NOT_FOUND);
   });
+
+  it('선호할만한 유저이나 이미 좋아요 함', async () => {
+    const response = await request(server).get('/diary/random').set('Cookie', `access-token=${token}`).send({
+      prefer_id: 4,
+    });
+    expect(response.status).toBe(http.NOT_FOUND);
+  });
 });

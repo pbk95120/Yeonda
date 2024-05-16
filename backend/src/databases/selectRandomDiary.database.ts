@@ -1,27 +1,24 @@
-import { UsualRandomDiary } from '@schemas/diary.schema';
+import { PreferIdRequest, UsualRandomDiary } from '@schemas/diary.schema';
 import CustomError from '@src/error';
 import http from 'http-status-codes';
-import { Connection, RowDataPacket } from 'mysql2/promise';
+import { Connection } from 'mysql2/promise';
 
-export const selectRandomDiary = async (conn: Connection, prefer_id: number): Promise<UsualRandomDiary> => {
+export const selectRandomDiary = async (conn: Connection, body: PreferIdRequest): Promise<UsualRandomDiary> => {
+  const { user_id, prefer_id } = body;
+
   let sql = `
-  select d.* from diary d
-  left join likes l on l.diary_id = d.id
+  select d.*, json_arrayagg(dt.tag_id) as tags from diary d
+  join diary_tag dt on dt.diary_id = d.id
+  left join likes l on l.diary_id = d.id and l.user_id = :user_id
   where d.user_id = :prefer_id and l.user_id is null
+  group by d.id
   order by rand()
   limit 1;
   `;
-  let values: {} = { prefer_id: prefer_id };
+  let values: {} = { user_id: user_id, prefer_id: prefer_id };
   let [result] = await conn.execute(sql, values);
-  if (!result[0]) throw new CustomError(http.NOT_FOUND, '선호할만한 유저이나 작성한 일기 없음');
+  if (!result[0]) throw new CustomError(http.NOT_FOUND, '선호할만한 유저이나 작성한 일기가 없거나 이미 좋아요 함');
   let response = result[0];
-
-  const diary_id = result[0].id;
-  sql = 'select tag_id from diary_tag where diary_id = :diary_id';
-  values = { diary_id: diary_id };
-  [result] = await conn.execute<RowDataPacket[]>(sql, values);
-  const tags = result.map((e) => e.tag_id);
-  response.tags = tags;
 
   return response as UsualRandomDiary;
 };
