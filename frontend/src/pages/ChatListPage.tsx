@@ -1,7 +1,7 @@
 import { useChatList } from '@/hooks/chat/useChatList';
 import ChatList from '@/components/chat/ChatList';
 
-const ChatPage = () => {
+const ChatListPage = () => {
   const { chatList } = useChatList();
 
   return (
@@ -19,6 +19,8 @@ const ChatPage = () => {
             nickname={data.nickname}
             message={data.message}
             is_read={data.is_read}
+            email={data.email}
+            user_id={data.user_id}
           />
         ))}
       </section>
@@ -26,4 +28,4 @@ const ChatPage = () => {
   );
 };
 
-export default ChatPage;
+export default ChatListPage;

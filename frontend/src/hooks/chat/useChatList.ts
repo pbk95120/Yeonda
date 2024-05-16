@@ -10,7 +10,8 @@ export const useChatList = () => {
       if (!data) {
         return;
       }
-
+      localStorage.setItem('email', JSON.stringify(data[0].email));
+      localStorage.setItem('user1_id', JSON.stringify(data[0].user1_id));
       setChatList(data);
     });
   }, []);
