@@ -7,7 +7,7 @@ const ChatPage = () => {
   return (
     <>
       <section>
-        <p className='mb-6 ml-5 font-bold'>메세지</p>
+        <p className='mb-[1.375rem] ml-[1.6rem] font-bold'>메세지</p>
       </section>
       <section>
         {chatList.map((data) => (

@@ -12,12 +12,15 @@ const ChatList = ({ couple_id, picture_url, nickname, message, is_read }: ChatLi
   };
 
   return (
-    <div className='mx-3.5 mb-4 flex items-center hover:cursor-pointer hover:bg-lightgray/10' onClick={handleClick}>
+    <div
+      className='mx-[1.6rem] mb-4 flex items-center hover:cursor-pointer hover:bg-lightgray/10'
+      onClick={handleClick}
+    >
       <img src={picture_url} alt='프로필이미지' className='mr-2 h-14 w-14 rounded-lg'></img>
       <div className='flex w-full flex-col truncate text-sm'>
         <p className={`mb-1 ${is_read ? 'font-bold' : ''}`}>{nickname}</p>
         <div className='mb-2 flex items-center justify-between'>
-          <p className={`w-11/12 truncate ${is_read ? 'font-bold' : ''}`}>{message}</p>
+          <p className={`font-xs w-11/12 ${is_read ? 'font-bold' : 'text-gray'}`}>{message}</p>
           {is_read > 0 && (
             <div className='flex h-5 w-5 items-center justify-center rounded-full bg-pastelred'>
               <span className='text-xs text-white'>{is_read}</span>
