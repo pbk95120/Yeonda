@@ -25,6 +25,8 @@ export interface ChatListProps {
   nickname: string;
   picture_url: string;
   user2_id: number;
+  user_id: number;
+  email: string;
 }
 
 export interface ChatProfileProps {
