@@ -1,13 +1,14 @@
 import { IoIosArrowBack } from 'react-icons/io';
 import { RiMenu4Line } from 'react-icons/ri';
 import Profile from '@/assets/images/Profile.svg?react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const ChatHeader = () => {
   const navigate = useNavigate();
+  const params = useParams();
 
   const handleClick = () => {
-    navigate(`/chat/profile/1`);
+    navigate(`/chat/profile/${params.id}`);
   };
 
   return (
