@@ -1,7 +1,7 @@
-import { insertUser } from '@databases/createUser.database';
-import { selectTagNames } from '@databases/selectTagNames.database';
-import { sendSignupEmail } from '@databases/sendSignupEmail.database';
-import { validateSignupCode } from '@databases/validateSignupCode.database';
+import { insertUser } from '@databases/signup/insertUser.database';
+import { selectTagNames } from '@databases/signup/selectTagNames.database';
+import { sendSignupEmail } from '@databases/signup/sendSignupEmail.database';
+import { validateSignupCode } from '@databases/signup/validateSignupCode.database';
 import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { Controller } from '@schemas/controller.schema';
 import { VerifyCodeSchema } from '@schemas/passwordReset.schema';
@@ -22,7 +22,7 @@ export const getSignupInfo: Controller = async (req, res) => {
 
 export const requestSignupEmail: Controller = async (req, res) => {
   const { error } = EmailSchema.validate(req.body?.email);
-  if (error) throw new CustomError(http.BAD_REQUEST, '잘못된 이메일 양식');
+  if (error) throw new CustomError(http.BAD_REQUEST, '잘못된 이메일 양식', error);
 
   await databaseConnector(sendSignupEmail)(req.body.email);
   res.sendStatus(http.OK);
@@ -30,7 +30,7 @@ export const requestSignupEmail: Controller = async (req, res) => {
 
 export const verifySignupEmail: Controller = async (req, res) => {
   const { error } = VerifyCodeSchema.validate(req.body);
-  if (error) throw new CustomError(http.BAD_REQUEST, '잘못된 인증 코드 확인 양식');
+  if (error) throw new CustomError(http.BAD_REQUEST, '잘못된 인증 코드 확인 양식', error);
 
   await databaseConnector(validateSignupCode)(req.body.email, req.body.code);
   res.sendStatus(http.OK);

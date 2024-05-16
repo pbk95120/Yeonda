@@ -19,7 +19,7 @@ import MyPage from '@/pages/MyPage';
 import SettingPage from '@/pages/SettingPage';
 import WithdrawalPage from '@/pages/WithdrawalPage';
 import WriteDiaryPage from '@/pages/WriteDiaryPage';
-import ChatPage from '@/pages/ChatPage';
+import ChatPage from '@/pages/ChatListPage';
 import ChatDetailPage from '@/pages/ChatDetailPage';
 import ChatProfilePage from '@/pages/ChatProfilePage';
 import ErrorPage from '@/pages/ErrorPage';

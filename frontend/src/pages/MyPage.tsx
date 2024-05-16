@@ -10,7 +10,7 @@ import Tags from '@/components/common/Tags';
 import { useNavigate } from 'react-router-dom';
 
 
-const tags = ['롤토체스', '농구', '게임', '우주파괴', '취뽀'];
+const tags = [{id:1,name:'롤토체스'},{id:2,name:'농구'} ,{id:3,name:'게임'} ,{id:4,name:'롤토체스'} , {id:5,name:'취뽀'}];
 
 const MyPage = () => {
   const navigate = useNavigate();
