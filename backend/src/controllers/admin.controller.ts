@@ -1,41 +1,27 @@
-import { selectDiaryCount, selectmatchingCount, selectuserCount } from '@databases/getStatistic.database';
-import { selectGenderCount, selectAverageDiary } from '@databases/getAnalysis.database';
+import { selectWeeklyStatistic } from '@databases/selectWeeklyStatistic.database';
+import { selectAnalysis } from '@databases/selectAnalysis.database';
 import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { Controller } from '@schemas/controller.schema';
+import { adminSchema, statisticSchema, analysisSchema } from '@schemas/admin.schema';
 import http from 'http-status-codes';
 import CustomError from '@src/error';
 
 export const getStatistic: Controller = async (req, res) => {
-  if (req.body.email !== 'admin@admin.com') throw new CustomError(http.UNAUTHORIZED, '잘못된 접근');
+  const { error } = adminSchema.validate(req.body);
+  if (error) throw new CustomError(http.UNAUTHORIZED, '잘못된 접근', error);
 
-  const today = (): number => {
-    const now: Date = new Date();
-    const todayIndex: number = now.getDay();
-    return todayIndex;
-  };
-  const weekly_diary_count = await databaseConnector(selectDiaryCount)();
-  const weekly_matching_count = await databaseConnector(selectmatchingCount)();
-  const weekly_user_count = await databaseConnector(selectuserCount)();
-
-  const result = {
-    today: today(),
-    weekly_diary_count: weekly_diary_count,
-    weekly_matching_count: weekly_matching_count,
-    weekly_user_count: weekly_user_count,
-  };
-  res.status(http.OK).json(result);
+  const statistic = await databaseConnector(selectWeeklyStatistic)();
+  const validationResult = statisticSchema.validate(statistic);
+  if (validationResult.error) throw new CustomError(http.NOT_FOUND, '데이터 유효성 검사 실패', validationResult.error);
+  res.status(http.OK).json(statistic);
 };
 
 export const getAnalysis: Controller = async (req, res) => {
-  if (req.body.email !== 'admin@admin.com') throw new CustomError(http.UNAUTHORIZED, '잘못된 접근');
+  const { error } = adminSchema.validate(req.body);
+  if (error) throw new CustomError(http.UNAUTHORIZED, '잘못된 접근', error);
 
-  const gender_count = await databaseConnector(selectGenderCount)();
-  const average_diary = await databaseConnector(selectAverageDiary)();
-
-  const result = {
-    male_count: gender_count[0].male_count,
-    female_count: gender_count[0].female_count,
-    average_diary: average_diary,
-  };
-  res.status(http.OK).json(result);
+  const analysis = await databaseConnector(selectAnalysis)();
+  const validationResult = analysisSchema.validate(analysis);
+  if (validationResult.error) throw new CustomError(http.NOT_FOUND, '데이터 유효성 검사 실패', validationResult.error);
+  res.status(http.OK).json(analysis);
 };
