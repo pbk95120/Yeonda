@@ -1,4 +1,5 @@
 import { selectFirstRandomDiary } from '@databases/selectFirstRandomDiary.database';
+import { selectPopularDiaries } from '@databases/selectPopularDiaries.database';
 import { selectRandomDiary } from '@databases/selectRandomDiary.database';
 import { updateLike } from '@databases/updateLike.database';
 import { databaseConnector } from '@middlewares/databaseConnector.middleware';
@@ -19,7 +20,7 @@ export const getRandomDiary: Controller = async (req, res) => {
   const { error } = PreferIdRequestSchema.validate(req.body);
   if (error) throw new CustomError(http.BAD_REQUEST, '잘못된 랜덤 일기 요청 양식', error);
 
-  const diary = await databaseConnector(selectRandomDiary)(req.body.prefer_id);
+  const diary = await databaseConnector(selectRandomDiary)(req.body);
   res.status(http.OK).json(diary);
 };
 
@@ -29,4 +30,9 @@ export const proceedLike: Controller = async (req, res) => {
 
   await databaseConnector(updateLike)(parseInt(req.params.id), req.body.user_id);
   res.sendStatus(http.OK);
+};
+
+export const getPopularDiaries: Controller = async (req, res) => {
+  const diaries = await databaseConnector(selectPopularDiaries)();
+  res.status(http.OK).json(diaries);
 };

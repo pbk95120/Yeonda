@@ -52,23 +52,18 @@ export const selectFirstRandomDiary = async (
 
   const random_id = selectRandomElementInArray(prefer_id);
   sql = `
-  select d.* from diary d
-  left join likes l on l.diary_id = d.id
+  select d.*, json_arrayagg(dt.tag_id) as tags from diary d
+  join diary_tag dt on dt.diary_id = d.id
+  left join likes l on l.diary_id = d.id and l.user_id = :user_id
   where d.user_id = :random_id and l.user_id is null
+  group by d.id
   order by rand()
   limit 1;
   `;
-  values = { random_id: random_id };
+  values = { user_id: user_id, random_id: random_id };
   [result] = await conn.execute(sql, values);
   let response = result[0];
   response.prefer_id = prefer_id;
-
-  const diary_id = response.id;
-  sql = 'select tag_id from diary_tag where diary_id = :diary_id';
-  values = { diary_id: diary_id };
-  [result] = await conn.execute<RowDataPacket[]>(sql, values);
-  const tags = result.map((e) => e.tag_id);
-  response.tags = tags;
 
   return response as FirstRandomDiaryResponse;
 };
