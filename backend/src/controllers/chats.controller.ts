@@ -1,5 +1,5 @@
-import { archiveCouple } from '@databases/deleteRelationship.database';
-import { selectChats, selectOpponentId, selectOpponentInfo } from '@databases/getChatlist.database';
+import { archiveCouple } from '@databases/chats/deleteRelationship.database';
+import { selectChats, selectOpponentId, selectOpponentInfo } from '@databases/chats/getChatlist.database';
 import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { Controller } from '@schemas/controller.schema';
 import http from 'http-status-codes';

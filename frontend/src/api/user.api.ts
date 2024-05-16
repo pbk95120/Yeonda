@@ -1,8 +1,10 @@
 import { httpClient } from './http';
 import { LoginProps, SignupProps, resetPasswordData, verifyData } from '@/types/user';
 
-export const signup = async (userData: SignupProps) => {
-  const response = await httpClient.post('/signup', userData);
+export const signup = async (formData: FormData) => {
+  const response = await httpClient.post('/signup', formData, {
+    headers: { 'Content-Type': 'multipart/form-data', charset: 'utf-8' },
+  });
   return response.data;
 };
 

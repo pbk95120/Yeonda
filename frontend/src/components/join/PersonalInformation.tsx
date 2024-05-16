@@ -9,7 +9,7 @@ import Button from '../common/Button';
 
 interface PersonalInformationProps {
   setPage: (page: number) => void;
-  setPicture: (picture: File) => void;
+  setPicture_url: (picture: File) => void;
   year: number;
   setYear: (year: number) => void;
   month: number;
@@ -25,12 +25,12 @@ export interface PersonalInformationFormInputs {
   month: number;
   day: number;
   address: string;
-  picture: File;
+  picture_url: File;
 }
 
 const PersonalInformation = ({
   setPage,
-  setPicture,
+  setPicture_url,
   year,
   setYear,
   month,
@@ -52,13 +52,19 @@ const PersonalInformation = ({
   const [selectedAddress, setSelectedAddress] = useState<string>('');
 
   const onSubmit: SubmitHandler<PersonalInformationFormInputs> = async (data) => {
-    setPicture(data.picture);
+    setPicture_url(data.picture_url);
     setYear(data.year);
     setMonth(data.month);
     setDay(data.day);
     setAddress(data.address);
 
-    console.log(getValues('address'), getValues('picture'), getValues('year'), getValues('month'), getValues('day'));
+    console.log(
+      getValues('address'),
+      getValues('picture_url'),
+      getValues('year'),
+      getValues('month'),
+      getValues('day'),
+    );
 
     setPage(2);
   };
@@ -70,10 +76,10 @@ const PersonalInformation = ({
   };
 
   return (
-    <div className='w-full  px-10 relative'>
+    <div className='relative  w-full px-10'>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className='items-center justify-center mb-20'>
-          <ProfilePictureInput onImageChange={(imageDataUrl, file) => setValue('picture', file)} />
+        <div className='mb-20 items-center justify-center'>
+          <ProfilePictureInput onImageChange={(imageDataUrl, file) => setValue('picture_url', file)} />
           <BirthdateInput errors={errors} register={register} setValue={setValue} year={year} month={month} day={day} />
           <AddressInput
             address={address}
@@ -94,7 +100,7 @@ const PersonalInformation = ({
           onClick={() => {
             console.log(
               getValues('address'),
-              getValues('picture'),
+              getValues('picture_url'),
               getValues('year'),
               getValues('month'),
               getValues('day'),
@@ -104,7 +110,7 @@ const PersonalInformation = ({
           변수확인
         </p>
 
-        <div className='flex items-center gap-x-2 absolute top-[500px]'>
+        <div className='absolute top-[500px] flex items-center gap-x-2'>
           <Button
             color='pastelred'
             size='medium'

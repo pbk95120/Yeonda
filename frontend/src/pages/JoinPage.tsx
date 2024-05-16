@@ -21,7 +21,7 @@ const JoinPage = () => {
   const [month, setMonth] = useState<number>(0);
   const [day, setDay] = useState<number>(0);
   const [address, setAddress] = useState<string>('');
-  const [picture, setPicture] = useState<File | null>(null);
+  const [picture_url, setPicture_url] = useState<File | null>();
 
   const [gender, setGender] = useState<string>('');
   const [preferGender, setPreferGender] = useState<string>('');
@@ -32,25 +32,40 @@ const JoinPage = () => {
   const [tags, setTags] = useState<Tag[]>([]);
 
   const join = () => {
-    signup({
-      nickname: nickname,
-      email: email,
-      password: password,
-      password_check: passwordCheck,
-      birth: formatBirth(year, month, day),
-      gender: gender,
-      prefer_gender: preferGender,
-      distance: distance.toString(),
-      start_age: startAge.toString(),
-      end_age: endAge.toString(),
-      picture_url: picture ? picture : null,
-      address: address,
-      tags: tags
-        .map((tag) => {
-          return tag.id;
-        })
-        .toString(),
-    }).then(
+    const formData = new FormData();
+    // const data = {
+    //   nickname,
+    //   email,
+    //   password,
+    //   passwordCheck,
+    //   birth: formatBirth(year, month, day),
+    //   address,
+    //   gender,
+    //   prefer_gender: preferGender,
+    //   distance,
+    //   startAge,
+    //   endAge,
+    //   tags: tags.map((tag) => tag.id),
+    // };
+    formData.append('nickname', nickname);
+    formData.append('email', email);
+    formData.append('password', password);
+    formData.append('password_check', passwordCheck);
+    formData.append('birth', formatBirth(year, month, day));
+    formData.append('address', address);
+    formData.append('gender', gender);
+    formData.append('prefer_gender', preferGender);
+    formData.append('distance', distance.toString());
+    formData.append('start_age', startAge.toString());
+    formData.append('end_age', endAge.toString());
+    formData.append('tags', tags.map((tag) => tag.id).join(','));
+
+    picture_url ? formData.append('picture_url', picture_url) : null;
+
+    for (let [key, value] of formData.entries()) {
+      console.log(key, value);
+    }
+    signup(formData).then(
       () => {
         alert('회원가입 성공');
       },
@@ -80,7 +95,7 @@ const JoinPage = () => {
       {page === 1 && (
         <PersonalInformation
           setPage={setPage}
-          setPicture={setPicture}
+          setPicture_url={setPicture_url}
           year={year}
           setYear={setYear}
           month={month}
@@ -107,6 +122,13 @@ const JoinPage = () => {
         />
       )}
       {page == 3 && <Interest setTags={setTags} setPage={setPage} tags={tags} join={join} />}
+      <p
+        onClick={() => {
+          console.log(picture_url);
+        }}
+      >
+        asd
+      </p>
     </>
   );
 };
