@@ -1,4 +1,4 @@
-import { transactionWrapper } from '@src/middlewares/transactionWrapper.middleware';
+import { transactionWrapper } from '@middlewares/transactionWrapper.middleware';
 import { Connection } from 'mysql2/promise';
 
 export const deleteMyDiary = async (conn: Connection, diary_id: number) => {
