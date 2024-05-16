@@ -2,10 +2,10 @@
  * jest config file
  */
 export default {
-  testEnvironment: 'jsdom',
+  preset: 'ts-jest',
+  testEnvironment: 'jest-environment-jsdom',
   transform: {
     '^.+\\.tsx?$': 'ts-jest',
-    '^.+\\.svg$': `<rootDir>/src/mocks/svg.tsx`,
   },
   moduleNameMapper: {
     '^(.+\\.svg)\\?react$': '<rootDir>/src/mocks/svg.tsx',

@@ -23,7 +23,6 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-
     "esModuleInterop": true
   },
   "include": ["src", "svg.d.ts", ".eslintrc.cjs"],

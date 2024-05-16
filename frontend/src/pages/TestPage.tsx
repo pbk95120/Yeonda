@@ -1,8 +1,8 @@
 import TestSVG from '@/assets/images/logo.svg?react';
 import useStore from '@/store/store';
 import axios from 'axios';
-import { formatDate, formatNumber } from '../utils/format';
 import { example } from '@/api/sample.api';
+import DaumPostcode from 'react-daum-postcode';
 
 import {
   Chart as ChartJS,
@@ -76,9 +76,10 @@ const TestPage = () => {
 
   return (
     <>
+      <DaumPostcode />
       <TestButton />
       <TestSVG />
-      <h1 className='text-3xl font-bold underline'>Hello world!</h1>
+      <h1 className='text-3xl font-bold underline font-sans'>Hello world!</h1>
       <div>
         <div>
           <button onClick={() => handleClick('O')}>O</button>
@@ -108,10 +109,6 @@ const TestPage = () => {
         버튼
       </button>
       <p className='font-diary text-5xl'>폰트테스트</p>
-      <p className='font-diary text-5xl'>{formatDate('2021-03-04')}</p>
-      <p>{formatNumber(2)}</p>
-      <p>{formatNumber(2000)}</p>
-      <p>{formatNumber(2000000)}</p>
 
       <Line data={data} options={options} />
     </>
