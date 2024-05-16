@@ -1,7 +1,7 @@
-import { deleteMyDiary } from '@databases/deleteMyDiary.database';
-import { selectMyDiary } from '@databases/selectMyDiary.database';
-import { selectMyDiaryDetail } from '@databases/selectMyDiaryDetail.database';
-import { updateMyDiary } from '@databases/updateMyDiary.database';
+import { deleteMyDiary } from '@databases/myDiary/deleteMyDiary.database';
+import { selectMyDiary } from '@databases/myDiary/selectMyDiary.database';
+import { selectMyDiaryDetail } from '@databases/myDiary/selectMyDiaryDetail.database';
+import { updateMyDiary } from '@databases/myDiary/updateMyDiary.database';
 import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { Controller } from '@schemas/controller.schema';
 import http from 'http-status-codes';

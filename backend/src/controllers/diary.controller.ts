@@ -1,8 +1,8 @@
-import { selectFirstRandomDiary } from '@databases/selectFirstRandomDiary.database';
-import { selectPopularDiaries } from '@databases/selectPopularDiaries.database';
-import { selectRandomDiary } from '@databases/selectRandomDiary.database';
-import { selectTaggedPopularDiaries } from '@databases/selectTaggedPopularDiaries.database';
-import { updateLike } from '@databases/updateLike.database';
+import { selectFirstRandomDiary } from '@databases/diary/selectFirstRandomDiary.database';
+import { selectPopularDiaries } from '@databases/diary/selectPopularDiaries.database';
+import { selectRandomDiary } from '@databases/diary/selectRandomDiary.database';
+import { selectTaggedPopularDiaries } from '@databases/diary/selectTaggedPopularDiaries.database';
+import { updateLike } from '@databases/diary/updateLike.database';
 import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { Controller } from '@schemas/controller.schema';
 import { PositiveIntegerURLSchema, PreferIdRequestSchema, PreferencesRequestSchema } from '@schemas/diary.schema';

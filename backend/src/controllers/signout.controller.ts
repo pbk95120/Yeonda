@@ -1,4 +1,4 @@
-import { deleteUser } from '@databases/deleteUser.database';
+import { deleteUser } from '@databases/signout/deleteUser.database';
 import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { Controller } from '@schemas/controller.schema';
 import { PasswordSchema } from '@schemas/signup.schema';

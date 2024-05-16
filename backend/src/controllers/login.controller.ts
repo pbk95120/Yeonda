@@ -1,4 +1,4 @@
-import { selectUserforLogin } from '@databases/selectUserforLogin.database';
+import { selectUserforLogin } from '@databases/login/selectUserforLogin.database';
 import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { Controller } from '@schemas/controller.schema';
 import { Login, LoginSchema } from '@schemas/login.schema';

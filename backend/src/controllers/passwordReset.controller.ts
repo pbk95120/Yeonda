@@ -1,6 +1,6 @@
-import { sendPasswordResetEmail } from '@databases/sendPasswordResetEmail.database';
-import { updatePassword } from '@databases/updatePassword.database';
-import { validatePasswordResetCode } from '@databases/validatePasswordResetCode.database';
+import { sendPasswordResetEmail } from '@databases/passwordReset/sendPasswordResetEmail.database';
+import { updatePassword } from '@databases/passwordReset/updatePassword.database';
+import { validatePasswordResetCode } from '@databases/passwordReset/validatePasswordResetCode.database';
 import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { Controller } from '@schemas/controller.schema';
 import { PasswordConfirmSchema, VerifyCodeSchema } from '@schemas/passwordReset.schema';

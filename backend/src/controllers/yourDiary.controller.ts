@@ -1,5 +1,5 @@
-import { selectYourDiary } from '@databases/selectYourDiary.database';
-import { selectYourDiaryDetail } from '@databases/selectYourDiaryDetail.database';
+import { selectYourDiary } from '@databases/yourDiary/selectYourDiary.database';
+import { selectYourDiaryDetail } from '@databases/yourDiary/selectYourDiaryDetail.database';
 import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { Controller } from '@schemas/controller.schema';
 import http from 'http-status-codes';
