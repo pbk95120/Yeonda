@@ -48,3 +48,5 @@ export const PreferIdRequestSchema = LogonSchema.concat(Joi.object({ prefer_id: 
 export interface UsualRandomDiary extends Diary {
   tags: Tag['id'][];
 }
+
+export interface PopularDiaries extends UsualRandomDiary {}
