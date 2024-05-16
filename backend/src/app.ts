@@ -3,13 +3,13 @@ import ChatsRoute from '@routes/chats.route';
 import DiaryRoute from '@routes/diary.route';
 import LoginRoute from '@routes/login.route';
 import LogoutRoute from '@routes/logout.route';
+import MyDiaryRoute from '@routes/myDiary.route';
 import MyProfileRoute from '@routes/myProfile.route';
 import PasswordResetRoute from '@routes/passwordReset.route';
+import SignoutRoute from '@routes/signout.route';
 import SignupRoute from '@routes/signup.route';
-import YourProfileRoute from '@routes/yourProfile.route';
-import MyDiaryRoute from '@routes/myDiary.route';
 import YourDiaryRoute from '@routes/yourDiary.route';
-import AdminRoute from './routes/admin.route';
+import YourProfileRoute from '@routes/yourProfile.route';
 import socketHandler from '@sockets/index';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
@@ -17,6 +17,7 @@ import 'dotenv/config';
 import express from 'express';
 import http from 'http';
 import { Server } from 'socket.io';
+import AdminRoute from './routes/admin.route';
 
 const app = express();
 
@@ -42,6 +43,7 @@ const io = new Server(server, {
 socketHandler(io);
 
 app.use('/signup', SignupRoute);
+app.use('/signout', SignoutRoute);
 app.use('/login', LoginRoute);
 app.use('/logout', LogoutRoute);
 app.use('/password/reset', PasswordResetRoute);

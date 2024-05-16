@@ -13,7 +13,7 @@ export const sendSignupEmail = async (conn: Connection, email: string): Promise<
 
   const [code, time] = getRandomCode(6);
 
-  await sendEmail(email, 'Yeonda 비밀번호 초기화 인증 코드입니다', `유효 기간: ${time} 인증 코드: ${code}`);
+  await sendEmail(email, 'Yeonda 회원 가입 인증 코드입니다', `유효 기간: ${time} 인증 코드: ${code}`);
 
   const callback = async (email: string, code: string) => {
     sql = 'insert into signup (email, code) values ( :email, :code )';

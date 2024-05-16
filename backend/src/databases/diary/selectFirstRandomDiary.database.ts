@@ -1,6 +1,6 @@
 import { FirstRandomDiaryResponse, PreferencesRequest } from '@schemas/diary.schema';
 import CustomError from '@src/error';
-import { selectRandomElementInArray } from '@src/utils/selectRandomElementInArray';
+import { selectRandomElementInArray } from '@utils/selectRandomElementInArray';
 import http from 'http-status-codes';
 import { Connection, RowDataPacket } from 'mysql2/promise';
 

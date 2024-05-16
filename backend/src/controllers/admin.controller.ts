@@ -1,10 +1,10 @@
-import { selectWeeklyStatistic } from '@databases/selectWeeklyStatistic.database';
-import { selectAnalysis } from '@databases/selectAnalysis.database';
+import { selectAnalysis } from '@databases/admin/selectAnalysis.database';
+import { selectWeeklyStatistic } from '@databases/admin/selectWeeklyStatistic.database';
 import { databaseConnector } from '@middlewares/databaseConnector.middleware';
+import { adminSchema, analysisSchema, statisticSchema } from '@schemas/admin.schema';
 import { Controller } from '@schemas/controller.schema';
-import { adminSchema, statisticSchema, analysisSchema } from '@schemas/admin.schema';
-import http from 'http-status-codes';
 import CustomError from '@src/error';
+import http from 'http-status-codes';
 
 export const getStatistic: Controller = async (req, res) => {
   const { error } = adminSchema.validate(req.body);
