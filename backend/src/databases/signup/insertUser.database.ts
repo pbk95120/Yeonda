@@ -19,13 +19,13 @@ export const insertUser = async (
   let [result] = await conn.execute(sql, values);
   if (result[0]) throw new CustomError(http.CONFLICT, '이미 존재하는 사용자');
 
-  const geoCode = await getGeoCode(address);
-
   let address_id;
   sql = 'select id from address where detail = :detail';
   values = { detail: address };
   [result] = await conn.execute(sql, values);
   if (result[0]) address_id = result[0].id;
+
+  const geoCode = await getGeoCode(address);
 
   const callback = async (address_id: number): Promise<void> => {
     if (!address_id) {
