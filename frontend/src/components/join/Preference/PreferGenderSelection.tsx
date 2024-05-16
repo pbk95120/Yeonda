@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { FieldErrors, UseFormRegister, UseFormSetValue } from 'react-hook-form';
 import { IoIosArrowForward } from 'react-icons/io';
 import { PreferenceFormInputs } from '../Preference';
-import PreferGenderModal from './PreferGenderModal';
+import PreferGenderModal from '../../common/PreferGenderModal';
 
 interface PreferGenderSelectionProps {
   setValue: UseFormSetValue<PreferenceFormInputs>;

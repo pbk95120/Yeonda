@@ -1,11 +1,16 @@
 import Button from '@/components/common/Button';
 import { UseFormSetValue } from 'react-hook-form';
-import { PreferenceFormInputs } from '../Preference';
+import { PreferenceFormInputs } from '../join/Preference';
 
 interface PreferGenderModalProps {
   selectedGender: string;
+<<<<<<< HEAD:frontend/src/components/common/PreferGenderModal.tsx
+  setSelectedGender: (gender: 'male' | 'female' | 'both' | '') => void;
+  setValue?: UseFormSetValue<PreferenceFormInputs>;
+=======
   setSelectedGender: (gender: 'Male' | 'Female' | 'Neutral' | '') => void;
   setValue: UseFormSetValue<PreferenceFormInputs>;
+>>>>>>> upstream/frontend:frontend/src/components/join/Preference/PreferGenderModal.tsx
   closeModal: () => void;
   handleBackgroundClick: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
@@ -31,8 +36,13 @@ const PreferGenderModal = ({
               size='medium'
               children='남성'
               onClick={() => {
+<<<<<<< HEAD:frontend/src/components/common/PreferGenderModal.tsx
+                {setValue ? setValue('preferGender', 'male', { shouldValidate: true }):null}
+                setSelectedGender('male');
+=======
                 setValue('preferGender', 'Male', { shouldValidate: true });
                 setSelectedGender('Male');
+>>>>>>> upstream/frontend:frontend/src/components/join/Preference/PreferGenderModal.tsx
                 closeModal();
               }}
             />
@@ -42,8 +52,13 @@ const PreferGenderModal = ({
               size='medium'
               children='여성'
               onClick={() => {
+<<<<<<< HEAD:frontend/src/components/common/PreferGenderModal.tsx
+                {setValue ? setValue('preferGender', 'female', { shouldValidate: true }): null}
+                setSelectedGender('female');
+=======
                 setValue('preferGender', 'Female', { shouldValidate: true });
                 setSelectedGender('Female');
+>>>>>>> upstream/frontend:frontend/src/components/join/Preference/PreferGenderModal.tsx
                 closeModal();
               }}
             />
@@ -54,8 +69,13 @@ const PreferGenderModal = ({
             size='large'
             children='무관'
             onClick={() => {
+<<<<<<< HEAD:frontend/src/components/common/PreferGenderModal.tsx
+              {setValue? setValue('preferGender', 'both', { shouldValidate: true }):null}
+              setSelectedGender('both');
+=======
               setValue('preferGender', 'Neutral', { shouldValidate: true });
               setSelectedGender('Neutral');
+>>>>>>> upstream/frontend:frontend/src/components/join/Preference/PreferGenderModal.tsx
               closeModal();
             }}
           />

@@ -2,8 +2,8 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import Button from '../common/Button';
 import GenderSelection from './Preference/GenderSelection';
 import PreferGenderSelection from './Preference/PreferGenderSelection';
-import DistanceInput from './Preference/DistanceInput';
-import AgeRangeInput from './Preference/AgeRangeInput';
+import DistanceInput from '../common/DistanceInput';
+import AgeRangeInput from '../common/AgeRangeInput';
 
 export interface PreferenceFormInputs {
   gender: string;
