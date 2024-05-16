@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import { getToken, removeToken } from '@/store/authStore';
 import { DEFAULT_TIMEOUT } from '@/constants/constants';
+import { useAuthStore } from '@/store/authStore';
 
 /**
  * Axios 인스턴스 생성
@@ -11,7 +11,6 @@ export const createClient = (config?: AxiosRequestConfig) => {
     timeout: DEFAULT_TIMEOUT,
     headers: {
       'Content-Type': 'application/json',
-      Authorization: getToken() ? getToken() : '',
     },
     withCredentials: true,
     ...config,
@@ -22,8 +21,8 @@ export const createClient = (config?: AxiosRequestConfig) => {
     },
     (error) => {
       if (error.response.status === 401) {
-        removeToken();
         window.location.href = '/login';
+        useAuthStore.getState().storeLogout();
         return;
       }
       return Promise.reject(error);

@@ -1,16 +1,18 @@
 import { useEffect, useState } from 'react';
 import { UseFormGetValues, UseFormSetValue } from 'react-hook-form';
-import { PreferenceFormInputs } from '../Preference';
+import { PreferenceFormInputs } from '@/components/join/Preference';
 import { Slider } from '@mui/material';
 import { DEFAULT_DISTANCE } from '@/constants/constants';
 
 interface DistanceInputProps {
   setValue: UseFormSetValue<PreferenceFormInputs>;
   getValues: UseFormGetValues<PreferenceFormInputs>;
+  className?: string;
+  sliderClassName?:string
   distance: number;
 }
 
-const DistanceInput = ({ setValue, getValues, distance }: DistanceInputProps) => {
+const DistanceInput = ({ setValue, getValues, distance ,className ,sliderClassName }: DistanceInputProps) => {
   const [currentDistance, setCurrentDistance] = useState(distance);
 
   useEffect(() => {
@@ -25,11 +27,12 @@ const DistanceInput = ({ setValue, getValues, distance }: DistanceInputProps) =>
   return (
     <fieldset className='pb-2 w-full'>
       <legend className='text-sm pb-2 flex w-full justify-between'>
-        <span>상대와의 거리</span>
+        <span className={className}>상대와의 거리</span>
         <span className='text-sm'>{getValues('distance') === undefined ? distance : currentDistance} km</span>
       </legend>
 
       <Slider
+        className={sliderClassName}
         value={currentDistance}
         onChange={handleChange}
         min={0}

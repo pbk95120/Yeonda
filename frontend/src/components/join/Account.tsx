@@ -66,6 +66,7 @@ const Account = ({
           <EmailVerificationInput
             register={register}
             errors={errors}
+            getValues={getValues}
             setNextBtnDisabled={setNextBtnDisabled}
             email={email}
             verificationCode={verificationCode}

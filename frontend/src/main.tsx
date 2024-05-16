@@ -24,7 +24,8 @@ import ChatDetailPage from '@/pages/ChatDetailPage';
 import ChatProfilePage from '@/pages/ChatProfilePage';
 import ErrorPage from '@/pages/ErrorPage';
 import OthersDiaryPage from './pages/OthersDiaryPage';
-import { CookiesProvider } from 'react-cookie';
+import PreferencePage from './pages/PreferencePage';
+
 
 const queryClient = new QueryClient();
 
@@ -83,12 +84,12 @@ const routeList = [
   {
     path: '/tutorial',
     element: <TutorialPage />,
-    showHeader: true,
+    showHeader: false,
     showFooter: false,
-    onlyLogo: true,
+    onlyLogo: false,
     value: '박상하킹갓',
     backBtn: false,
-    cancelStr: true,
+    cancelStr: false,
   },
   {
     path: '/admin/statistics',
@@ -159,10 +160,20 @@ const routeList = [
     element: <SettingPage />,
     showHeader: true,
     showFooter: false,
-    onlyLogo: true,
-    value: '박상하킹갓',
-    backBtn: false,
-    cancelStr: true,
+    onlyLogo: false,
+    value: '설정',
+    backBtn: true,
+    cancelStr: false,
+  },
+  {
+    path: '/mypage/setting/preference',
+    element: <PreferencePage />,
+    showHeader: true,
+    showFooter: false,
+    onlyLogo: false,
+    value: '관심사',
+    backBtn: true,
+    cancelStr: false,
   },
   {
     path: '/withdrawal',
@@ -171,8 +182,8 @@ const routeList = [
     showFooter: false,
     onlyLogo: true,
     value: '박상하킹갓',
-    backBtn: false,
-    cancelStr: true,
+    backBtn: true,
+    cancelStr: false,
   },
   {
     path: '/writeDiary',
@@ -244,10 +255,8 @@ const router = createBrowserRouter(
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <CookiesProvider>
+      <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />
-      </CookiesProvider>
-    </QueryClientProvider>
+      </QueryClientProvider>
   </React.StrictMode>,
 );

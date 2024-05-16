@@ -1,6 +1,5 @@
 import { errorHandler } from '@middlewares/errorHandler.middleware';
 import ChatsRoute from '@routes/chats.route';
-// import DiaryRoute from '@routes/diary.route';
 import LoginRoute from '@routes/login.route';
 import LogoutRoute from '@routes/logout.route';
 import MyProfileRoute from '@routes/myProfile.route';
@@ -50,8 +49,6 @@ app.use('/profile/your', YourProfileRoute);
 app.use('/diary/my', MyDiaryRoute);
 app.use('/diary/your', YourDiaryRoute);
 app.use('/chatlist', ChatsRoute);
-app.use('/diary', DiaryRoute);
-app.use('/admin/user', AdminRoute);
 
 app.use(errorHandler);
 

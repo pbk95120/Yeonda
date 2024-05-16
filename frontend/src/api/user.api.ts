@@ -1,13 +1,28 @@
 import { httpClient } from './http';
-import { LoginProps, LoginResponse, SignupProps, verifyData } from '@/types/user';
+import { LoginProps, SignupProps, resetPasswordData, verifyData } from '@/types/user';
 
 export const signup = async (userData: SignupProps) => {
   const response = await httpClient.post('/signup', userData);
   return response.data;
 };
 
+export const signupEmail = async (email: string) => {
+  const response = await httpClient.post('/signup/email', { email });
+  return response.data;
+};
+
+export const verifyEmail = async ({ email, code }: verifyData) => {
+  const response = await httpClient.post('/signup/email/verify', { email, code });
+  return response.data;
+};
+
 export const login = async (data: LoginProps) => {
-  const response = await httpClient.post<LoginResponse>('/login', data);
+  const response = await httpClient.post('/login', data);
+  return response.data;
+};
+
+export const logout = async () => {
+  const response = await httpClient.post('/logout');
   return response.data;
 };
 
@@ -16,9 +31,12 @@ export const resetRequest = async (email: string) => {
   return response.data;
 };
 
-export const resetVerify = async (verifyData: verifyData) => {
-  const response = await httpClient.post('/password/verify', verifyData);
+export const resetVerify = async ({ email, code }: verifyData) => {
+  const response = await httpClient.post('/password/reset/verify', { email, code });
   return response.data;
 };
 
-export const resetPassword = async (password: string, passwordCheck: string, token: string) => {};
+export const resetPassword = async ({ password, password_check }: resetPasswordData) => {
+  const response = await httpClient.post('/password/reset/confirm', { password, password_check });
+  return response.data;
+};
