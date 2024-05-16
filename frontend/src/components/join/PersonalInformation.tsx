@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 
 import BirthdateInput from './PersonalInfomation/BirthdateInput';
 import AddressInput from './PersonalInfomation/AddressInput';
-import AddressModal from './PersonalInfomation/AddressModal';
+import AddressModal from '../common/AddressModal';
 import ProfilePictureInput from './PersonalInfomation/ProfilePictureInput';
 import Button from '../common/Button';
 
