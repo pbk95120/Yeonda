@@ -1,5 +1,6 @@
 import EmailAuthentication from '@/components/find/EmailAuthentication';
 import ResetPassword from '@/components/find/ResetPassword';
+import { WithUnauthenticated } from '@/components/hoc/WithUnauthenticated';
 import { useState } from 'react';
 
 const FindPassWordPage = () => {
@@ -12,4 +13,4 @@ const FindPassWordPage = () => {
   );
 };
 
-export default FindPassWordPage;
+export default WithUnauthenticated(FindPassWordPage);

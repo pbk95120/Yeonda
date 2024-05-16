@@ -2,7 +2,7 @@ import { create } from 'zustand';
 
 interface StoreState {
   isLoggedIn: boolean;
-  storeLogin: (token: string) => void;
+  storeLogin: (email: string) => void;
   storeLogout: () => void;
 }
 
@@ -11,23 +11,23 @@ export const getEmail = () => {
   return email;
 };
 
-export const setEmail = (email: string) => {
+const setEmail = (email: string) => {
   localStorage.setItem('email', email);
 };
-
 export const removeEmail = () => {
   localStorage.removeItem('email');
 };
 
-export const useAuthStore = create<StoreState>((set) => ({
-  isLoggedIn: getEmail() ? true : false,
-  email: getEmail(),
-  storeLogin: (email: string) => {
-    setEmail(email);
-    set({ isLoggedIn: true });
-  },
-  storeLogout: () => {
-    removeEmail();
-    set({ isLoggedIn: false });
-  },
-}));
+export const useAuthStore = create<StoreState>((set) => {
+  return {
+    isLoggedIn: getEmail() ? true : false,
+    storeLogin: (data: string) => {
+      set({ isLoggedIn: true });
+      setEmail(data);
+    },
+    storeLogout: () => {
+      set({ isLoggedIn: false });
+      removeEmail();
+    },
+  };
+});

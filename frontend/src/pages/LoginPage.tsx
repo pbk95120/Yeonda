@@ -1,10 +1,10 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import { useAuthStore } from '@/store/authStore';
 import { login } from '@/api/user.api';
-import { useEffect } from 'react';
+import { WithUnauthenticated } from '@/components/hoc/WithUnauthenticated';
 
 interface LoginFormInputs {
   email: string;
@@ -12,14 +12,7 @@ interface LoginFormInputs {
 }
 
 const LoginPage = () => {
-  const { isLoggedIn } = useAuthStore();
   const navigate = useNavigate();
-  useEffect(() => {
-    if (isLoggedIn) {
-      navigate('/othersdiary/suggestion');
-    }
-  }, [isLoggedIn]);
-
   const { storeLogin } = useAuthStore();
   const {
     register,
@@ -28,14 +21,16 @@ const LoginPage = () => {
   } = useForm<LoginFormInputs>();
 
   const onSubmit = async (data: LoginFormInputs) => {
-    try {
-      await login(data);
-      storeLogin(data.email);
-      alert('로그인 성공');
-      navigate('/othersdiary/suggestion');
-    } catch (error) {
-      alert('로그인 실패');
-    }
+    login(data).then(
+      () => {
+        storeLogin(data.email);
+        alert('로그인 성공');
+        navigate('/othersdiary/suggestion');
+      },
+      () => {
+        alert('이메일과 비밀번호를 다시 확인해주세요.');
+      },
+    );
   };
 
   return (
@@ -82,4 +77,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default WithUnauthenticated(LoginPage);

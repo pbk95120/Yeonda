@@ -1,12 +1,12 @@
-import { Socket } from 'socket.io';
-import { databaseConnector } from '@sockets/util';
-import { updateIsRead, getPartnerInfo, getRecordChat, createChat } from '@sockets/database';
-import { getPartnerInfoSchema, getRecordChatSchema, createChatSchema } from './schemas';
-import { saveFile } from '@utils/saveFile';
-import { reformImg } from '@utils/reformImg';
-import { io } from '@src/app';
+import { createChat, getPartnerInfo, getRecordChat, updateIsRead } from '@sockets/database';
 import { errorHandler } from '@sockets/middleware';
+import { databaseConnector } from '@sockets/util';
+import { io } from '@src/app';
+import { reformImg } from '@utils/reformImg';
+import { saveFile } from '@utils/saveFile';
 import http from 'http-status-codes';
+import { Socket } from 'socket.io';
+import { createChatSchema, getPartnerInfoSchema, getRecordChatSchema } from './schemas';
 
 export const setupChat = async (socket: Socket, couple_id: number) => {
   try {
