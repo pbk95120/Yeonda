@@ -1,4 +1,10 @@
 import Joi from 'joi';
+import 'dotenv/config';
+
+export const adminSchema = Joi.object({
+  user_id: Joi.string().valid(parseInt(process.env.ADMIN_ID)).required(),
+  email: Joi.string().valid(process.env.ADMIN_EMAIL).required(),
+});
 
 export interface statistic {
   today: number;
