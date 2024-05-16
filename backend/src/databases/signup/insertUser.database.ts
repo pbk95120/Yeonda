@@ -14,7 +14,7 @@ export const insertUser = async (
 ): Promise<void> => {
   const { user, address, preference, user_tag } = info;
 
-  let sql = 'select id from user where email =:email';
+  let sql = 'select id from user where email = :email';
   let values: {} = { email: user.email };
   let [result] = await conn.execute(sql, values);
   if (result[0]) throw new CustomError(http.CONFLICT, '이미 존재하는 사용자');

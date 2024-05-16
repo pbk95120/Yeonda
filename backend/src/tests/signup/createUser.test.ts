@@ -20,7 +20,7 @@ const deleteFile = (path: string) => {
 const cleanUp = async (conn: Connection): Promise<void> => {
   let sql = "select picture_url from user where email like '%faker%'";
   const [result] = await conn.execute(sql);
-  if (result[0]) deleteFile(result[0].picture_url);
+  if (result[0].picture_url !== null) deleteFile(result[0].picture_url);
 
   sql = "delete from user where email like '%faker%'";
   await conn.execute(sql);
@@ -52,7 +52,7 @@ describe('POST /signup 회원 가입 요청', () => {
     let agent = request(server)
       .post('/signup')
       .set('Content-Type', 'multipart/form-data')
-      .attach('picture', path.join(__dirname, 'mocks', 'mock.png'));
+      .attach('picture', path.join(__dirname, '..', 'mocks', 'mock.png'));
     for (const [key, value] of Object.entries(form)) {
       agent.field(key, value);
     }
@@ -146,7 +146,7 @@ describe('POST /signup 회원 가입 요청', () => {
     let agent = request(server)
       .post('/signup')
       .set('Content-Type', 'multipart/form-data')
-      .attach('picture', path.join(__dirname, 'mocks', 'mock.txt'));
+      .attach('picture', path.join(__dirname, '..', 'mocks', 'mock.txt'));
     for (const [key, value] of Object.entries(form)) {
       agent.field(key, value);
     }

@@ -39,7 +39,7 @@ describe('PATCH /profile/my/picture 프로필 사진 수정', () => {
       .patch('/profile/my/setting/picture')
       .set('Content-Type', 'multipart/form-data')
       .set('Cookie', `access-token=${token}`)
-      .attach('picture', path.join(__dirname, 'mocks', 'mock.png'));
+      .attach('picture', path.join(__dirname, '..', 'mocks', 'mock.png'));
     expect(response.status).toBe(http.OK);
 
     const url = await databaseConnector(async (conn: Connection): Promise<string> => {
@@ -54,7 +54,7 @@ describe('PATCH /profile/my/picture 프로필 사진 수정', () => {
     const response = await request(server)
       .patch('/profile/my/setting/picture')
       .set('Content-Type', 'multipart/form-data')
-      .attach('picture', path.join(__dirname, 'mocks', 'mock.png'));
+      .attach('picture', path.join(__dirname, '..', 'mocks', 'mock.png'));
     expect(response.status).toBe(http.UNAUTHORIZED);
   });
 
@@ -80,7 +80,7 @@ describe('PATCH /profile/my/picture 프로필 사진 수정', () => {
       .patch('/profile/my/setting/picture')
       .set('Content-Type', 'multipart/form-data')
       .set('Cookie', `access-token=${token}`)
-      .attach('picture', path.join(__dirname, 'mocks', 'mock.txt'));
+      .attach('picture', path.join(__dirname, '..', 'mocks', 'mock.txt'));
     expect(response.status).toBe(http.BAD_REQUEST);
   });
 });
