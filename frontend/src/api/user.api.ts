@@ -21,6 +21,11 @@ export const login = async (data: LoginProps) => {
   return response.data;
 };
 
+export const refreshToken = async () => {
+  const response = await httpClient.post('/login/refresh');
+  return response.data;
+};
+
 export const logout = async () => {
   const response = await httpClient.post('/logout');
   return response.data;
