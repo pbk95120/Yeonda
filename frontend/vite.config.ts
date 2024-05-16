@@ -9,6 +9,13 @@ export default defineConfig({
   plugins: [react(), svgr({ include: '**/*.svg?react' }), tsconfigPaths()],
   server: {
     port: 3000,
+    proxy: {
+      '/api': {
+        target: 'http://yeonda.prgms-fullcycle.com:8080/',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+    },
   },
   resolve: {
     alias: {
