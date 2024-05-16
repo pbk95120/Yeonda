@@ -19,33 +19,33 @@ const GenderSelection = ({ setValue, register, errors, gender }: GenderSelection
   };
 
   return (
-    <fieldset className='pb-2 h-32'>
+    <fieldset className='h-32 pb-2'>
       <legend className='mb-2 text-sm'>성별</legend>
       <input
         type='text'
         value={activeGender}
         {...register('gender', { required: true })}
-        className='border-none bg-transparent text-sm'
+        className='bg-transparent border-none text-sm'
         hidden
       />
-      <div className='flex items-center mb-4'>
+      <div className='mb-4 flex items-center'>
         <Button
-          color={activeGender === 'male' ? 'blue' : 'lightgray'}
+          color={activeGender === 'Male' ? 'blue' : 'lightgray'}
           type='button'
           size='medium'
           children='남성'
-          onClick={() => handleGenderSelection('male')}
+          onClick={() => handleGenderSelection('Male')}
           className='mr-4'
         />
         <Button
-          color={activeGender === 'female' ? 'pastelred' : 'lightgray'}
+          color={activeGender === 'Female' ? 'pastelred' : 'lightgray'}
           type='button'
           size='medium'
           children='여성'
-          onClick={() => handleGenderSelection('female')}
+          onClick={() => handleGenderSelection('Female')}
         />
       </div>
-      {errors.gender && <p className='text-red text-xs'>성별을 선택해주세요</p>}
+      {errors.gender && <p className='text-xs text-red'>성별을 선택해주세요</p>}
     </fieldset>
   );
 };

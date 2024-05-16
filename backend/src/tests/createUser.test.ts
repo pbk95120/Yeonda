@@ -1,5 +1,5 @@
-import { databaseConnector } from '@middlewares/databaseConnector';
-import app from '@src/app';
+import { databaseConnector } from '@middlewares/databaseConnector.middleware';
+import { server } from '@src/app';
 import Database from '@src/db';
 import fs from 'fs';
 import http from 'http-status-codes';
@@ -18,14 +18,14 @@ const deleteFile = (path: string) => {
 };
 
 const cleanUp = async (conn: Connection): Promise<void> => {
-  let sql = "select picture_url from user where email = 'faker@gmail.com'";
+  let sql = "select picture_url from user where email like '%faker%'";
   const [result] = await conn.execute(sql);
   if (result[0]) deleteFile(result[0].picture_url);
 
-  sql = "delete from user where email = 'faker@gmail.com'";
+  sql = "delete from user where email like '%faker%'";
   await conn.execute(sql);
 
-  sql = 'delete from address where id != 1';
+  sql = "delete from address where detail = '충청남도 아산시 염치읍 현충사길 126'";
   await conn.execute(sql);
 
   return;
@@ -49,10 +49,18 @@ describe('POST /signup 회원 가입 요청', () => {
   let form;
 
   const requestFn = async () => {
-    let agent = request(app)
+    let agent = request(server)
       .post('/signup')
       .set('Content-Type', 'multipart/form-data')
       .attach('picture', path.join(__dirname, 'mocks', 'mock.png'));
+    for (const [key, value] of Object.entries(form)) {
+      agent.field(key, value);
+    }
+    return agent;
+  };
+
+  const requestFn2 = async () => {
+    let agent = request(server).post('/signup').set('Content-Type', 'multipart/form-data');
     for (const [key, value] of Object.entries(form)) {
       agent.field(key, value);
     }
@@ -76,15 +84,42 @@ describe('POST /signup 회원 가입 요청', () => {
     };
   });
 
-  it('정상 요청', async () => {
+  it('사진을 포함한 정상 요청', async () => {
     const response = await requestFn();
     expect(response.status).toBe(http.CREATED);
 
     const result = await databaseConnector(async (conn: Connection) => {
       const sql = "select id from user where email = 'faker@gmail.com'";
       const [result] = await conn.execute(sql);
-      return result;
-    });
+      return result[0];
+    })();
+    if (!result) fail();
+  });
+
+  it('사진을 포함하지 않은 정상 요청', async () => {
+    form.email = 'faker2@gmail.com';
+    const response = await requestFn2();
+    expect(response.status).toBe(http.CREATED);
+
+    const result = await databaseConnector(async (conn: Connection) => {
+      const sql = "select id from user where email = 'faker2@gmail.com'";
+      const [result] = await conn.execute(sql);
+      return result[0];
+    })();
+    if (!result) fail();
+  });
+
+  it('새로운 주소로 정상 요청', async () => {
+    form.email = 'faker3@gmail.com';
+    form.address = '충청남도 아산시 염치읍 현충사길 126';
+    const response = await requestFn2();
+    expect(response.status).toBe(http.CREATED);
+
+    const result = await databaseConnector(async (conn: Connection) => {
+      const sql = "select id from user where email = 'faker3@gmail.com'";
+      const [result] = await conn.execute(sql);
+      return result[0];
+    })();
     if (!result) fail();
   });
 
@@ -96,7 +131,7 @@ describe('POST /signup 회원 가입 요청', () => {
 
   it('잘못된 비밀번호 양식', async () => {
     form.password = 'password!@';
-    form.password = 'password!@';
+    form.password_check = 'password!@';
     const response = await requestFn();
     expect(response.status).toBe(http.BAD_REQUEST);
   });
@@ -108,7 +143,7 @@ describe('POST /signup 회원 가입 요청', () => {
   });
 
   it('잘못된 파일 양식', async () => {
-    let agent = request(app)
+    let agent = request(server)
       .post('/signup')
       .set('Content-Type', 'multipart/form-data')
       .attach('picture', path.join(__dirname, 'mocks', 'mock.txt'));

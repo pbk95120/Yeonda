@@ -84,12 +84,12 @@ const routeList = [
   {
     path: '/tutorial',
     element: <TutorialPage />,
-    showHeader: true,
+    showHeader: false,
     showFooter: false,
-    onlyLogo: true,
+    onlyLogo: false,
     value: '박상하킹갓',
     backBtn: false,
-    cancelStr: true,
+    cancelStr: false,
   },
   {
     path: '/admin/statistics',
@@ -255,8 +255,8 @@ const router = createBrowserRouter(
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
   </React.StrictMode>,
 );

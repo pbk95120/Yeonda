@@ -17,7 +17,7 @@ interface PreferenceFormInputs {
   endAge: number;
 }
 
-const tags = ['롤토체스', '농구', '게임', '우주파괴', '취뽀']  
+const tags = [{id:1 ,name:'롤토체스'}, {id:2 ,name:'농구'}, {id:3 ,name:'우주파괴'}, {id:4 ,name:'취뽀'}, {id:5 ,name:'롤토체스'}]  
 
 const MyPref=()=>{
   
