@@ -5,7 +5,7 @@ import { PreferenceFormInputs } from '../join/Preference';
 interface PreferGenderModalProps {
   selectedGender: string;
   setSelectedGender: (gender: 'Male' | 'Female' | 'Neutral' | '') => void;
-  setValue: UseFormSetValue<PreferenceFormInputs>;
+  setValue?: UseFormSetValue<PreferenceFormInputs>;
   closeModal: () => void;
   handleBackgroundClick: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
@@ -31,7 +31,7 @@ const PreferGenderModal = ({
               size='medium'
               children='남성'
               onClick={() => {
-                setValue('preferGender', 'Male', { shouldValidate: true });
+                {setValue ? setValue('preferGender', 'Male', { shouldValidate: true }):null}
                 setSelectedGender('Male');
                 closeModal();
               }}
@@ -42,7 +42,7 @@ const PreferGenderModal = ({
               size='medium'
               children='여성'
               onClick={() => {
-                setValue('preferGender', 'Female', { shouldValidate: true });
+                {setValue ? setValue('preferGender', 'Female', { shouldValidate: true }): null}
                 setSelectedGender('Female');
                 closeModal();
               }}
@@ -54,7 +54,7 @@ const PreferGenderModal = ({
             size='large'
             children='무관'
             onClick={() => {
-              setValue('preferGender', 'Neutral', { shouldValidate: true });
+              {setValue? setValue('preferGender', 'Neutral', { shouldValidate: true }):null}
               setSelectedGender('Neutral');
               closeModal();
             }}
