@@ -34,7 +34,7 @@ export const createClient = (config?: AxiosRequestConfig) => {
 
 export const httpClient = createClient();
 
-type RequestMethod = 'get' | 'post' | 'put' | 'delete';
+type RequestMethod = 'get' | 'post' | 'put' | 'delete' | 'patch';
 
 export const requestHandler = async <T>(method: RequestMethod, url: string, payload?: T) => {
   let response;
@@ -50,6 +50,9 @@ export const requestHandler = async <T>(method: RequestMethod, url: string, payl
       break;
     case 'delete':
       response = await httpClient.delete(url);
+      break;
+    case 'patch':
+      response = await httpClient.patch(url, payload);
       break;
   }
   return response.data;
