@@ -33,20 +33,6 @@ const JoinPage = () => {
 
   const join = () => {
     const formData = new FormData();
-    // const data = {
-    //   nickname,
-    //   email,
-    //   password,
-    //   passwordCheck,
-    //   birth: formatBirth(year, month, day),
-    //   address,
-    //   gender,
-    //   prefer_gender: preferGender,
-    //   distance,
-    //   startAge,
-    //   endAge,
-    //   tags: tags.map((tag) => tag.id),
-    // };
     formData.append('nickname', nickname);
     formData.append('email', email);
     formData.append('password', password);
@@ -58,9 +44,15 @@ const JoinPage = () => {
     formData.append('distance', distance.toString());
     formData.append('start_age', startAge.toString());
     formData.append('end_age', endAge.toString());
-    formData.append('tags', tags.map((tag) => tag.id).join(','));
+    formData.append(
+      'tags',
+      tags
+        .map((tag) => tag.id)
+        .join(',')
+        .toString(),
+    );
 
-    picture_url ? formData.append('picture_url', picture_url) : null;
+    picture_url ? formData.append('picture', picture_url) : null;
 
     for (let [key, value] of formData.entries()) {
       console.log(key, value);
