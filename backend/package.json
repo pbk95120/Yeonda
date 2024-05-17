@@ -37,7 +37,6 @@
     "@joi/date": "^2.1.1",
     "axios": "^1.6.8",
     "bcrypt": "^5.1.1",
-    "compute-cosine-similarity": "^1.1.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
