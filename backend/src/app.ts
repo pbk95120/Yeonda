@@ -1,5 +1,5 @@
 import { errorHandler } from '@middlewares/errorHandler.middleware';
-import ChatsRoute from '@routes/chats.route';
+import ChatRoute from '@routes/chat.route';
 import DiaryRoute from '@routes/diary.route';
 import LoginRoute from '@routes/login.route';
 import LogoutRoute from '@routes/logout.route';
@@ -36,6 +36,7 @@ const io = new Server(server, {
   path: '/chat',
   cors: {
     origin: process.env.CORS_ALLOWED_ORIGIN,
+    credentials: true,
   },
   pingTimeout: 1200000,
 });
@@ -51,7 +52,7 @@ app.use('/profile/my', MyProfileRoute);
 app.use('/profile/your', YourProfileRoute);
 app.use('/diary/my', MyDiaryRoute);
 app.use('/diary/your', YourDiaryRoute);
-app.use('/chatlist', ChatsRoute);
+app.use('/chatlist', ChatRoute);
 app.use('/diary', DiaryRoute);
 app.use('/admin/user', AdminRoute);
 
