@@ -1,3 +1,4 @@
+import { insertDiary } from '@databases/diary/insertDiary.database';
 import { selectFirstRandomDiary } from '@databases/diary/selectFirstRandomDiary.database';
 import { selectPopularDiaries } from '@databases/diary/selectPopularDiaries.database';
 import { selectRandomDiary } from '@databases/diary/selectRandomDiary.database';
@@ -5,7 +6,12 @@ import { selectTaggedPopularDiaries } from '@databases/diary/selectTaggedPopular
 import { updateLike } from '@databases/diary/updateLike.database';
 import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { Controller } from '@schemas/controller.schema';
-import { PositiveIntegerURLSchema, PreferIdRequestSchema, PreferencesRequestSchema } from '@schemas/diary.schema';
+import {
+  CreateDiarySchema,
+  PositiveIntegerURLSchema,
+  PreferIdRequestSchema,
+  PreferencesRequestSchema,
+} from '@schemas/diary.schema';
 import CustomError from '@src/error';
 import http from 'http-status-codes';
 
@@ -44,4 +50,12 @@ export const getTaggedPopularDiaries: Controller = async (req, res) => {
 
   const diaries = await databaseConnector(selectTaggedPopularDiaries)(req.params.tag_id);
   res.status(http.OK).json(diaries);
+};
+
+export const createDiary: Controller = async (req, res) => {
+  const { error } = CreateDiarySchema.validate(req.body);
+  if (error) throw new CustomError(http.BAD_REQUEST, '유효하지 않은 일기 작성 양식', error);
+
+  await databaseConnector(insertDiary)(req.body);
+  res.sendStatus(http.CREATED);
 };
