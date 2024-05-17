@@ -55,19 +55,11 @@ const Preference = ({
     setStartAge(data.startAge);
     setEndAge(data.endAge);
 
-    console.log(
-      getValues('gender'),
-      getValues('preferGender'),
-      getValues('distance'),
-      getValues('startAge'),
-      getValues('endAge'),
-    );
-
     setPage(3);
   };
 
   return (
-    <div className='px-10 relative'>
+    <div className='relative px-10'>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className='items-center justify-center '>
           <GenderSelection setValue={setValue} register={register} errors={errors} gender={gender} />
@@ -75,7 +67,7 @@ const Preference = ({
           <AgeRangeInput setValue={setValue} getValues={getValues} startAge={startAge} endAge={endAge} />
           <DistanceInput setValue={setValue} getValues={getValues} distance={distance} />
         </div>
-        <div className='flex items-center gap-x-2 absolute top-[500px] '>
+        <div className='absolute top-[500px] flex items-center gap-x-2 '>
           <Button
             type='button'
             size='medium'
@@ -90,26 +82,6 @@ const Preference = ({
           <Button type='submit' size='medium' color='pastelred' children='다음' />
         </div>
       </form>
-
-      <button
-        onClick={() => {
-          console.log(getValues('gender'));
-          console.log(getValues('preferGender'));
-          console.log(getValues('distance'));
-          console.log(getValues('startAge'));
-          console.log(getValues('endAge'));
-        }}
-      >
-        변수확인
-      </button>
-      <br />
-      <button
-        onClick={() => {
-          setPage(3);
-        }}
-      >
-        임시버튼
-      </button>
     </div>
   );
 };

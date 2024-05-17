@@ -64,8 +64,6 @@ const TestPage = () => {
     setSelectedButton(button);
   };
 
-  const [cookies, setCookie] = useCookies(['access-token']);
-
   const TestButton = () => {
     const handleSignupTest = async () => {
       try {
