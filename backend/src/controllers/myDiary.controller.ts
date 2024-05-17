@@ -8,13 +8,7 @@ import http from 'http-status-codes';
 
 export const getMyDiary: Controller = async (req, res) => {
   const MyDiary = await databaseConnector(selectMyDiary)(parseInt(req.body.user_id));
-  const transTags = MyDiary.map((item) => {
-    return {
-      ...item,
-      tags: JSON.parse(item.tags),
-    };
-  });
-  res.status(http.OK).json(transTags);
+  res.status(http.OK).json(MyDiary);
 };
 
 export const getMyDiaryDetail: Controller = async (req, res) => {
