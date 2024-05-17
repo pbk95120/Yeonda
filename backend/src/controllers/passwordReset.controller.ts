@@ -1,13 +1,13 @@
-import { sendPasswordResetEmail } from '@databases/sendPasswordResetEmail.database';
-import { updatePassword } from '@databases/updatePassword.database';
-import { validatePasswordResetCode } from '@databases/validatePasswordResetCode.database';
+import { sendPasswordResetEmail } from '@databases/passwordReset/sendPasswordResetEmail.database';
+import { updatePassword } from '@databases/passwordReset/updatePassword.database';
+import { validatePasswordResetCode } from '@databases/passwordReset/validatePasswordResetCode.database';
 import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { Controller } from '@schemas/controller.schema';
 import { PasswordConfirmSchema, VerifyCodeSchema } from '@schemas/passwordReset.schema';
 import { EmailSchema } from '@schemas/signup.schema';
 import CustomError from '@src/error';
 import { getEncryptPassword } from '@utils/getEncryptPassword';
-import { issueToken } from '@utils/issueToken';
+import { issueAccessToken } from '@utils/issueToken';
 import http from 'http-status-codes';
 
 export const requestPasswordReset: Controller = async (req, res) => {
@@ -24,7 +24,7 @@ export const verifyPasswordReset: Controller = async (req, res) => {
 
   const user_id = await databaseConnector(validatePasswordResetCode)(req.body);
 
-  const token = issueToken(user_id, req.body.email);
+  const token = issueAccessToken(user_id, req.body.email);
   res.cookie('access-token', token, {
     sameSite: process.env.NODE_ENV === 'development' ? 'lax' : 'none',
     secure: process.env.NODE_ENV !== 'development',

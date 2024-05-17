@@ -1,4 +1,4 @@
-import { selectYourProfile } from '@databases/selectYourProfile.database';
+import { selectYourProfile } from '@databases/yourProfile/selectYourProfile.database';
 import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { Controller } from '@schemas/controller.schema';
 import { UserIDParamsSchema } from '@schemas/yourProfile.schema';

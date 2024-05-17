@@ -23,6 +23,10 @@ export interface FirstRandomDiaryResponse extends Diary {
   prefer_id: User['id'][];
 }
 
+export const PositiveIntegerSchema = Joi.number().integer().positive().strict().required();
+export const PositiveIntegerURLSchema = Joi.string()
+  .pattern(/^[1-9]\d*$/)
+  .required();
 export const PositiveIntegerArraySchema = Joi.array().items(Joi.number().integer().positive().strict()).required();
 
 export const TagsSchema = PositiveIntegerArraySchema.label('Tags');
@@ -44,3 +48,5 @@ export const PreferIdRequestSchema = LogonSchema.concat(Joi.object({ prefer_id: 
 export interface UsualRandomDiary extends Diary {
   tags: Tag['id'][];
 }
+
+export interface PopularDiaries extends UsualRandomDiary {}

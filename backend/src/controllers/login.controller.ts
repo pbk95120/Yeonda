@@ -1,9 +1,12 @@
-import { selectUserforLogin } from '@databases/selectUserforLogin.database';
+import { selectUserforLogin } from '@databases/login/selectUserforLogin.database';
 import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { Controller } from '@schemas/controller.schema';
 import { Login, LoginSchema } from '@schemas/login.schema';
 import CustomError from '@src/error';
-import { issueToken } from '@utils/issueToken';
+import { getLogonFromExpiredAccessToken } from '@utils/getLogonFromExpiredAccessToken';
+import { getLogonFromToken } from '@utils/getLogonFromToken';
+import { issueAccessToken, issueRefreshToken } from '@utils/issueToken';
+import { setLoginCookie } from '@utils/setLoginCookie';
 import http from 'http-status-codes';
 
 export const proceedLogin: Controller = async (req, res) => {
@@ -12,13 +15,31 @@ export const proceedLogin: Controller = async (req, res) => {
 
   const { email, password }: Login = req.body;
   const user_id = await databaseConnector(selectUserforLogin)(email, password);
-  const token = issueToken(user_id, email);
+  const accessToken = issueAccessToken(user_id, email);
+  const refreshToken = issueRefreshToken(user_id, email);
 
-  res.cookie('access-token', token, {
-    sameSite: process.env.NODE_ENV === 'development' ? 'lax' : 'none',
-    secure: process.env.NODE_ENV !== 'development',
-    httpOnly: true,
-    maxAge: 1000 * 60 * 10,
-  });
+  setLoginCookie(res, accessToken, refreshToken);
+
   res.sendStatus(http.OK);
+};
+
+export const refreshUser: Controller = async (req, res) => {
+  const accessToken = req.cookies['access-token'];
+  if (!accessToken) throw new CustomError(http.UNAUTHORIZED, '만료된 엑세스 토큰 없음');
+  const decoded = getLogonFromExpiredAccessToken(accessToken);
+
+  const refreshToken = req.cookies['refresh-token'];
+  if (!refreshToken) throw new CustomError(http.UNAUTHORIZED, '유효한 리프레시 토큰 없음');
+  const refresh = getLogonFromToken(refreshToken, true);
+
+  if (decoded.user_id === refresh.user_id && decoded.email === refresh.email) {
+    const newAccessToken = issueAccessToken(refresh.user_id, refresh.email);
+    const newRefreshToken = issueRefreshToken(refresh.user_id, refresh.email);
+
+    setLoginCookie(res, newAccessToken, newRefreshToken);
+
+    res.sendStatus(http.OK);
+  } else {
+    res.sendStatus(http.UNAUTHORIZED);
+  }
 };
