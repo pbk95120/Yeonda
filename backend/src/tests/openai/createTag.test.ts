@@ -1,6 +1,8 @@
 import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { server } from '@src/app';
 import Database from '@src/db';
+import { issueAccessToken } from '@src/utils/issueToken';
+import 'dotenv/config';
 import http from 'http-status-codes';
 import { Connection } from 'mysql2/promise';
 import request from 'supertest';
@@ -26,8 +28,14 @@ afterAll(async () => {
 });
 
 describe('POST /openai/embedding/tag 태그 생성', () => {
+  let token;
+
+  beforeEach(() => {
+    token = issueAccessToken(parseInt(process.env.ADMIN_ID), process.env.ADMIN_EMAIL);
+  });
+
   it('정상 요청', async () => {
-    const response = await request(server).post('/openai/embedding/tag').send({
+    const response = await request(server).post('/openai/embedding/tag').set('Cookie', `access-token=${token}`).send({
       tag: '새로운 태그 생성 테스트',
     });
     expect(response.status).toBe(http.CREATED);
@@ -39,22 +47,37 @@ describe('POST /openai/embedding/tag 태그 생성', () => {
     })();
   });
 
-  it('키가 잘못된 요청 양식', async () => {
+  it('토큰 없음', async () => {
     const response = await request(server).post('/openai/embedding/tag').send({
+      tag: '새로운 태그 생성 테스트',
+    });
+    expect(response.status).toBe(http.UNAUTHORIZED);
+  });
+
+  it('관리자 아님', async () => {
+    token = issueAccessToken(1, 'constant@gmail.com');
+    const response = await request(server).post('/openai/embedding/tag').set('Cookie', `access-token=${token}`).send({
+      tag: '새로운 태그 생성 테스트',
+    });
+    expect(response.status).toBe(http.UNAUTHORIZED);
+  });
+
+  it('키가 잘못된 요청 양식', async () => {
+    const response = await request(server).post('/openai/embedding/tag').set('Cookie', `access-token=${token}`).send({
       tags: '새로운 태그 생성 테스트',
     });
     expect(response.status).toBe(http.BAD_REQUEST);
   });
 
   it('값이 잘못된 요청 양식', async () => {
-    const response = await request(server).post('/openai/embedding/tag').send({
+    const response = await request(server).post('/openai/embedding/tag').set('Cookie', `access-token=${token}`).send({
       tag: 123,
     });
     expect(response.status).toBe(http.BAD_REQUEST);
   });
 
   it('이미 존재하는 태그', async () => {
-    const response = await request(server).post('/openai/embedding/tag').send({
+    const response = await request(server).post('/openai/embedding/tag').set('Cookie', `access-token=${token}`).send({
       tag: '카페',
     });
     expect(response.status).toBe(http.CONFLICT);
