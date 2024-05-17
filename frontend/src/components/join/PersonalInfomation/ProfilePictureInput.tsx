@@ -25,13 +25,20 @@ const ProfilePictureInput = ({ onImageChange }: ProfilePictureInputProps) => {
     <div>
       <fieldset>
         <legend className='pb-2 text-sm'>프로필 사진</legend>
-        <label htmlFor='profileImage' className='cursor-pointer inline-block'>
+        <label htmlFor='picture_url' className='inline-block cursor-pointer'>
           {image ? (
-            <img src={image} alt='Profile' className='w-[72px] h-[72px] rounded-full mb-4' />
+            <img src={image} alt='Profile' className='mb-4 h-[72px] w-[72px] rounded-full' />
           ) : (
-            <img src={SVG} alt='Profile' className='w-[72px] h-[72px] rounded-full mb-4' />
+            <img src={SVG} alt='Profile' className='mb-4 h-[72px] w-[72px] rounded-full' />
           )}
-          <input id='profileImage' type='file' accept='image/*' onChange={handleImageChange} className='hidden' />
+          <input
+            id='picture_url'
+            type='file'
+            name='picture_url'
+            accept='image/*'
+            onChange={handleImageChange}
+            className='hidden'
+          />
         </label>
       </fieldset>
     </div>

@@ -4,7 +4,6 @@ import axios from 'axios';
 import { example } from '@/api/sample.api';
 import DaumPostcode from 'react-daum-postcode';
 import { getEmail, useAuthStore } from '@/store/authStore';
-import { useCookies } from 'react-cookie';
 
 import {
   Chart as ChartJS,
@@ -63,8 +62,6 @@ const TestPage = () => {
   const handleClick = (button: string) => {
     setSelectedButton(button);
   };
-
-  const [cookies, setCookie] = useCookies(['access-token']);
 
   const TestButton = () => {
     const handleSignupTest = async () => {

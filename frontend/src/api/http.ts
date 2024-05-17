@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { DEFAULT_TIMEOUT } from '@/constants/constants';
 import { useAuthStore } from '@/store/authStore';
+import { refreshToken } from './user.api';
 
 /**
  * Axios 인스턴스 생성
@@ -16,14 +17,18 @@ export const createClient = (config?: AxiosRequestConfig) => {
     ...config,
   });
   axiosInstance.interceptors.request.use(
-    (response) => {
+    async (response) => {
       return response;
     },
-    (error) => {
+    async (error) => {
       if (error.response.status === 401) {
-        window.location.href = '/login';
-        useAuthStore.getState().storeLogout();
-        return;
+        try {
+          await refreshToken();
+        } catch (e) {
+          window.location.href = '/login';
+          useAuthStore.getState().storeLogout();
+          return Promise.reject(e);
+        }
       }
       return Promise.reject(error);
     },
