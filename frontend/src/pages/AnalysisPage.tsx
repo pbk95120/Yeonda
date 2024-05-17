@@ -1,8 +1,10 @@
 import { analysis } from '@/api/admin.api';
+import { refreshToken } from '@/api/user.api';
 import DoughnutChart from '@/components/admin/Doughtnut';
 import Graph from '@/components/admin/Graph';
 import Sidebar from '@/components/admin/Sidebar';
 import UserList from '@/components/admin/UserList';
+import { useAuthStore } from '@/store/authStore';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
@@ -18,6 +20,7 @@ interface avgData {
 }
 
 const AnalysisPage = () => {
+  const { storeLogout } = useAuthStore();
   const [male, setMale] = useState<number>(0);
   const [female, setFemale] = useState<number>(0);
   const [avgDiaryCount, setAvgDiaryCount] = useState<number[]>([]);
@@ -41,8 +44,16 @@ const AnalysisPage = () => {
         setDormantUser(data.twoWeeksUserList);
       },
       () => {
-        alert('admin만 접근 가능합니다.');
-        window.location.href = '/othersdiary/suggestion';
+        refreshToken().then(
+          () => {
+            window.location.reload();
+          },
+          () => {
+            alert('admin만 접근 가능합니다.');
+            storeLogout();
+            window.location.href = '/login';
+          },
+        );
       },
     );
   }, []);
