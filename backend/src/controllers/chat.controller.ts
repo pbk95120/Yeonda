@@ -1,7 +1,8 @@
 import { selectChatlist } from '@databases/chat/selectChatlist.database';
+import { dislikedCouple } from '@databases/chat/deleteRelationship.database';
 import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { Controller } from '@schemas/controller.schema';
-import { partnerChatlistSchema } from '@schemas/chat.schema';
+import { UserIDParamsSchema, partnerChatlistSchema } from '@schemas/chat.schema';
 import CustomError from '@src/error';
 import http from 'http-status-codes';
 
@@ -17,8 +18,12 @@ export const getChatlist: Controller = async (req, res) => {
 };
 
 export const deleteRelationship: Controller = async (req, res) => {
-  const email = req.body.email;
-  const user2_id = req.params.user2_id;
+  const { error } = UserIDParamsSchema.validate(req.params?.user2_id);
+  if (error) throw new CustomError(http.BAD_REQUEST, '잘못된 사용자 ID 양식', error);
 
-  // await databaseConnector(archiveCouple)(email, user2_id);
+  const { user_id } = req.body;
+  const { user2_id } = req.params;
+
+  await databaseConnector(dislikedCouple)(parseInt(user2_id), parseInt(user_id));
+  res.sendStatus(http.OK);
 };

@@ -28,3 +28,9 @@ export const partnerChatlistSchema = Joi.object({
   is_read: Joi.number().integer().required(),
   commu_streak: Joi.number().integer().required(),
 });
+
+export const UserIDParamsSchema = Joi.string().pattern(/^[1-9]\d*$/);
+
+export const partnerSchema = Joi.object({
+  id: Joi.number().integer().positive().required(),
+});
