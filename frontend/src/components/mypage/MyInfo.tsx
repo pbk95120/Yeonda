@@ -6,12 +6,22 @@ import AddressModal from '../common/AddressModal';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '@/api/user.api';
 import { useAuthStore } from '@/store/authStore';
+import { getMyPage } from '@/api/mypage.api';
 
 const MyInfo = () => {
   const { storeLogout } = useAuthStore();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [address, setAddress] = useState<string>('');
   const navigate = useNavigate();
+  const [picture_url, setPicture_url] = useState<string>('');
+  const [address, setAddress] = useState<string>('');
+
+  useEffect(() => {
+    getMyPage().then((data) => {
+      const { picture_url, detail } = data;
+      setPicture_url(picture_url);
+      setAddress(detail);
+    });
+  }, [getMyPage]);
 
   const handleAddressSelection = (address: string) => {
     setAddress(address);

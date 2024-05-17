@@ -14,6 +14,7 @@ const MyPage = () => {
     getMyPage().then((data) => {
       const { nickname, gender, birth, tags, picture_url, detail } = data;
       setGender(gender);
+      console.log(data);
       setNickname(nickname);
       setAge(calculateAge(birth));
       setTags(tags);
