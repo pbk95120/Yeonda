@@ -13,7 +13,6 @@ const Balloons = ({ setPage, page }: BalloonsProps) => {
 
   return (
     <div
-      w-
       className={`full relative flex flex-col items-center justify-center ${page == 0 ? 'translate-y-[300px]' : 'translate-y-[410px]'}`}
     >
       <div className='h-[180px] w-[324px] rounded-xl bg-peach p-8 py-4 shadow-2xl '>

@@ -19,11 +19,13 @@ import MyPage from '@/pages/MyPage';
 import SettingPage from '@/pages/SettingPage';
 import WithdrawalPage from '@/pages/WithdrawalPage';
 import WriteDiaryPage from '@/pages/WriteDiaryPage';
-import ChatPage from '@/pages/ChatPage';
+import ChatPage from '@/pages/ChatListPage';
 import ChatDetailPage from '@/pages/ChatDetailPage';
 import ChatProfilePage from '@/pages/ChatProfilePage';
 import ErrorPage from '@/pages/ErrorPage';
 import OthersDiaryPage from './pages/OthersDiaryPage';
+import PreferencePage from './pages/PreferencePage';
+
 
 const queryClient = new QueryClient();
 
@@ -158,10 +160,20 @@ const routeList = [
     element: <SettingPage />,
     showHeader: true,
     showFooter: false,
-    onlyLogo: true,
-    value: '박상하킹갓',
-    backBtn: false,
-    cancelStr: true,
+    onlyLogo: false,
+    value: '설정',
+    backBtn: true,
+    cancelStr: false,
+  },
+  {
+    path: '/mypage/setting/preference',
+    element: <PreferencePage />,
+    showHeader: true,
+    showFooter: false,
+    onlyLogo: false,
+    value: '관심사',
+    backBtn: true,
+    cancelStr: false,
   },
   {
     path: '/withdrawal',
@@ -170,8 +182,8 @@ const routeList = [
     showFooter: false,
     onlyLogo: true,
     value: '박상하킹갓',
-    backBtn: false,
-    cancelStr: true,
+    backBtn: true,
+    cancelStr: false,
   },
   {
     path: '/writeDiary',
@@ -243,8 +255,8 @@ const router = createBrowserRouter(
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
   </React.StrictMode>,
 );

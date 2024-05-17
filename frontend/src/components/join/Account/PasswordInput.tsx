@@ -6,9 +6,11 @@ interface PasswordInputProps {
   register: UseFormRegister<AccountFormInputs>;
   errors: FieldErrors<AccountFormInputs>;
   getValues: UseFormGetValues<AccountFormInputs>;
+  password: string;
+  passwordCheck: string;
 }
 
-const PasswordInput = ({ register, errors, getValues }: PasswordInputProps) => {
+const PasswordInput = ({ register, errors, password, passwordCheck, getValues }: PasswordInputProps) => {
   return (
     <>
       <fieldset className='pb-1 h-24 relative'>
@@ -17,6 +19,7 @@ const PasswordInput = ({ register, errors, getValues }: PasswordInputProps) => {
           <Input
             inputFor='default'
             type='password'
+            defaultValue={password}
             placeholder='비밀번호'
             register={{ ...register('password', { required: true, minLength: 5, maxLength: 20, pattern: /^[^\s]+$/ }) }}
             className='flex-grow p-2 border rounded w-full'
@@ -30,6 +33,7 @@ const PasswordInput = ({ register, errors, getValues }: PasswordInputProps) => {
           <Input
             inputFor='default'
             type='password'
+            defaultValue={passwordCheck}
             placeholder='비밀번호 확인'
             className='w-full p-2 border rounded'
             register={{
@@ -38,6 +42,7 @@ const PasswordInput = ({ register, errors, getValues }: PasswordInputProps) => {
                 minLength: 5,
                 maxLength: 20,
                 pattern: /^[^\s]+$/,
+                validate: (value: string) => value === getValues('password'),
               }),
             }}
           />

@@ -5,9 +5,12 @@ interface BirthdateInputProps {
   register: UseFormRegister<PersonalInformationFormInputs>;
   errors: FieldErrors<PersonalInformationFormInputs>;
   setValue: UseFormSetValue<PersonalInformationFormInputs>;
+  year: number;
+  month: number;
+  day: number;
 }
 
-const BirthdateInput = ({ register, errors, setValue }: BirthdateInputProps) => {
+const BirthdateInput = ({ register, errors, setValue, year, month, day }: BirthdateInputProps) => {
   const generateOptions = (start: number, end: number): React.ReactNode[] => {
     const options: React.ReactNode[] = [];
     for (let i = start; i <= end; i++) {
@@ -21,16 +24,17 @@ const BirthdateInput = ({ register, errors, setValue }: BirthdateInputProps) => 
   };
 
   return (
-    <fieldset className='pb-2 h-28'>
+    <fieldset className='h-28 pb-2'>
       <legend className='mb-2 text-sm'>생년월일</legend>
-      <input type='text' hidden {...register('year', { required: true })} />
-      <input type='text' hidden {...register('month', { required: true })} />
-      <input type='text' hidden {...register('day', { required: true })} />
-      <div className='w-full flex items-center align-between gap-x-2'>
+      <input defaultValue={year} type='text' hidden {...register('year', { required: true, min: 1900, max: 2024 })} />
+      <input defaultValue={month} type='text' hidden {...register('month', { required: true, min: 1, max: 12 })} />
+      <input defaultValue={day} type='text' hidden {...register('day', { required: true, min: 1, max: 31 })} />
+      <div className='align-between flex w-full items-center gap-x-2'>
         <div className='relative w-full'>
           <select
-            className='w-full p-2 border border-lightgray rounded-xl text-center appearance-none focus:border-pastelred focus:outline-none'
+            className='w-full appearance-none rounded-xl border border-lightgray p-2 text-center focus:border-pastelred focus:outline-none'
             onChange={(e) => setValue('year', parseInt(e.target.value, 10), { shouldValidate: true })}
+            defaultValue={year}
           >
             <option value='year'>연도</option>
             {generateOptions(1900, 2024)}
@@ -38,8 +42,9 @@ const BirthdateInput = ({ register, errors, setValue }: BirthdateInputProps) => 
         </div>
         <div className='relative w-full'>
           <select
-            className='w-full p-2 border border-lightgray rounded-xl text-center appearance-none focus:border-pastelred focus:outline-none'
+            className='w-full appearance-none rounded-xl border border-lightgray p-2 text-center focus:border-pastelred focus:outline-none'
             onChange={(e) => setValue('month', parseInt(e.target.value, 10), { shouldValidate: true })}
+            defaultValue={month}
           >
             <option value='month'>월</option>
             {generateOptions(1, 12)}
@@ -47,8 +52,9 @@ const BirthdateInput = ({ register, errors, setValue }: BirthdateInputProps) => 
         </div>
         <div className='relative w-full'>
           <select
-            className='w-full p-2 border border-lightgray rounded-xl text-center appearance-none focus:border-pastelred focus:outline-none'
+            className='w-full appearance-none rounded-xl border border-lightgray p-2 text-center focus:border-pastelred focus:outline-none'
             onChange={(e) => setValue('day', parseInt(e.target.value, 10), { shouldValidate: true })}
+            defaultValue={day}
           >
             <option value='day'>일</option>
             {generateOptions(1, 31)}
@@ -57,7 +63,7 @@ const BirthdateInput = ({ register, errors, setValue }: BirthdateInputProps) => 
       </div>
 
       {(errors.year || errors.month || errors.day) && (
-        <span className='text-red text-xs'>생년월일을 정확하게 입력해주세요.</span>
+        <span className='text-xs text-red'>생년월일을 정확하게 입력해주세요.</span>
       )}
     </fieldset>
   );
