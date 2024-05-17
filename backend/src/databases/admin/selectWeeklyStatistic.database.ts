@@ -3,7 +3,7 @@ import { statistic } from '@schemas/admin.schema';
 
 function scaledArray(data) {
   let newArray = Object.values(data[0]).map((value) => value);
-  let normalizedArray = newArray.map((value) => (value == null ? 0 : value));
+  let normalizedArray = newArray.map((value: string) => (value == null ? 0 : parseInt(value)));
   return normalizedArray;
 }
 
