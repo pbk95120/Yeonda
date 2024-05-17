@@ -1,4 +1,4 @@
-import { getMyDiary, getMyDiaryDetail, changeMyDiary, removeMyDiary } from '@controllers/myDiary.controller';
+import { changeMyDiary, getMyDiary, getMyDiaryDetail, removeMyDiary } from '@controllers/myDiary.controller';
 import { authenticateUser } from '@middlewares/authenticateUser.middleware';
 import { controllerWrapper } from '@middlewares/controllerWrapper.middleware';
 import express from 'express';

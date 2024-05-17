@@ -5,6 +5,7 @@ import LoginRoute from '@routes/login.route';
 import LogoutRoute from '@routes/logout.route';
 import MyDiaryRoute from '@routes/myDiary.route';
 import MyProfileRoute from '@routes/myProfile.route';
+import OpenAIRoute from '@routes/openai.route';
 import PasswordResetRoute from '@routes/passwordReset.route';
 import SignoutRoute from '@routes/signout.route';
 import SignupRoute from '@routes/signup.route';
@@ -53,6 +54,7 @@ app.use('/diary/my', MyDiaryRoute);
 app.use('/diary/your', YourDiaryRoute);
 app.use('/chatlist', ChatsRoute);
 app.use('/diary', DiaryRoute);
+app.use('/openai', OpenAIRoute);
 app.use('/admin/user', AdminRoute);
 
 app.use(errorHandler);
