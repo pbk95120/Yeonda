@@ -84,18 +84,18 @@ describe('GET /diary/popular 2주간 인기 일기 5개 요청', () => {
   });
 
   it('결과 없음', async () => {
-    const response = await databaseConnector(async (conn: Connection) => {
+    const code = await databaseConnector(async (conn: Connection) => {
       const sql = `
-        select d.*, json_arrayagg(dt.tag_id) from diary d
-        left join diary_tag dt on d.id = dt.diary_id
-        where d.created_at >= now() - interval 2 week
-        group by d.id
-        order by likes desc
-        limit 0
-        `;
+      select d.*, json_arrayagg(dt.tag_id) as tags from diary d
+      join diary_tag dt on d.id = dt.diary_id
+      where d.created_at >= now() - interval 2 week
+      group by d.id
+      order by likes desc
+      limit 0
+      `;
       const [result] = await conn.execute(sql);
-      return result;
+      if (!result[0]) return http.NOT_FOUND;
     })();
-    expect(response).toEqual([]);
+    expect(code).toEqual(http.NOT_FOUND);
   });
 });

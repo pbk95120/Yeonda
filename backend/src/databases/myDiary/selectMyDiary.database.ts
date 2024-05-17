@@ -1,5 +1,3 @@
-import CustomError from '@src/error';
-import http from 'http-status-codes';
 import { Connection } from 'mysql2/promise';
 
 export const selectMyDiary = async (conn: Connection, my_id: number) => {
@@ -20,5 +18,6 @@ export const selectMyDiary = async (conn: Connection, my_id: number) => {
 
   const values: {} = { my_id: my_id };
   const [result] = await conn.execute(sql, values);
+
   return result;
 };

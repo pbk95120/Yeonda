@@ -18,7 +18,6 @@ export const selectRandomDiary = async (conn: Connection, body: PreferIdRequest)
   let values: {} = { user_id: user_id, prefer_id: prefer_id };
   let [result] = await conn.execute(sql, values);
   if (!result[0]) throw new CustomError(http.NOT_FOUND, '선호할만한 유저이나 작성한 일기가 없거나 이미 좋아요 함');
-  let response = result[0];
 
-  return response as UsualRandomDiary;
+  return result[0] as UsualRandomDiary;
 };

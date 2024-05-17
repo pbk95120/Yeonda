@@ -20,5 +20,6 @@ export const selectTaggedPopularDiaries = async (conn: Connection, tag_id: numbe
   let values = { tag_id: tag_id };
   const [result] = await conn.execute(sql, values);
   if (!result[0]) throw new CustomError(http.NOT_FOUND, '조건에 맞는 인기 일기 없음');
+
   return result as PopularDiaries[];
 };
