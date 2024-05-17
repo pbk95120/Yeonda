@@ -54,9 +54,6 @@ const JoinPage = () => {
 
     picture_url ? formData.append('picture', picture_url) : null;
 
-    for (let [key, value] of formData.entries()) {
-      console.log(key, value);
-    }
     signup(formData).then(
       () => {
         alert('회원가입 성공');
@@ -114,13 +111,6 @@ const JoinPage = () => {
         />
       )}
       {page == 3 && <Interest setTags={setTags} setPage={setPage} tags={tags} join={join} />}
-      <p
-        onClick={() => {
-          console.log(picture_url);
-        }}
-      >
-        asd
-      </p>
     </>
   );
 };

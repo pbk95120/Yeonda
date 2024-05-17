@@ -57,15 +57,6 @@ const PersonalInformation = ({
     setMonth(data.month);
     setDay(data.day);
     setAddress(data.address);
-
-    console.log(
-      getValues('address'),
-      getValues('picture_url'),
-      getValues('year'),
-      getValues('month'),
-      getValues('day'),
-    );
-
     setPage(2);
   };
 
@@ -89,26 +80,6 @@ const PersonalInformation = ({
             onClickModal={() => setIsModalOpen(true)}
           />
         </div>
-        <button
-          onClick={() => {
-            setPage(2);
-          }}
-        >
-          임시버튼
-        </button>
-        <p
-          onClick={() => {
-            console.log(
-              getValues('address'),
-              getValues('picture_url'),
-              getValues('year'),
-              getValues('month'),
-              getValues('day'),
-            );
-          }}
-        >
-          변수확인
-        </p>
 
         <div className='absolute top-[500px] flex items-center gap-x-2'>
           <Button
