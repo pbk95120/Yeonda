@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IoIosArrowBack } from 'react-icons/io';
 import PreferGenderModal from '../common/PreferGenderModal';
 import DistanceInput from '../common/DistanceInput';
@@ -38,6 +38,8 @@ const MyPref = () => {
       closeModal();
     }
   };
+
+  useEffect(() => {}, []);
   return (
     <div className='flex flex-col items-center justify-center'>
       <div className='mt-3 flex h-[86px] w-[339px] flex-col p-3 shadow-lg'>

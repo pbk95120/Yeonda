@@ -6,7 +6,7 @@ import AddressModal from '../common/AddressModal';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '@/api/user.api';
 import { useAuthStore } from '@/store/authStore';
-import { getMyPage } from '@/api/mypage.api';
+import { getMyPageMyInfo } from '@/api/mypage.api';
 
 const MyInfo = () => {
   const { storeLogout } = useAuthStore();
@@ -16,12 +16,12 @@ const MyInfo = () => {
   const [address, setAddress] = useState<string>('');
 
   useEffect(() => {
-    getMyPage().then((data) => {
+    getMyPageMyInfo().then((data) => {
       const { picture_url, detail } = data;
       setPicture_url(picture_url);
       setAddress(detail);
     });
-  }, [getMyPage]);
+  }, [getMyPageMyInfo]);
 
   const handleAddressSelection = (address: string) => {
     setAddress(address);
