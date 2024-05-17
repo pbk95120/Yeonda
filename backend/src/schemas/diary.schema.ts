@@ -1,4 +1,4 @@
-import { Diary, DiarySchema } from '@models/diary.model';
+import { Diary, DiarySchema, DiaryUpdate, DiaryUpdateSchema } from '@models/diary.model';
 import { Preferences } from '@models/preference.model';
 import { Tag } from '@models/tag.model';
 import { User } from '@models/user.model';
@@ -50,3 +50,7 @@ export interface UsualRandomDiary extends Diary {
 }
 
 export interface PopularDiaries extends UsualRandomDiary {}
+
+export interface CreateDiary extends Logon, DiaryUpdate {}
+
+export const CreateDiarySchema = LogonSchema.concat(DiaryUpdateSchema);

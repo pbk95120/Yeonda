@@ -5,7 +5,7 @@ const openai = new OpenAI();
 export const getEmbedding = async (input: string) => {
   try {
     const response = await openai.embeddings.create({
-      model: 'text-embedding-3-small',
+      model: 'text-embedding-3-large',
       input: input,
       encoding_format: 'float',
     });
