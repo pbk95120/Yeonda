@@ -9,16 +9,17 @@ interface AgeRangeInputProps {
   getValues: UseFormGetValues<PreferenceFormInputs>;
   startAge: number;
   endAge: number;
-  className?:string;
+  className?: string;
 }
 
-const AgeRangeInput = ({ setValue, getValues, startAge, endAge ,className}: AgeRangeInputProps) => {
+const AgeRangeInput = ({ setValue, getValues, startAge, endAge, className }: AgeRangeInputProps) => {
   const [age, setAge] = useState([startAge, endAge]);
 
   useEffect(() => {
     setValue('startAge', startAge);
     setValue('endAge', endAge);
-  }, []);
+    setAge([startAge, endAge]);
+  }, [startAge, endAge]);
 
   const handleChange = (_: Event, newValue: number | number[]) => {
     setAge(newValue as number[]);
@@ -29,8 +30,8 @@ const AgeRangeInput = ({ setValue, getValues, startAge, endAge ,className}: AgeR
   };
 
   return (
-    <fieldset className='pb-2 mb-4'>
-      <legend className='text-sm pb-2 flex w-full justify-between'>
+    <fieldset className='mb-4 pb-2'>
+      <legend className='flex w-full justify-between pb-2 text-sm'>
         <span className={className}>선호 나이</span>
         <span className='text-sm'>
           {getValues('startAge') === undefined ? startAge : getValues('startAge')}세 -{' '}

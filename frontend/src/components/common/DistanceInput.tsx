@@ -8,16 +8,17 @@ interface DistanceInputProps {
   setValue: UseFormSetValue<PreferenceFormInputs>;
   getValues: UseFormGetValues<PreferenceFormInputs>;
   className?: string;
-  sliderClassName?:string
+  sliderClassName?: string;
   distance: number;
 }
 
-const DistanceInput = ({ setValue, getValues, distance ,className ,sliderClassName }: DistanceInputProps) => {
+const DistanceInput = ({ setValue, getValues, distance, className, sliderClassName }: DistanceInputProps) => {
   const [currentDistance, setCurrentDistance] = useState(distance);
 
   useEffect(() => {
     setValue('distance', DEFAULT_DISTANCE);
-  }, []);
+    setCurrentDistance(distance);
+  }, [distance]);
 
   const handleChange = (_: Event, value: number | number[]) => {
     setCurrentDistance(value as number);
@@ -25,8 +26,8 @@ const DistanceInput = ({ setValue, getValues, distance ,className ,sliderClassNa
   };
 
   return (
-    <fieldset className='pb-2 w-full'>
-      <legend className='text-sm pb-2 flex w-full justify-between'>
+    <fieldset className='w-full pb-2'>
+      <legend className='flex w-full justify-between pb-2 text-sm'>
         <span className={className}>상대와의 거리</span>
         <span className='text-sm'>{getValues('distance') === undefined ? distance : currentDistance} km</span>
       </legend>
