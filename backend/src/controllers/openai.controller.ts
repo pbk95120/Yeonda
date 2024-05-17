@@ -10,10 +10,10 @@ import OpenAI from 'openai';
 const openai = new OpenAI();
 
 export const createTag: Controller = async (req, res) => {
-  let { error } = adminSchema.validate({ user_id: req.body.user_id, email: req.body.email });
-  if (error) throw new CustomError(http.UNAUTHORIZED, '관리자만 접근 가능', error);
+  const { error: notAdmin } = adminSchema.validate({ user_id: req.body?.user_id, email: req.body?.email });
+  if (notAdmin) throw new CustomError(http.UNAUTHORIZED, '관리자만 접근 가능', notAdmin);
 
-  { error } = CreateTagSchema.validate(req.body);
+  const { error } = CreateTagSchema.validate(req.body);
   if (error) throw new CustomError(http.BAD_REQUEST, '잘못된 태그 생성 요청 양식', error);
 
   const tag = req.body.tag;
