@@ -43,7 +43,9 @@ export interface PreferIdRequest extends Logon {
   prefer_id: User['id'];
 }
 
-export const PreferIdRequestSchema = LogonSchema.concat(Joi.object({ prefer_id: Joi.number().strict() }));
+export const PreferIdRequestSchema = LogonSchema.concat(
+  Joi.object({ prefer_id: Joi.number().integer().positive().strict() }),
+);
 
 export interface UsualRandomDiary extends Diary {
   tags: Tag['id'][];
