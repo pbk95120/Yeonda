@@ -10,7 +10,9 @@ interface DiaryItemProps {
 }
 
 const DiaryItem = ({ diary, onDiaryChange }: DiaryItemProps) => {
-  const { isMyDiaryPage, isEditing, isSuggestionPage, isPopularPage, isChatProfilePage } = useDiaryItemStore();
+  const { isMyDiaryPage, isEditing, isSuggestionPage, isPopularPage } = useDiaryItemStore();
+
+  const tags: [] = typeof diary.tags === 'string' ? JSON.parse(diary.tags) : diary.tags;
 
   const renderTitle = () => {
     if (isEditing) {
@@ -66,7 +68,7 @@ const DiaryItem = ({ diary, onDiaryChange }: DiaryItemProps) => {
   };
 
   const DiaryComponent = (
-    <article className={`${isChatProfilePage ? 'border-b border-lightgray' : ''}`}>
+    <article className={'border-b border-lightgray'}>
       <div className='mx-auto my-[20px] w-[316px] font-diary'>
         <div className='flex justify-between'>
           <div>
@@ -81,13 +83,7 @@ const DiaryItem = ({ diary, onDiaryChange }: DiaryItemProps) => {
     </article>
   );
 
-  return isMyDiaryPage ? (
-    <div className='border-b border-lightgray'>
-      <Link to={`/mydiary/${diary.id}`}>{DiaryComponent}</Link>
-    </div>
-  ) : (
-    DiaryComponent
-  );
+  return isMyDiaryPage ? <Link to={`/mydiary/${diary.id}`}>{DiaryComponent}</Link> : DiaryComponent;
 };
 
 export default DiaryItem;

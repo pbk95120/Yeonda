@@ -1,23 +1,56 @@
-import DoughnutChart from '@/components/admin/Doughtnut';
+import { statistic } from '@/api/admin.api';
 import Graph from '@/components/admin/Graph';
 import Sidebar from '@/components/admin/Sidebar';
-import UserList from '@/components/admin/UserList';
+import { useEffect, useState } from 'react';
+import dayjs from 'dayjs';
+import { refreshToken } from '@/api/user.api';
 
 const StatisticsPage = () => {
+  const [weeklyDiaryCount, setWeeklyDiaryCount] = useState<number[]>([]);
+  const [weeklyMatchCount, setWeeklyMatchCount] = useState<number[]>([]);
+  const [weeklyUserCount, setweeklyUserCount] = useState<number[]>([]);
+
+  const dates: string[] = [];
+  for (let i = 6; i >= 0; i--) {
+    const date = dayjs().subtract(i, 'day').format('M/D');
+    dates.push(date);
+  }
+  useEffect(() => {
+    refreshToken().then(
+      () => {
+        statistic().then(
+          (data) => {
+            setWeeklyDiaryCount(data.weekly_diary_count);
+            setWeeklyMatchCount(data.weekly_matching_count);
+            setweeklyUserCount(data.weekly_user_count);
+          },
+          () => {
+            alert('admin만 접근 가능합니다.');
+            window.location.href = '/othersdiary/suggestion';
+          },
+        );
+      },
+      () => {
+        alert('admin만 접근 가능합니다.');
+        window.location.href = '/othersdiary/suggestion';
+      },
+    );
+  }, []);
+
   return (
-    <div className='flex flex-row h-screen'>
+    <div className='flex h-screen flex-row'>
       <Sidebar />
-      <div className='w-[85%] flex flex-col p-4 h-full'>
-        <h1 className='text-2xl m-2 pb-4 font-bold'>이용자 분석</h1>
-        <main className='grid grid-cols-4 grid-rows-2 gap-8 h-[800px] bg-lightgray p-8 rounded-xl'>
-          <div className='bg-white col-span-2 row-span-1'>
-            <DoughnutChart title='성비' />
+      <div className='flex w-[85%] flex-col p-4'>
+        <h1 className='m-2 pb-4 text-2xl font-bold '>이용자 통계</h1>
+        <main className='grid h-[800px] grid-cols-4 grid-rows-2 gap-8 rounded-xl bg-lightgray p-8'>
+          <div className='col-span-2 row-span-1 bg-white'>
+            <Graph title='주간 일기 수' datas={weeklyDiaryCount} dates={dates} />
           </div>
-          <div className='bg-white col-span-2 row-span-2'>
-            <UserList title='2주 이내 일기 작성하지 않은 유저 목록' />
+          <div className='col-span-2 row-span-1 bg-white'>
+            <Graph title='주간 매칭 수' datas={weeklyMatchCount} dates={dates} />
           </div>
-          <div className='bg-white col-span-2 row-span-1'>
-            <Graph title={'평균 작성 일기 수'} />
+          <div className='col-span-2 row-span-1 bg-white'>
+            <Graph title='주간 이용자 수' datas={weeklyUserCount} dates={dates} />
           </div>
         </main>
       </div>

@@ -66,6 +66,7 @@ const Account = ({
           <EmailVerificationInput
             register={register}
             errors={errors}
+            getValues={getValues}
             setNextBtnDisabled={setNextBtnDisabled}
             email={email}
             verificationCode={verificationCode}
@@ -77,29 +78,6 @@ const Account = ({
             password={password}
             passwordCheck={passwordCheck}
           />
-          <button
-            className='absolute top-[560px]'
-            onClick={() => {
-              setPage(1);
-            }}
-          >
-            임시버튼
-          </button>
-          <button
-            className='absolute top-[530px]'
-            type='button'
-            onClick={() => {
-              console.log(
-                getValues('nickname'),
-                getValues('email'),
-                getValues('verificationCode'),
-                getValues('password'),
-                getValues('passwordCheck'),
-              );
-            }}
-          >
-            변수확인
-          </button>
         </div>
         <Button
           size='large'

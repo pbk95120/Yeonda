@@ -24,9 +24,9 @@ const ChatTextarea = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(uploadImg);
-    console.log(message);
-    console.log('submit');
+    // console.log(uploadImg);
+    // console.log(message);
+    // console.log('submit');
 
     setUploadImg('');
     setMessage('');
@@ -42,7 +42,7 @@ const ChatTextarea = () => {
   };
 
   useEffect(() => {
-    console.log('스크롤이동');
+    // console.log('스크롤이동');
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [uploadImg]);
 

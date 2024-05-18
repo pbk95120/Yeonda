@@ -1,30 +1,37 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import { getEmail, removeEmail } from '@/store/authStore';
 import { DEFAULT_TIMEOUT } from '@/constants/constants';
+import { useAuthStore } from '@/store/authStore';
+import { logout, refreshToken } from './user.api';
 
 /**
  * Axios 인스턴스 생성
  */
 export const createClient = (config?: AxiosRequestConfig) => {
   const axiosInstance = axios.create({
-    baseURL: import.meta.env.VITE_BASE_URL,
+    baseURL: '/api',
     timeout: DEFAULT_TIMEOUT,
     headers: {
       'Content-Type': 'application/json',
-      Authorization: getEmail() ? getEmail() : '',
     },
     withCredentials: true,
     ...config,
   });
   axiosInstance.interceptors.request.use(
-    (response) => {
+    async (response) => {
       return response;
     },
-    (error) => {
+    async (error) => {
       if (error.response.status === 401) {
-        removeEmail();
-        window.location.href = '/login';
-        return;
+        refreshToken().then(
+          () => {},
+          () => {
+            alert('로그인 정보가 만료되었습니다.');
+            const { storeLogout } = useAuthStore();
+            storeLogout();
+            logout();
+            window.location.href = '/';
+          },
+        );
       }
       return Promise.reject(error);
     },
@@ -35,7 +42,7 @@ export const createClient = (config?: AxiosRequestConfig) => {
 
 export const httpClient = createClient();
 
-type RequestMethod = 'get' | 'post' | 'put' | 'delete';
+type RequestMethod = 'get' | 'post' | 'put' | 'delete' | 'patch';
 
 export const requestHandler = async <T>(method: RequestMethod, url: string, payload?: T) => {
   let response;
@@ -51,6 +58,9 @@ export const requestHandler = async <T>(method: RequestMethod, url: string, payl
       break;
     case 'delete':
       response = await httpClient.delete(url);
+      break;
+    case 'patch':
+      response = await httpClient.patch(url, payload);
       break;
   }
   return response.data;

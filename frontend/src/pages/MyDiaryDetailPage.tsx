@@ -1,7 +1,7 @@
 import DiaryItem from '@/components/diaries/DiaryItem';
 import DiaryHeader from '@/components/diaries/DiaryHeader';
 import Dropdown from '@/components/common/Dropdown';
-import useDiaries from '@/hooks/useDiaries';
+import { useDiaries } from '@/hooks/diary/useDiaries';
 import { RiMoreFill } from 'react-icons/ri';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';

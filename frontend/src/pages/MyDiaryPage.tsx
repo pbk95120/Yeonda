@@ -6,7 +6,7 @@ import Toast from '@/components/common/Toast';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDiaryItemStore } from '@/store/diaryStore';
-import { useDiariesInfinite } from '@/hooks/useDiariesInfinite';
+import { useDiariesInfinite } from '@/hooks/diary/useDiariesInfinite';
 
 const MyDiary = () => {
   const { diaries, fetchNextPage, hasNextPage, isDiariesLoading } = useDiariesInfinite();
