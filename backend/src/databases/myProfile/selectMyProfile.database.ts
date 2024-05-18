@@ -1,3 +1,4 @@
+import { TagName } from '@models/tag.model';
 import { MyProfile } from '@schemas/myProfile.schema';
 import CustomError from '@src/error';
 import http from 'http-status-codes';
@@ -15,11 +16,9 @@ export const selectMyProfile = async (conn: Connection, user_id: number): Promis
   if (!result[0]) throw new CustomError(http.NOT_FOUND, '존재하지 않는 사용자');
   const userAddress = result[0];
 
-  sql = 'select tag_id from user_tag where user_id = :user_id';
+  sql = 'select t.id, t.name from user_tag ut join tag t on t.id = ut.tag_id where user_id = :user_id';
   values = { user_id: userAddress.id };
-  [result] = await conn.execute(sql, values);
-  let tags = [];
-  for (const row of result as TagId[]) tags.push(row.tag_id);
+  const [tags] = await conn.execute(sql, values);
 
-  return new MyProfile(userAddress, tags);
+  return new MyProfile(userAddress, tags as TagName[]);
 };

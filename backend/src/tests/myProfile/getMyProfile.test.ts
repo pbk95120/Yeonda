@@ -24,10 +24,23 @@ describe('GET /profile/my 회원 기본 정보 가져오기', () => {
       gender: 'Male',
       birth: '2000-01-01',
       picture_url: 'constant',
-      latitude: '37.492064',
-      longitude: '127.029796',
+      latitude: 37.492064,
+      longitude: 127.029796,
       detail: '서울 서초구 강남대로 327',
-      tags: [1, 2, 3],
+      tags: [
+        {
+          id: 1,
+          name: '카페',
+        },
+        {
+          id: 2,
+          name: '산책',
+        },
+        {
+          id: 3,
+          name: '한강',
+        },
+      ],
     });
   });
 
