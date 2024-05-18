@@ -5,8 +5,10 @@ import { Connection } from 'mysql2/promise';
 
 export const selectTaggedPopularDiaries = async (conn: Connection, tag_id: number): Promise<PopularDiaries[]> => {
   let sql = `
-  select d.*, json_arrayagg(dt.tag_id) as tags from diary d
-  join diary_tag dt on d.id = dt.diary_id
+  select d.*, json_arrayagg(json_object('id', t.id, 'name', t.name)) as tags
+  from diary d
+  left join diary_tag dt on d.id = dt.diary_id
+  join tag t on t.id = dt.tag_id
   where d.id in (
     select d2.id
     from diary d2
