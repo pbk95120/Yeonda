@@ -1,35 +1,26 @@
-import { RowDataPacket } from 'mysql2';
-import { Connection } from 'mysql2/promise';
-import 'dotenv/config';
 import jwt from 'jsonwebtoken';
-import Database from '@src/db';
-import { Socket } from 'socket.io';
-import { errorHandler } from '@sockets/middleware';
-import http from 'http-status-codes';
+import cookie from 'cookie';
+import 'dotenv/config';
 
-const { JWT_SECRET } = process.env;
+const { JWT_SECRET, JWT_REFRESH_SECRET } = process.env;
 
-export const emailFromToken = async (socket: Socket, token: string): Promise<string> => {
+export const getUserInfoFromCookie = (headerCookie) => {
   try {
-    const decoded = (await jwt.verify(token, JWT_SECRET as string)) as {
-      email: string;
-    };
-    return decoded.email;
-  } catch (err) {
-    errorHandler(socket, http.BAD_REQUEST, '토큰 값이 유효하지 않습니다.', err);
+    const cookies = cookie.parse(headerCookie);
+    const decoded = getLogonFromToken(cookies['access-token'], false);
+    return [decoded.user_id, decoded.email];
+  } catch (error) {
+    throw new Error('인증 실패: 쿠키 값이 유효하지 않습니다.');
   }
 };
 
-export const databaseConnector =
-  (handler: Function) =>
-  async (...params: any[]) => {
-    let conn;
-    try {
-      conn = await Database.getConnection();
-      return await handler(conn, ...params);
-    } catch (error) {
-      throw error;
-    } finally {
-      if (conn) conn.release();
-    }
-  };
+export const getLogonFromToken = (token: string, isRefresh: boolean) => {
+  try {
+    let decoded;
+    if (isRefresh) decoded = jwt.verify(token, JWT_REFRESH_SECRET);
+    else decoded = jwt.verify(token, JWT_SECRET);
+    return decoded;
+  } catch (error) {
+    throw new Error('인증 실패: jwt토큰 값이 유효하지 않습니다.');
+  }
+};

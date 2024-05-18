@@ -34,7 +34,6 @@ app.use(cookieParser());
 
 const server = http.createServer(app);
 const io = new Server(server, {
-  path: '/chat',
   cors: {
     origin: process.env.CORS_ALLOWED_ORIGIN,
     credentials: true,
