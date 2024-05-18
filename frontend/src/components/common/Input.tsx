@@ -13,7 +13,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 }
 
 const Input = ({ className, placeholder, inputFor, register, ...props }: InputProps) => {
-  let defaultCls = 'px-2 border border-lightgray focus:outline-none focus:border-pastelred font-sans';
+  let defaultCls = 'px-2 border border-lightgray focus:outline-none focus:border-pastelred font-sans ';
 
   if (inputFor === 'search') {
     defaultCls = cls(defaultCls, 'rounded-full w-[300px] h-10');
@@ -25,7 +25,7 @@ const Input = ({ className, placeholder, inputFor, register, ...props }: InputPr
     );
   }
   if (inputFor === 'default') {
-    defaultCls = cls(defaultCls, ' px-8  rounded-md');
+    defaultCls = cls(defaultCls, ' px-8  rounded-xl');
     return (
       <div className='relative flex items-center'>
         <input
@@ -45,7 +45,7 @@ const Input = ({ className, placeholder, inputFor, register, ...props }: InputPr
   if (inputFor === 'image') {
     return (
       <div className='flex items-center justify-center m-2'>
-        <div className='w-[341px] h-[141px] flex items-center cursor-pointer text-lightgray hover:border-pastelred hover:text-pastelred justify-center border-2 border-dashed rounded-lg border-lightgray'>
+        <div className={cls('w-[341px] h-[141px] flex items-center cursor-pointer text-lightgray hover:border-pastelred hover:text-pastelred justify-center border-2 border-dashed rounded-3xl border-lightgray',className? className :"")}>
           <label>
             <LuImagePlus className='w-12 h-12' />
             <input className='hidden' type='file' />

@@ -2,8 +2,8 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import Button from '../common/Button';
 import GenderSelection from './Preference/GenderSelection';
 import PreferGenderSelection from './Preference/PreferGenderSelection';
-import DistanceInput from './Preference/DistanceInput';
-import AgeRangeInput from './Preference/AgeRangeInput';
+import DistanceInput from '../common/DistanceInput';
+import AgeRangeInput from '../common/AgeRangeInput';
 
 export interface PreferenceFormInputs {
   gender: string;
@@ -15,14 +15,31 @@ export interface PreferenceFormInputs {
 
 interface PreferenceProps {
   setPage: (page: number) => void;
+  gender: string;
   setGender: (gender: string) => void;
+  preferGender: string;
   setPreferGender: (preferGender: string) => void;
+  distance: number;
   setDistance: (distance: number) => void;
+  startAge: number;
   setStartAge: (startAge: number) => void;
+  endAge: number;
   setEndAge: (endAge: number) => void;
 }
 
-const Preference = ({ setPage, setGender, setPreferGender, setDistance, setStartAge, setEndAge }: PreferenceProps) => {
+const Preference = ({
+  setPage,
+  setGender,
+  setPreferGender,
+  setDistance,
+  setStartAge,
+  setEndAge,
+  gender,
+  preferGender,
+  distance,
+  startAge,
+  endAge,
+}: PreferenceProps) => {
   const {
     handleSubmit,
     getValues,
@@ -38,30 +55,23 @@ const Preference = ({ setPage, setGender, setPreferGender, setDistance, setStart
     setStartAge(data.startAge);
     setEndAge(data.endAge);
 
-    console.log(
-      getValues('gender'),
-      getValues('preferGender'),
-      getValues('distance'),
-      getValues('startAge'),
-      getValues('endAge'),
-    );
-
     setPage(3);
   };
 
   return (
-    <div className='w-full h-full mt-10 px-10 relative'>
+    <div className='relative px-10'>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className='items-center justify-center mb-20'>
-          <GenderSelection setValue={setValue} register={register} errors={errors} />
-          <PreferGenderSelection setValue={setValue} register={register} errors={errors} />
-          <DistanceInput setValue={setValue} getValues={getValues} />
-          <AgeRangeInput setValue={setValue} getValues={getValues} />
+        <div className='items-center justify-center '>
+          <GenderSelection setValue={setValue} register={register} errors={errors} gender={gender} />
+          <PreferGenderSelection setValue={setValue} register={register} errors={errors} preferGender={preferGender} />
+          <AgeRangeInput setValue={setValue} getValues={getValues} startAge={startAge} endAge={endAge} />
+          <DistanceInput setValue={setValue} getValues={getValues} distance={distance} />
         </div>
-        <div className='flex items-center gap-x-2'>
+        <div className='absolute top-[500px] flex items-center gap-x-2 '>
           <Button
             type='button'
             size='medium'
+            className='mr-2'
             color='pastelred'
             onClick={() => {
               setPage(1);
@@ -72,26 +82,6 @@ const Preference = ({ setPage, setGender, setPreferGender, setDistance, setStart
           <Button type='submit' size='medium' color='pastelred' children='다음' />
         </div>
       </form>
-
-      <button
-        onClick={() => {
-          console.log(getValues('gender'));
-          console.log(getValues('preferGender'));
-          console.log(getValues('distance'));
-          console.log(getValues('startAge'));
-          console.log(getValues('endAge'));
-        }}
-      >
-        ㅁㄴㅇ
-      </button>
-      <br />
-      <button
-        onClick={() => {
-          setPage(3);
-        }}
-      >
-        임시버튼
-      </button>
     </div>
   );
 };

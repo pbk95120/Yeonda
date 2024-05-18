@@ -3,10 +3,10 @@ import { Outlet } from 'react-router-dom';
 
 const OthersDiaryPage = () => {
   return (
-    <div>
+    <section>
       <OthersDiaryHeader />
       <Outlet />
-    </div>
+    </section>
   );
 };
 

@@ -2,7 +2,9 @@ import { useState, useRef, useEffect } from 'react';
 import ChatTextarea from '@/components/chat/ChatTextarea';
 import MyChatBubble from '@/components/chat/MyChatBubble';
 import ReceiveChatBubble from '@/components/chat/ReceiveChatBubble';
-import useDateVisibility from '@/hooks/useDateVisibility';
+import useDateVisibility from '@/hooks/chat/useDateVisibility';
+import { useParams } from 'react-router-dom';
+import { socket } from '@/api/socket';
 
 const ChatDetailPage = () => {
   const mockMessages = [
@@ -68,14 +70,21 @@ const ChatDetailPage = () => {
   const messagesWithDateVisibility = useDateVisibility(mockMessages);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  const params = useParams();
+  if (params.id === undefined) {
+    return;
+  }
+
+  const socketInstances = socket(params.id);
+
   useEffect(() => {
-    console.log('스크롤이동');
+    console.log(socketInstances);
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messagesWithDateVisibility]);
 
   return (
-    <div className='flex flex-col h-screen max-h-content'>
-      <section className='flex flex-col basis-11/12'>
+    <div className='flex h-screen max-h-content flex-col'>
+      <section className='flex basis-11/12 flex-col'>
         {messagesWithDateVisibility.map((msg) =>
           msg.nickname === userName ? (
             <MyChatBubble key={msg.id} id={msg.id} message={msg.message} sendAt={msg.send_at} showDate={msg.showDate} />

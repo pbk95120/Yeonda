@@ -1,30 +1,34 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import { getToken, removeToken } from '@/store/authStore';
 import { DEFAULT_TIMEOUT } from '@/constants/constants';
+import { useAuthStore } from '@/store/authStore';
+import { refreshToken } from './user.api';
 
 /**
  * Axios 인스턴스 생성
  */
 export const createClient = (config?: AxiosRequestConfig) => {
   const axiosInstance = axios.create({
-    baseURL: import.meta.env.BASE_URL,
+    baseURL: '/api',
     timeout: DEFAULT_TIMEOUT,
     headers: {
       'Content-Type': 'application/json',
-      Authorization: getToken() ? getToken() : '',
     },
     withCredentials: true,
     ...config,
   });
   axiosInstance.interceptors.request.use(
-    (response) => {
+    async (response) => {
       return response;
     },
-    (error) => {
+    async (error) => {
       if (error.response.status === 401) {
-        removeToken();
-        window.location.href = '/login';
-        return;
+        try {
+          await refreshToken();
+        } catch (e) {
+          window.location.href = '/login';
+          useAuthStore.getState().storeLogout();
+          return Promise.reject(e);
+        }
       }
       return Promise.reject(error);
     },
@@ -35,7 +39,7 @@ export const createClient = (config?: AxiosRequestConfig) => {
 
 export const httpClient = createClient();
 
-type RequestMethod = 'get' | 'post' | 'put' | 'delete';
+type RequestMethod = 'get' | 'post' | 'put' | 'delete' | 'patch';
 
 export const requestHandler = async <T>(method: RequestMethod, url: string, payload?: T) => {
   let response;
@@ -51,6 +55,9 @@ export const requestHandler = async <T>(method: RequestMethod, url: string, payl
       break;
     case 'delete':
       response = await httpClient.delete(url);
+      break;
+    case 'patch':
+      response = await httpClient.patch(url, payload);
       break;
   }
   return response.data;

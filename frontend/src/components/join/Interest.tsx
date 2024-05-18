@@ -2,31 +2,34 @@ import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import Button from '../common/Button';
 import { useNavigate } from 'react-router-dom';
-import { IoCloseOutline } from 'react-icons/io5';
 import Input from '../common/Input';
+import Tags from '../common/Tags';
+import { MAX_TAGS, MIN_TAGS } from '@/constants/constants';
+
+export interface Tag {
+  id: number;
+  name: string;
+}
 
 interface InterestProps {
-  setTags: (tags: string[]) => void;
+  setTags: (tags: Tag[]) => void;
   setPage: (page: number) => void;
-  tags: string[];
+  tags: Tag[];
+  join: () => void;
 }
 
 export interface InterestFormInputs {
-  tags: string[];
+  tags: Tag[];
 }
 
-const Interest = ({ setTags, setPage, tags }: InterestProps) => {
+const Interest = ({ setTags, setPage, tags, join }: InterestProps) => {
   const [inputText, setInputText] = useState('');
   const navigate = useNavigate();
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<InterestFormInputs>();
+  const { handleSubmit } = useForm<InterestFormInputs>();
 
   const onSubmit: SubmitHandler<InterestFormInputs> = (data) => {
     setTags(data.tags);
-    console.log(tags);
+    join();
 
     navigate('/login');
   };
@@ -36,132 +39,95 @@ const Interest = ({ setTags, setPage, tags }: InterestProps) => {
     setTags(updatedTags);
   };
 
-  const handleAddTag = (tag: string) => {
-    if (tags.length < 5 && !tags.includes(tag)) {
+  const handleAddTag = (tag: Tag) => {
+    if (tags.length < MAX_TAGS && !tags.some((t) => t.id === tag.id)) {
       let copyTags = [...tags];
       copyTags.push(tag);
       setTags(copyTags);
     }
   };
 
-  const colors = ['bg-pastelpeach', 'bg-orange', 'bg-green', 'bg-blue', 'bg-purple'];
-
   const tempTag = [
-    '태그1',
-    '태그2',
-    '태그3',
-    '태그4',
-    '태그5',
-    '태그1',
-    '태그2',
-    '태그3',
-    '태그4',
-    '태그5',
-    '태그1',
-    '태그2',
-    '태그3',
-    '태그4',
-    '태그5',
-    '태그1',
-    '태그2',
-    '태그3',
-    '태그4',
-    '태그5',
-    '태그1',
-    '태그2',
-    '태그3',
-    '태그4',
-    '태그5',
-    '태그1',
-    '태그2',
-    '태그3',
-    '태그4',
-    '태그5',
-    '태그1',
-    '태그2',
-    '태그3',
-    '태그4',
-    '태그5',
-    '태그1',
-    '태그2',
-    '태그3',
-    '태그4',
-    '태그5',
-    '태그1',
-    '태그2',
-    '태그3',
-    '태그4',
-    '태그5',
-    '태그1',
-    '태그2',
-    '태그3',
-    '태그4',
-    '태그5',
-    '태그1',
-    '태그2',
-    '태그3',
-    '태그4',
-    '태그5',
-    '태그1',
-    '태그2',
-    '태그3',
-    '태그4',
-    '태그5',
+    { id: 1, name: '태그1' },
+    { id: 2, name: '태그2' },
+    { id: 3, name: '태그3' },
+    { id: 4, name: '태그4' },
+    { id: 5, name: '태그5' },
+    { id: 6, name: '태그6' },
+    { id: 7, name: '태그7' },
+    { id: 8, name: '태그8' },
+    { id: 9, name: '태그9' },
+    { id: 10, name: '태그10' },
+    { id: 11, name: '태그11' },
+    { id: 12, name: '태그12' },
+    { id: 13, name: '태그13' },
+    { id: 14, name: '태그14' },
+    { id: 15, name: '태그15' },
+    { id: 16, name: '태그16' },
+    { id: 17, name: '태그17' },
+    { id: 18, name: '태그18' },
+    { id: 19, name: '태그19' },
+    { id: 20, name: '태그20' },
+    { id: 21, name: '태그21' },
+    { id: 22, name: '태그22' },
+    { id: 23, name: '태그23' },
+    { id: 24, name: '태그24' },
+    { id: 25, name: '태그25' },
+    { id: 26, name: '태그26' },
+    { id: 27, name: '태그27' },
+    { id: 28, name: '태그28' },
+    { id: 29, name: '태그29' },
+    { id: 30, name: '태그30' },
+    { id: 31, name: '태그31' },
+    { id: 32, name: '태그32' },
   ];
 
-  const filteredTags = tempTag.filter((tag) => tag.toLowerCase().includes(inputText.toLowerCase()));
+  const filteredTags = tempTag.filter((tag) => tag.name.toLowerCase().includes(inputText.toLowerCase()));
 
   return (
-    <div className='w-full h-full mt-10 px-10'>
+    <div className='w-full px-10'>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className='items-start justify-center'>
           <fieldset>
-            <legend className='text-sm mb-1'>관심사</legend>
+            <legend className='mb-4 text-sm'>관심사</legend>
             {tags.map((tag, i) => (
-              <div key={i} className='inline-block mb-2 mr-1'>
-                <p className={`${colors[i]} inline-block px-2 py-1 rounded-3xl  text-white text-sm`}>
-                  #{tag}
-                  <IoCloseOutline
-                    className='cursor-pointer inline-block text-gray transform -translate-y-[1px]'
-                    onClick={() => handleRemoveTag(i)}
-                  />
-                </p>
-              </div>
+              <Tags i={i} tag={tag} handleRemoveTag={handleRemoveTag} />
             ))}
             <Input
               inputFor='search'
               type='text'
-              className='flex-grow p-2 border rounded w-full mb-2'
+              className='w-full flex-grow p-2'
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
-              placeholder='관심사 검색'
+              placeholder='검색'
             />
-            <div className='overflow-y-scroll h-80 mb-4'>
-              {filteredTags.map((tag, i) => (
+            <div className='my-4 h-80 overflow-y-scroll'>
+              {filteredTags.map((tag) => (
                 <p
-                  key={i}
-                  className='bg-chatgray w-auto inline-block p-1 px-2 rounded-xl m-1 text-xs cursor-pointer'
+                  key={tag.id}
+                  className='m-1 inline-block w-auto cursor-pointer rounded-xl bg-chatgray p-1 px-2 text-xs'
                   onClick={() => {
                     handleAddTag(tag);
                   }}
                 >
-                  # {tag}
+                  # {tag.name}
                 </p>
               ))}
             </div>
           </fieldset>
         </div>
-        <div className='flex gap-x-2'>
+        <div className='absolute top-[580px] flex gap-x-2'>
           <Button
             size='medium'
             type='button'
             color='pastelred'
+            className='mr-2'
             children='이전'
             onClick={() => {
               setPage(2);
             }}
           />
-          <Button type='submit' size='medium' color='pastelred' children='완료' disabled={tags.length < 3} />
+          <Button type='submit' size='medium' color='pastelred' children='완료' disabled={tags.length < MIN_TAGS} />
         </div>
       </form>
     </div>

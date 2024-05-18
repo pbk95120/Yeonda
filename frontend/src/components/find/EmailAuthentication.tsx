@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import Button from '../common/Button';
 import Input from '../common/Input';
+import { formatTimer } from '@/utils/format';
+import { resetRequest, resetVerify } from '@/api/user.api';
 
 interface EmailAuthenticationProps {
   setPage: (page: number) => void;
@@ -13,7 +15,7 @@ interface FormValues {
 }
 
 const EmailAuthentication = ({ setPage }: EmailAuthenticationProps) => {
-  const { register, handleSubmit } = useForm<FormValues>();
+  const { register, handleSubmit, getValues } = useForm<FormValues>();
 
   const [timer, setTimer] = useState<number>(300);
   const [timerActive, setTimerActive] = useState<boolean>(false);
@@ -38,18 +40,10 @@ const EmailAuthentication = ({ setPage }: EmailAuthenticationProps) => {
     return () => clearInterval(interval);
   }, [timerActive, timer]);
 
-  const formatTimer = (): string => {
-    const minutes: string = Math.floor(timer / 60)
-      .toString()
-      .padStart(2, '0');
-    const seconds: string = (timer % 60).toString().padStart(2, '0');
-    return `${minutes}:${seconds}`;
-  };
-
   return (
-    <div className='w-full h-full mt-10 px-10'>
+    <div className='mt-10  w-full px-10'>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className=' items-center justify-center mb-20'>
+        <div className=' mb-20 items-center justify-center'>
           <fieldset className='pb-2'>
             <legend className='mb-2 text-sm'>이메일</legend>
             <div className='flex items-center'>
@@ -57,7 +51,7 @@ const EmailAuthentication = ({ setPage }: EmailAuthenticationProps) => {
                 type='email'
                 inputFor='default'
                 placeholder='이메일'
-                className='w-full p-2 border rounded'
+                className='mr-2 w-full p-2'
                 register={{ ...register('email', { required: '이메일을 입력해주세요.' }) }}
               />
               <Button
@@ -66,8 +60,15 @@ const EmailAuthentication = ({ setPage }: EmailAuthenticationProps) => {
                 children='전송'
                 color='pastelred'
                 onClick={() => {
-                  startTimer();
-                  setConfirmBtnDisabled(true);
+                  resetRequest(getValues('email')).then(
+                    () => {
+                      startTimer();
+                      setConfirmBtnDisabled(true);
+                    },
+                    (err) => {
+                      alert(err.response.data);
+                    },
+                  );
                 }}
               />
             </div>
@@ -80,7 +81,7 @@ const EmailAuthentication = ({ setPage }: EmailAuthenticationProps) => {
                 inputFor='default'
                 type='text'
                 placeholder='인증번호'
-                className='w-full p-2 border rounded'
+                className='mr-2 w-full p-2'
                 register={{ ...register('code', { required: '인증번호를 입력해주세요.' }) }}
               />
               <Button
@@ -89,12 +90,21 @@ const EmailAuthentication = ({ setPage }: EmailAuthenticationProps) => {
                 children='확인'
                 color='pastelred'
                 onClick={() => {
+                  resetVerify({ email: getValues('email'), code: getValues('code') }).then(
+                    () => {
+                      alert('인증이 완료되었습니다.');
+                      setNext(true);
+                    },
+                    () => {
+                      alert('올바르지 않은 코드입니다.');
+                    },
+                  );
                   setNext(true);
                 }}
                 disabled={!confirmBtnDisabled}
               />
             </div>
-            {timerActive && <p className='w-full text-sm self-end text-red mt-2'>{formatTimer()}</p>}
+            {timerActive && <p className='mt-2 w-full self-end text-sm text-red'>{formatTimer(timer)}</p>}
           </fieldset>
         </div>
         <Button children='다음' size='large' color='pastelred' disabled={!next} className='mt-24' />

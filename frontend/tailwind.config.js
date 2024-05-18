@@ -8,6 +8,7 @@ export default {
   theme: {
     maxHeight: {
       content: 'calc(100vh - 10rem)',
+      contentExpanded: 'calc(100vh - 5rem)',
     },
     screens: {
       sm: '375px',
