@@ -49,13 +49,7 @@ export const useAuthStore = create(
         setEmail(email);
       },
       storeLogout: () => {
-        set({
-          isLoggedIn: false,
-          gender: '',
-          start_age: 0,
-          end_age: 0,
-          distance: 0,
-        });
+        useAuthStore.persist.clearStorage();
         removeEmail();
       },
     }),
