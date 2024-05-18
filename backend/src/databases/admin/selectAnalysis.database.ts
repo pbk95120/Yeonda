@@ -12,6 +12,20 @@ const selectGenderCount = async (conn: Connection) => {
 };
 
 const selectAverageDiary = async (conn: Connection) => {
+  const sql = `SELECT 
+      DATE_FORMAT(created_at, '%Y-%m-%d') AS date,
+      (COUNT(*)/COUNT(DISTINCT user_id)) AS avg
+      FROM
+      diary
+      GROUP BY
+      DATE_FORMAT(created_at, '%Y-%m-%d')
+    `;
+
+  const [result] = await conn.execute(sql);
+  return result;
+};
+
+const selecttwoWeeksUserList = async (conn: Connection) => {
   const sql = `SELECT u.id, u.email, u.picture_url
       FROM user u
       LEFT JOIN diary d 
@@ -28,9 +42,12 @@ const selectAverageDiary = async (conn: Connection) => {
 export const selectAnalysis = async (conn: Connection): Promise<analysis> => {
   const gender_count = await selectGenderCount(conn);
   const average_diary = await selectAverageDiary(conn);
+  const twoWeeksUserList = await selecttwoWeeksUserList(conn);
+
   return {
     male_count: gender_count[0].male_count as analysis['male_count'],
     female_count: gender_count[0].female_count as analysis['female_count'],
-    average_diary: average_diary as unknown as analysis['average_diary'],
+    average_diary: average_diary as analysis['average_diary'],
+    twoWeeksUserList: twoWeeksUserList as analysis['twoWeeksUserList'],
   };
 };

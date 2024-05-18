@@ -16,7 +16,8 @@ export interface statistic {
 export interface analysis {
   male_count: number;
   female_count: number;
-  average_diary: [number, string, string];
+  average_diary: { date: string; avg: number }[];
+  twoWeeksUserList: { id: number; email: string; picture_url: string }[];
 }
 
 export const statisticSchema = Joi.object({
@@ -30,6 +31,15 @@ export const analysisSchema = Joi.object({
   male_count: Joi.number().integer().min(0).required(),
   female_count: Joi.number().integer().min(0).required(),
   average_diary: Joi.array()
+    .items(
+      Joi.object({
+        date: Joi.string().isoDate().required(),
+        avg: Joi.number().min(0).required(),
+      }),
+    )
+    .min(0)
+    .required(),
+  twoWeeksUserList: Joi.array()
     .items(
       Joi.object({
         id: Joi.number().integer().min(0).required(),
