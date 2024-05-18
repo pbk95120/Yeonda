@@ -55,7 +55,6 @@ const AnalysisPage = () => {
       },
     );
   }, []);
-
   return (
     <div className='flex h-screen flex-row'>
       <Sidebar />

@@ -27,10 +27,10 @@ const LoginPage = () => {
       const pref = await getMyPageMyPref();
       console.log('Preferences:', pref);
       storeLogin(data.email, pref);
+
       alert('로그인 성공');
       navigate('/othersdiary/suggestion');
     } catch (error) {
-      console.error('Login failed:', error);
       alert('이메일과 비밀번호를 다시 확인해주세요.');
     }
   };

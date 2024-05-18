@@ -1,24 +1,10 @@
 import TestSVG from '@/assets/images/logo.svg?react';
-import useStore from '@/store/store';
 import axios from 'axios';
 import { example } from '@/api/sample.api';
 import DaumPostcode from 'react-daum-postcode';
-import { useAuthStore } from '@/store/authStore';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend,
-} from 'chart.js';
-import { Line } from 'react-chartjs-2';
-import { logout } from '@/api/user.api';
-import { useEffect } from 'react';
+import { getEmail, useAuthStore } from '@/store/authStore';
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+import { logout } from '@/api/user.api';
 
 export const options = {
   responsive: true,
@@ -33,31 +19,7 @@ export const options = {
   },
 };
 
-const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: 'Dataset 1',
-      data: [200, 700, 1200, 600, -300, -290, -100],
-      borderColor: 'rgb(255, 99, 132)',
-      backgroundColor: 'rgba(255, 99, 132, 0.5)',
-    },
-    {
-      label: 'Dataset 2',
-      data: [-800, 100, 200, 300, 400, 500, 600],
-      borderColor: 'rgb(53, 162, 235)',
-      backgroundColor: 'rgba(53, 162, 235, 0.5)',
-    },
-  ],
-};
-
 const TestPage = () => {
-  const { start_age } = useAuthStore();
-  useEffect(() => {
-    console.log('start_age:', start_age);
-  }, []);
   const TestButton = () => {
     const handleSignupTest = async () => {
       try {
@@ -71,10 +33,26 @@ const TestPage = () => {
     return <button onClick={handleSignupTest}>API 테스트</button>;
   };
 
+  const data = useAuthStore.getState();
   const { storeLogout } = useAuthStore();
   return (
     <>
       <div>
+        {getEmail()}
+        {data.isLoggedIn ? (
+          <p>
+            {data.gender} {data.start_age} {data.end_age} {data.distance}
+          </p>
+        ) : (
+          <p>로그인이 필요합니다.</p>
+        )}
+        <button
+          onClick={() => {
+            console.log(useAuthStore.getState());
+          }}
+        >
+          변수확인
+        </button>
         <button
           onClick={() => {
             logout().then(() => {
@@ -105,7 +83,6 @@ const TestPage = () => {
         버튼
       </button>
       <p className='font-diary text-5xl'>폰트테스트</p>
-      <Line data={data} options={options} />
     </>
   );
 };
