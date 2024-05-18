@@ -76,6 +76,13 @@ describe('POST /openai/embedding/tag 태그 생성', () => {
     expect(response.status).toBe(http.BAD_REQUEST);
   });
 
+  it('이름이 너무 긴 태그', async () => {
+    const response = await request(server).post('/openai/embedding/tag').set('Cookie', `access-token=${token}`).send({
+      tag: '이름이 너무 긴 태그이름이 너무 긴 태그이름이 너무 긴 태그이름이 너무 긴 태그이름이 너무 긴 태그이름이 너무 긴 태그이름이 너무 긴 태그',
+    });
+    expect(response.status).toBe(http.BAD_REQUEST);
+  });
+
   it('이미 존재하는 태그', async () => {
     const response = await request(server).post('/openai/embedding/tag').set('Cookie', `access-token=${token}`).send({
       tag: '카페',

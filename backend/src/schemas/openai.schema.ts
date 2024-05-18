@@ -3,6 +3,6 @@ import Joi from 'joi';
 
 export const CreateTagSchema = LogonSchema.concat(
   Joi.object({
-    tag: Joi.string().required(),
+    tag: Joi.string().max(50).required(),
   }),
 );
