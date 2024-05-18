@@ -1,6 +1,6 @@
 import { Address } from '@models/address.model';
 import { Preference, Preferences } from '@models/preference.model';
-import { Tag } from '@models/tag.model';
+import { TagName } from '@models/tag.model';
 import { User } from '@models/user.model';
 import { EmailSchema, PreferGenderSchema } from '@schemas/signup.schema';
 import { UserIDSchema } from '@schemas/yourProfile.schema';
@@ -9,7 +9,7 @@ import Joi from 'joi';
 interface IMyProfile
   extends Pick<User, 'email' | 'nickname' | 'gender' | 'birth' | 'picture_url'>,
     Pick<Address, 'latitude' | 'longitude' | 'detail'> {
-  tags: Tag['id'][];
+  tags: TagName[];
 }
 
 export class MyProfile implements IMyProfile {
@@ -21,9 +21,9 @@ export class MyProfile implements IMyProfile {
   latitude: number;
   longitude: number;
   detail: string;
-  tags: number[];
+  tags: TagName[];
 
-  constructor(userAddress: User & Address, tags: Tag['id'][]) {
+  constructor(userAddress: User & Address, tags: TagName[]) {
     Object.assign(this, userAddress);
     this.tags = tags;
   }
