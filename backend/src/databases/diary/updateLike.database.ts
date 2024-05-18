@@ -3,7 +3,7 @@ import CustomError from '@src/error';
 import http from 'http-status-codes';
 import { Connection } from 'mysql2/promise';
 
-export const updateLike = async (conn: Connection, diary_id: number, user_id: number): Promise<void> => {
+export const updateLike = async (conn: Connection, diary_id: number, user_id: number): Promise<boolean> => {
   let sql = 'select user_id from diary where id = :diary_id';
   let values: {} = { diary_id: diary_id };
   let [result] = await conn.execute(sql, values);
@@ -20,14 +20,30 @@ export const updateLike = async (conn: Connection, diary_id: number, user_id: nu
       sql = 'delete from likes where diary_id = :diary_id and user_id = :user_id';
       values = { diary_id: diary_id, user_id: user_id };
       await conn.execute(sql, values);
+      return false;
     };
   } else {
     callback = async (diary_id: number, user_id: number) => {
       sql = 'insert into likes (diary_id, user_id) values (:diary_id, :user_id)';
       values = { diary_id: diary_id, user_id: user_id };
       await conn.execute(sql, values);
+
+      sql = `
+      select 
+          case 
+              when count(*) > 0 then true
+              else false
+          end as isMutual
+      from likes l
+      join diary d1 on l.user_id = d1.user_id
+      join diary d2 on l.diary_id = d2.id
+      where d1.id = :diary_id and d2.user_id = :user_id;
+      `;
+      [result] = await conn.execute(sql, values);
+      if (result[0].isMutual === 1) return true;
+      else return false;
     };
   }
 
-  await transactionWrapper(conn, callback)(diary_id, user_id);
+  return await transactionWrapper(conn, callback)(diary_id, user_id);
 };

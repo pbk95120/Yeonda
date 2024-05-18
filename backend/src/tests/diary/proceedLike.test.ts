@@ -7,7 +7,7 @@ import { Connection } from 'mysql2/promise';
 import request from 'supertest';
 
 const cleanUp = async (conn: Connection): Promise<void> => {
-  let sql = 'update diary set likes = 0 where id = 1';
+  let sql = 'delete from likes where user_id = 2';
   await conn.execute(sql);
   return;
 };
@@ -36,6 +36,7 @@ describe('POST /diary/like/:id', () => {
   it('좋아요 활성', async () => {
     const response = await request(server).post('/diary/like/1').set('Cookie', `access-token=${token}`);
     expect(response.status).toBe(http.OK);
+    expect(response.body).toEqual({ isMutual: false });
 
     const likes = await databaseConnector(async (conn: Connection) => {
       const sql = 'select likes from diary where id = 1';
@@ -48,6 +49,7 @@ describe('POST /diary/like/:id', () => {
   it('좋아요 비활성', async () => {
     const response = await request(server).post('/diary/like/1').set('Cookie', `access-token=${token}`);
     expect(response.status).toBe(http.OK);
+    expect(response.body).toEqual({ isMutual: false });
 
     const likes = await databaseConnector(async (conn: Connection) => {
       const sql = 'select likes from diary where id = 1';
@@ -55,6 +57,12 @@ describe('POST /diary/like/:id', () => {
       return result[0].likes;
     })();
     expect(likes).toEqual(0);
+  });
+
+  it('서로 좋아요', async () => {
+    const response = await request(server).post('/diary/like/3').set('Cookie', `access-token=${token}`);
+    expect(response.status).toBe(http.OK);
+    expect(response.body).toEqual({ isMutual: true });
   });
 
   it('토큰 없음', async () => {
