@@ -20,8 +20,8 @@ export const getMyPageMyPref = async () => {
   return await requestHandler('get', '/profile/my/preference');
 };
 
-export const patchMyPageMyPref = async () => {
-  return await requestHandler('patch', '/profile/my/preference');
+export const patchMyPageMyPref = async (payload: Object) => {
+  return await requestHandler('patch', '/profile/my/preference', payload);
 };
 
 export const getMyTag = async () => {

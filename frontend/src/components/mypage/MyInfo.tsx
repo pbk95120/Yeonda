@@ -21,7 +21,7 @@ const MyInfo = () => {
       setPicture_url(picture_url);
       setAddress(detail);
     });
-  }, [getMyPageMyInfo]);
+  }, []);
 
   const handleAddressSelection = (address: string) => {
     setAddress(address);
@@ -37,7 +37,11 @@ const MyInfo = () => {
 
   return (
     <div className='flex flex-col items-center justify-around'>
-      <Input inputFor='image' className='mt-3' />
+      <Input
+        inputFor='image'
+        className='mt-3'
+        contentImageState={{ contentImage: null, setContentImage: setPicture_url }}
+      />
       <div className='flex h-[86px] w-[339px] flex-col p-3 shadow-lg'>
         <span className='mb-3 font-sans font-bold'>주소</span>
         <div className='flex flex-row'>
