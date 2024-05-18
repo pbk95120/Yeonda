@@ -4,7 +4,6 @@ import DoughnutChart from '@/components/admin/Doughtnut';
 import Graph from '@/components/admin/Graph';
 import Sidebar from '@/components/admin/Sidebar';
 import UserList from '@/components/admin/UserList';
-import { useAuthStore } from '@/store/authStore';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 
@@ -16,11 +15,10 @@ export interface DormantUser {
 
 interface avgData {
   날짜: string;
-  평균: number;
+  avg: number;
 }
 
 const AnalysisPage = () => {
-  const { storeLogout } = useAuthStore();
   const [male, setMale] = useState<number>(0);
   const [female, setFemale] = useState<number>(0);
   const [avgDiaryCount, setAvgDiaryCount] = useState<number[]>([]);
@@ -33,23 +31,29 @@ const AnalysisPage = () => {
   }
 
   useEffect(() => {
-    refreshToken().then(() => {
-      analysis().then(
-        (data) => {
-          setMale(data.male_count);
-          setFemale(data.female_count);
-          const avgDiary = data.average_diary
-            .slice(data.average_diary.length - 7, data.average_diary.length)
-            .map((item: avgData) => item.평균);
-          setAvgDiaryCount(avgDiary);
-          setDormantUser(data.twoWeeksUserList);
-        },
-        () => {
-          alert('admin만 접근 가능합니다.');
-          window.location.href = '/othersdiary/suggestion';
-        },
-      );
-    });
+    refreshToken().then(
+      () => {
+        analysis().then(
+          (data) => {
+            setMale(data.male_count);
+            setFemale(data.female_count);
+            const avgDiary = data.average_diary
+              .slice(data.average_diary.length - 7, data.average_diary.length)
+              .map((item: avgData) => item.avg);
+            setAvgDiaryCount(avgDiary);
+            setDormantUser(data.twoWeeksUserList);
+          },
+          () => {
+            alert('admin만 접근 가능합니다.');
+            window.location.href = '/othersdiary/suggestion';
+          },
+        );
+      },
+      () => {
+        alert('admin만 접근 가능합니다.');
+        window.location.href = '/othersdiary/suggestion';
+      },
+    );
   }, []);
 
   return (

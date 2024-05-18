@@ -16,20 +16,23 @@ const StatisticsPage = () => {
     dates.push(date);
   }
   useEffect(() => {
-    statistic().then(
-      (data) => {
-        setWeeklyDiaryCount(data.weekly_diary_count);
-        setWeeklyMatchCount(data.weekly_matching_count);
-        setweeklyUserCount(data.weekly_user_count);
-      },
+    refreshToken().then(
       () => {
-        refreshToken().then(
-          () => {},
+        statistic().then(
+          (data) => {
+            setWeeklyDiaryCount(data.weekly_diary_count);
+            setWeeklyMatchCount(data.weekly_matching_count);
+            setweeklyUserCount(data.weekly_user_count);
+          },
           () => {
             alert('admin만 접근 가능합니다.');
             window.location.href = '/othersdiary/suggestion';
           },
         );
+      },
+      () => {
+        alert('admin만 접근 가능합니다.');
+        window.location.href = '/othersdiary/suggestion';
       },
     );
   }, []);

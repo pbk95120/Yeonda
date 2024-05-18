@@ -3,9 +3,7 @@ import useStore from '@/store/store';
 import axios from 'axios';
 import { example } from '@/api/sample.api';
 import DaumPostcode from 'react-daum-postcode';
-import { getEmail, useAuthStore } from '@/store/authStore';
-
-
+import { useAuthStore } from '@/store/authStore';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -18,6 +16,7 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import { logout } from '@/api/user.api';
+import { useEffect } from 'react';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -55,15 +54,10 @@ export const data = {
 };
 
 const TestPage = () => {
-  const setSelectedButton = useStore((state) => state.setSelectedButton);
-  const incrementCount = useStore((state) => state.incrementCount);
-  const removeCount = useStore((state) => state.removeCount);
-  const selectedButton = useStore((state) => state.selectedButton);
-  const count = useStore((state) => state.count);
-  const handleClick = (button: string) => {
-    setSelectedButton(button);
-  };
-
+  const { start_age } = useAuthStore();
+  useEffect(() => {
+    console.log('start_age:', start_age);
+  }, []);
   const TestButton = () => {
     const handleSignupTest = async () => {
       try {
@@ -77,12 +71,9 @@ const TestPage = () => {
     return <button onClick={handleSignupTest}>API 테스트</button>;
   };
 
-  const { isLoggedIn, storeLogout } = useAuthStore();
-
+  const { storeLogout } = useAuthStore();
   return (
     <>
-      {getEmail()}
-      {isLoggedIn && <div>로그인 되었습니다.</div>}
       <div>
         <button
           onClick={() => {
@@ -98,21 +89,7 @@ const TestPage = () => {
       <DaumPostcode />
       <TestButton />
       <TestSVG />
-      <h1 className='font-sans text-3xl font-bold underline'>Hello world!</h1>
-      <div>
-        <div>
-          <button onClick={() => handleClick('O')}>O</button>
-          <button onClick={() => handleClick('X')}>X</button>
-        </div>
-        <div>
-          <button onClick={incrementCount}>카운트 증가</button>
-          <button onClick={removeCount}>카운트 리셋</button>
-        </div>
-      </div>
-      <div>
-        <p className='m-10 p-10 text-xl text-pastelgreen'>카운트: {count}</p>
-        <p>선택한 버튼: {selectedButton}</p>
-      </div>
+
       <button
         onClick={() => {
           axios

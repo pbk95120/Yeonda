@@ -5,6 +5,7 @@ import Input from '@/components/common/Input';
 import { useAuthStore } from '@/store/authStore';
 import { login } from '@/api/user.api';
 import { WithUnauthenticated } from '@/components/hoc/WithUnauthenticated';
+import { getMyPageMyPref } from '@/api/mypage.api';
 
 interface LoginFormInputs {
   email: string;
@@ -21,16 +22,17 @@ const LoginPage = () => {
   } = useForm<LoginFormInputs>();
 
   const onSubmit = async (data: LoginFormInputs) => {
-    login(data).then(
-      () => {
-        storeLogin(data.email);
-        alert('로그인 성공');
-        navigate('/othersdiary/suggestion');
-      },
-      () => {
-        alert('이메일과 비밀번호를 다시 확인해주세요.');
-      },
-    );
+    try {
+      await login(data);
+      const pref = await getMyPageMyPref();
+      console.log('Preferences:', pref);
+      storeLogin(data.email, pref);
+      alert('로그인 성공');
+      navigate('/othersdiary/suggestion');
+    } catch (error) {
+      console.error('Login failed:', error);
+      alert('이메일과 비밀번호를 다시 확인해주세요.');
+    }
   };
 
   return (
@@ -67,9 +69,13 @@ const LoginPage = () => {
           </fieldset>
         </div>
         <div className='flex flex-col items-center justify-center'>
-          <Button type='submit' color='pastelred' children='로그인' size='large' />
+          <Button type='submit' color='pastelred' size='large'>
+            로그인
+          </Button>
           <Link to='/join'>
-            <Button color='pastelred' children='회원가입' size='large' className='mt-4' />
+            <Button color='pastelred' size='large' className='mt-4'>
+              회원가입
+            </Button>
           </Link>
         </div>
       </form>
