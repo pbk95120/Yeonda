@@ -34,4 +34,10 @@ describe('GET /profile/my/preference 취향 정보 가져오기', () => {
     const response = await request(server).get('/profile/my/preference');
     expect(response.status).toBe(http.UNAUTHORIZED);
   });
+
+  it('선호 데이터 없음', async () => {
+    token = issueAccessToken(2, 'leehoosgg@gmail.com');
+    const response = await request(server).get('/profile/my/preference').set('Cookie', `access-token=${token}`);
+    expect(response.status).toBe(http.NOT_FOUND);
+  });
 });
