@@ -36,11 +36,17 @@ export const AddressDetailSchema = Joi.string().max(100).required();
 
 export const PreferGenderSchema = Joi.string().valid('Male', 'Female', 'Neutral').required();
 
-export const SignDistanceSchema = Joi.string().pattern(/^\d{1,4}$/);
+export const SignDistanceSchema = Joi.string()
+  .pattern(/^\d{1,4}$/)
+  .required();
 
-export const SignStartAgeSchema = Joi.string().pattern(/^\d{2}$/);
+export const SignStartAgeSchema = Joi.string()
+  .pattern(/^\d{2}$/)
+  .required();
 
-export const SignEndAgeSchema = Joi.string().pattern(/^\d{2}$/);
+export const SignEndAgeSchema = Joi.string()
+  .pattern(/^\d{2}$/)
+  .required();
 
 export const SignTagsSchema = Joi.string()
   .pattern(/^\d+(,\d+)*$/)

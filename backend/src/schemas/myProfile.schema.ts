@@ -2,13 +2,7 @@ import { Address } from '@models/address.model';
 import { Preference, Preferences } from '@models/preference.model';
 import { Tag } from '@models/tag.model';
 import { User } from '@models/user.model';
-import {
-  EmailSchema,
-  PreferGenderSchema,
-  SignDistanceSchema,
-  SignEndAgeSchema,
-  SignStartAgeSchema,
-} from '@schemas/signup.schema';
+import { EmailSchema, PreferGenderSchema } from '@schemas/signup.schema';
 import { UserIDSchema } from '@schemas/yourProfile.schema';
 import Joi from 'joi';
 
@@ -69,7 +63,7 @@ export const PatchMyPreferenceSchema = Joi.object({
   user_id: UserIDSchema,
   email: EmailSchema,
   gender: PreferGenderSchema,
-  distance: SignDistanceSchema,
-  start_age: SignStartAgeSchema,
-  end_age: SignEndAgeSchema,
+  distance: DistanceSchema,
+  start_age: StartAgeSchema,
+  end_age: EndAgeSchema,
 });
