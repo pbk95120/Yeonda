@@ -1,3 +1,4 @@
+import { patchMyPref } from '@/types/mypage';
 import { requestHandler } from './http';
 
 export const getMyPage = async () => {
@@ -20,8 +21,8 @@ export const getMyPageMyPref = async () => {
   return await requestHandler('get', '/profile/my/preference');
 };
 
-export const patchMyPageMyPref = async () => {
-  return await requestHandler('patch', '/profile/my/preference');
+export const patchMyPageMyPref = async ({ gender, distance, start_age, end_age }: patchMyPref) => {
+  return await requestHandler('patch', '/profile/my/preference', { gender, distance, start_age, end_age });
 };
 
 export const getMyTag = async () => {

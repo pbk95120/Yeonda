@@ -6,7 +6,7 @@ import AgeRangeInput from '../common/AgeRangeInput';
 import { useForm } from 'react-hook-form';
 import Tags from '../common/Tags';
 import { useNavigate } from 'react-router-dom';
-import { getMyPageMyPref, getMyTag } from '@/api/mypage.api';
+import { getMyPageMyPref, getMyTag, patchMyPageMyPref } from '@/api/mypage.api';
 import { Tag } from '../join/Interest';
 
 interface PreferenceFormInputs {
@@ -21,7 +21,7 @@ const MyPref = () => {
   const navigate = useNavigate();
   const { setValue, getValues } = useForm<PreferenceFormInputs>();
   const [open, setOpen] = useState<boolean>(false);
-  const [gender, setGender] = useState<'Male' | 'Female' | 'Neutral'>('Neutral');
+  const [selectedGender, setSelectedGender] = useState<string>('Neutral');
   const [tags, setTags] = useState<Tag[]>([
     { id: 1, name: '롤토체스' },
     { id: 2, name: '농구' },
@@ -29,26 +29,36 @@ const MyPref = () => {
     { id: 4, name: '취뽀' },
     { id: 5, name: '독서' },
   ]);
+  const [distance, setDistance] = useState<number>(0);
+  const [startAge, setStartAge] = useState<number>(0);
+  const [endAge, setEndAge] = useState<number>(100);
+  const patchBtn = () => {
+    let patch = document.querySelector('#backBtn');
+    patch?.addEventListener('click', () => {
+      console.log(startAge, endAge, distance);
+      // patchMyPageMyPref({ gender: selectedGender, distance: distance, start_age: startAge, end_age: endAge }).then(() =>
+      //   console.log('변경상황이 저장되었다능!!'),
+      // );
+    });
+  };
   useEffect(() => {
     getMyPageMyPref().then((data) => {
       const { gender, distance, start_age, end_age } = data;
+      console.log(gender, distance, start_age, end_age);
       setDistance(distance);
-      console.log(start_age, end_age);
       setStartAge(start_age);
       setEndAge(end_age);
-      setGender(gender);
+      setSelectedGender(gender);
+      patchBtn();
     });
     getMyTag().then((data) => {
       setTags(data);
     });
-  }, [getMyPageMyPref, getMyTag]);
+  }, []);
 
-  const [distance, setDistance] = useState<number>(0);
-  const [startAge, setStartAge] = useState<number>(0);
-  const [endAge, setEndAge] = useState<number>(100);
   const openModal = () => setOpen(true);
   const closeModal = () => setOpen(false);
-  const [selectedGender, setSelectedGender] = useState<string>('남성');
+
   const handleBackgroundClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     if (event.target === event.currentTarget) {
       closeModal();
@@ -61,7 +71,13 @@ const MyPref = () => {
         <span className='mb-3 font-sans text-base font-bold'>상대의 성별</span>
         <div className='flex flex-row'>
           <div className='font-sans text-lightgray'>
-            {gender === 'Female' ? '여성' : gender === 'Male' ? '남성' : gender === 'Neutral' ? '무관' : null}
+            {selectedGender === 'Female'
+              ? '여성'
+              : selectedGender === 'Male'
+                ? '남성'
+                : selectedGender === 'Neutral'
+                  ? '무관'
+                  : null}
           </div>
           <div className='absolute right-7 z-20 flex items-center justify-center'>
             <IoIosArrowBack className='h-6 w-6 rotate-180 fill-gray' onClick={openModal} />
