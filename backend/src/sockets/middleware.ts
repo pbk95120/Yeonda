@@ -1,57 +1,10 @@
-import 'dotenv/config';
-import { Socket } from 'socket.io';
 import { Connection } from 'mysql2/promise';
-import { RowDataPacket } from 'mysql2';
-import { getUserIdByEmail } from '@sockets/database';
-import { databaseConnector, emailFromToken } from '@sockets/util';
-import { deleteState } from '@sockets/controller';
-import { authorizationSchema } from '@sockets/schemas';
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import { uuidv4 } from 'uuid';
+import { fileSchem } from '@sockets/schemas';
 import logger from '@src/logger';
-import http from 'http-status-codes';
-
-export const errorHandler = (socket: Socket, code: number, message: string, err?: Error) => {
-  logger.error(err['errors'], 'error' in err ? err.error : '');
-  if ('code' in err && err.code) {
-    socket.emit('error', { code: err.code, message: err['errors'] });
-    socket.disconnect();
-  } else {
-    socket.emit('error', { code: code, message: message });
-    socket.disconnect();
-  }
-};
-
-export const authentication = async (conn: Connection, socket: Socket, token: string, id: string) => {
-  try {
-    const email = await emailFromToken(socket, token);
-    const user = await databaseConnector(getUserIdByEmail)(socket, email);
-
-    const sql = `SELECT user1_id, user2_id FROM couple WHERE id = :id`;
-    const values = { id: parseInt(id) };
-    const [result] = await conn.execute<RowDataPacket[]>(sql, values);
-    if (result.length == 0) {
-      errorHandler(socket, http.BAD_REQUEST, '상대방 유저와 채팅방이 없습니다.');
-    } else {
-      socket.data.user_id = user[0].id;
-      socket.data.partner_id = result[0].user1_id == user[0].id ? result[0].user2_id : result[0].user1_id;
-    }
-  } catch (err) {
-    console.log('비정상적인 접근 종료: ', socket.id);
-    socket.disconnect();
-  }
-};
-
-export const authorization = async (conn: Connection, socket: Socket, couple_id: number) => {
-  const { error } = authorizationSchema.validate(socket.data);
-
-  const { user_id, partner_id } = socket.data;
-  const sql = `SELECT * FROM couple WHERE id = :id AND ((user1_id = :user1_id AND user2_id = :user2_id) OR (user2_id = :user1_id AND user1_id = :user2_id))`;
-  const values = { id: couple_id, user1_id: user_id, user2_id: partner_id };
-  const [result] = await conn.execute<RowDataPacket[]>(sql, values);
-
-  if (error || result.length == 0) {
-    errorHandler(socket, http.UNAUTHORIZED, '권한 없는 유저 종료');
-  }
-};
+import Database from '@src/db';
+import 'dotenv/config';
 
 export const transactionWrapper =
   (conn: Connection, callback: (...params: any[]) => Promise<any>) =>
@@ -66,3 +19,51 @@ export const transactionWrapper =
       logger.error(error);
     }
   };
+
+export const databaseConnector =
+  (handler: Function) =>
+  async (...params: any[]) => {
+    let conn;
+    try {
+      conn = await Database.getConnection();
+      return await handler(conn, ...params);
+    } catch (error) {
+      throw error;
+    } finally {
+      if (conn) conn.release();
+    }
+  };
+
+export const S3_SaveController = async (file) => {
+  const { error } = fileSchem.validate(file);
+  if (error) return Error('rewjklrejwjrklewr');
+
+  const client = new S3Client({
+    region: process.env.REGION,
+    credentials: {
+      accessKeyId: process.env.ACCESS_KEY_ID,
+      secretAccessKey: process.env.SECRET_ACCESS_KEY,
+    },
+  });
+
+  const uniqueName = uuidv4();
+  const extension = file.name.split('.').pop();
+  const S3_img = `${uniqueName}.${extension}`;
+  const DB_picture_url = `${process.env.q}${S3_img}`;
+
+  const params = {
+    Bucket: process.env.BUCKET_NAME,
+    Key: S3_img,
+    Body: Buffer.from(file.data),
+  };
+
+  try {
+    await client.send(new PutObjectCommand(params));
+    logger.info(`${params.Key} Upload Success`);
+  } catch (error) {
+    logger.error(error);
+    return error;
+  }
+
+  return DB_picture_url;
+};

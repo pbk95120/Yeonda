@@ -1,37 +1,69 @@
 import { Server } from 'socket.io';
-import { setupChat, exchangeMessages, deleteState } from '@sockets/controller';
-import { authentication, authorization } from '@sockets/middleware';
-import { databaseConnector } from '@sockets/util';
-import { errorHandler } from '@sockets/middleware';
-import http from 'http-status-codes';
+import { setupChat, exchangeMessages } from '@sockets/controller';
+import { S3_SaveController } from '@sockets/middleware';
+import { getUserInfoFromCookie } from '@sockets/util';
+import logger from '@src/logger';
 
 const socketHandler = (io: Server) => {
-  io.on('connection', async (socket) => {
+  io.use((socket, next) => {
     try {
-      console.log('소켓 연결 :', socket.id);
-      const token = socket.handshake.auth.token;
-      const id = socket.handshake.headers.couple_id;
-      await databaseConnector(authentication)(socket, token, id);
-    } catch (err) {
-      errorHandler(socket, http.BAD_REQUEST, '클라이언트 설정 오류', err);
+      const cookies = socket.handshake.headers.cookie;
+      const [user_id, email] = getUserInfoFromCookie(cookies);
+      socket.data.user_id = user_id;
+      socket.data.email = email;
+      next();
+    } catch (error) {
+      next(error);
     }
+  });
 
-    socket.on('join-room', async (data) => {
-      const { couple_id } = data;
-      await setupChat(socket, couple_id);
-      console.log('방 연결', couple_id);
+  io.on('connection', (socket) => {
+    socket.on('joinRoom', async (data) => {
+      try {
+        const { couple_id, partner_id } = data;
+        const result = await setupChat(parseInt(couple_id), parseInt(partner_id));
+
+        socket.join(couple_id);
+        io.to(couple_id.toString()).emit('partnerInfo', result);
+      } catch (error) {
+        socket.emit('error', error);
+        logger.error(error);
+      }
     });
-    socket.on('send-message', async (data) => {
-      const { couple_id, message, file } = data;
-      await databaseConnector(authorization)(socket, couple_id);
-      const room = io.sockets.adapter.rooms.get(couple_id.toString());
-      const is_read = room ? (room.size == 2 ? 1 : 0) : 0;
-      await exchangeMessages(socket, couple_id, message, file, is_read);
-      console.log('메시지 송수신');
+
+    socket.on('sendMessage', async (data) => {
+      try {
+        const user_id = socket.data.user_id;
+        const { couple_id, message, file } = data;
+
+        const now = new Date();
+        const send_at = now.toISOString().slice(0, 19).replace('T', ' ');
+        const picture_url = file === (null || 'null') ? null : await S3_SaveController(file);
+
+        const room = io.sockets.adapter.rooms.get(couple_id);
+        const is_read = room ? (room.size == 2 ? 1 : 0) : 0;
+
+        await exchangeMessages(parseInt(couple_id), parseInt(user_id), picture_url, message, send_at, is_read);
+        io.to(couple_id).emit('receiveMessage', {
+          user_id: user_id,
+          message: message,
+          picture_url: picture_url,
+          send_at: send_at,
+          is_read: is_read,
+        });
+      } catch (error) {
+        console.log(error);
+        socket.emit('error', error);
+        logger.error(error.stack);
+      }
     });
+
     socket.on('disconnect', async () => {
-      await deleteState(socket);
-      console.log('연결 종료', socket.id);
+      try {
+        socket.disconnect();
+      } catch (erorr) {
+        logger.error('연결 해제 실패');
+      }
     });
   });
 };
