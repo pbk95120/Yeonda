@@ -13,12 +13,12 @@ export const sendSignupEmail = async (conn: Connection, email: string): Promise<
 
   const [code, time] = getRandomCode(6);
 
-  await sendEmail(email, 'Yeonda 회원 가입 인증 코드입니다', `유효 기간: ${time} 인증 코드: ${code}`);
-
   const callback = async (email: string, code: string) => {
     sql = 'insert into signup (email, code) values ( :email, :code )';
     values = { email: email, code: code };
     await conn.execute(sql, values);
+
+    await sendEmail(email, 'Yeonda 회원 가입 인증 코드입니다', `유효 기간: ${time} 인증 코드: ${code}`);
   };
 
   await transactionWrapper(conn, callback)(email, code);
