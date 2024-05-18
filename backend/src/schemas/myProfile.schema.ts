@@ -1,9 +1,8 @@
 import { Address } from '@models/address.model';
-import { Preference, Preferences } from '@models/preference.model';
+import { Preferences } from '@models/preference.model';
 import { TagName } from '@models/tag.model';
 import { User } from '@models/user.model';
-import { EmailSchema, PreferGenderSchema } from '@schemas/signup.schema';
-import { UserIDSchema } from '@schemas/yourProfile.schema';
+import { Logon, LogonSchema } from '@schemas/login.schema';
 import Joi from 'joi';
 
 interface IMyProfile
@@ -29,13 +28,6 @@ export class MyProfile implements IMyProfile {
   }
 }
 
-export interface PatchMyPreference extends Pick<User, 'email'>, Pick<Preference, 'gender'> {
-  user_id: User['id'];
-  distance: string;
-  start_age: string;
-  end_age: string;
-}
-
 export class MyPreference implements Preferences {
   gender: 'Male' | 'Female' | 'Neutral';
   distance: number;
@@ -53,17 +45,26 @@ export class MyPreference implements Preferences {
 
 export interface MySetting extends Pick<User, 'picture_url'>, Pick<Address, 'detail'> {}
 
-export const DistanceSchema = Joi.number().min(0).max(9999).strict();
+export const PreferGenderSchema = Joi.string().valid('Male', 'Female', 'Neutral').required();
 
-export const StartAgeSchema = Joi.number().min(10).max(99).strict();
+export const DistanceSchema = Joi.number().min(0).max(9999).strict().required();
 
-export const EndAgeSchema = Joi.number().min(10).max(99).strict();
+export const StartAgeSchema = Joi.number().min(10).max(99).strict().required();
 
-export const PatchMyPreferenceSchema = Joi.object({
-  user_id: UserIDSchema,
-  email: EmailSchema,
-  gender: PreferGenderSchema,
-  distance: DistanceSchema,
-  start_age: StartAgeSchema,
-  end_age: EndAgeSchema,
-});
+export const EndAgeSchema = Joi.number().min(10).max(99).strict().required();
+
+export interface PatchMyPreference extends Logon {
+  gender: 'Male' | 'Female' | 'Neutral';
+  distance: number;
+  start_age: number;
+  end_age: number;
+}
+
+export const PatchMyPreferenceSchema = LogonSchema.concat(
+  Joi.object({
+    gender: PreferGenderSchema,
+    distance: DistanceSchema,
+    start_age: StartAgeSchema,
+    end_age: EndAgeSchema,
+  }),
+);

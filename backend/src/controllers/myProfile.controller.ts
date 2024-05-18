@@ -12,7 +12,6 @@ import { PatchMyPreferenceSchema } from '@schemas/myProfile.schema';
 import { AddressDetailSchema, PictureUrlSchema, SignTagsSchema } from '@schemas/signup.schema';
 import CustomError from '@src/error';
 import { reformImg } from '@utils/reformImg';
-import { reformPreference } from '@utils/reformPreference';
 import http from 'http-status-codes';
 
 export const getMyProfile: Controller = async (req, res) => {
@@ -51,7 +50,6 @@ export const getMyPreference: Controller = async (req, res) => {
 export const patchMyPreference: Controller = async (req, res) => {
   const { error } = PatchMyPreferenceSchema.validate(req.body);
   if (error) throw new CustomError(http.BAD_REQUEST, '잘못된 사용자 선호도 수정 양식', error);
-  req.body = reformPreference(req.body);
 
   const preference = await databaseConnector(updateMyPreference)(req.body);
   res.status(http.OK).json(preference);

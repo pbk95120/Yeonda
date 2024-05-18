@@ -34,7 +34,7 @@ export const PictureUrlSchema = Joi.string()
 
 export const AddressDetailSchema = Joi.string().max(100).required();
 
-export const PreferGenderSchema = Joi.string().valid('Male', 'Female', 'Neutral').required();
+export const SignPreferGenderSchema = Joi.string().valid('Male', 'Female', 'Neutral').required();
 
 export const SignDistanceSchema = Joi.string()
   .pattern(/^\d{1,4}$/)
@@ -63,7 +63,7 @@ export const RawSignupSchema = Joi.object({
     .pattern(/^\d{4}-\d{2}-\d{2}$/)
     .required(),
   address: AddressDetailSchema,
-  prefer_gender: PreferGenderSchema,
+  prefer_gender: SignPreferGenderSchema,
   distance: SignDistanceSchema,
   start_age: SignStartAgeSchema,
   end_age: SignEndAgeSchema,
