@@ -1,5 +1,5 @@
 import { httpClient } from './http';
-import { LoginProps, SignupProps, resetPasswordData, verifyData } from '@/types/user';
+import { LoginProps, resetPasswordData, verifyData } from '@/types/user';
 
 export const signup = async (formData: FormData) => {
   const response = await httpClient.post('/signup', formData, {
