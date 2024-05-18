@@ -27,6 +27,7 @@ class Database {
       connectionLimit: parseInt(DB_CONNECTION_LIMIT),
       dateStrings: true,
       namedPlaceholders: true,
+      decimalNumbers: true,
     });
   }
 
