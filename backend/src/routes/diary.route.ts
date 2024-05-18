@@ -12,8 +12,8 @@ import { textForm } from '@middlewares/textForm.middleware';
 import express from 'express';
 const DiaryRoute = express.Router();
 
-DiaryRoute.get('/pre-random', controllerWrapper(authenticateUser, getFirstRandomDiary));
-DiaryRoute.get('/random', controllerWrapper(authenticateUser, getRandomDiary));
+DiaryRoute.post('/pre-random', controllerWrapper(authenticateUser, getFirstRandomDiary));
+DiaryRoute.post('/random', controllerWrapper(authenticateUser, getRandomDiary));
 DiaryRoute.post('/like/:id', controllerWrapper(authenticateUser, proceedLike));
 DiaryRoute.get('/popular', controllerWrapper(authenticateUser, getPopularDiaries));
 DiaryRoute.get('/popular/:tag_id', controllerWrapper(authenticateUser, getTaggedPopularDiaries));

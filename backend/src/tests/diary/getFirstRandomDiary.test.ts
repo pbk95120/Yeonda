@@ -13,7 +13,7 @@ afterAll(async () => {
   Database.closePool();
 });
 
-describe('GET /diary/pre-random 첫 랜덤 일기 가져오기', () => {
+describe('POST /diary/pre-random 첫 랜덤 일기 가져오기', () => {
   let token;
 
   beforeEach(() => {
@@ -21,7 +21,7 @@ describe('GET /diary/pre-random 첫 랜덤 일기 가져오기', () => {
   });
 
   it('정상 요청', async () => {
-    const response = await request(server).get('/diary/pre-random').set('Cookie', `access-token=${token}`).send({
+    const response = await request(server).post('/diary/pre-random').set('Cookie', `access-token=${token}`).send({
       gender: 'Female',
       distance: 100,
       start_age: 20,
@@ -34,7 +34,7 @@ describe('GET /diary/pre-random 첫 랜덤 일기 가져오기', () => {
   });
 
   it('토큰 없음', async () => {
-    const response = await request(server).get('/diary/pre-random').send({
+    const response = await request(server).post('/diary/pre-random').send({
       gender: 'Female',
       distance: 100,
       start_age: 20,
@@ -44,7 +44,7 @@ describe('GET /diary/pre-random 첫 랜덤 일기 가져오기', () => {
   });
 
   it('잘못된 선호도 양식', async () => {
-    const response = await request(server).get('/diary/pre-random').set('Cookie', `access-token=${token}`).send({
+    const response = await request(server).post('/diary/pre-random').set('Cookie', `access-token=${token}`).send({
       gender: 'Female',
       distance: '100',
       start_age: 20,
@@ -54,7 +54,7 @@ describe('GET /diary/pre-random 첫 랜덤 일기 가져오기', () => {
   });
 
   it('조건에 맞는 일기 없음', async () => {
-    const response = await request(server).get('/diary/pre-random').set('Cookie', `access-token=${token}`).send({
+    const response = await request(server).post('/diary/pre-random').set('Cookie', `access-token=${token}`).send({
       gender: 'Female',
       distance: 100,
       start_age: 40,
