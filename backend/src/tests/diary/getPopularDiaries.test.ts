@@ -66,14 +66,14 @@ describe('GET /diary/popular 2주간 인기 일기 5개 요청', () => {
         tags: [12, 83, 183],
       },
       {
-        id: 16,
-        user_id: 4,
-        title: '4 의 일기',
+        id: 30,
+        user_id: 19,
+        title: '19 의 일기',
         content: '내용 채우기',
         created_at: '2024-05-14 17:26:08',
         updated_at: null,
-        likes: 70,
-        tags: [134, 174],
+        likes: 65,
+        tags: [167],
       },
     ]);
   });
