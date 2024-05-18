@@ -3,6 +3,7 @@ import Graph from '@/components/admin/Graph';
 import Sidebar from '@/components/admin/Sidebar';
 import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
+import { refreshToken } from '@/api/user.api';
 
 const StatisticsPage = () => {
   const [weeklyDiaryCount, setWeeklyDiaryCount] = useState<number[]>([]);
@@ -22,8 +23,13 @@ const StatisticsPage = () => {
         setweeklyUserCount(data.weekly_user_count);
       },
       () => {
-        alert('admin만 접근 가능합니다.');
-        window.location.href = '/othersdiary/suggestion';
+        refreshToken().then(
+          () => {},
+          () => {
+            alert('admin만 접근 가능합니다.');
+            window.location.href = '/othersdiary/suggestion';
+          },
+        );
       },
     );
   }, []);

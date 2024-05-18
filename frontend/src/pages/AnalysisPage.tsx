@@ -33,29 +33,23 @@ const AnalysisPage = () => {
   }
 
   useEffect(() => {
-    analysis().then(
-      (data) => {
-        setMale(data.male_count);
-        setFemale(data.female_count);
-        const avgDiary = data.average_diary
-          .slice(data.average_diary.length - 7, data.average_diary.length)
-          .map((item: avgData) => item.평균);
-        setAvgDiaryCount(avgDiary);
-        setDormantUser(data.twoWeeksUserList);
-      },
-      () => {
-        refreshToken().then(
-          () => {
-            window.location.reload();
-          },
-          () => {
-            alert('admin만 접근 가능합니다.');
-            storeLogout();
-            window.location.href = '/login';
-          },
-        );
-      },
-    );
+    refreshToken().then(() => {
+      analysis().then(
+        (data) => {
+          setMale(data.male_count);
+          setFemale(data.female_count);
+          const avgDiary = data.average_diary
+            .slice(data.average_diary.length - 7, data.average_diary.length)
+            .map((item: avgData) => item.평균);
+          setAvgDiaryCount(avgDiary);
+          setDormantUser(data.twoWeeksUserList);
+        },
+        () => {
+          alert('admin만 접근 가능합니다.');
+          window.location.href = '/othersdiary/suggestion';
+        },
+      );
+    });
   }, []);
 
   return (

@@ -1,7 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { DEFAULT_TIMEOUT } from '@/constants/constants';
 import { useAuthStore } from '@/store/authStore';
-import { refreshToken } from './user.api';
+import { logout, refreshToken } from './user.api';
 
 /**
  * Axios 인스턴스 생성
@@ -22,13 +22,16 @@ export const createClient = (config?: AxiosRequestConfig) => {
     },
     async (error) => {
       if (error.response.status === 401) {
-        try {
-          await refreshToken();
-        } catch (e) {
-          window.location.href = '/login';
-          useAuthStore.getState().storeLogout();
-          return Promise.reject(e);
-        }
+        refreshToken().then(
+          () => {},
+          () => {
+            alert('로그인 정보가 만료되었습니다.');
+            const { storeLogout } = useAuthStore();
+            storeLogout();
+            logout();
+            window.location.href = '/';
+          },
+        );
       }
       return Promise.reject(error);
     },
