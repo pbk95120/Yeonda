@@ -1,7 +1,7 @@
 import DiariesList from '@/components/diaries/DiariesList';
 import DiaryHeader from '@/components/diaries/DiaryHeader';
 import Dropdown from '@/components/common/Dropdown';
-import useDiaries from '@/hooks/useDiaries'; // 추후 API 연결 시 이용
+import useDiaries from '@/hooks/diary/useDiaries'; // 추후 API 연결 시 이용
 import diariesData from '@/mocks/diaryData';
 import { FaSortAmountDownAlt } from 'react-icons/fa';
 import Toast from '@/components/common/Toast';
@@ -44,14 +44,14 @@ const MyDiary = () => {
       <DiaryHeader diariesData={diariesData[0]} />
       <div className='absolute right-[14px] top-[90px] '>
         <Dropdown
-          className='absolute top-[20px] right-[0px]'
+          className='absolute right-[0px] top-[20px]'
           toggleButton={<FaSortAmountDownAlt className='fill-gray' />}
         >
           <div className='text-xs'>
             <div className='hover:bg-lightgray'>
               <button className='p-[15px]'>최신 날짜 순</button>
             </div>
-            <div className=' hover:bg-lightgray border-t border-lightgray'>
+            <div className=' border-t border-lightgray hover:bg-lightgray'>
               <button className='p-[15px]'>좋아요 많은 순</button>
             </div>
           </div>

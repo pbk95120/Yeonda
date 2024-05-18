@@ -2,7 +2,7 @@ import { UseFormGetValues, UseFormSetValue } from 'react-hook-form';
 import { PreferenceFormInputs } from '../join/Preference';
 import Slider from '@mui/material/Slider';
 import { useEffect, useState } from 'react';
-import { DEFAULT_ENDAGE, DEFAULT_STARTAGE, MAX_AGE, MIN_AGE } from '@/constants/constants';
+import { MAX_AGE, MIN_AGE } from '@/constants/constants';
 
 interface AgeRangeInputProps {
   setValue: UseFormSetValue<PreferenceFormInputs>;
