@@ -3,8 +3,7 @@ import { Preferences } from '@models/preference.model';
 import { Tag } from '@models/tag.model';
 import { User } from '@models/user.model';
 import { Logon, LogonSchema } from '@schemas/login.schema';
-import { DistanceSchema, EndAgeSchema, StartAgeSchema } from '@schemas/myProfile.schema';
-import { PreferGenderSchema } from '@schemas/signup.schema';
+import { DistanceSchema, EndAgeSchema, PreferGenderSchema, StartAgeSchema } from '@schemas/myProfile.schema';
 import Joi from 'joi';
 
 export interface PreferencesRequest extends Logon, Preferences {}
