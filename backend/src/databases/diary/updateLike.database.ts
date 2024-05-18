@@ -33,15 +33,30 @@ export const updateLike = async (conn: Connection, diary_id: number, user_id: nu
           case 
               when count(*) > 0 then true
               else false
-          end as isMutual
+          end as isMutual, d1.user_id
       from likes l
       join diary d1 on l.user_id = d1.user_id
       join diary d2 on l.diary_id = d2.id
-      where d1.id = :diary_id and d2.user_id = :user_id;
+      where d1.id = :diary_id and d2.user_id = :user_id
+      group by d1.user_id
       `;
       [result] = await conn.execute(sql, values);
-      if (result[0].isMutual === 1) return true;
-      else return false;
+
+      if (result[0]?.isMutual === 1) {
+        const user2_id = result[0].user_id;
+        const couple1 = user_id < user2_id ? user_id : user2_id;
+        const couple2 = user_id > user2_id ? user_id : user2_id;
+
+        sql = 'select id from couple where user1_id = :user1_id and user2_id = :user2_id';
+        values = values = { user1_id: couple1, user2_id: couple2 };
+        [result] = await conn.execute(sql, values);
+
+        if (!result[0]) {
+          sql = 'insert into couple(user1_id, user2_id) values(:user1_id, :user2_id)';
+          await conn.execute(sql, values);
+        }
+        return true;
+      } else return false;
     };
   }
 
