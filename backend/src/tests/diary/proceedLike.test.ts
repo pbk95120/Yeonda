@@ -9,6 +9,10 @@ import request from 'supertest';
 const cleanUp = async (conn: Connection): Promise<void> => {
   let sql = 'delete from likes where user_id = 2';
   await conn.execute(sql);
+
+  sql = 'delete from couple where user1_id = 2';
+  await conn.execute(sql);
+
   return;
 };
 
@@ -59,10 +63,28 @@ describe('POST /diary/like/:id', () => {
     expect(likes).toEqual(0);
   });
 
-  it('서로 좋아요', async () => {
+  it('커플이 되는 서로 좋아요', async () => {
     const response = await request(server).post('/diary/like/3').set('Cookie', `access-token=${token}`);
     expect(response.status).toBe(http.OK);
     expect(response.body).toEqual({ isMutual: true });
+
+    await databaseConnector(async (conn: Connection) => {
+      const sql = 'select count(*) as count from couple where user1_id = 2 and user2_id = 46';
+      const [result] = await conn.execute(sql);
+      expect(result[0].count).toBe(1);
+    })();
+  });
+
+  it('이미 커플끼리 서로 좋아요', async () => {
+    const response = await request(server).post('/diary/like/37').set('Cookie', `access-token=${token}`);
+    expect(response.status).toBe(http.OK);
+    expect(response.body).toEqual({ isMutual: true });
+
+    await databaseConnector(async (conn: Connection) => {
+      const sql = 'select count(*) as count from couple where user1_id = 25 and user2_id = 46';
+      const [result] = await conn.execute(sql);
+      expect(result[0].count).toBe(1);
+    })();
   });
 
   it('토큰 없음', async () => {
