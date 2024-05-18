@@ -20,3 +20,7 @@ export const fetchPopularDiariesByTag = async (tagId: string) => {
 export const fetchProfile = async () => {
   return await requestHandler('get', `profile/my`);
 };
+
+export const writeDiary = async (diaryData: FormData) => {
+  return await requestHandler('post', 'diary', diaryData);
+};
