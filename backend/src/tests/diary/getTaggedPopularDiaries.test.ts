@@ -1,7 +1,9 @@
+import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { server } from '@src/app';
 import Database from '@src/db';
 import { issueAccessToken } from '@utils/issueToken';
 import http from 'http-status-codes';
+import { Connection } from 'mysql2/promise';
 import request from 'supertest';
 
 beforeAll(async () => {
@@ -22,28 +24,26 @@ describe('GET /diary/popular/:tag_id', () => {
   it('정상 요청', async () => {
     const response = await request(server).get('/diary/popular/10').set('Cookie', `access-token=${token}`);
     expect(response.status).toBe(http.OK);
-    expect(response.body).toEqual([
-      {
-        id: 22,
-        user_id: 31,
-        title: '31 의 일기',
-        content: '내용 채우기',
-        created_at: '2024-05-14 17:26:08',
-        updated_at: null,
-        likes: 62,
-        tags: [1, 10, 79, 121, 150],
-      },
-      {
-        id: 14,
-        user_id: 27,
-        title: '27 의 일기',
-        content: '내용 채우기',
-        created_at: '2024-05-14 17:26:08',
-        updated_at: null,
-        likes: 10,
-        tags: [10, 140, 169, 191, 204],
-      },
-    ]);
+    const result = await databaseConnector(async (conn: Connection) => {
+      const sql = `
+      select d.*, json_arrayagg(json_object('id', t.id, 'name', t.name)) as tags
+      from diary d
+      left join diary_tag dt on d.id = dt.diary_id
+      join tag t on t.id = dt.tag_id
+      where d.id in (
+        select d2.id
+        from diary d2
+        join diary_tag dt2 on d2.id = dt2.diary_id
+        where d2.created_at >= now() - interval 2 week and dt2.tag_id = 10
+      )
+      group by d.id
+      order by likes desc
+      limit 5;
+      `;
+      const [result] = await conn.execute(sql);
+      return result;
+    })();
+    expect(response.body).toEqual(result);
   });
 
   it('토큰 없음', async () => {

@@ -32,7 +32,13 @@ describe('POST /diary/random 기본 랜덤 일기 가져오기', () => {
       created_at: '2024-05-14 17:26:08',
       updated_at: null,
       likes: 62,
-      tags: [1, 10, 79, 121, 150],
+      tags: [
+        { id: 1, name: '카페' },
+        { id: 10, name: '태닝' },
+        { id: 79, name: '코스프레' },
+        { id: 121, name: '마블' },
+        { id: 150, name: '철인 3종 경기' },
+      ],
     });
   });
 

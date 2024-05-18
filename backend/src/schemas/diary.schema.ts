@@ -1,6 +1,6 @@
 import { Diary, DiarySchema, DiaryUpdate, DiaryUpdateSchema } from '@models/diary.model';
 import { Preferences } from '@models/preference.model';
-import { Tag } from '@models/tag.model';
+import { Tag, TagNameSchema } from '@models/tag.model';
 import { User } from '@models/user.model';
 import { Logon, LogonSchema } from '@schemas/login.schema';
 import { DistanceSchema, EndAgeSchema, StartAgeSchema } from '@schemas/myProfile.schema';
@@ -29,15 +29,12 @@ export const PositiveIntegerURLSchema = Joi.string()
   .required();
 export const PositiveIntegerArraySchema = Joi.array().items(Joi.number().integer().positive().strict()).required();
 
-export const TagsSchema = PositiveIntegerArraySchema.label('Tags');
 export const PreferIdSchema = PositiveIntegerArraySchema.label('PreferId');
 
-export const FirstRandomDiaryResponseSchema = DiarySchema.concat(
-  Joi.object({
-    tags: TagsSchema,
-    prefer_id: PreferIdSchema,
-  }),
-);
+export const FirstRandomDiaryResponseSchema = DiarySchema.keys({
+  tags: TagNameSchema,
+  prefer_id: PreferIdSchema,
+});
 
 export interface PreferIdRequest extends Logon {
   prefer_id: User['id'];

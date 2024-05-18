@@ -52,8 +52,10 @@ export const selectFirstRandomDiary = async (
 
   const random_id = selectRandomElementInArray(prefer_id);
   sql = `
-  select d.*, json_arrayagg(dt.tag_id) as tags from diary d
+  select d.*, json_arrayagg(json_object('id', t.id, 'name', t.name)) as tags 
+  from diary d
   join diary_tag dt on dt.diary_id = d.id
+  join tag t on t.id = dt.tag_id
   left join likes l on l.diary_id = d.id and l.user_id = :user_id
   where d.user_id = :random_id and l.user_id is null
   group by d.id
