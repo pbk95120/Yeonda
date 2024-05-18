@@ -8,19 +8,32 @@ import { getMyPage } from '@/api/mypage.api';
 import { Tag } from '@/components/join/Interest';
 
 const MyPage = () => {
+  const [gender, setGender] = useState<'Male' | 'Female'>('Male');
+  const [nickname, setNickname] = useState<string>('defalut');
+  const [age, setAge] = useState<number>(0);
+  const [tags, setTags] = useState<Tag[]>([
+    { id: 1, name: '롤토체스' },
+    { id: 2, name: '농구' },
+    { id: 3, name: '게임' },
+    { id: 4, name: '롤토체스' },
+    { id: 5, name: '취뽀' },
+  ]);
+  const [picture_url, setPicture_url] = useState<string>('');
+  const [address, setAddress] = useState<string>('');
+
   const navigate = useNavigate();
   useEffect(() => {
     goToSettingPage();
     getMyPage().then((data) => {
       const { nickname, gender, birth, tags, picture_url, detail } = data;
+      console.log(tags);
       setGender(gender);
       setNickname(nickname);
       setAge(calculateAge(birth));
-      setTags(tags);
       setPicture_url(picture_url);
       setAddress(detail);
     });
-  }, [getMyPage]);
+  }, []);
   const goToSettingPage = () => {
     const setting = document.querySelector('#setting');
     setting?.addEventListener('click', () => navigate('/mypage/setting'));
@@ -39,19 +52,6 @@ const MyPage = () => {
     }
     return age;
   };
-
-  const [gender, setGender] = useState<'Male' | 'Female'>('Male');
-  const [nickname, setNickname] = useState<string>('defalut');
-  const [age, setAge] = useState<number>(0);
-  const [tags, setTags] = useState<Tag[]>([
-    { id: 1, name: '롤토체스' },
-    { id: 2, name: '농구' },
-    { id: 3, name: '게임' },
-    { id: 4, name: '롤토체스' },
-    { id: 5, name: '취뽀' },
-  ]);
-  const [picture_url, setPicture_url] = useState<string>('');
-  const [address, setAddress] = useState<string>('');
 
   return (
     <div className='flex flex-col items-center justify-center space-y-2'>

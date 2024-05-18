@@ -1,7 +1,7 @@
 import { cls } from '@/utils/cls';
 import { RiDiscountPercentFill } from 'react-icons/ri';
 import { BsSearchHeart } from 'react-icons/bs';
-
+import { GiCancel } from 'react-icons/gi';
 import { LuImagePlus } from 'react-icons/lu';
 import { UseFormRegisterReturn } from 'react-hook-form';
 import { useState } from 'react';
@@ -103,8 +103,8 @@ const Input = ({ className, placeholder, inputFor, register, contentImageState, 
         {contentImageUrl ? (
           <div className='relative flex'>
             <img alt='문제 이미지 미리보기' src={contentImageUrl} className='h-[100px] w-[100px]' />
-            <button className='absolute -top-1 right-1 h-1 w-2' onClick={deleteImg}>
-              x
+            <button className='absolute right-2 top-0 h-1 w-2' onClick={deleteImg}>
+              <GiCancel className='fill-lightgray hover:fill-pastelred' />
             </button>
           </div>
         ) : (
@@ -117,7 +117,6 @@ const Input = ({ className, placeholder, inputFor, register, contentImageState, 
             onDragLeave={onDragLeave}
             onDragOver={onDragOver}
             onDrop={onDrop}
-            // styled components props
           >
             <label htmlFor='input-file' role='button'>
               <LuImagePlus className='h-12 w-12' />

@@ -16,13 +16,11 @@ interface PreferenceFormInputs {
   startAge: number;
   endAge: number;
 }
-type Gender = 'Male' | 'Neutral' | 'Female';
 
 const MyPref = () => {
   const navigate = useNavigate();
   const { setValue, getValues } = useForm<PreferenceFormInputs>();
   const [open, setOpen] = useState<boolean>(false);
-  const [gender, setGender] = useState<Gender>('Neutral');
   const [selectedGender, setSelectedGender] = useState<string>('Neutral');
   const [tags, setTags] = useState<Tag[]>([
     { id: 1, name: '롤토체스' },
@@ -37,22 +35,26 @@ const MyPref = () => {
   const patchBtn = () => {
     let patch = document.querySelector('#backBtn');
     patch?.addEventListener('click', () => {
-      patchMyPageMyPref({ gender: selectedGender, distance: distance, start_age: startAge, end_age: endAge });
+      console.log(startAge, endAge, distance);
+      // patchMyPageMyPref({ gender: selectedGender, distance: distance, start_age: startAge, end_age: endAge }).then(() =>
+      //   console.log('변경상황이 저장되었다능!!'),
+      // );
     });
   };
   useEffect(() => {
     getMyPageMyPref().then((data) => {
       const { gender, distance, start_age, end_age } = data;
+      console.log(gender, distance, start_age, end_age);
       setDistance(distance);
       setStartAge(start_age);
       setEndAge(end_age);
-      setGender(gender);
+      setSelectedGender(gender);
       patchBtn();
     });
     getMyTag().then((data) => {
       setTags(data);
     });
-  }, [startAge, endAge, distance, selectedGender]);
+  }, []);
 
   const openModal = () => setOpen(true);
   const closeModal = () => setOpen(false);
