@@ -1,9 +1,8 @@
 import { Connection } from 'mysql2/promise';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
-import { uuidv4 } from 'uuid';
-import { fileSchem } from '@sockets/schemas';
-import logger from '@src/logger';
+import { v4 as uuidv4 } from 'uuid';
 import Database from '@src/db';
+import logger from '@src/logger';
 import 'dotenv/config';
 
 export const transactionWrapper =
@@ -34,10 +33,7 @@ export const databaseConnector =
     }
   };
 
-export const S3_SaveController = async (file) => {
-  const { error } = fileSchem.validate(file);
-  if (error) return Error('rewjklrejwjrklewr');
-
+export const S3_SaveController = async (file, fileName) => {
   const client = new S3Client({
     region: process.env.REGION,
     credentials: {
@@ -46,15 +42,16 @@ export const S3_SaveController = async (file) => {
     },
   });
 
+  const buffer = Buffer.from(file.replace(/^data:image\/\w+;base64,/, ''), 'base64');
   const uniqueName = uuidv4();
-  const extension = file.name.split('.').pop();
+  const extension = fileName.split('.').pop();
   const S3_img = `${uniqueName}.${extension}`;
   const DB_picture_url = `${process.env.q}${S3_img}`;
 
   const params = {
     Bucket: process.env.BUCKET_NAME,
     Key: S3_img,
-    Body: Buffer.from(file.data),
+    Body: buffer,
   };
 
   try {

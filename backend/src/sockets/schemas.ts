@@ -21,12 +21,6 @@ export const chatSchema = Joi.object({
   chat: Joi.array().items(chatMessageSchema),
 });
 
-export const fileSchem = Joi.object({
-  name: Joi.string().required(),
-  type: Joi.string().required(),
-  data: Joi.binary().required(),
-});
-
 export const createChatSchema = Joi.object({
   couple_id: Joi.number().integer().positive().required(),
   user_id: Joi.number().integer().positive().required(),

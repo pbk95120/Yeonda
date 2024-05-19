@@ -13,11 +13,17 @@ const cleanUp = async (conn: Connection) => {
   sql = `INSERT INTO likes (diary_id, user_id) VALUES (4, :user_id)`;
   await conn.execute(sql, { user_id: parseInt(process.env.TEST_ID) });
 
-  sql = `INSERT INTO couple (id, user1_id, user2_id) VALUES (4, :user1_id, :user2_id)`;
+  sql = `INSERT INTO couple (user1_id, user2_id) VALUES (:user1_id, :user2_id)`;
   await conn.execute(sql, { user1_id: parseInt(process.env.TEST_ID), user2_id: parseInt(process.env.TEST2_ID) });
 
-  sql = `INSERT INTO chat (couple_id, user_id, picture_url, message, is_read) VALUES (4, :user_id, 'url4', 'test', 0)`;
-  await conn.execute(sql, { user_id: parseInt(process.env.TEST_ID) });
+  const [rows] = await conn.query('SELECT id FROM couple ORDER BY id DESC LIMIT 1');
+  const count = rows[0].id;
+
+  sql = `INSERT INTO chat (couple_id, user_id, picture_url, message, is_read) VALUES (:count, :user_id, 'url4', 'test', 0)`;
+  await conn.execute(sql, { count: parseInt(count), user_id: parseInt(process.env.TEST_ID) });
+
+  sql = `INSERT INTO chat (couple_id, user_id, picture_url, message, is_read) VALUES (:count, :user_id, 'url4', 'test', 0)`;
+  await conn.execute(sql, { count: parseInt(count), user_id: parseInt(process.env.TEST2_ID) });
 };
 
 beforeAll(async () => {
