@@ -14,7 +14,7 @@ const selectGenderCount = async (conn: Connection) => {
 const selectAverageDiary = async (conn: Connection) => {
   const sql = `SELECT 
       DATE_FORMAT(created_at, '%Y-%m-%d') AS date,
-      (COUNT(*)/COUNT(DISTINCT user_id)) AS avg
+      CAST((COUNT(*)/COUNT(DISTINCT user_id)) AS FLOAT) AS avg
       FROM
       diary
       GROUP BY
