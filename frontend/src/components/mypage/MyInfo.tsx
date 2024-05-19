@@ -31,19 +31,20 @@ const MyInfo = () => {
       saveBtn();
     });
   }, []);
-  const saveBtn = async () => {
-    let save = await document.querySelector('#myPrefBtn');
+  const saveBtn = () => {
+    let save = document.querySelector('#myPrefBtn');
+    let back = document.querySelector('#backBtn');
+
+    back?.addEventListener('click', () => {
+      patchMyInfoAddress(getValues('address')).then(() => console.log('주소변경 완료'));
+    });
     save?.addEventListener('click', () => {
-      try {
-        console.log(newAddress);
-        patchMyInfoAddress(getValues('address')).then(() => console.log('주소변경 완료'));
-      } catch {
-        alert('올바른 주소 입력값이 아닙니다.');
-      }
+      patchMyInfoAddress(getValues('address')).then(() => console.log('주소변경 완료'));
     });
   };
 
   const handleAddressSelection = (address: string) => {
+    console.log(address);
     setNewAddress(address);
     setAddress(address);
     setValue('address', address);
@@ -62,7 +63,7 @@ const MyInfo = () => {
       <Input
         inputFor='image'
         className='mt-3'
-        contentImageState={{ contentImage: null, setContentImage: setPicture_url }}
+        contentImageState={{ contentImage: picture_url, setContentImage: setPicture_url }}
       />
       <div className='flex h-[86px] w-[339px] flex-col p-3 shadow-lg'>
         <span className='mb-3 font-sans font-bold'>주소</span>

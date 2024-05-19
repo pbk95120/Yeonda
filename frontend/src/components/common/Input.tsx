@@ -4,7 +4,7 @@ import { BsSearchHeart } from 'react-icons/bs';
 import { GiCancel } from 'react-icons/gi';
 import { LuImagePlus } from 'react-icons/lu';
 import { UseFormRegisterReturn } from 'react-hook-form';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   className?: string;
@@ -12,7 +12,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   inputFor: 'search' | 'default' | 'image';
   register?: UseFormRegisterReturn;
   contentImageState?: {
-    contentImage: File | null;
+    contentImage: File | null | string;
     setContentImage: Function;
   };
 }
@@ -51,6 +51,12 @@ const Input = ({ className, placeholder, inputFor, register, contentImageState, 
     const [isDragging, setIsDragging] = useState(false);
     const { contentImage, setContentImage } = contentImageState;
     const [contentImageUrl, setContentImageUrl] = useState<string | null>(null);
+
+    useEffect(() => {
+      if (typeof contentImage === 'string') {
+        setContentImageUrl(contentImage);
+      }
+    }, []);
 
     const readImage = (image: File) => {
       const reader = new FileReader();
