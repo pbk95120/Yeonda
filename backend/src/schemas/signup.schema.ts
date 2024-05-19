@@ -5,14 +5,14 @@ import { User } from '@models/user.model';
 import { PasswordConfirm } from '@schemas/passwordReset.schema';
 import Joi from 'joi';
 
-export interface RawSignup
-  extends Pick<User, 'nickname' | 'email' | 'birth'>,
-    PasswordConfirm,
-    Pick<Preference, 'distance' | 'start_age' | 'end_age'> {
+export interface RawSignup extends Pick<User, 'nickname' | 'email' | 'birth'>, PasswordConfirm {
   gender: User['gender'];
   picture: string;
   address: Address['detail'];
   prefer_gender: Preference['gender'];
+  distance: string;
+  start_age: string;
+  end_age: string;
   tags: string;
 }
 
