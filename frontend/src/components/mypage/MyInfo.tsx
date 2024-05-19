@@ -6,7 +6,7 @@ import AddressModal from '../common/AddressModal';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '@/api/user.api';
 import { useAuthStore } from '@/store/authStore';
-import { getMyPageMyInfo } from '@/api/mypage.api';
+import { getMyPageMyInfo, patchMyInfoAddress } from '@/api/mypage.api';
 
 const MyInfo = () => {
   const { storeLogout } = useAuthStore();
@@ -14,17 +14,32 @@ const MyInfo = () => {
   const navigate = useNavigate();
   const [picture_url, setPicture_url] = useState<string>('');
   const [address, setAddress] = useState<string>('');
+  const [newAddress, setNewAddress] = useState<string>('');
 
   useEffect(() => {
     getMyPageMyInfo().then((data) => {
       const { picture_url, detail } = data;
       setPicture_url(picture_url);
       setAddress(detail);
+      saveBtn();
     });
   }, []);
+  const saveBtn = async () => {
+    let save = await document.querySelector('#myPrefBtn');
+    save?.addEventListener('click', () => {
+      try {
+        console.log(newAddress);
+        patchMyInfoAddress(newAddress).then(() => console.log('주소변경 완료'));
+      } catch {
+        alert('올바른 주소 입력값이 아닙니다.');
+      }
+    });
+  };
 
   const handleAddressSelection = (address: string) => {
+    setNewAddress(address);
     setAddress(address);
+
     setIsModalOpen(false);
   };
 

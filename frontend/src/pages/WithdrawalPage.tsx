@@ -1,4 +1,4 @@
-import { withDrawal } from '@/api/mypage.api';
+import { signOut } from '@/api/mypage.api';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import Modal from '@/components/common/Modal';
@@ -20,10 +20,14 @@ const WithdrawalPage = () => {
   const withdrawalBtn = () => {
     let withdrawal = document.querySelector('#active');
     withdrawal?.addEventListener('click', () => {
-      withDrawal().then(() => {
-        storeLogout();
-        navigate('/join');
-      });
+      try {
+        signOut(password).then(() => {
+          storeLogout();
+          navigate('/join');
+        });
+      } catch {
+        alert('비밀번호가 일치하지 않습니다.탈퇴가 불가능합니다');
+      }
     });
   };
   return (

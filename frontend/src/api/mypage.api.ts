@@ -5,16 +5,16 @@ export const getMyPage = async () => {
   return await requestHandler('get', '/profile/my');
 };
 
-export const withDrawal = async () => {
-  return await requestHandler('delete', '/signout');
-};
-
 export const getMyPageMyInfo = async () => {
   return await requestHandler('get', '/profile/my/setting');
 };
 
 export const patchMyInfoPicture = async () => {
   return await requestHandler('patch', '/profile/my/setting/picture');
+};
+
+export const patchMyInfoAddress = async (address: string) => {
+  return await requestHandler('patch', '/profile/my/setting/address', { address });
 };
 
 export const getMyPageMyPref = async () => {
@@ -31,4 +31,8 @@ export const getMyTag = async () => {
 
 export const putMyTag = async () => {
   return await requestHandler('put', '/profile/my/tag');
+};
+
+export const signOut = async (password: string) => {
+  return await requestHandler('post', '/signout', { password });
 };

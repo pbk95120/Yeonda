@@ -34,11 +34,16 @@ const MyPref = () => {
   const [endAge, setEndAge] = useState<number>(100);
   const patchBtn = () => {
     let patch = document.querySelector('#backBtn');
-    patch?.addEventListener('click', () => {
-      console.log(startAge, endAge, distance);
-      // patchMyPageMyPref({ gender: selectedGender, distance: distance, start_age: startAge, end_age: endAge }).then(() =>
-      //   console.log('변경상황이 저장되었다능!!'),
-      // );
+    patch?.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      setDistance(getValues('distance'));
+      setStartAge(getValues('startAge'));
+      setEndAge(getValues('endAge'));
+      console.log(getValues('distance'), getValues('startAge'), getValues('endAge'));
+      patchMyPageMyPref({ gender: selectedGender, distance: distance, start_age: startAge, end_age: endAge }).then(() =>
+        console.log('변경상황이 저장되었다능!!'),
+      );
     });
   };
   useEffect(() => {
@@ -102,13 +107,11 @@ const MyPref = () => {
           endAge={endAge}
         />
       </div>
-      <div className='mt-3 flex h-[86px] w-[339px] flex-col p-3 shadow-lg' onClick={() => navigate('preference')}>
+      <div className='mt-3 flex h-auto w-[339px] flex-col p-3 shadow-lg' onClick={() => navigate('preference')}>
         <span className='mb-3 font-sans font-bold'>관심사</span>
-        <div className='flex flex-row'>
+        <div className='flex flex-wrap'>
           {tags.map((tag, i) => (
-            <div key={i} className='inline-block'>
-              <Tags i={i} tag={tag} className='mx-[1px] px-1 py-1' />
-            </div>
+            <Tags i={i} key={i} tag={tag} className='mx-[1px] px-1 py-1' />
           ))}
         </div>
       </div>
