@@ -34,9 +34,6 @@ export const databaseConnector =
   };
 
 export const S3_SaveController = async (file) => {
-  const { error } = fileSchem.validate(file);
-  if (error) return Error('지원하지 않는 파일 입니다.');
-
   const client = new S3Client({
     region: process.env.REGION,
     credentials: {
