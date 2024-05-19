@@ -46,9 +46,12 @@ const AnalysisPage = () => {
             setAvgDiaryCount(avgDiary);
             setDormantUser(data.twoWeeksUserList);
           },
-          () => {
-            alert('admin만 접근 가능합니다.');
-            navigate('/othersdiary/suggestion');
+
+          (err) => {
+            if (err.response.status === 401) {
+              alert('admin만 접근 가능합니다.');
+              navigate('/othersdiary/suggestion');
+            }
           },
         );
       },
