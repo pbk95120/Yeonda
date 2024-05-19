@@ -22,13 +22,7 @@ const MyPref = () => {
   const { setValue, getValues } = useForm<PreferenceFormInputs>();
   const [open, setOpen] = useState<boolean>(false);
   const [selectedGender, setSelectedGender] = useState<string>('Neutral');
-  const [tags, setTags] = useState<Tag[]>([
-    { id: 1, name: '롤토체스' },
-    { id: 2, name: '농구' },
-    { id: 3, name: '우주파괴' },
-    { id: 4, name: '취뽀' },
-    { id: 5, name: '독서' },
-  ]);
+  const [tags, setTags] = useState<Tag[]>([]);
   const [distance, setDistance] = useState<number>(0);
   const [startAge, setStartAge] = useState<number>(0);
   const [endAge, setEndAge] = useState<number>(100);
@@ -37,13 +31,12 @@ const MyPref = () => {
     patch?.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
-      setDistance(getValues('distance'));
-      setStartAge(getValues('startAge'));
-      setEndAge(getValues('endAge'));
-      console.log(getValues('distance'), getValues('startAge'), getValues('endAge'));
-      patchMyPageMyPref({ gender: selectedGender, distance: distance, start_age: startAge, end_age: endAge }).then(() =>
-        console.log('변경상황이 저장되었다능!!'),
-      );
+      patchMyPageMyPref({
+        gender: selectedGender,
+        distance: getValues('distance'),
+        start_age: getValues('startAge'),
+        end_age: getValues('endAge'),
+      }).then(() => console.log('변경상황이 저장되었다능!!'));
     });
   };
   useEffect(() => {
@@ -110,9 +103,11 @@ const MyPref = () => {
       <div className='mt-3 flex h-auto w-[339px] flex-col p-3 shadow-lg' onClick={() => navigate('preference')}>
         <span className='mb-3 font-sans font-bold'>관심사</span>
         <div className='flex flex-wrap'>
-          {tags.map((tag, i) => (
-            <Tags i={i} key={i} tag={tag} className='mx-[1px] px-1 py-1' />
-          ))}
+          {tags.length > 0 ? (
+            tags.map((tag, i) => <Tags i={i} key={i} tag={tag} className='mx-[1px] px-1 py-1' />)
+          ) : (
+            <div className='font-sans text-lightgray'>관심사 태그 없습니다!!!</div>
+          )}
         </div>
       </div>
       {open && (
