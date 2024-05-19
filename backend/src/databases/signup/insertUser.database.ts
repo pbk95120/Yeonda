@@ -1,4 +1,4 @@
-import { requestS3Save } from '@middlewares/requestS3Save.middleware';
+import { S3Save } from '@middlewares/S3Save.middleware';
 import { transactionWrapper } from '@middlewares/transactionWrapper.middleware';
 import { Signup } from '@schemas/signup.schema';
 import CustomError from '@src/error';
@@ -35,7 +35,7 @@ export const insertUser = async (conn: Connection, info: Signup, file: Express.M
     }
 
     let picture_url;
-    if (user.picture_url) picture_url = await requestS3Save(file);
+    if (user.picture_url) picture_url = await S3Save(file);
     else picture_url = null;
 
     sql = `insert into user (email, password, nickname, gender, birth, picture_url, address_id) 

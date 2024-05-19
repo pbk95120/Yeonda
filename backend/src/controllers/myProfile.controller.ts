@@ -1,3 +1,4 @@
+import { deleteMyPicture } from '@databases/myProfile/deleteMyPicture.database';
 import { selectMyPreference } from '@databases/myProfile/selectMyPreference.database';
 import { selectMyProfile } from '@databases/myProfile/selectMyProfile.database';
 import { selectMySetting } from '@databases/myProfile/selectMySetting.database';
@@ -8,10 +9,10 @@ import { updateMyPreference } from '@databases/myProfile/updateMyPreference.data
 import { updateMyTag } from '@databases/myProfile/updateMyTag.database';
 import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { Controller } from '@schemas/controller.schema';
-import { PatchMyPreferenceSchema } from '@schemas/myProfile.schema';
-import { AddressDetailSchema, PictureUrlSchema, SignTagsSchema } from '@schemas/signup.schema';
+import { PatchMyPreferenceSchema, PictureUrlSchema } from '@schemas/myProfile.schema';
+import { AddressDetailSchema, SignTagsSchema } from '@schemas/signup.schema';
 import CustomError from '@src/error';
-import { renameImage } from '@src/utils/renameImage';
+import { renameImage } from '@utils/renameImage';
 import http from 'http-status-codes';
 
 export const getMyProfile: Controller = async (req, res) => {
@@ -31,6 +32,11 @@ export const patchMyPicture: Controller = async (req, res) => {
   if (error) throw new CustomError(http.BAD_REQUEST, '잘못된 첨부 파일 양식', error);
 
   await databaseConnector(updateMyPicture)(req.body.user_id, req.file);
+  res.sendStatus(http.OK);
+};
+
+export const removeMyPicture: Controller = async (req, res) => {
+  await databaseConnector(deleteMyPicture)(req.body);
   res.sendStatus(http.OK);
 };
 
