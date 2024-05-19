@@ -28,15 +28,15 @@ const MyPref = () => {
   const [endAge, setEndAge] = useState<number>(100);
   const patchBtn = () => {
     let patch = document.querySelector('#backBtn');
-    patch?.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
+    patch?.addEventListener('click', () => {
       patchMyPageMyPref({
         gender: getValues('preferGender'),
         distance: getValues('distance'),
         start_age: getValues('startAge'),
         end_age: getValues('endAge'),
-      }).then(() => console.log('변경상황이 저장되었다능!!'));
+      }).then(() => {
+        console.log('변경상황이 저장되었다능!!');
+      });
     });
   };
   useEffect(() => {

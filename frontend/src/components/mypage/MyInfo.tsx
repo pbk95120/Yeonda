@@ -37,33 +37,23 @@ const MyInfo = () => {
     let save = document.querySelector('#myPrefBtn');
     let back = document.querySelector('#backBtn');
     if (address !== newAddress && newAddress.length > 0) {
-      back?.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
+      back?.addEventListener('click', () => {
         patchMyInfoAddress(getValues('address')).then(() => console.log('주소변경 완료'));
       });
-      save?.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
+      save?.addEventListener('click', () => {
         patchMyInfoAddress(getValues('address')).then(() => console.log('주소변경 완료'));
       });
     }
-    if (beforePicture !== picture_url && beforePicture) {
-      back?.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        let imageFormData = new FormData();
-        imageFormData.append('image', getValues('picture'));
-        patchMyInfoPicture(imageFormData).then(() => console.log('사진변경 완료'));
-      });
-      save?.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        let imageFormData = new FormData();
-        imageFormData.append('image', getValues('picture'));
-        patchMyInfoPicture(imageFormData).then(() => console.log('사진변경 완료'));
-      });
-    }
+    back?.addEventListener('click', () => {
+      let imageFormData = new FormData();
+      imageFormData.append('picture', getValues('picture'));
+      patchMyInfoPicture(imageFormData).then(() => console.log('사진변경 완료'));
+    });
+    save?.addEventListener('click', () => {
+      let imageFormData = new FormData();
+      imageFormData.append('picture', getValues('picture'));
+      patchMyInfoPicture(imageFormData).then(() => console.log('사진변경 완료'));
+    });
   };
 
   const handleAddressSelection = (address: string) => {

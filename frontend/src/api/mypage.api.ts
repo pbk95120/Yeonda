@@ -10,7 +10,7 @@ export const getMyPageMyInfo = async () => {
 };
 
 export const patchMyInfoPicture = async (imageFormData: FormData) => {
-  const response = await httpClient.patch('/signup', imageFormData, {
+  const response = await httpClient.patch('/profile/my/setting/picture', imageFormData, {
     headers: { 'Content-Type': 'multipart/form-data' },
   });
   return response.data;
