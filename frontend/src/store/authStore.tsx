@@ -12,6 +12,7 @@ interface StoreState {
   isLoggedIn: boolean;
   storeLogin: (email: string, pref: Pref) => void;
   storeLogout: () => void;
+  changePref: (pref: Pref) => void;
   email: string;
   gender: string;
   start_age: number;
@@ -36,6 +37,14 @@ export const useAuthStore = create(
           end_age: pref.end_age,
           distance: pref.distance,
           email: emailInput,
+        });
+      },
+      changePref: (pref: Pref) => {
+        set({
+          gender: pref.gender,
+          start_age: pref.start_age,
+          end_age: pref.end_age,
+          distance: pref.distance,
         });
       },
       storeLogout: () => {

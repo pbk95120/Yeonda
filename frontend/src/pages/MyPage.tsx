@@ -26,7 +26,7 @@ const MyPage = () => {
     goToSettingPage();
     getMyPage().then((data) => {
       const { nickname, gender, birth, tags, picture_url, detail } = data;
-      console.log(tags);
+      setTags(tags);
       setGender(gender);
       setNickname(nickname);
       setAge(calculateAge(birth));
@@ -67,11 +67,11 @@ const MyPage = () => {
           {gender === 'Female' ? <IoMale className='h-5 w-5' /> : <IoFemale className='h-5 w-5' />}
         </div>
       </div>
-      <div className='font-sans text-xl font-bold'>{address}</div>
+      <div className='break-keep px-10 text-center font-sans text-xl font-bold'>{address}</div>
       <div id='tag container' className='w-80 flex-wrap items-center justify-center pt-6'>
         {tags.map((tag, i) => (
           <div key={i} className='inline-block'>
-            <Tags i={i} tag={tag} className='mx-4 px-3 py-2' />
+            <Tags i={i} tag={tag} className='mx-3 px-3 py-2' />
           </div>
         ))}
       </div>

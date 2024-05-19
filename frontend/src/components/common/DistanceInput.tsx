@@ -16,8 +16,7 @@ const DistanceInput = ({ setValue, getValues, distance, className, sliderClassNa
   const [currentDistance, setCurrentDistance] = useState(distance);
 
   useEffect(() => {
-    setValue('distance', DEFAULT_DISTANCE);
-    setCurrentDistance(distance);
+    distance ? setCurrentDistance(distance) : setValue('distance', DEFAULT_DISTANCE);
   }, [distance]);
 
   const handleChange = (_: Event, value: number | number[]) => {
