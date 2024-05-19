@@ -5,16 +5,11 @@ import { useEffect, useState } from 'react';
 import { MAX_TAGS, MIN_TAGS } from '@/constants/constants';
 import { Tag } from '@/components/join/Interest';
 import { getTags } from '@/api/user.api';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { getMyPage } from '@/api/mypage.api';
 
-interface InterestFormInputs {
-  tags: Tag[];
-}
+import { getMyPage, putMyTag } from '@/api/mypage.api';
 
 const PreferencePage = () => {
   const [inputText, setInputText] = useState('');
-  const { handleSubmit } = useForm<InterestFormInputs>();
   const [tags, setTags] = useState<Tag[]>([]);
   const [alltags, setAllTags] = useState<Tag[]>([]);
   const filteredTags = alltags.filter((tag) => tag.name.toLowerCase().includes(inputText.toLowerCase()));
@@ -22,6 +17,26 @@ const PreferencePage = () => {
   const handleRemoveTag = (indexToRemove: number) => {
     const updatedTags = tags.filter((_, index) => index !== indexToRemove);
     setTags(updatedTags);
+  };
+  const tagIdToString = (tags: Tag[]) => {
+    let tagIdArr = tags.map((el: Tag) => el.id);
+    let result = tagIdArr.join();
+    console.group(result);
+    return result;
+  };
+  const putTag = (tags: Tag[], e: Event) => {
+    e.preventDefault();
+    let tagToString = tagIdToString(tags);
+    putMyTag(tagToString).then(
+      () => {
+        let backBtn = document.querySelector('#backBtn');
+        backBtn?.addEventListener('click', () => history.back());
+        alert('태그 수정 완료!!!');
+      },
+      () => {
+        alert('태그 수정 실패!!!');
+      },
+    );
   };
 
   const handleAddTag = (tag: Tag) => {
@@ -32,13 +47,19 @@ const PreferencePage = () => {
     }
   };
   useEffect(() => {
-    getMyPage().then((data) => {
-      const { tags } = data;
-      setTags(tags);
-      getTags().then((data) => {
-        setAllTags(data);
-      });
-    });
+    getMyPage().then(
+      (data) => {
+        const { tags } = data;
+        console.log(tags);
+        setTags(tags);
+        getTags().then((data) => {
+          setAllTags(data);
+        });
+      },
+      () => {
+        alert('태그 가져오기 실패!!!!');
+      },
+    );
   }, []);
 
   return (
@@ -74,7 +95,7 @@ const PreferencePage = () => {
           </fieldset>
         </div>
         <div className='absolute top-[580px] flex gap-x-2'>
-          <Button size='large' children='완료' disabled={tags.length < MIN_TAGS} />
+          <Button size='large' children='완료' disabled={tags.length < MIN_TAGS} onClick={(e) => putTag(tags, e)} />
         </div>
       </form>
     </div>
