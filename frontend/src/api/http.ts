@@ -1,6 +1,7 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { DEFAULT_TIMEOUT } from '@/constants/constants';
 import { useAuthStore } from '@/store/authStore';
+import { refreshToken } from './user.api';
 
 /**
  * Axios 인스턴스 생성
@@ -12,20 +13,24 @@ export const createClient = (config?: AxiosRequestConfig) => {
     timeout: DEFAULT_TIMEOUT,
     headers: {
       'Content-Type': 'application/json',
-      Authorization: AUTH.email ? AUTH.email : '',
+      Authorization: AUTH.email ? `Bearer ${AUTH.email}` : '',
     },
     withCredentials: true,
     ...config,
   });
-  axiosInstance.interceptors.request.use(
-    (response) => {
-      return response;
-    },
+
+  axiosInstance.interceptors.response.use(
+    (response) => response,
     (error) => {
-      if (error.response.status === 401) {
-        useAuthStore().storeLogout();
-        window.location.href = '/login';
-        return;
+      if (error.response && error.response.status === 401) {
+        refreshToken().then(
+          () => {},
+          () => {
+            alert('로그인이 만료되었습니다.');
+            useAuthStore.getState().storeLogout();
+            window.location.replace('/login');
+          },
+        );
       }
       return Promise.reject(error);
     },
@@ -40,6 +45,7 @@ type RequestMethod = 'get' | 'post' | 'put' | 'delete' | 'patch';
 
 export const requestHandler = async <T>(method: RequestMethod, url: string, payload?: T) => {
   let response;
+
   switch (method) {
     case 'post':
       response = await httpClient.post(url, payload);
@@ -56,6 +62,8 @@ export const requestHandler = async <T>(method: RequestMethod, url: string, payl
     case 'patch':
       response = await httpClient.patch(url, payload);
       break;
+    default:
+      throw new Error('Invalid request method');
   }
   return response.data;
 };
