@@ -34,11 +34,11 @@ const socketHandler = (io: Server) => {
     socket.on('sendMessage', async (data) => {
       try {
         const user_id = socket.data.user_id;
-        const { couple_id, message, file } = data;
+        const { couple_id, message, file, fileName } = data;
 
         const now = new Date();
         const send_at = now.toISOString().slice(0, 19).replace('T', ' ');
-        const picture_url = file === (null || 'null') ? null : await S3_SaveController(file);
+        const picture_url = file === (null || 'null') ? null : await S3_SaveController(file, fileName);
 
         const room = io.sockets.adapter.rooms.get(couple_id);
         const is_read = room ? (room.size == 2 ? 1 : 0) : 0;

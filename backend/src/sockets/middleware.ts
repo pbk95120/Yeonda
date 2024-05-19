@@ -33,7 +33,7 @@ export const databaseConnector =
     }
   };
 
-export const S3_SaveController = async (file) => {
+export const S3_SaveController = async (file, fileName) => {
   const client = new S3Client({
     region: process.env.REGION,
     credentials: {
@@ -44,7 +44,7 @@ export const S3_SaveController = async (file) => {
 
   const buffer = Buffer.from(file.replace(/^data:image\/\w+;base64,/, ''), 'base64');
   const uniqueName = uuidv4();
-  const extension = file.name.split('.').pop();
+  const extension = fileName.split('.').pop();
   const S3_img = `${uniqueName}.${extension}`;
   const DB_picture_url = `${process.env.q}${S3_img}`;
 
