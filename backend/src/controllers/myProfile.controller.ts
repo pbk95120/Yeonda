@@ -9,8 +9,8 @@ import { updateMyPreference } from '@databases/myProfile/updateMyPreference.data
 import { updateMyTag } from '@databases/myProfile/updateMyTag.database';
 import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { Controller } from '@schemas/controller.schema';
-import { PatchMyPreferenceSchema } from '@schemas/myProfile.schema';
-import { AddressDetailSchema, PictureUrlSchema, SignTagsSchema } from '@schemas/signup.schema';
+import { PatchMyPreferenceSchema, PictureUrlSchema } from '@schemas/myProfile.schema';
+import { AddressDetailSchema, SignTagsSchema } from '@schemas/signup.schema';
 import CustomError from '@src/error';
 import { renameImage } from '@utils/renameImage';
 import http from 'http-status-codes';

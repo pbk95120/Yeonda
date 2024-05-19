@@ -45,6 +45,10 @@ export class MyPreference implements Preferences {
 
 export interface MySetting extends Pick<User, 'picture_url'>, Pick<Address, 'detail'> {}
 
+export const PictureUrlSchema = Joi.string()
+  .pattern(/^.+\.(jpg|jpeg|png|webp)$/)
+  .required();
+
 export const PreferGenderSchema = Joi.string().valid('Male', 'Female', 'Neutral').required();
 
 export const DistanceSchema = Joi.number().min(0).max(9999).strict().required();

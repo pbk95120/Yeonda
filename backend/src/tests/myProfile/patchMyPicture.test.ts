@@ -1,3 +1,4 @@
+import { S3Delete } from '@middlewares/S3Delete.middleware';
 import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { server } from '@src/app';
 import Database from '@src/db';
@@ -49,6 +50,8 @@ describe('PATCH /profile/my/picture 프로필 사진 수정', () => {
       return result[0].picture_url;
     })();
     expect(url).toContain(process.env.FILE_BASE_USER);
+
+    await S3Delete(url);
   });
 
   it('토큰 없음', async () => {

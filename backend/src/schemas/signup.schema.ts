@@ -28,7 +28,7 @@ export const PasswordSchema = Joi.string()
   .pattern(/^[A-Za-z0-9]+$/)
   .required();
 
-export const PictureUrlSchema = Joi.string()
+export const SignPictureUrlSchema = Joi.string()
   .pattern(/^.+\.(jpg|jpeg|png|webp)$/)
   .allow(null);
 
@@ -58,7 +58,7 @@ export const RawSignupSchema = Joi.object({
   password: PasswordSchema,
   password_check: Joi.string().valid(Joi.ref('password')).required(),
   gender: Joi.string().valid('Male', 'Female').required(),
-  picture_url: PictureUrlSchema,
+  picture_url: SignPictureUrlSchema,
   birth: Joi.string()
     .pattern(/^\d{4}-\d{2}-\d{2}$/)
     .required(),
