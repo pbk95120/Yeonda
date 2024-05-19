@@ -3,7 +3,10 @@ import { Connection } from 'mysql2/promise';
 
 export const deleteMyDiary = async (conn: Connection, diary_id: number) => {
   const callback = async (diary_id: number) => {
-    const deleteDiary = `DELETE FROM diary WHERE id = :diary_id`;
+    const deleteDiary = `DELETE FROM diary 
+    WHERE 
+      id = :diary_id
+    `;
     await conn.execute(deleteDiary, { diary_id: diary_id });
   };
 

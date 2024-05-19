@@ -5,14 +5,15 @@ import { updateMyDiary } from '@databases/myDiary/updateMyDiary.database';
 import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { selectDiarySchemas, updateDiarySchemas, diaryIdSchemas } from '@schemas/myDiary.shema';
 import { Controller } from '@schemas/controller.schema';
+import { scaleNumber } from '@src/utils/scaleNumber';
 import CustomError from '@src/error';
 import http from 'http-status-codes';
 
 export const getMyDiary: Controller = async (req, res) => {
-  const { currentPage, limit, sort } = req.query;
-  const { error } = selectDiarySchemas.validate({ currentPage, limit, sort });
+  const { error } = selectDiarySchemas.validate(req.query);
   if (error) throw new CustomError(http.BAD_REQUEST, '잘못된 다이어리 요청', error);
-  const MyDiary = await databaseConnector(selectMyDiary)(parseInt(req.body.user_id), currentPage, limit, sort);
+  const { currentPage, limit, sort } = scaleNumber(req.query);
+  const MyDiary = await databaseConnector(selectMyDiary)(req.body.user_id, currentPage, limit, sort);
 
   const transTags = MyDiary.map((item) => {
     return {
@@ -24,12 +25,10 @@ export const getMyDiary: Controller = async (req, res) => {
 };
 
 export const getMyDiaryDetail: Controller = async (req, res) => {
-  const id = parseInt(req.params.id);
-  const { error } = diaryIdSchemas.validate(id);
+  const { error } = diaryIdSchemas.validate(parseInt(req.params.id));
   if (error) throw new CustomError(http.BAD_REQUEST, '잘못된 다이어리 ID', error);
 
-  const { user_id } = req.body;
-  const MyDiaryDetail = await databaseConnector(selectMyDiaryDetail)(parseInt(user_id), id);
+  const MyDiaryDetail = await databaseConnector(selectMyDiaryDetail)(req.body.user_id, parseInt(req.params.id));
 
   const transTags = MyDiaryDetail.map((item) => {
     return {
