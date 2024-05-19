@@ -34,8 +34,7 @@ const selectPartnerChatInfo = async (conn: Connection, partner: any, user_id: nu
       const [partnerInfo] = await conn.execute(partner_sql, partner_values);
 
       const chat_sql = `
-            SELECT message,is_read,
-                TIMESTAMPDIFF(DAY, send_at, NOW()) AS commu_streak
+            SELECT message, is_read, TIMESTAMPDIFF(DAY, send_at, NOW()) AS commu_streak
             FROM chat
             WHERE couple_id = :couple_id
             ORDER BY send_at DESC

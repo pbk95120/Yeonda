@@ -19,13 +19,19 @@ const createExcouple = async (conn: Connection, partner: any, user1_id: number, 
   const callback = async (partner: any, user1_id: number, user2_id: number): Promise<void> => {
     let sql;
 
-    sql = `INSERT INTO ex_chat SELECT * FROM chat WHER user_id = :user1_id OR user_id = :user2_id`;
+    sql = `INSERT INTO ex_couple (user1_id, user2_id) VALUES (:user1_id, :user2_id)`;
+    await conn.execute(sql, { user1_id: user1_id, user2_id: user2_id });
+
+    sql = `
+      INSERT INTO ex_chat (ex_couple_id, user_id, picture_url, message, send_at, is_read)
+      SELECT e.id, c.user_id, c.picture_url, c.message, c.send_at, c.is_read
+      FROM chat c
+      JOIN ex_couple e ON c.couple_id = e.id
+      WHERE c.user_id = :user1_id OR c.user_id = :user2_id
+    `;
     await conn.execute(sql, { user1_id: user1_id, user2_id: user2_id });
 
     sql = `DELETE FROM chat WHERE user_id = :user1_id OR user_id = :user2_id`;
-    await conn.execute(sql, { user1_id: user1_id, user2_id: user2_id });
-
-    sql = `INSERT INTO ex_couple (user1_id, user2_id) VALUES (:user1_id, :user2_id)`;
     await conn.execute(sql, { user1_id: user1_id, user2_id: user2_id });
 
     sql = `DELETE FROM couple WHERE user1_id = :user1_id AND user2_id = :user2_id`;
