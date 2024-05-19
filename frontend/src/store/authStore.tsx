@@ -12,51 +12,34 @@ interface StoreState {
   isLoggedIn: boolean;
   storeLogin: (email: string, pref: Pref) => void;
   storeLogout: () => void;
+  email: string;
   gender: string;
   start_age: number;
   end_age: number;
   distance: number;
 }
 
-export const getEmail = () => {
-  return localStorage.getItem('email');
-};
-
-const setEmail = (email: string) => {
-  localStorage.setItem('email', email);
-};
-
-export const removeEmail = () => {
-  localStorage.removeItem('email');
-};
-
 export const useAuthStore = create(
   persist<StoreState>(
-    (set, get) => ({
-      isLoggedIn: !!getEmail(),
+    (set) => ({
+      email: '',
+      isLoggedIn: false,
       gender: '',
       start_age: 0,
       end_age: 100,
       distance: 160,
-      storeLogin: (email: string, pref: Pref) => {
+      storeLogin: (emailInput: string, pref: Pref) => {
         set({
           isLoggedIn: true,
           gender: pref.gender,
           start_age: pref.start_age,
           end_age: pref.end_age,
           distance: pref.distance,
+          email: emailInput,
         });
-        setEmail(email);
       },
       storeLogout: () => {
-        set({
-          isLoggedIn: false,
-          gender: '',
-          start_age: 0,
-          end_age: 0,
-          distance: 0,
-        });
-        removeEmail();
+        useAuthStore.persist.clearStorage();
       },
     }),
     {
