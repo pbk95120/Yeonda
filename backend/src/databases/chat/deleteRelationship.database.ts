@@ -19,6 +19,9 @@ const createExcouple = async (conn: Connection, partner: any, user1_id: number, 
   const callback = async (partner: any, user1_id: number, user2_id: number): Promise<void> => {
     let sql;
 
+    sql = `INSERT INTO ex_chat SELECT * FROM chat WHER user_id = :user1_id OR user_id = :user2_id`;
+    await conn.execute(sql, { user1_id: user1_id, user2_id: user2_id });
+
     sql = `DELETE FROM chat WHERE user_id = :user1_id OR user_id = :user2_id`;
     await conn.execute(sql, { user1_id: user1_id, user2_id: user2_id });
 
