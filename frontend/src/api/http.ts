@@ -2,11 +2,13 @@ import axios, { AxiosRequestConfig } from 'axios';
 import { DEFAULT_TIMEOUT } from '@/constants/constants';
 import { useAuthStore } from '@/store/authStore';
 import { refreshToken } from './user.api';
+import { useNavigate } from 'react-router-dom';
 
 /**
  * Axios 인스턴스 생성
  */
 export const createClient = (config?: AxiosRequestConfig) => {
+  const navigate = useNavigate();
   const AUTH = useAuthStore.getState();
   const axiosInstance = axios.create({
     baseURL: '/api',
@@ -24,11 +26,13 @@ export const createClient = (config?: AxiosRequestConfig) => {
     (error) => {
       if (error.response && error.response.status === 401) {
         refreshToken().then(
-          () => {},
+          () => {
+            navigate(0);
+          },
           () => {
             alert('로그인이 만료되었습니다.');
             useAuthStore.getState().storeLogout();
-            window.location.replace('/login');
+            navigate('/login');
           },
         );
       }
