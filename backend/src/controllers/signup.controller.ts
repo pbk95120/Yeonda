@@ -8,7 +8,6 @@ import { VerifyCodeSchema } from '@schemas/passwordReset.schema';
 import { EmailSchema, SignupInfo } from '@schemas/signup.schema';
 import CustomError from '@src/error';
 import { getEncryptPassword } from '@utils/getEncryptPassword';
-import { reformImg } from '@utils/reformImg';
 import { reformSignup } from '@utils/reformSignup';
 import http from 'http-status-codes';
 
@@ -37,16 +36,14 @@ export const verifySignupEmail: Controller = async (req, res) => {
 };
 
 export const createUser: Controller = async (req, res) => {
-  const data = req.body;
-  if (req.file) {
-    let url = reformImg(req.file);
-    data.picture_url = url;
-  } else data.picture_url = null;
+  const form = req.body;
+  if (req.file) form.picture_url = req.file.originalname;
+  else form.picture_url = null;
 
-  const [info, error] = reformSignup(data);
+  const [info, error] = reformSignup(form);
   if (error) throw new CustomError(http.BAD_REQUEST, '잘못된 회원 가입 요청 양식', error);
   info.user.password = await getEncryptPassword(info.user.password);
 
-  await databaseConnector(insertUser)(info, data, req.file);
+  await databaseConnector(insertUser)(info, req.file);
   res.sendStatus(http.CREATED);
 };

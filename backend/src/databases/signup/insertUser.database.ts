@@ -1,17 +1,12 @@
+import { requestS3Save } from '@middlewares/requestS3Save.middleware';
 import { transactionWrapper } from '@middlewares/transactionWrapper.middleware';
-import { RawSignupPicUrl, Signup } from '@schemas/signup.schema';
+import { Signup } from '@schemas/signup.schema';
 import CustomError from '@src/error';
 import { getGeoCode } from '@utils/getGeoCode';
-import { saveFile } from '@utils/saveFile';
 import http from 'http-status-codes';
 import { Connection, ResultSetHeader } from 'mysql2/promise';
 
-export const insertUser = async (
-  conn: Connection,
-  info: Signup,
-  data: RawSignupPicUrl,
-  file: Express.Multer.File,
-): Promise<void> => {
+export const insertUser = async (conn: Connection, info: Signup, file: Express.Multer.File): Promise<void> => {
   const { user, address, preference, user_tag } = info;
 
   let sql = 'select id from user where email = :email';
@@ -39,7 +34,9 @@ export const insertUser = async (
       address_id = result.insertId;
     }
 
-    if (data.picture_url) saveFile(data.picture_url, file.buffer);
+    let picture_url;
+    if (user.picture_url) picture_url = await requestS3Save(file);
+    else picture_url = null;
 
     sql = `insert into user (email, password, nickname, gender, birth, picture_url, address_id) 
     values (:email, :password, :nickname, :gender, :birth, :picture_url, :address_id)`;
@@ -49,7 +46,7 @@ export const insertUser = async (
       nickname: user.nickname,
       gender: user.gender,
       birth: user.birth,
-      picture_url: user.picture_url,
+      picture_url: picture_url,
       address_id: address_id,
     };
     [result] = await conn.execute<ResultSetHeader>(sql, values);

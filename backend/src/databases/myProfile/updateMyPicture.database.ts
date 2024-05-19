@@ -1,5 +1,5 @@
+import { requestS3Save } from '@middlewares/requestS3Save.middleware';
 import { transactionWrapper } from '@middlewares/transactionWrapper.middleware';
-import { saveFile } from '@utils/saveFile';
 import { Connection } from 'mysql2/promise';
 
 export const updateMyPicture = async (
@@ -8,8 +8,8 @@ export const updateMyPicture = async (
   url: string,
   file: Express.Multer.File,
 ): Promise<void> => {
-  const callback = async (user_id: number, picture_url: string, file: Express.Multer.File) => {
-    saveFile(picture_url, file.buffer);
+  const callback = async (user_id: number, file: Express.Multer.File) => {
+    const picture_url = await requestS3Save(file);
 
     const sql = 'update user set picture_url = :picture_url where id = :user_id';
     const values = { user_id: user_id, picture_url: picture_url };
