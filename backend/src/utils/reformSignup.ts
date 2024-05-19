@@ -18,9 +18,9 @@ export const reformSignup = (data: RawSignupPicUrl): [Signup, Error] => {
       address: data.address,
       preference: {
         gender: data.prefer_gender as 'Male' | 'Female' | 'Neutral',
-        distance: Number(data.distance),
-        start_age: Number(data.start_age),
-        end_age: Number(data.end_age),
+        distance: parseInt(data.distance),
+        start_age: parseInt(data.start_age),
+        end_age: parseInt(data.end_age),
       },
       user_tag: {
         tags: data.tags.split(',').map((s) => Number(s)),

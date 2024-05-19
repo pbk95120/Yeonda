@@ -11,7 +11,7 @@ import { Controller } from '@schemas/controller.schema';
 import { PatchMyPreferenceSchema } from '@schemas/myProfile.schema';
 import { AddressDetailSchema, PictureUrlSchema, SignTagsSchema } from '@schemas/signup.schema';
 import CustomError from '@src/error';
-import { reformImg } from '@utils/reformImg';
+import { renameImage } from '@src/utils/renameImage';
 import http from 'http-status-codes';
 
 export const getMyProfile: Controller = async (req, res) => {
@@ -26,11 +26,11 @@ export const getMySetting: Controller = async (req, res) => {
 
 export const patchMyPicture: Controller = async (req, res) => {
   if (!req.file) throw new CustomError(http.BAD_REQUEST, '첨부된 사진 없음');
-  const url = reformImg(req.file);
+  const url = renameImage(req.file);
   const { error } = PictureUrlSchema.validate(url);
   if (error) throw new CustomError(http.BAD_REQUEST, '잘못된 첨부 파일 양식', error);
 
-  await databaseConnector(updateMyPicture)(req.body.user_id, url, req.file);
+  await databaseConnector(updateMyPicture)(req.body.user_id, req.file);
   res.sendStatus(http.OK);
 };
 

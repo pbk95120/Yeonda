@@ -2,6 +2,7 @@ import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { server } from '@src/app';
 import Database from '@src/db';
 import { issueAccessToken } from '@utils/issueToken';
+import 'dotenv/config';
 import http from 'http-status-codes';
 import { Connection } from 'mysql2/promise';
 import path from 'path';
@@ -47,7 +48,7 @@ describe('PATCH /profile/my/picture 프로필 사진 수정', () => {
       const [result] = await conn.execute(sql);
       return result[0].picture_url;
     })();
-    expect(url).toContain('.png');
+    expect(url).toContain(process.env.FILE_BASE_USER);
   });
 
   it('토큰 없음', async () => {
