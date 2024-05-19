@@ -7,6 +7,7 @@ import {
   patchMyAddress,
   patchMyPicture,
   patchMyPreference,
+  removeMyPicture,
 } from '@controllers/myProfile.controller';
 import { authenticateUser } from '@middlewares/authenticateUser.middleware';
 import { controllerWrapper } from '@middlewares/controllerWrapper.middleware';
@@ -21,6 +22,7 @@ MyProfileRoute.patch(
   memoryStorage.single('picture'),
   controllerWrapper(authenticateUser, patchMyPicture),
 );
+MyProfileRoute.delete('/setting/picture', controllerWrapper(authenticateUser, removeMyPicture));
 MyProfileRoute.patch('/setting/address', controllerWrapper(authenticateUser, patchMyAddress));
 MyProfileRoute.get('/preference', controllerWrapper(authenticateUser, getMyPreference));
 MyProfileRoute.patch('/preference', controllerWrapper(authenticateUser, patchMyPreference));

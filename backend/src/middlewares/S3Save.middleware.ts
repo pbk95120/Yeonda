@@ -20,8 +20,9 @@ export const S3Save = async (file: Express.Multer.File) => {
     ContentType: `image/${extension}`,
   };
 
+  const command = new PutObjectCommand(params);
+
   try {
-    const command = new PutObjectCommand(params);
     await client.send(command);
     return `${FILE_BASE_USER}${key}`;
   } catch (error) {
