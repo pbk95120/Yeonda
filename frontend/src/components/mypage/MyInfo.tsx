@@ -7,8 +7,15 @@ import { useNavigate } from 'react-router-dom';
 import { logout } from '@/api/user.api';
 import { useAuthStore } from '@/store/authStore';
 import { getMyPageMyInfo, patchMyInfoAddress } from '@/api/mypage.api';
+import { useForm } from 'react-hook-form';
+
+interface PreferenceFormInputs {
+  address: string;
+  picture: string;
+}
 
 const MyInfo = () => {
+  const { setValue, getValues } = useForm<PreferenceFormInputs>();
   const { storeLogout } = useAuthStore();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const navigate = useNavigate();
@@ -29,7 +36,7 @@ const MyInfo = () => {
     save?.addEventListener('click', () => {
       try {
         console.log(newAddress);
-        patchMyInfoAddress(newAddress).then(() => console.log('주소변경 완료'));
+        patchMyInfoAddress(getValues('address')).then(() => console.log('주소변경 완료'));
       } catch {
         alert('올바른 주소 입력값이 아닙니다.');
       }
@@ -39,7 +46,7 @@ const MyInfo = () => {
   const handleAddressSelection = (address: string) => {
     setNewAddress(address);
     setAddress(address);
-
+    setValue('address', address);
     setIsModalOpen(false);
   };
 
