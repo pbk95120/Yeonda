@@ -6,12 +6,12 @@ import AddressModal from '../common/AddressModal';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '@/api/user.api';
 import { useAuthStore } from '@/store/authStore';
-import { getMyPageMyInfo, patchMyInfoAddress } from '@/api/mypage.api';
+import { getMyPageMyInfo, patchMyInfoAddress, patchMyInfoPicture } from '@/api/mypage.api';
 import { useForm } from 'react-hook-form';
 
 interface PreferenceFormInputs {
   address: string;
-  picture: string;
+  picture: File;
 }
 
 const MyInfo = () => {
@@ -22,31 +22,53 @@ const MyInfo = () => {
   const [picture_url, setPicture_url] = useState<string>('');
   const [address, setAddress] = useState<string>('');
   const [newAddress, setNewAddress] = useState<string>('');
-
+  const [beforePicture, setBeforePicture] = useState<string>('');
   useEffect(() => {
     getMyPageMyInfo().then((data) => {
       const { picture_url, detail } = data;
+      console.log(detail, address, newAddress);
+      setBeforePicture(picture_url);
       setPicture_url(picture_url);
       setAddress(detail);
       saveBtn();
     });
-  }, []);
+  }, [newAddress, picture_url]);
   const saveBtn = () => {
     let save = document.querySelector('#myPrefBtn');
     let back = document.querySelector('#backBtn');
-
-    back?.addEventListener('click', () => {
-      patchMyInfoAddress(getValues('address')).then(() => console.log('주소변경 완료'));
-    });
-    save?.addEventListener('click', () => {
-      patchMyInfoAddress(getValues('address')).then(() => console.log('주소변경 완료'));
-    });
+    if (address !== newAddress && newAddress.length > 0) {
+      back?.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        patchMyInfoAddress(getValues('address')).then(() => console.log('주소변경 완료'));
+      });
+      save?.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        patchMyInfoAddress(getValues('address')).then(() => console.log('주소변경 완료'));
+      });
+    }
+    if (beforePicture !== picture_url && beforePicture) {
+      back?.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        let imageFormData = new FormData();
+        imageFormData.append('image', getValues('picture'));
+        patchMyInfoPicture(imageFormData).then(() => console.log('사진변경 완료'));
+      });
+      save?.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        let imageFormData = new FormData();
+        imageFormData.append('image', getValues('picture'));
+        patchMyInfoPicture(imageFormData).then(() => console.log('사진변경 완료'));
+      });
+    }
   };
 
   const handleAddressSelection = (address: string) => {
     console.log(address);
     setNewAddress(address);
-    setAddress(address);
     setValue('address', address);
     setIsModalOpen(false);
   };
@@ -64,11 +86,12 @@ const MyInfo = () => {
         inputFor='image'
         className='mt-3'
         contentImageState={{ contentImage: picture_url, setContentImage: setPicture_url }}
+        setValue={setValue}
       />
       <div className='flex h-[86px] w-[339px] flex-col p-3 shadow-lg'>
         <span className='mb-3 font-sans font-bold'>주소</span>
         <div className='flex flex-row'>
-          <div className='font-sans text-lightgray'>{address}</div>
+          <div className='font-sans text-lightgray'>{newAddress ? newAddress : address}</div>
           <div className='absolute right-7 z-20 flex items-center justify-center'>
             <IoIosArrowBack className='h-6 w-6 rotate-180 fill-gray' onClick={() => setIsModalOpen(!isModalOpen)} />
           </div>

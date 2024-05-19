@@ -1,5 +1,5 @@
 import { patchMyPref } from '@/types/mypage';
-import { requestHandler } from './http';
+import { requestHandler, httpClient } from './http';
 
 export const getMyPage = async () => {
   return await requestHandler('get', '/profile/my');
@@ -9,8 +9,11 @@ export const getMyPageMyInfo = async () => {
   return await requestHandler('get', '/profile/my/setting');
 };
 
-export const patchMyInfoPicture = async () => {
-  return await requestHandler('patch', '/profile/my/setting/picture');
+export const patchMyInfoPicture = async (imageFormData: FormData) => {
+  const response = await httpClient.patch('/signup', imageFormData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+  return response.data;
 };
 
 export const patchMyInfoAddress = async (address: string) => {

@@ -5,6 +5,12 @@ import { GiCancel } from 'react-icons/gi';
 import { LuImagePlus } from 'react-icons/lu';
 import { UseFormRegisterReturn } from 'react-hook-form';
 import { useEffect, useState } from 'react';
+import { UseFormGetValues, UseFormSetValue } from 'react-hook-form';
+
+interface PreferenceFormInputs {
+  address: string;
+  picture: File;
+}
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   className?: string;
@@ -15,9 +21,20 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
     contentImage: File | null | string;
     setContentImage: Function;
   };
+  setValue?: UseFormSetValue<PreferenceFormInputs>;
+  getValues?: UseFormGetValues<PreferenceFormInputs>;
 }
 
-const Input = ({ className, placeholder, inputFor, register, contentImageState, ...props }: InputProps) => {
+const Input = ({
+  className,
+  placeholder,
+  inputFor,
+  register,
+  contentImageState,
+  setValue,
+  getValues,
+  ...props
+}: InputProps) => {
   let defaultCls = 'px-2 border border-lightgray focus:outline-none focus:border-pastelred font-sans ';
 
   if (inputFor === 'search') {
@@ -47,7 +64,7 @@ const Input = ({ className, placeholder, inputFor, register, contentImageState, 
       </div>
     );
   }
-  if (inputFor === 'image' && contentImageState) {
+  if (inputFor === 'image' && contentImageState && setValue) {
     const [isDragging, setIsDragging] = useState(false);
     const { contentImage, setContentImage } = contentImageState;
     const [contentImageUrl, setContentImageUrl] = useState<string | null>(null);
@@ -96,6 +113,7 @@ const Input = ({ className, placeholder, inputFor, register, contentImageState, 
 
     const onContentImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       if (e.target.files) {
+        setValue('picture', e.target.files[0]);
         setContentImage(e.target.files[0]);
         readImage(e.target.files[0]);
       }

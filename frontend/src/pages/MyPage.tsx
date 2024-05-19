@@ -67,7 +67,7 @@ const MyPage = () => {
           {gender === 'Female' ? <IoMale className='h-5 w-5' /> : <IoFemale className='h-5 w-5' />}
         </div>
       </div>
-      <div className='font-sans text-xl font-bold'>{address}</div>
+      <div className='break-keep px-10 text-center font-sans text-xl font-bold'>{address}</div>
       <div id='tag container' className='w-80 flex-wrap items-center justify-center pt-6'>
         {tags.map((tag, i) => (
           <div key={i} className='inline-block'>

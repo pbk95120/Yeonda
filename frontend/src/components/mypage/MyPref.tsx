@@ -32,7 +32,7 @@ const MyPref = () => {
       e.preventDefault();
       e.stopPropagation();
       patchMyPageMyPref({
-        gender: selectedGender,
+        gender: getValues('preferGender'),
         distance: getValues('distance'),
         start_age: getValues('startAge'),
         end_age: getValues('endAge'),
@@ -116,6 +116,7 @@ const MyPref = () => {
           handleBackgroundClick={handleBackgroundClick}
           setSelectedGender={setSelectedGender}
           closeModal={closeModal}
+          setValue={setValue}
         />
       )}
     </div>
