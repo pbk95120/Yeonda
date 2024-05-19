@@ -24,7 +24,7 @@ const socketHandler = (io: Server) => {
         const result = await setupChat(parseInt(couple_id), parseInt(partner_id));
 
         socket.join(couple_id);
-        io.to(couple_id.toString()).emit('partnerInfo', result);
+        await io.to(couple_id).emit('partnerInfo', result);
       } catch (error) {
         socket.emit('error', error);
         logger.error(error);
