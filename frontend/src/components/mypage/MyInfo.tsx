@@ -38,21 +38,21 @@ const MyInfo = () => {
     let back = document.querySelector('#backBtn');
     if (address !== newAddress && newAddress.length > 0) {
       back?.addEventListener('click', () => {
-        patchMyInfoAddress(getValues('address')).then(() => console.log('주소변경 완료'));
+        setTimeout(() => patchMyInfoAddress(getValues('address')).then(() => console.log('주소변경 완료')), 2000);
       });
       save?.addEventListener('click', () => {
-        patchMyInfoAddress(getValues('address')).then(() => console.log('주소변경 완료'));
+        setTimeout(() => patchMyInfoAddress(getValues('address')).then(() => console.log('주소변경 완료')), 2000);
       });
     }
     back?.addEventListener('click', () => {
       let imageFormData = new FormData();
       imageFormData.append('picture', getValues('picture'));
-      patchMyInfoPicture(imageFormData).then(() => console.log('사진변경 완료'));
+      setTimeout(() => patchMyInfoPicture(imageFormData).then(() => console.log('사진변경 완료')), 2000);
     });
     save?.addEventListener('click', () => {
       let imageFormData = new FormData();
       imageFormData.append('picture', getValues('picture'));
-      patchMyInfoPicture(imageFormData).then(() => console.log('사진변경 완료'));
+      setTimeout(() => patchMyInfoPicture(imageFormData).then(() => console.log('사진변경 완료')), 2000);
     });
   };
 
