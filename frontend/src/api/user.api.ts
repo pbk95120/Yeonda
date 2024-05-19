@@ -47,3 +47,8 @@ export const resetPassword = async ({ password, password_check }: resetPasswordD
   const response = await httpClient.post('/password/reset/confirm', { password, password_check });
   return response.data;
 };
+
+export const getTags = async () => {
+  const response = await httpClient.get('/tag');
+  return response.data;
+};
