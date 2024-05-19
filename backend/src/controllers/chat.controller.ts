@@ -9,7 +9,7 @@ import http from 'http-status-codes';
 export const getChatlist: Controller = async (req, res) => {
   const { user_id, email } = req.body;
 
-  const chatlist = await databaseConnector(selectChatlist)(parseInt(user_id), email);
+  const chatlist = await databaseConnector(selectChatlist)(user_id, email);
   const validationResult = partnerChatlistSchema.validate(chatlist[0]);
   if (validationResult.error)
     throw new CustomError(http.NOT_FOUND, '일치하는 정보를 얻지 못했습니다', validationResult.error);
@@ -24,6 +24,6 @@ export const deleteRelationship: Controller = async (req, res) => {
   const { user_id } = req.body;
   const { user2_id } = req.params;
 
-  await databaseConnector(dislikedCouple)(parseInt(user2_id), parseInt(user_id));
+  await databaseConnector(dislikedCouple)(parseInt(user2_id), user_id);
   res.sendStatus(http.OK);
 };

@@ -3,16 +3,21 @@ import { partner, partnerChatlist } from '@schemas/chat.schema';
 
 const selectPartner = async (conn: Connection, id: number): Promise<partner[]> => {
   const user_id = id;
-  const sql = `SELECT id, user2_id as user_id
-    FROM couple
-    WHERE user1_id = :user1_id
-    
-    UNION
-    
-    SELECT id, user1_id as user_id
-    FROM couple
-    WHERE user2_id = :user2_id
-    `;
+  const sql = `SELECT 
+    id, user2_id as user_id
+  FROM 
+    couple
+  WHERE 
+    user1_id = :user1_id
+  UNION
+  SELECT 
+    id, user1_id as user_id
+  FROM 
+    couple
+  WHERE 
+    user2_id = :user2_id
+  `;
+
   const values = { user1_id: user_id, user2_id: user_id };
   const [result] = await conn.execute(sql, values);
 
@@ -26,20 +31,27 @@ const selectPartnerChatInfo = async (conn: Connection, partner: any, user_id: nu
       const partner_id = parseInt(value.user_id);
 
       const partner_sql = `
-            SELECT nickname, picture_url
-            FROM user
-            WHERE id = :partner_id
-            `;
+      SELECT 
+        nickname, picture_url
+      FROM 
+        user
+      WHERE 
+        id = :partner_id
+      `;
       const partner_values = { partner_id: partner_id };
       const [partnerInfo] = await conn.execute(partner_sql, partner_values);
 
       const chat_sql = `
-            SELECT message, is_read, TIMESTAMPDIFF(DAY, send_at, NOW()) AS commu_streak
-            FROM chat
-            WHERE couple_id = :couple_id
-            ORDER BY send_at DESC
-            LIMIT 1
-            `;
+      SELECT 
+        message, is_read, TIMESTAMPDIFF(DAY, send_at, NOW()) AS commu_streak
+      FROM 
+        chat
+      WHERE 
+        couple_id = :couple_id
+      ORDER BY 
+        send_at DESC
+      LIMIT 1
+      `;
       const chat_values = { couple_id: couple_id };
       const [chat_info] = await conn.execute(chat_sql, chat_values);
 
