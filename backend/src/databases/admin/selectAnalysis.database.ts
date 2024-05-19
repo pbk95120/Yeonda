@@ -3,9 +3,9 @@ import { analysis } from '@schemas/admin.schema';
 
 const selectGenderCount = async (conn: Connection) => {
   const sql = `SELECT
-      (SELECT COUNT(*) FROM user WHERE gender = 'Male') AS male_count,
-      (SELECT COUNT(*) FROM user WHERE gender = 'Female') AS female_count
-    `;
+    (SELECT COUNT(*) FROM user WHERE gender = 'Male') AS male_count,
+    (SELECT COUNT(*) FROM user WHERE gender = 'Female') AS female_count
+  `;
 
   const [result] = await conn.execute(sql);
   return result;
@@ -13,13 +13,13 @@ const selectGenderCount = async (conn: Connection) => {
 
 const selectAverageDiary = async (conn: Connection) => {
   const sql = `SELECT 
-      DATE_FORMAT(created_at, '%Y-%m-%d') AS date,
-      CAST((COUNT(*)/COUNT(DISTINCT user_id)) AS FLOAT) AS avg
-      FROM
-      diary
-      GROUP BY
-      DATE_FORMAT(created_at, '%Y-%m-%d')
-    `;
+    DATE_FORMAT(d.created_at, '%Y-%m-%d') AS date,
+    CAST((COUNT(*)/(SELECT COUNT(*) FROM user)) AS DECIMAL(10,4)) AS avg
+  FROM
+    diary d
+  GROUP BY
+    DATE_FORMAT(d.created_at, '%Y-%m-%d')
+  `;
 
   const [result] = await conn.execute(sql);
   return result;
@@ -27,13 +27,17 @@ const selectAverageDiary = async (conn: Connection) => {
 
 const selecttwoWeeksUserList = async (conn: Connection) => {
   const sql = `SELECT u.id, u.email, u.picture_url
-      FROM user u
-      LEFT JOIN diary d 
-      ON u.id = d.user_id AND 
-      d.created_at >= DATE_SUB(NOW(), INTERVAL 2 WEEK) AND 
-      d.created_at <= NOW()
-      WHERE d.id IS NULL
-    `;
+  FROM 
+    user u
+  LEFT JOIN 
+    diary d 
+  ON 
+    u.id = d.user_id 
+    AND d.created_at >= DATE_SUB(NOW(), INTERVAL 2 WEEK) 
+    AND d.created_at <= NOW()
+  WHERE 
+    d.id IS NULL
+  `;
 
   const [result] = await conn.execute(sql);
   return result;
