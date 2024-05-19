@@ -1,4 +1,4 @@
-import { TUTORIAL_PAGE_NAME, TUTORIAL_PAGE_CONTENT, TUTORIAL_PAGE_BALLOON_POSITION } from '@/constants/constants';
+import { TUTORIAL_PAGE_NAME, TUTORIAL_PAGE_CONTENT } from '@/constants/constants';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import Button from '../common/Button';
 import { useNavigate } from 'react-router-dom';

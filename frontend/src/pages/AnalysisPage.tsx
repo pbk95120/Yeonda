@@ -20,6 +20,8 @@ interface avgData {
 }
 
 const AnalysisPage = () => {
+  const navigate = useNavigate();
+
   const [male, setMale] = useState<number>(0);
   const [female, setFemale] = useState<number>(0);
   const [avgDiaryCount, setAvgDiaryCount] = useState<number[]>([]);
@@ -32,7 +34,6 @@ const AnalysisPage = () => {
   }
 
   useEffect(() => {
-    const navigate = useNavigate();
     refreshToken().then(
       () => {
         analysis().then(
