@@ -47,7 +47,6 @@ export const getMyDiaryDetail: Controller = async (req, res) => {
   });
 
   const result = diarySchema.validate(transTags[0]).error;
-  console.log(transTags);
   if (result) throw new CustomError(http.NOT_FOUND, '요청 결과 없습니다.', error);
   res.status(http.OK).json(transTags[0]);
 };

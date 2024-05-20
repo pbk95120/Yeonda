@@ -7,7 +7,7 @@ const selectGenderCount = async (conn: Connection) => {
     (SELECT COUNT(*) FROM user WHERE gender = 'Female') AS female_count
   `;
 
-  const [result] = await conn.execute(sql);
+  const [result] = await conn.query(sql);
   return result;
 };
 
@@ -21,7 +21,7 @@ const selectAverageDiary = async (conn: Connection) => {
     DATE_FORMAT(d.created_at, '%Y-%m-%d')
   `;
 
-  const [result] = await conn.execute(sql);
+  const [result] = await conn.query(sql);
   return result;
 };
 
@@ -39,7 +39,7 @@ const selecttwoWeeksUserList = async (conn: Connection) => {
     d.id IS NULL
   `;
 
-  const [result] = await conn.execute(sql);
+  const [result] = await conn.query(sql);
   return result;
 };
 

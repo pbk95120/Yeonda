@@ -1,7 +1,12 @@
 import { transactionWrapper } from '@middlewares/transactionWrapper.middleware';
 import { Connection } from 'mysql2/promise';
 
-export const updateMyDiary = async (conn: Connection, diary_id: number, title: string, content: string) => {
+export const updateMyDiary = async (
+  conn: Connection,
+  diary_id: number,
+  title: string,
+  content: string,
+): Promise<void> => {
   const callback = async (diary_id: number, title: string, content: string) => {
     const sql = `UPDATE diary SET 
       title = :title, content = :content, updated_at =NOW() 

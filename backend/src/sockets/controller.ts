@@ -1,15 +1,11 @@
 import { selectChatInfo, createChat } from '@sockets/database';
 import { databaseConnector } from '@sockets/middleware';
-import { authorizationSchema, chatSchema, createChatSchema } from '@sockets/schemas';
+import { chatSchema, createChatSchema } from '@sockets/schemas';
 
-export const setupChat = async (couple_id: number, partner_id: number) => {
-  const { error } = authorizationSchema.validate({ couple_id: couple_id, partner_id: partner_id });
-  if (error) throw new Error('잘못된 접근');
-  const ChatInfo = await databaseConnector(selectChatInfo)(couple_id, partner_id);
-
+export const setupChat = async (couple_id: string, partner_id: string) => {
+  const ChatInfo = await databaseConnector(selectChatInfo)(parseInt(couple_id), parseInt(partner_id));
   const validationResult = chatSchema.validate(ChatInfo);
   if (validationResult.error) throw new Error('데이터 유효성 검사 실패');
-
   return ChatInfo;
 };
 

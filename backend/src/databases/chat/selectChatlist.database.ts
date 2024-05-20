@@ -24,7 +24,12 @@ const selectPartner = async (conn: Connection, id: number): Promise<partner[]> =
   return result as partner[];
 };
 
-const selectPartnerChatInfo = async (conn: Connection, partner: any, user_id: number, email: string) => {
+const selectPartnerChatInfo = async (
+  conn: Connection,
+  partner: any,
+  user_id: number,
+  email: string,
+): Promise<partnerChatlist[]> => {
   const info = await Promise.all(
     partner.map(async (value) => {
       const couple_id = parseInt(value.id);
