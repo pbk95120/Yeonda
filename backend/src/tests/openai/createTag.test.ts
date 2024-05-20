@@ -1,7 +1,7 @@
 import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { server } from '@src/app';
 import Database from '@src/db';
-import { issueAccessToken } from '@src/utils/issueToken';
+import { issueAccessToken } from '@utils/issueToken';
 import 'dotenv/config';
 import http from 'http-status-codes';
 import { Connection } from 'mysql2/promise';
