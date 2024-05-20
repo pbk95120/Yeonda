@@ -47,6 +47,8 @@ export interface UsualRandomDiary extends Diary {
   tags: Tag['id'][];
 }
 
+export interface TotalRandomDiary extends UsualRandomDiary {}
+
 export interface PopularDiaries extends UsualRandomDiary {}
 
 export interface CreateDiary extends Logon, DiaryUpdate {}

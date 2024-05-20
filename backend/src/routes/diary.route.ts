@@ -4,6 +4,7 @@ import {
   getPopularDiaries,
   getRandomDiary,
   getTaggedPopularDiaries,
+  getTotallyRandomDiary,
   proceedLike,
 } from '@controllers/diary.controller';
 import { authenticateUser } from '@middlewares/authenticateUser.middleware';
@@ -14,6 +15,7 @@ const DiaryRoute = express.Router();
 
 DiaryRoute.post('/pre-random', controllerWrapper(authenticateUser, getFirstRandomDiary));
 DiaryRoute.post('/random', controllerWrapper(authenticateUser, getRandomDiary));
+DiaryRoute.post('/post-random', controllerWrapper(authenticateUser, getTotallyRandomDiary));
 DiaryRoute.post('/like/:id', controllerWrapper(authenticateUser, proceedLike));
 DiaryRoute.get('/popular', controllerWrapper(authenticateUser, getPopularDiaries));
 DiaryRoute.get('/popular/:tag_id', controllerWrapper(authenticateUser, getTaggedPopularDiaries));
