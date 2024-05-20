@@ -3,17 +3,17 @@ import { Preferences } from '@models/preference.model';
 import { Tag, TagNameSchema } from '@models/tag.model';
 import { User } from '@models/user.model';
 import { Logon, LogonSchema } from '@schemas/login.schema';
-import { DistanceSchema, EndAgeSchema, PreferGenderSchema, StartAgeSchema } from '@schemas/myProfile.schema';
+import { PatchMyPreferenceSchema } from '@schemas/myProfile.schema';
 import Joi from 'joi';
 
 export interface PreferencesRequest extends Logon, Preferences {}
 
 export const PreferencesRequestSchema = LogonSchema.concat(
-  Joi.object({
-    gender: PreferGenderSchema,
-    distance: DistanceSchema,
-    start_age: StartAgeSchema,
-    end_age: EndAgeSchema,
+  PatchMyPreferenceSchema.custom((value, helpers) => {
+    if (value.start_age > value.end_age) {
+      return helpers.error('최소 나잇값이 최대 나잇값보다 큼');
+    }
+    return value;
   }),
 );
 
@@ -40,7 +40,7 @@ export interface PreferIdRequest extends Logon {
 }
 
 export const PreferIdRequestSchema = LogonSchema.concat(
-  Joi.object({ prefer_id: Joi.number().integer().positive().strict() }),
+  Joi.object({ prefer_id: Joi.number().integer().positive().strict().required() }),
 );
 
 export interface UsualRandomDiary extends Diary {

@@ -72,4 +72,14 @@ describe('PATCH /profile/my/preference 회원 선호도 설정 수정', () => {
       .send(form);
     expect(response.status).toBe(http.BAD_REQUEST);
   });
+
+  it('최소 선호 나잇값이 최대 나잇값보다 큼', async () => {
+    form.start_age = 30;
+    form.end_age = 20;
+    const response = await request(server)
+      .patch('/profile/my/preference')
+      .set('Cookie', `access-token=${token}`)
+      .send(form);
+    expect(response.status).toBe(http.BAD_REQUEST);
+  });
 });
