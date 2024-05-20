@@ -6,7 +6,7 @@ import Tags from '@/components/common/Tags';
 import { useNavigate } from 'react-router-dom';
 import { getMyPage } from '@/api/mypage.api';
 import { Tag } from '@/components/join/Interest';
-import LoadingIndicator from '@/components/common/\bLoadingIndicator';
+import LoadingIndicator from '@/components/common/LoadingIndicator';
 
 const MyPage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);

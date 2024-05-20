@@ -9,7 +9,6 @@ import { useNavigate } from 'react-router-dom';
 import { getMyPageMyPref, getMyTag, patchMyPageMyPref } from '@/api/mypage.api';
 import { Tag } from '../join/Interest';
 import { useAuthStore } from '@/store/authStore';
-import { getTags } from '@/api/user.api';
 
 interface PreferenceFormInputs {
   gender: string;
@@ -42,8 +41,6 @@ const MyPref = () => {
   };
 
   useEffect(() => {
-    const aData = useAuthStore.getState();
-
     getMyPageMyPref().then(
       (data) => {
         const { gender, distance, start_age, end_age } = data;

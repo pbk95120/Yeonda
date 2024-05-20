@@ -1,5 +1,6 @@
 import { patchMyPref } from '@/types/mypage';
 import { requestHandler, httpClient } from './http';
+import { Tag } from '@/components/join/Interest';
 
 export const getMyPage = async () => {
   return await requestHandler('get', '/profile/my');
@@ -32,8 +33,8 @@ export const getMyTag = async () => {
   return await requestHandler('get', '/profile/my/tag');
 };
 
-export const putMyTag = async () => {
-  return await requestHandler('put', '/profile/my/tag');
+export const putMyTag = async (tags: string) => {
+  return await requestHandler('put', '/profile/my/tag', { tags });
 };
 
 export const signOut = async (password: string) => {
