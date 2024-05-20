@@ -3,6 +3,7 @@ import { selectFirstRandomDiary } from '@databases/diary/selectFirstRandomDiary.
 import { selectPopularDiaries } from '@databases/diary/selectPopularDiaries.database';
 import { selectRandomDiary } from '@databases/diary/selectRandomDiary.database';
 import { selectTaggedPopularDiaries } from '@databases/diary/selectTaggedPopularDiaries.database';
+import { selectTotallyRandomDiary } from '@databases/diary/selectTotallyRandomDiary.database';
 import { updateLike } from '@databases/diary/updateLike.database';
 import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { Controller } from '@schemas/controller.schema';
@@ -28,6 +29,11 @@ export const getRandomDiary: Controller = async (req, res) => {
   if (error) throw new CustomError(http.BAD_REQUEST, '잘못된 랜덤 일기 요청 양식', error);
 
   const diary = await databaseConnector(selectRandomDiary)(req.body);
+  res.status(http.OK).json(diary);
+};
+
+export const getTotallyRandomDiary: Controller = async (req, res) => {
+  const diary = await databaseConnector(selectTotallyRandomDiary)(req.body.user_id);
   res.status(http.OK).json(diary);
 };
 
