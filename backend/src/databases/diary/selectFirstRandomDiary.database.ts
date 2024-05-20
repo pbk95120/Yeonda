@@ -22,7 +22,10 @@ export const selectFirstRandomDiary = async (
 
   sql = `
   select u.id,
-  st_distance_sphere(point(:origin_lng, :origin_lat), point(a.longitude, a.latitude)) as distance
+  st_distance_sphere(
+    st_geomfromtext(concat('point(', :origin_lat, ' ', :origin_lng, ')'), 4326), 
+    a.location
+  ) as distance
   from address a
   join user u on u.address_id = a.id
   where a.id != :origin_id
