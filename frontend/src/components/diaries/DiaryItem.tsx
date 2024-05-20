@@ -3,6 +3,7 @@ import { RiHashtag, RiHeartFill } from 'react-icons/ri';
 import { formatDate, formatNumber } from '@/utils/format';
 import type { DiaryContent } from '@/types/type';
 import { useDiaryItemStore } from '@/store/diaryStore';
+import { useTags } from '@/hooks/diary/useTags';
 
 interface DiaryItemProps {
   diary: DiaryContent;
@@ -11,13 +12,16 @@ interface DiaryItemProps {
 
 const DiaryItem = ({ diary, onDiaryChange }: DiaryItemProps) => {
   const { isMyDiaryPage, isEditing, isSuggestionPage, isPopularPage } = useDiaryItemStore();
-
-  const tags: [] = typeof diary.tags === 'string' ? JSON.parse(diary.tags) : diary.tags;
+  const { tagNames } = useTags(diary.tags);
 
   const renderTitle = () => {
     if (isEditing) {
       return (
-        <input className='text-[26px]' value={diary.title} onChange={(e) => onDiaryChange?.('title', e.target.value)} />
+        <input
+          className='w-[320px] text-[26px] outline-black'
+          value={diary.title}
+          onChange={(e) => onDiaryChange?.('title', e.target.value)}
+        />
       );
     }
     return <h1 className='font-diary text-[26px]'>{diary.title}</h1>;
@@ -42,7 +46,7 @@ const DiaryItem = ({ diary, onDiaryChange }: DiaryItemProps) => {
     if (isEditing) {
       return (
         <textarea
-          className='my-[20px] h-[220px] w-[320px] text-lg'
+          className='my-[20px] h-[220px] w-[320px] resize-none text-lg outline-black'
           value={diary.content}
           onChange={(e) => onDiaryChange?.('content', e.target.value)}
         />
@@ -54,13 +58,13 @@ const DiaryItem = ({ diary, onDiaryChange }: DiaryItemProps) => {
 
   const renderTags = () => {
     return (
-      <div className='flex gap-[16px]'>
-        {diary.tags.map((item, idx) => (
+      <div className='flex flex-wrap gap-[16px]'>
+        {tagNames.map((name, idx) => (
           <div className='flex items-center text-xl' key={idx}>
             <span className='text-lightgray'>
               <RiHashtag />
             </span>
-            <div className='ml-[6px]'>{item}</div>
+            <div className='ml-[6px]'>{name}</div>
           </div>
         ))}
       </div>

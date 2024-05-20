@@ -1,76 +1,41 @@
 import DiaryItem from '@/components/diaries/DiaryItem';
 import DiaryHeader from '@/components/diaries/DiaryHeader';
 import Dropdown from '@/components/common/Dropdown';
-import { useDiaries } from '@/hooks/diary/useDiaries';
 import { RiMoreFill } from 'react-icons/ri';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 import Toast from '@/components/common/Toast';
 import Modal from '@/components/common/Modal';
-import { useDiaryItemStore } from '@/store/diaryStore';
-import { removeDiary } from '@/api/diaries.api';
-import type { Diary, DiaryContent } from '@/types/type';
+import { useDiary } from '@/hooks/diary/useDiary';
+import { useDiaryChange } from '@/hooks/diary/useDiaryChange';
+import { useDiaryRemove } from '@/hooks/diary/useDiaryRemove';
 
 const MyDiaryDetailPage = () => {
-  const { diaries, isDiariesLoading, error } = useDiaries();
-  const navigate = useNavigate();
-  const { id } = useParams<{ id: string }>();
-  const [toast, setToast] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const { setIsEditing, isEditing } = useDiaryItemStore();
 
-  const [diary, setDiary] = useState<DiaryContent | null>(null);
+  const { diary, diaryId, handleDiaryChange } = useDiary();
 
-  useEffect(() => {
-    const diaryItem = diaries.find((item: Diary) => item.id === Number(id));
-    if (diaryItem) {
-      setDiary(diaryItem);
-    }
-  }, [diaries, id]);
+  const { editSave, editDiary, editCancel, isEditing, toast, setToast } = useDiaryChange({ diary, diaryId });
 
-  const editSuccess = () => {
-    setIsEditing(false);
-    setToast(true);
-  };
+  const { deleteDiary } = useDiaryRemove({ diaryId });
 
-  const editDiary = () => {
-    setIsEditing(true);
-  };
-
-  const deleteDiary = () => {
-    removeDiary(String(id));
-    navigate('/mydiary', { state: '삭제가 완료되었습니다.' });
-  };
-
-  const editCancel = () => {
-    setIsEditing(false);
-  };
-
-  const modalOpen = () => {
+  const modalOpen = useCallback(() => {
     setIsModalOpen(true);
-  };
+  }, []);
 
-  const modalClose = () => {
+  const modalClose = useCallback(() => {
     setIsModalOpen(false);
-  };
-
-  const handleDiaryChange = (field: string, value: string) => {
-    setDiary((prevDiary) => (prevDiary ? { ...prevDiary, [field]: value } : null));
-  };
-
-  if (error) return <div>{error}</div>;
-  if (isDiariesLoading || !diary) return <div>Loading...</div>;
+  }, []);
 
   return (
     <div className='relative'>
-      <DiaryHeader diariesData={diaries[0]} />
+      {diary && <DiaryHeader diariesData={diary} />}
       {isEditing ? (
         <div className='my-[20px] flex justify-around'>
           <button onClick={editCancel} className='text-base'>
             취소
           </button>
           <h1 className='text-lg font-bold'>일기 수정</h1>
-          <button onClick={editSuccess} className='text-base text-pastelred'>
+          <button onClick={editSave} className='text-base text-pastelred'>
             완료
           </button>
         </div>
@@ -107,7 +72,7 @@ const MyDiaryDetailPage = () => {
           />
         </div>
       )}
-      <DiaryItem diary={diary} onDiaryChange={handleDiaryChange} />
+      {diary && <DiaryItem diary={diary} onDiaryChange={handleDiaryChange} />}
     </div>
   );
 };

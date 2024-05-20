@@ -1,21 +1,15 @@
 import { useQuery } from '@tanstack/react-query';
 import { fetchDiaries } from '@/api/diaries.api';
 import { LOAD_DAIRY } from '@/constants/constants';
-import { useLocation } from 'react-router-dom';
 
-export const useDiaries = () => {
-  const location = useLocation();
-  const params = new URLSearchParams(location.search);
-  const limit = LOAD_DAIRY;
-
+export const useDiaries = (sort: number) => {
   const {
     data: diaries,
     isLoading: isDiariesLoading,
     isError,
   } = useQuery({
-    queryKey: ['diaries'],
-    queryFn: () =>
-      fetchDiaries({ limit, currentPage: params.get(String(LOAD_DAIRY)) ? Number(params.get(String(LOAD_DAIRY))) : 1 }),
+    queryKey: ['diaries', sort],
+    queryFn: () => fetchDiaries({ limit: LOAD_DAIRY, currentPage: 1, sort }),
   });
 
   return {

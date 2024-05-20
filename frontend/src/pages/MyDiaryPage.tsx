@@ -1,44 +1,41 @@
+import { useEffect, useState } from 'react';
 import DiariesList from '@/components/diaries/DiariesList';
 import DiaryHeader from '@/components/diaries/DiaryHeader';
 import Dropdown from '@/components/common/Dropdown';
 import { FaSortAmountDownAlt } from 'react-icons/fa';
 import Toast from '@/components/common/Toast';
-import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDiaryItemStore } from '@/store/diaryStore';
 import { useDiariesInfinite } from '@/hooks/diary/useDiariesInfinite';
 
-const MyDiary = () => {
-  const { diaries, fetchNextPage, hasNextPage, isDiariesLoading } = useDiariesInfinite();
+const MyDiaryPage = () => {
+  const { diaries, pagination, isDiariesLoading, error, observerElem, setSort } = useDiariesInfinite();
 
   const [toast, setToast] = useState<boolean>(false);
   const [value, setValue] = useState<string>('');
+
   const { setIsMyDiaryPage } = useDiaryItemStore();
   const location = useLocation();
   const navigate = useNavigate();
 
-  const showToast = () => {
+  useEffect(() => {
     if (location.state) {
       setToast(true);
       setValue(location.state);
+      navigate(location.pathname, { replace: true });
     }
-    navigate(location.pathname, { replace: true });
-  };
+  }, [location.state, navigate, location.pathname]);
 
-  const isMyDiaryPage = () => {
+  useEffect(() => {
     setIsMyDiaryPage(true);
     return () => {
       setIsMyDiaryPage(false);
     };
-  };
-
-  useEffect(showToast, []);
-
-  useEffect(isMyDiaryPage, []);
+  }, [setIsMyDiaryPage]);
 
   return (
     <section className='relative'>
-      <DiaryHeader diariesData={diaries[0]} />
+      {diaries.length > 0 && <DiaryHeader diariesData={diaries[0]} />}
       <div className='absolute right-[14px] top-[90px] '>
         <Dropdown
           className='absolute right-[0px] top-[20px]'
@@ -46,18 +43,25 @@ const MyDiary = () => {
         >
           <div className='text-xs'>
             <div className='hover:bg-lightgray'>
-              <button className='p-[15px]'>최신 날짜 순</button>
+              <button onClick={() => setSort(2)} className='p-[15px]'>
+                최신 날짜 순
+              </button>
             </div>
-            <div className=' border-t border-lightgray hover:bg-lightgray'>
-              <button className='p-[15px]'>좋아요 많은 순</button>
+            <div className='border-t border-lightgray hover:bg-lightgray'>
+              <button onClick={() => setSort(1)} className='p-[15px]'>
+                좋아요 많은 순
+              </button>
             </div>
           </div>
         </Dropdown>
       </div>
       {toast && <Toast className='left-[50%] -translate-x-1/2' value={value} valid={true} setToast={setToast} />}
       <DiariesList diariesData={diaries} />
+      <div ref={observerElem} className='loading'>
+        {pagination.isFetchingNextPage && <p>Loading more...</p>}
+      </div>
     </section>
   );
 };
 
-export default MyDiary;
+export default MyDiaryPage;

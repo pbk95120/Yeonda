@@ -1,35 +1,52 @@
-import { LOAD_DAIRY } from '@/constants/constants';
-import { fetchDiaries } from '@/api/diaries.api';
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { fetchDiaries } from '@/api/diaries.api';
+import { LOAD_DAIRY } from '@/constants/constants';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 export const useDiariesInfinite = () => {
-  const getDiaries = ({ pageParam }: { pageParam: number }) => {
-    const limit = LOAD_DAIRY;
-    const currentPage = pageParam;
+  const [sort, setSort] = useState<number>(2);
 
-    return fetchDiaries({ limit, currentPage });
-  };
-
-  const { data, fetchNextPage, hasNextPage, isFetching } = useInfiniteQuery({
-    queryKey: ['diaries'],
-    queryFn: ({ pageParam = 1 }) => getDiaries({ pageParam }),
-    getNextPageParam: (lastPage) => {
-      const isLastPage = Math.ceil(lastPage.pagination.totalCount / LOAD_DAIRY) === lastPage.pagination.currentPage;
-      return isLastPage ? null : lastPage.pagination.currentPage + 1;
+  const result = useInfiniteQuery({
+    queryKey: ['diaries', sort],
+    queryFn: ({ pageParam = 1 }) => fetchDiaries({ limit: LOAD_DAIRY, currentPage: pageParam, sort: sort }),
+    getNextPageParam: (lastPage, pages) => {
+      if (lastPage.length < LOAD_DAIRY) return undefined;
+      return pages.length + 1;
     },
     initialPageParam: 1,
   });
 
-  const diaries = data ? data.pages.flatMap((page) => page.diaries) : [];
-  const pagination = data ? data.pages[data.pages.length - 1].pagination : {};
-  const isEmpty = diaries.length == 0;
+  const observerElem = useRef<HTMLDivElement>(null);
+
+  const handleObserver = useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      const target = entries[0];
+      if (target.isIntersecting && result.hasNextPage && !result.isFetchingNextPage) {
+        result.fetchNextPage();
+      }
+    },
+    [result.fetchNextPage, result.hasNextPage, result.isFetchingNextPage],
+  );
+
+  useEffect(() => {
+    const option = {
+      root: null,
+      rootMargin: '20px',
+      threshold: 1.0,
+    };
+    const observer = new IntersectionObserver(handleObserver, option);
+    if (observerElem.current) observer.observe(observerElem.current);
+    return () => {
+      if (observerElem.current) observer.unobserve(observerElem.current);
+    };
+  }, [handleObserver]);
 
   return {
-    diaries,
-    pagination,
-    isEmpty,
-    isDiariesLoading: isFetching,
-    fetchNextPage,
-    hasNextPage,
+    diaries: result.data?.pages.flatMap((page) => page) || [],
+    pagination: result,
+    isDiariesLoading: result.isLoading,
+    error: result.isError ? '다이어리 정보를 가져오는 중에 오류가 발생했습니다.' : null,
+    observerElem,
+    setSort,
   };
 };
