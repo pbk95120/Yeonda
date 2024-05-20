@@ -1,9 +1,15 @@
 import Joi from 'joi';
 
 export const selectDiarySchemas = Joi.object({
-  currentPage: Joi.number(),
-  limit: Joi.number(),
-  sort: Joi.number(),
+  currentPage: Joi.string()
+    .pattern(/^[1-9]\d*$/)
+    .required(),
+  limit: Joi.string()
+    .pattern(/^[1-9]\d*$/)
+    .required(),
+  sort: Joi.string()
+    .pattern(/^[1-9]\d*$/)
+    .required(),
 });
 
 export const diaryIdSchemas = Joi.number().integer().positive().required();

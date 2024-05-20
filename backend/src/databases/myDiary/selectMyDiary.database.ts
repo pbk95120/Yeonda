@@ -10,7 +10,8 @@ export const selectMyDiary = async (
   const sorted = sort === 1 ? 'd.likes DESC' : 'd.created_at DESC';
   const offset = (currentPage - 1) * limit;
 
-  const sql = `SELECT d.id, u.nickname, u.picture_url, d.title, d.content AS content, d.created_at, d.likes, JSON_ARRAYAGG(dt.tag_id) AS tags
+  const sql = `SELECT 
+        d.id, u.nickname, u.picture_url, d.title, d.content AS content, d.created_at, d.likes, JSON_ARRAYAGG(dt.tag_id) AS tags
     FROM 
         user u
     JOIN 

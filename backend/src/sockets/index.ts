@@ -58,7 +58,7 @@ const socketHandler = (io: Server) => {
       }
     });
 
-    socket.on('disconnect', async () => {
+    socket.on('disconnectRequest', async () => {
       try {
         socket.disconnect();
       } catch (erorr) {

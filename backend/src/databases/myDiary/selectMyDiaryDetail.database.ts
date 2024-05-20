@@ -1,7 +1,8 @@
 import { Connection } from 'mysql2/promise';
 
 export const selectMyDiaryDetail = async (conn: Connection, user_id: number, diary_id: number) => {
-  const sql = `SELECT d.id, u.nickname, u.picture_url, d.title, d.content, d.created_at, d.likes, JSON_ARRAYAGG(dt.tag_id) AS tags
+  const sql = `SELECT 
+        d.id, u.nickname, u.picture_url, d.title, d.content, d.created_at, d.likes, JSON_ARRAYAGG(dt.tag_id) AS tags
     FROM
         user u
     JOIN

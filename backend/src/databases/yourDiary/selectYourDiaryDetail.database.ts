@@ -3,7 +3,8 @@ import http from 'http-status-codes';
 import { Connection } from 'mysql2/promise';
 
 export const selectYourDiaryDetail = async (conn: Connection, diary_id: number, your_id: number) => {
-  const sql = `SELECT d.id, u.nickname, u.picture_url, d.title, d.content, d.created_at, d.likes, JSON_ARRAYAGG(dt.tag_id) AS tags
+  const sql = `SELECT 
+        d.id, u.nickname, u.picture_url, d.title, d.content, d.created_at, d.likes, JSON_ARRAYAGG(dt.tag_id) AS tags
     FROM
         user u
     JOIN

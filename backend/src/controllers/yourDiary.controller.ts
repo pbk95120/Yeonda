@@ -3,15 +3,16 @@ import { selectYourDiaryDetail } from '@databases/yourDiary/selectYourDiaryDetai
 import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { selectDiarySchemas, diaryIdSchemas } from '@schemas/yourDiary.schema';
 import { Controller } from '@schemas/controller.schema';
+import { scaleNumber } from '@src/utils/scaleNumber';
 import CustomError from '@src/error';
 import http from 'http-status-codes';
 
 export const getYourDiary: Controller = async (req, res) => {
-  const { currentPage, limit } = req.query;
-  const { id } = req.params;
-  const { error } = selectDiarySchemas.validate({ currentPage, limit, id });
+  const { error } = selectDiarySchemas.validate({ ...req.query, id: parseInt(req.params.id) });
   if (error) throw new CustomError(http.BAD_REQUEST, '잘못된 다이어리 요청', error);
-  const yourDiary = await databaseConnector(selectYourDiary)(parseInt(id), currentPage, limit);
+  const { currentPage, limit } = scaleNumber(req.query);
+
+  const yourDiary = await databaseConnector(selectYourDiary)(parseInt(req.params.id), currentPage, limit);
 
   const transTags = yourDiary.map((item) => {
     return {
