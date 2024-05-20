@@ -2,7 +2,7 @@ import { fetchTag } from '@/api/diaries.api';
 import { Tag } from '@/types/type';
 import { useEffect, useState } from 'react';
 
-export const useTags = (tags: number[]) => {
+export const useTags = (tags: Tag[]) => {
   const [tagsData, setTagsData] = useState<Tag[]>([]);
 
   useEffect(() => {
@@ -18,7 +18,7 @@ export const useTags = (tags: number[]) => {
     loadTags();
   }, []);
 
-  const tagNames = tags.map((tagId) => tagsData.find((tag) => tag.id === tagId)?.name);
+  const tagNames = tags.map((tagId) => tagsData.find((tag) => tag.id == tagId.id)?.name);
 
   return { tagNames };
 };

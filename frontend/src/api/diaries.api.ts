@@ -16,7 +16,7 @@ export const fetchPopularDiaries = async () => {
   return await requestHandler<Diary[]>('get', `/diary/popular`);
 };
 
-export const fetchPopularDiariesByTag = async (tagId: string) => {
+export const fetchPopularDiariesByTag = async (tagId: number) => {
   return await requestHandler<Diary[]>('get', `/diary/popular/${tagId}`);
 };
 
