@@ -8,6 +8,7 @@ import Tags from '../common/Tags';
 import { useNavigate } from 'react-router-dom';
 import { getMyPageMyPref, getMyTag, patchMyPageMyPref } from '@/api/mypage.api';
 import { Tag } from '../join/Interest';
+import { useAuthStore } from '@/store/authStore';
 
 interface PreferenceFormInputs {
   gender: string;
@@ -18,6 +19,7 @@ interface PreferenceFormInputs {
 }
 
 const MyPref = () => {
+  const { changePref } = useAuthStore();
   const navigate = useNavigate();
   const { setValue, getValues } = useForm<PreferenceFormInputs>();
   const [open, setOpen] = useState<boolean>(false);
@@ -34,21 +36,28 @@ const MyPref = () => {
         distance: getValues('distance'),
         start_age: getValues('startAge'),
         end_age: getValues('endAge'),
-      }).then(() => {
-        console.log('변경상황이 저장되었다능!!');
       });
     });
   };
+
   useEffect(() => {
-    getMyPageMyPref().then((data) => {
-      const { gender, distance, start_age, end_age } = data;
-      console.log(gender, distance, start_age, end_age);
-      setDistance(distance);
-      setStartAge(start_age);
-      setEndAge(end_age);
-      setSelectedGender(gender);
-      patchBtn();
-    });
+    getMyPageMyPref().then(
+      (data) => {
+        const { gender, distance, start_age, end_age } = data;
+        console.log(gender, distance, start_age, end_age);
+        setDistance(distance);
+        setStartAge(start_age);
+        setEndAge(end_age);
+        setSelectedGender(gender);
+        changePref({ gender, start_age, end_age, distance });
+        const aData = useAuthStore.getState();
+        console.log(aData);
+        patchBtn();
+      },
+      () => {
+        alert('마이페이지 정보를 가져오지 못했습니다.');
+      },
+    );
     getMyTag().then((data) => {
       setTags(data);
     });

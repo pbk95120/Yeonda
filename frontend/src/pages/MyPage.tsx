@@ -6,8 +6,10 @@ import Tags from '@/components/common/Tags';
 import { useNavigate } from 'react-router-dom';
 import { getMyPage } from '@/api/mypage.api';
 import { Tag } from '@/components/join/Interest';
+import LoadingIndicator from '@/components/common/LoadingIndicator';
 
 const MyPage = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [gender, setGender] = useState<'Male' | 'Female'>('Male');
   const [nickname, setNickname] = useState<string>('defalut');
   const [age, setAge] = useState<number>(0);
@@ -23,16 +25,22 @@ const MyPage = () => {
 
   const navigate = useNavigate();
   useEffect(() => {
-    goToSettingPage();
-    getMyPage().then((data) => {
-      const { nickname, gender, birth, tags, picture_url, detail } = data;
-      setTags(tags);
-      setGender(gender);
-      setNickname(nickname);
-      setAge(calculateAge(birth));
-      setPicture_url(picture_url);
-      setAddress(detail);
-    });
+    getMyPage().then(
+      (data) => {
+        goToSettingPage();
+        const { nickname, gender, birth, tags, picture_url, detail } = data;
+        setTags(tags);
+        setGender(gender);
+        setNickname(nickname);
+        setAge(calculateAge(birth));
+        setPicture_url(picture_url);
+        setAddress(detail);
+        setIsLoading(true);
+      },
+      () => {
+        alert('마이페이지를 불러오는데 실패했습니다.');
+      },
+    );
   }, []);
   const goToSettingPage = () => {
     const setting = document.querySelector('#setting');
@@ -54,28 +62,34 @@ const MyPage = () => {
   };
 
   return (
-    <div className='flex flex-col items-center justify-center space-y-2'>
-      {picture_url ? (
-        <img src={picture_url} className='m-2 h-[221px] w-[230px]' />
-      ) : (
-        <SVG className='m-2 h-[221px] w-[230px]' />
-      )}
-      <div className='font-sans text-xl font-bold'>{nickname}</div>
-      <div className='flex flex-row items-center justify-center space-x-2'>
-        <div className='font-sans text-xl text-lightgray'>{age}</div>
-        <div className={gender === 'Male' ? 'text-blue' : 'text-pastelpeach'}>
-          {gender === 'Female' ? <IoMale className='h-5 w-5' /> : <IoFemale className='h-5 w-5' />}
-        </div>
-      </div>
-      <div className='break-keep px-10 text-center font-sans text-xl font-bold'>{address}</div>
-      <div id='tag container' className='w-80 flex-wrap items-center justify-center pt-6'>
-        {tags.map((tag, i) => (
-          <div key={i} className='inline-block'>
-            <Tags i={i} tag={tag} className='mx-3 px-3 py-2' />
+    <>
+      {isLoading ? (
+        <div className='flex flex-col items-center justify-center space-y-2'>
+          {picture_url ? (
+            <img src={picture_url} className='m-2 h-[221px] w-[230px] rounded-full' />
+          ) : (
+            <SVG className='m-2 h-[221px] w-[230px]' />
+          )}
+          <div className='font-sans text-xl font-bold'>{nickname}</div>
+          <div className='flex flex-row items-center justify-center space-x-2'>
+            <div className='font-sans text-xl text-lightgray'>{age}</div>
+            <div className={gender === 'Male' ? 'text-blue' : 'text-pastelpeach'}>
+              {gender === 'Female' ? <IoMale className='h-5 w-5' /> : <IoFemale className='h-5 w-5' />}
+            </div>
           </div>
-        ))}
-      </div>
-    </div>
+          <div className='break-keep px-10 text-center font-sans text-xl font-bold'>{address}</div>
+          <div id='tag container' className='flex w-80 flex-wrap items-center justify-center pt-6'>
+            {tags.map((tag, i) => (
+              <div key={i} className='inline-block'>
+                <Tags i={i} tag={tag} className='mx-1 px-3' />
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : (
+        <LoadingIndicator />
+      )}
+    </>
   );
 };
 
