@@ -24,7 +24,7 @@ const MainHeader = ({ value, onlyLogo, setting, backBtn, cancelStr, complete }: 
         <div className='relative flex h-20 w-full items-center justify-between'>
           {backBtn ? (
             <div className='absolute left-7 z-20 flex items-center justify-center'>
-              <IoIosArrowBack className='h-6 w-6 fill-gray' onClick={() => navigate('/mypage')} />
+              <IoIosArrowBack className='h-6 w-6 fill-gray' onClick={() => window.history.back()} />
             </div>
           ) : null}
           <SVG className='fixed h-20 py-3' />

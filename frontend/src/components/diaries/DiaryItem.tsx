@@ -12,7 +12,10 @@ interface DiaryItemProps {
 
 const DiaryItem = ({ diary, onDiaryChange }: DiaryItemProps) => {
   const { isMyDiaryPage, isEditing, isSuggestionPage, isPopularPage } = useDiaryItemStore();
-  const { tagNames } = useTags(diary.tags);
+
+  const tags = typeof diary.tags === 'string' ? JSON.parse(diary.tags) : diary.tags;
+
+  const { tagNames } = useTags(tags);
 
   const renderTitle = () => {
     if (isEditing) {
