@@ -4,44 +4,22 @@ import { IoMale } from 'react-icons/io5';
 import { useEffect, useState } from 'react';
 import Tags from '@/components/common/Tags';
 import { useNavigate } from 'react-router-dom';
-import { getMyPage } from '@/api/mypage.api';
+import { getMyPage, getMyPageMyPref } from '@/api/mypage.api';
 import { Tag } from '@/components/join/Interest';
 import LoadingIndicator from '@/components/common/LoadingIndicator';
+import { myPageStore } from '@/store/myPageStore';
 
 const MyPage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [gender, setGender] = useState<'Male' | 'Female'>('Male');
   const [nickname, setNickname] = useState<string>('defalut');
   const [age, setAge] = useState<number>(0);
-  const [tags, setTags] = useState<Tag[]>([
-    { id: 1, name: '롤토체스' },
-    { id: 2, name: '농구' },
-    { id: 3, name: '게임' },
-    { id: 4, name: '롤토체스' },
-    { id: 5, name: '취뽀' },
-  ]);
+  const [tags, setTags] = useState<Tag[]>([]);
   const [picture_url, setPicture_url] = useState<string>('');
   const [address, setAddress] = useState<string>('');
-
+  const { changePref, changeInfo, changeTags } = myPageStore();
   const navigate = useNavigate();
-  useEffect(() => {
-    getMyPage().then(
-      (data) => {
-        goToSettingPage();
-        const { nickname, gender, birth, tags, picture_url, detail } = data;
-        setTags(tags);
-        setGender(gender);
-        setNickname(nickname);
-        setAge(calculateAge(birth));
-        setPicture_url(picture_url);
-        setAddress(detail);
-        setIsLoading(true);
-      },
-      () => {
-        alert('마이페이지를 불러오는데 실패했습니다.');
-      },
-    );
-  }, []);
+
   const goToSettingPage = () => {
     const setting = document.querySelector('#setting');
     setting?.addEventListener('click', () => navigate('/mypage/setting'));
@@ -60,6 +38,38 @@ const MyPage = () => {
     }
     return age;
   };
+
+  useEffect(() => {
+    getMyPage().then(
+      (data) => {
+        goToSettingPage();
+        const { nickname, gender, birth, tags, picture_url, detail } = data;
+        changeInfo({ address: detail, picture: picture_url });
+        changeTags(tags);
+        setTags(tags);
+        setGender(gender);
+        setNickname(nickname);
+        setAge(calculateAge(birth));
+        setPicture_url(picture_url);
+        setAddress(detail);
+        setIsLoading(true);
+      },
+      () => {
+        alert('마이페이지를 불러오는데 실패했습니다.');
+      },
+    );
+    getMyPageMyPref().then(
+      (data) => {
+        const { gender, distance, start_age, end_age } = data;
+        changePref({ gender, start_age, end_age, distance });
+        const aData = myPageStore.getState();
+        console.log(aData);
+      },
+      () => {
+        alert('내 취향 수정 정보를 가져오지 못했습니다.');
+      },
+    );
+  }, []);
 
   return (
     <>

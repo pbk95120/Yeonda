@@ -9,6 +9,8 @@ import { useNavigate } from 'react-router-dom';
 import { getMyPageMyPref, getMyTag, patchMyPageMyPref } from '@/api/mypage.api';
 import { Tag } from '../join/Interest';
 import { useAuthStore } from '@/store/authStore';
+import { myPageStore } from '@/store/myPageStore';
+import Button from '../common/Button';
 
 interface PreferenceFormInputs {
   gender: string;
@@ -21,48 +23,47 @@ interface PreferenceFormInputs {
 const MyPref = () => {
   const { changePref } = useAuthStore();
   const navigate = useNavigate();
+  let localData = myPageStore.getState();
+
   const { setValue, getValues } = useForm<PreferenceFormInputs>();
   const [open, setOpen] = useState<boolean>(false);
-  const [selectedGender, setSelectedGender] = useState<string>('Neutral');
-  const [tags, setTags] = useState<Tag[]>([]);
-  const [distance, setDistance] = useState<number>(0);
-  const [startAge, setStartAge] = useState<number>(0);
-  const [endAge, setEndAge] = useState<number>(100);
-  const patchBtn = () => {
-    let patch = document.querySelector('#backBtn');
-    patch?.addEventListener('click', () => {
-      patchMyPageMyPref({
-        gender: getValues('preferGender'),
-        distance: getValues('distance'),
-        start_age: getValues('startAge'),
-        end_age: getValues('endAge'),
-      });
-    });
-  };
+  const [selectedGender, setSelectedGender] = useState<string>(localData.gender);
+  const [tags, setTags] = useState<Tag[]>(localData.myTags);
+  const [distance, setDistance] = useState<number>(localData.distance);
+  const [startAge, setStartAge] = useState<number>(localData.start_age);
+  const [endAge, setEndAge] = useState<number>(localData.end_age);
 
-  useEffect(() => {
-    getMyPageMyPref().then(
-      (data) => {
-        const { gender, distance, start_age, end_age } = data;
-        console.log(gender, distance, start_age, end_age);
-        setDistance(distance);
-        setStartAge(start_age);
-        setEndAge(end_age);
-        setSelectedGender(gender);
-        changePref({ gender, start_age, end_age, distance });
-        const aData = useAuthStore.getState();
-        console.log(aData);
-        patchBtn();
+  const patchBtn = () => {
+    patchMyPageMyPref({
+      gender: getValues('preferGender'),
+      distance: getValues('distance'),
+      start_age: getValues('startAge'),
+      end_age: getValues('endAge'),
+    }).then(
+      () => {
+        changePref({
+          gender: getValues('preferGender'),
+          start_age: getValues('distance'),
+          end_age: getValues('startAge'),
+          distance: getValues('endAge'),
+        });
+
+        alert('내 선호도 변경 완료!!!');
       },
       () => {
-        alert('마이페이지 정보를 가져오지 못했습니다.');
+        alert('내 선호도 변경 실패!!!');
       },
     );
-    getMyTag().then((data) => {
-      setTags(data);
+  };
+  useEffect(() => {
+    getMyPageMyPref().then((data) => {
+      const { gender, distance, start_age, end_age } = data;
+      setDistance(distance);
+      setStartAge(start_age);
+      setEndAge(end_age);
+      setSelectedGender(gender);
     });
   }, []);
-
   const openModal = () => setOpen(true);
   const closeModal = () => setOpen(false);
 
@@ -128,6 +129,7 @@ const MyPref = () => {
           setValue={setValue}
         />
       )}
+      <Button size='large' color='pastelred' children='완료' className='mt-3' onClick={patchBtn} />
     </div>
   );
 };

@@ -6,6 +6,8 @@ import { LuImagePlus } from 'react-icons/lu';
 import { UseFormRegisterReturn } from 'react-hook-form';
 import { useEffect, useState } from 'react';
 import { UseFormGetValues, UseFormSetValue } from 'react-hook-form';
+import { deleteMyPicture } from '@/api/mypage.api';
+import { myPageStore } from '@/store/myPageStore';
 
 interface PreferenceFormInputs {
   address: string;
@@ -65,6 +67,7 @@ const Input = ({
     );
   }
   if (inputFor === 'image' && contentImageState && setValue) {
+    const { changeInfo } = myPageStore();
     const [isDragging, setIsDragging] = useState(false);
     const { contentImage, setContentImage } = contentImageState;
     const [contentImageUrl, setContentImageUrl] = useState<string | null>(null);
@@ -72,8 +75,9 @@ const Input = ({
     useEffect(() => {
       if (typeof contentImage === 'string') {
         setContentImageUrl(contentImage);
+        console.log(contentImageUrl);
       }
-    }, []);
+    }, [contentImage]);
 
     const readImage = (image: File) => {
       const reader = new FileReader();
@@ -121,6 +125,8 @@ const Input = ({
 
     const deleteImg = () => {
       setContentImageUrl(null);
+      changeInfo({ picture: '', address: myPageStore.getState().address });
+      deleteMyPicture();
     };
     return (
       <div className='m-2 flex items-center justify-center'>
