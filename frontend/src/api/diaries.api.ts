@@ -1,4 +1,4 @@
-import { Diary, DiaryChange, FetchDiariesParams, Tag } from '@/types/type.ts';
+import { Diary, DiaryChange, FetchDiariesParams, Tag, PreferData } from '@/types/type.ts';
 import { requestHandler } from '@/api/http';
 
 export const fetchDiaries = async (params: FetchDiariesParams) => {
@@ -18,6 +18,22 @@ export const fetchPopularDiaries = async () => {
 
 export const fetchPopularDiariesByTag = async (tagId: number) => {
   return await requestHandler<Diary[]>('get', `/diary/popular/${tagId}`);
+};
+
+export const fetchFirstSuggestionDiary = async (preferData: PreferData) => {
+  return await requestHandler('post', 'diary/pre-random', preferData);
+};
+
+export const fetchSuggestionDiary = async (preferId: number) => {
+  return await requestHandler('post', 'diary/random', { prefer_id: preferId });
+};
+
+export const fetchPreference = async () => {
+  return await requestHandler<PreferData>('get', 'profile/my/preference');
+};
+
+export const likeDiary = async (diaryId: number | undefined) => {
+  return await requestHandler('post', `diary/like/${diaryId}`);
 };
 
 export const fetchProfile = async () => {

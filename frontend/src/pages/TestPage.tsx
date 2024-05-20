@@ -5,6 +5,7 @@ import DaumPostcode from 'react-daum-postcode';
 import { useAuthStore } from '@/store/authStore';
 
 import { logout } from '@/api/user.api';
+import useStore from '@/store/store';
 
 export const options = {
   responsive: true,

@@ -58,6 +58,13 @@ export interface Tag {
   name: string;
 }
 
+export interface PreferData {
+  distance: number;
+  end_age: number;
+  start_age: number;
+  gender: string;
+}
+
 export type DiaryHeader = Pick<Diary, 'nickname' | 'picture_url'>;
 
 export type DiaryContent = Omit<Diary, 'nickname' | 'picture_url'>;
