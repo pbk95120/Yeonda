@@ -4,7 +4,7 @@ import { Connection } from 'mysql2/promise';
 export const updateMyDiary = async (conn: Connection, diary_id: number, title: string, content: string) => {
   const callback = async (diary_id: number, title: string, content: string) => {
     const sql = `UPDATE diary SET 
-      title = :title, content = :content 
+      title = :title, content = :content, updated_at =NOW() 
     WHERE 
       id = :diary_id
     `;
