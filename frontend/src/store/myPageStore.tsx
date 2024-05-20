@@ -14,12 +14,8 @@ interface Info {
 }
 
 interface StoreState {
-  isLoggedIn: boolean;
-  storeLogin: (email: string, pref: Pref) => void;
-  storeLogout: () => void;
   changePref: (pref: Pref) => void;
   changeInfo: (info: Info) => void;
-  email: string;
   gender: string;
   start_age: number;
   end_age: number;
@@ -28,27 +24,16 @@ interface StoreState {
   address: string;
 }
 
-export const useAuthStore = create(
+export const myPageStore = create(
   persist<StoreState>(
     (set) => ({
-      email: '',
-      isLoggedIn: false,
       gender: '',
       start_age: 0,
       end_age: 100,
       distance: 160,
       picture: '',
       address: '',
-      storeLogin: (emailInput: string, pref: Pref) => {
-        set({
-          isLoggedIn: true,
-          gender: pref.gender,
-          start_age: pref.start_age,
-          end_age: pref.end_age,
-          distance: pref.distance,
-          email: emailInput,
-        });
-      },
+
       changePref: (pref: Pref) => {
         set({
           gender: pref.gender,
@@ -63,12 +48,9 @@ export const useAuthStore = create(
           picture: info.picture,
         });
       },
-      storeLogout: () => {
-        useAuthStore.persist.clearStorage();
-      },
     }),
     {
-      name: 'preference',
+      name: 'myAllInfo',
     },
   ),
 );

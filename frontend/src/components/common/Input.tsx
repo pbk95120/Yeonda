@@ -72,8 +72,9 @@ const Input = ({
     useEffect(() => {
       if (typeof contentImage === 'string') {
         setContentImageUrl(contentImage);
+        console.log(contentImageUrl);
       }
-    }, []);
+    }, [contentImage]);
 
     const readImage = (image: File) => {
       const reader = new FileReader();

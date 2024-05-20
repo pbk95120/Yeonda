@@ -1,7 +1,6 @@
 import { IoSettings } from 'react-icons/io5';
 import { IoIosArrowBack } from 'react-icons/io';
 import SVG from '@/assets/images/logo.svg?react';
-import { useNavigate } from 'react-router-dom';
 
 interface HeaderProps {
   value?: string;
@@ -17,14 +16,13 @@ interface HeaderProps {
  * Main Header 컴포넌트
  */
 const MainHeader = ({ value, onlyLogo, setting, backBtn, cancelStr, complete }: HeaderProps) => {
-  const navigate = useNavigate();
   return (
     <header className='relative flex h-20 w-full max-w-sm flex-row '>
       {onlyLogo ? (
         <div className='relative flex h-20 w-full items-center justify-between'>
           {backBtn ? (
             <div className='absolute left-7 z-20 flex items-center justify-center'>
-              <IoIosArrowBack className='h-6 w-6 fill-gray' onClick={() => navigate('/mypage')} />
+              <IoIosArrowBack className='h-6 w-6 fill-gray' onClick={() => window.history.back()} />
             </div>
           ) : null}
           <SVG className='fixed h-20 py-3' />

@@ -19,41 +19,34 @@ const MyInfo = () => {
   const { storeLogout } = useAuthStore();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const navigate = useNavigate();
-  const [picture_url, setPicture_url] = useState<string>('');
+  const [afterPicture, setAfterPicture] = useState<string>('');
   const [address, setAddress] = useState<string>('');
   const [newAddress, setNewAddress] = useState<string>('');
   const [beforePicture, setBeforePicture] = useState<string>('');
-  useEffect(() => {
-    getMyPageMyInfo().then((data) => {
-      const { picture_url, detail } = data;
-      console.log(detail, address, newAddress);
-      setBeforePicture(picture_url);
-      setPicture_url(picture_url);
-      setAddress(detail);
-      saveBtn();
-    });
-  }, [newAddress, picture_url]);
-  const saveBtn = () => {
+
+  const saveBtn = (detail: string) => {
     let save = document.querySelector('#myPrefBtn');
     let back = document.querySelector('#backBtn');
-    if (address !== newAddress && newAddress.length > 0) {
+    if (detail !== newAddress && newAddress.length > 0) {
       back?.addEventListener('click', () => {
-        setTimeout(() => patchMyInfoAddress(getValues('address')).then(() => console.log('주소변경 완료')), 2000);
+        patchMyInfoAddress(getValues('address')).then(() => console.log('주소변경 완료'));
       });
       save?.addEventListener('click', () => {
-        setTimeout(() => patchMyInfoAddress(getValues('address')).then(() => console.log('주소변경 완료')), 2000);
+        patchMyInfoAddress(getValues('address')).then(() => console.log('주소변경 완료'));
       });
     }
-    back?.addEventListener('click', () => {
-      let imageFormData = new FormData();
-      imageFormData.append('picture', getValues('picture'));
-      setTimeout(() => patchMyInfoPicture(imageFormData).then(() => console.log('사진변경 완료')), 2000);
-    });
-    save?.addEventListener('click', () => {
-      let imageFormData = new FormData();
-      imageFormData.append('picture', getValues('picture'));
-      setTimeout(() => patchMyInfoPicture(imageFormData).then(() => console.log('사진변경 완료')), 2000);
-    });
+    if (beforePicture !== afterPicture && afterPicture.length > 0) {
+      back?.addEventListener('click', () => {
+        let imageFormData = new FormData();
+        imageFormData.append('picture', getValues('picture'));
+        patchMyInfoPicture(imageFormData).then(() => console.log('사진변경 완료'));
+      });
+      save?.addEventListener('click', () => {
+        let imageFormData = new FormData();
+        imageFormData.append('picture', getValues('picture'));
+        patchMyInfoPicture(imageFormData).then(() => console.log('사진변경 완료'));
+      });
+    }
   };
 
   const handleAddressSelection = (address: string) => {
@@ -70,12 +63,28 @@ const MyInfo = () => {
     });
   };
 
+  useEffect(() => {
+    getMyPageMyInfo().then(
+      (data) => {
+        const { picture_url, detail } = data;
+        setBeforePicture(picture_url);
+        setAddress(detail);
+        saveBtn(detail);
+        console.log('detail: ' + detail + ', address: ' + address + ', newAddress: ' + newAddress);
+        console.log('beforePicture: ' + beforePicture + ', picture_url: ' + picture_url);
+      },
+      () => {
+        alert('내 정보 수정을 가져오는데 실패하였습니다!!!');
+      },
+    );
+  }, [newAddress, afterPicture]);
+
   return (
     <div className='flex flex-col items-center justify-around'>
       <Input
         inputFor='image'
         className='mt-3'
-        contentImageState={{ contentImage: picture_url, setContentImage: setPicture_url }}
+        contentImageState={{ contentImage: beforePicture, setContentImage: setAfterPicture }}
         setValue={setValue}
       />
       <div className='flex h-[86px] w-[339px] flex-col p-3 shadow-lg'>

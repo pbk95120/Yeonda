@@ -29,8 +29,17 @@ const MyPref = () => {
   const [startAge, setStartAge] = useState<number>(0);
   const [endAge, setEndAge] = useState<number>(100);
   const patchBtn = () => {
-    let patch = document.querySelector('#backBtn');
-    patch?.addEventListener('click', () => {
+    let backBtn = document.querySelector('#backBtn');
+    let myInfoBtn = document.querySelector('#myInfoBtn');
+    backBtn?.addEventListener('click', () => {
+      patchMyPageMyPref({
+        gender: getValues('preferGender'),
+        distance: getValues('distance'),
+        start_age: getValues('startAge'),
+        end_age: getValues('endAge'),
+      });
+    });
+    myInfoBtn?.addEventListener('click', () => {
       patchMyPageMyPref({
         gender: getValues('preferGender'),
         distance: getValues('distance'),
@@ -45,6 +54,10 @@ const MyPref = () => {
       (data) => {
         const { gender, distance, start_age, end_age } = data;
         console.log(gender, distance, start_age, end_age);
+        console.log(getValues('distance'));
+        console.log(getValues('startAge'));
+        console.log(getValues('endAge'));
+        console.log(getValues('preferGender'));
         setDistance(distance);
         setStartAge(start_age);
         setEndAge(end_age);
@@ -55,7 +68,7 @@ const MyPref = () => {
         patchBtn();
       },
       () => {
-        alert('마이페이지 정보를 가져오지 못했습니다.');
+        alert('내 취향 수정 정보를 가져오지 못했습니다.');
       },
     );
     getMyTag().then((data) => {
