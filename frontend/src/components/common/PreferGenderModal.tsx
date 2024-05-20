@@ -31,7 +31,9 @@ const PreferGenderModal = ({
               size='medium'
               children='남성'
               onClick={() => {
-                {setValue ? setValue('preferGender', 'Male', { shouldValidate: true }):null}
+                {
+                  setValue ? setValue('preferGender', 'Male', { shouldValidate: true }) : null;
+                }
                 setSelectedGender('Male');
                 closeModal();
               }}
@@ -42,7 +44,9 @@ const PreferGenderModal = ({
               size='medium'
               children='여성'
               onClick={() => {
-                {setValue ? setValue('preferGender', 'Female', { shouldValidate: true }): null}
+                {
+                  setValue ? setValue('preferGender', 'Female', { shouldValidate: true }) : null;
+                }
                 setSelectedGender('Female');
                 closeModal();
               }}
@@ -54,7 +58,9 @@ const PreferGenderModal = ({
             size='large'
             children='무관'
             onClick={() => {
-              {setValue? setValue('preferGender', 'Neutral', { shouldValidate: true }):null}
+              {
+                setValue ? setValue('preferGender', 'Neutral', { shouldValidate: true }) : null;
+              }
               setSelectedGender('Neutral');
               closeModal();
             }}

@@ -4,27 +4,23 @@ import { useSuggestion } from '@/hooks/diary/useSuggestion';
 import DiaryItem from '@/components/diaries/DiaryItem';
 import Cancel from '@/assets/images/cancel.svg?react';
 import { FaHeart } from 'react-icons/fa';
+import LoadingIndicator from '@/components/common/LoadingIndicator';
 
 const DiarySuggestionPage = () => {
   const { setIsSuggestionPage } = useDiaryItemStore();
-  const { diariesData, fetchDiary, error } = useSuggestion();
+  const { diaryData, fetchDiary, isLoading, likeReqDiary } = useSuggestion();
 
-  const isSuggestionPage = () => {
+  useEffect(() => {
     setIsSuggestionPage(true);
     return () => {
       setIsSuggestionPage(false);
     };
-  };
-
-  useEffect(isSuggestionPage, []);
-
-  if (error) {
-    return <div>{error}</div>;
-  }
+  }, [setIsSuggestionPage]);
 
   return (
     <div>
-      {diariesData && <DiaryItem diary={diariesData} />}
+      {isLoading && <LoadingIndicator />}
+      {diaryData && <DiaryItem diary={diaryData} />}
       <div className='absolute bottom-[100px] flex w-full justify-center gap-[83px]'>
         <button
           className='flex h-[54px] w-[54px] items-center justify-center rounded-full border border-lightgray bg-white shadow-lg'
@@ -34,7 +30,10 @@ const DiarySuggestionPage = () => {
         </button>
         <button
           className='flex h-[54px] w-[54px] items-center justify-center rounded-full border border-lightgray bg-white shadow-lg'
-          onClick={fetchDiary}
+          onClick={() => {
+            fetchDiary;
+            likeReqDiary;
+          }}
         >
           <FaHeart className='fill-orange' style={{ width: '34px', height: '34px' }} />
         </button>

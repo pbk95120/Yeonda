@@ -1,7 +1,7 @@
 import { cls } from '@/utils/cls';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  onClick?: () => void;
+  onClick?: (a: any) => void;
   color?: 'darkgray' | 'pastelpeach' | 'orange' | 'blue' | 'lightgray' | 'pastelred';
   className?: string;
   children?: string;

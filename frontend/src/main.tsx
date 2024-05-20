@@ -26,7 +26,6 @@ import ErrorPage from '@/pages/ErrorPage';
 import OthersDiaryPage from './pages/OthersDiaryPage';
 import PreferencePage from './pages/PreferencePage';
 
-
 const queryClient = new QueryClient();
 
 /**
@@ -248,15 +247,19 @@ const router = createBrowserRouter(
           )}
         </>
       ),
-      errorElement: <ErrorPage />,
+      errorElement: (
+        <Layout showFooter={false}>
+          <ErrorPage />
+        </Layout>
+      ),
     };
   }),
 );
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-      </QueryClientProvider>
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
   </React.StrictMode>,
 );
