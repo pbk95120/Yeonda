@@ -70,5 +70,10 @@ export const PatchMyPreferenceSchema = LogonSchema.concat(
     distance: DistanceSchema,
     start_age: StartAgeSchema,
     end_age: EndAgeSchema,
+  }).custom((value, helpers) => {
+    if (value.start_age > value.end_age) {
+      return helpers.error('최소 나잇값이 최대 나잇값보다 큼');
+    }
+    return value;
   }),
 );

@@ -68,6 +68,11 @@ export const RawSignupSchema = Joi.object({
   start_age: SignStartAgeSchema,
   end_age: SignEndAgeSchema,
   tags: SignTagsSchema,
+}).custom((value, helpers) => {
+  if (value.start_age > value.end_age) {
+    return helpers.error('최소 나잇값이 최대 나잇값보다 큼');
+  }
+  return value;
 });
 
 export interface Signup {
