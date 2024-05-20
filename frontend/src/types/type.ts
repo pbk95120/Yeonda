@@ -42,11 +42,24 @@ export interface Diary {
   picture_url: string;
   title: string;
   content: string;
-  tags: string[];
+  tags: number[];
   created_at: string;
   likes: number;
+}
+
+export interface FetchDiariesParams {
+  currentPage: number;
+  limit: number;
+  sort: number;
+}
+
+export interface Tag {
+  id: number;
+  name: string;
 }
 
 export type DiaryHeader = Pick<Diary, 'nickname' | 'picture_url'>;
 
 export type DiaryContent = Omit<Diary, 'nickname' | 'picture_url'>;
+
+export type DiaryChange = Pick<Diary, 'title' | 'content'>;

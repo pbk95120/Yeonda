@@ -1,54 +1,45 @@
-import Button from "@/components/common/Button";
-import Input from "@/components/common/Input";
-import Tags from "@/components/common/Tags";
-import { useState } from "react";
+import Button from '@/components/common/Button';
+import Input from '@/components/common/Input';
+import Tags from '@/components/common/Tags';
+import { useEffect, useState } from 'react';
 import { MAX_TAGS, MIN_TAGS } from '@/constants/constants';
-import { Tag } from "@/components/join/Interest";
+import { Tag } from '@/components/join/Interest';
+import { getTags } from '@/api/user.api';
 
+import { getMyPage, putMyTag } from '@/api/mypage.api';
+import LoadingIndicator from '@/components/common/LoadingIndicator';
 
-const PreferencePage = ()=>{
+const PreferencePage = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [inputText, setInputText] = useState('');
-  const [tags,setTags]=useState<Tag[]>([])
-  const tempTag = [
-    { id: 1, name: '태그1' },
-    { id: 2, name: '태그2' },
-    { id: 3, name: '태그3' },
-    { id: 4, name: '태그4' },
-    { id: 5, name: '태그5' },
-    { id: 6, name: '태그6' },
-    { id: 7, name: '태그7' },
-    { id: 8, name: '태그8' },
-    { id: 9, name: '태그9' },
-    { id: 10, name: '태그10' },
-    { id: 11, name: '태그11' },
-    { id: 12, name: '태그12' },
-    { id: 13, name: '태그13' },
-    { id: 14, name: '태그14' },
-    { id: 15, name: '태그15' },
-    { id: 16, name: '태그16' },
-    { id: 17, name: '태그17' },
-    { id: 18, name: '태그18' },
-    { id: 19, name: '태그19' },
-    { id: 20, name: '태그20' },
-    { id: 21, name: '태그21' },
-    { id: 22, name: '태그22' },
-    { id: 23, name: '태그23' },
-    { id: 24, name: '태그24' },
-    { id: 25, name: '태그25' },
-    { id: 26, name: '태그26' },
-    { id: 27, name: '태그27' },
-    { id: 28, name: '태그28' },
-    { id: 29, name: '태그29' },
-    { id: 30, name: '태그30' },
-    { id: 31, name: '태그31' },
-    { id: 32, name: '태그32' },
-  ];
-
-  const filteredTags = tempTag.filter((tag) => tag.name.toLowerCase().includes(inputText.toLowerCase()));
+  const [tags, setTags] = useState<Tag[]>([]);
+  const [alltags, setAllTags] = useState<Tag[]>([]);
+  const filteredTags = alltags.filter((tag) => tag.name.toLowerCase().includes(inputText.toLowerCase()));
 
   const handleRemoveTag = (indexToRemove: number) => {
     const updatedTags = tags.filter((_, index) => index !== indexToRemove);
     setTags(updatedTags);
+  };
+  const tagIdToString = (tags: Tag[]) => {
+    let tagIdArr = tags.map((el: Tag) => el.id);
+    let result = tagIdArr.join();
+    console.group(result);
+    return result;
+  };
+  const putTag = (tags: Tag[], e: Event) => {
+    e.preventDefault();
+    let tagToString = tagIdToString(tags);
+    putMyTag(tagToString).then(
+      () => {
+        let backBtn = document.querySelector('#backBtn');
+        backBtn?.addEventListener('click', () => history.back());
+        alert('태그 수정 완료!!!');
+        setIsLoading(true);
+      },
+      () => {
+        alert('태그 수정 실패!!!');
+      },
+    );
   };
 
   const handleAddTag = (tag: Tag) => {
@@ -58,45 +49,66 @@ const PreferencePage = ()=>{
       setTags(copyTags);
     }
   };
- return (
-    <div className='w-full px-10'>
-      <form >
-        <div className='items-start justify-center'>
-          <fieldset>
-            <legend className='text-sm mb-4'>관심사</legend>
-            {tags.map((tag, i) => (
-              <Tags className="px-1 py-1" i={i} tag={tag} handleRemoveTag={handleRemoveTag} />
-            ))}
-            <Input
-              inputFor='search'
-              type='text'
-              className='flex-grow p-2 w-full'
-              value={inputText}
-              onChange={(e) => setInputText(e.target.value)}
-              placeholder='검색'
-            />
-            <div className='overflow-y-scroll h-80 my-4'>
-              {filteredTags.map((tag, i) => (
-                <p
-                  key={i}
-                  className='bg-chatgray w-auto inline-block p-1 px-2 rounded-xl m-1 text-xs cursor-pointer'
-                  onClick={() => {
-                    handleAddTag(tag);
-                  }}
-                >
-                  # {tag.name}
-                </p>
-              ))}
+  useEffect(() => {
+    getMyPage().then(
+      (data) => {
+        const { tags } = data;
+        console.log(tags);
+        setTags(tags);
+        getTags().then((data) => {
+          setAllTags(data);
+        });
+      },
+      () => {
+        alert('태그 가져오기 실패!!!!');
+      },
+    );
+  }, []);
+
+  return (
+    <>
+      {isLoading ? (
+        <LoadingIndicator />
+      ) : (
+        <div className='w-full px-10'>
+          <form>
+            <div className='items-start justify-center'>
+              <fieldset>
+                <legend className='mb-4 text-sm'>관심사</legend>
+                {tags.map((tag, i) => (
+                  <Tags className='px-1 py-1' i={i} tag={tag} handleRemoveTag={handleRemoveTag} />
+                ))}
+                <Input
+                  inputFor='search'
+                  type='text'
+                  className='w-full flex-grow p-2'
+                  value={inputText}
+                  onChange={(e) => setInputText(e.target.value)}
+                  placeholder='검색'
+                />
+                <div className='my-4 h-80 overflow-y-scroll'>
+                  {filteredTags.map((tag, i) => (
+                    <p
+                      key={i}
+                      className='m-1 inline-block w-auto cursor-pointer rounded-xl bg-chatgray p-1 px-2 text-xs'
+                      onClick={() => {
+                        handleAddTag(tag);
+                      }}
+                    >
+                      # {tag.name}
+                    </p>
+                  ))}
+                </div>
+              </fieldset>
             </div>
-          </fieldset>
+            <div className='absolute top-[580px] flex gap-x-2'>
+              <Button size='large' children='완료' disabled={tags.length < MIN_TAGS} onClick={(e) => putTag(tags, e)} />
+            </div>
+          </form>
         </div>
-        <div className='flex gap-x-2 absolute top-[580px]'>
-          <Button size="large" children="완료"  disabled={tags.length < MIN_TAGS}/>
-        </div>
-      </form>
-    </div>
+      )}
+    </>
   );
 };
 
-
-export default PreferencePage
+export default PreferencePage;

@@ -5,14 +5,16 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 interface DoughnutProps {
   title: string;
+  female: number;
+  male: number;
 }
 
-const DoughnutChart = ({ title }: DoughnutProps) => {
+const DoughnutChart = ({ title, female, male }: DoughnutProps) => {
   const Data = {
     labels: ['여성', '남성'],
     datasets: [
       {
-        data: [45, 55],
+        data: [female, male],
         backgroundColor: ['#F7778C', '#88B3E8'],
         borderColor: ['#F7778C', '#88B3E8'],
       },
@@ -25,10 +27,10 @@ const DoughnutChart = ({ title }: DoughnutProps) => {
 
   return (
     <div>
-      <h1 className='text-xl p-2 font-bold'>{title}</h1>
+      <h1 className='p-2 text-xl font-bold'>{title}</h1>
       <hr className='text-lightgray' />
-      <div className='flex justify-center items-center h-72'>
-        <div className='w-[100%] h-[100%]'>
+      <div className='flex h-72 items-center justify-center'>
+        <div className='h-[100%] w-[100%]'>
           <Doughnut data={Data} options={Options} style={{ maxWidth: '100%', height: 'auto' }}></Doughnut>
         </div>
       </div>

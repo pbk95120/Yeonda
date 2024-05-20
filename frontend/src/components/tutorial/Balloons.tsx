@@ -1,4 +1,4 @@
-import { TUTORIAL_PAGE_NAME, TUTORIAL_PAGE_CONTENT, TUTORIAL_PAGE_BALLOON_POSITION } from '@/constants/constants';
+import { TUTORIAL_PAGE_NAME, TUTORIAL_PAGE_CONTENT } from '@/constants/constants';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import Button from '../common/Button';
 import { useNavigate } from 'react-router-dom';
@@ -13,7 +13,7 @@ const Balloons = ({ setPage, page }: BalloonsProps) => {
 
   return (
     <div
-      className={`relative flex h-[667px] w-full flex-col items-center justify-center ${page == 0 ? 'translate-y-20' : 'translate-y-[163px]'}`}
+      className={`full relative flex flex-col items-center justify-center ${page == 0 ? 'translate-y-[300px]' : 'translate-y-[410px]'}`}
     >
       <div className='h-[180px] w-[324px] rounded-xl bg-peach p-8 py-4 shadow-2xl '>
         <div className='mb-4 flex flex-row items-center justify-between'>
@@ -45,7 +45,7 @@ const Balloons = ({ setPage, page }: BalloonsProps) => {
           size='small'
           onClick={() => navigate('/login')}
           children='시작하기'
-          className='absolute right-10 top-[360px]'
+          className='absolute right-10 top-[120px]'
         />
       )}
     </div>

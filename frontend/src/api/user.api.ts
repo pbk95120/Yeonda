@@ -1,8 +1,10 @@
 import { httpClient } from './http';
-import { LoginProps, SignupProps, resetPasswordData, verifyData } from '@/types/user';
+import { LoginProps, resetPasswordData, verifyData } from '@/types/user';
 
-export const signup = async (userData: SignupProps) => {
-  const response = await httpClient.post('/signup', userData);
+export const signup = async (formData: FormData) => {
+  const response = await httpClient.post('/signup', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
   return response.data;
 };
 
@@ -18,6 +20,11 @@ export const verifyEmail = async ({ email, code }: verifyData) => {
 
 export const login = async (data: LoginProps) => {
   const response = await httpClient.post('/login', data);
+  return response.data;
+};
+
+export const refreshToken = async () => {
+  const response = await httpClient.post('/login/refresh');
   return response.data;
 };
 
@@ -38,5 +45,10 @@ export const resetVerify = async ({ email, code }: verifyData) => {
 
 export const resetPassword = async ({ password, password_check }: resetPasswordData) => {
   const response = await httpClient.post('/password/reset/confirm', { password, password_check });
+  return response.data;
+};
+
+export const getTags = async () => {
+  const response = await httpClient.get('/tag');
   return response.data;
 };

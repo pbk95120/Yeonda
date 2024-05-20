@@ -6,7 +6,13 @@ interface DiariesListProps {
 }
 
 const DiariesList = ({ diariesData }: DiariesListProps) => {
-  return <>{diariesData?.map((item) => <DiaryItem key={item.id} diary={item} />)}</>;
+  return (
+    <div>
+      {diariesData.map((diary) => (
+        <DiaryItem key={diary.id} diary={diary} />
+      ))}
+    </div>
+  );
 };
 
 export default DiariesList;

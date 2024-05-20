@@ -14,13 +14,13 @@ interface AddressInputProps {
 const AddressInput = ({ onClickModal, errors, register, address }: AddressInputProps) => {
   return (
     <>
-      <fieldset className='pb-1 flex flex-col md:flex-row'>
+      <fieldset className='md:flex-row flex flex-col pb-1'>
         <legend className='mb-1 text-sm'>주소</legend>
         <Input
           inputFor='default'
           defaultValue={address}
           type='text'
-          className='w-full p-2 border rounded text-sm'
+          className='w-full rounded border p-2 text-sm'
           placeholder='주소'
           register={{ ...register('address', { required: true, maxLength: 100 }) }}
           readOnly
@@ -30,10 +30,10 @@ const AddressInput = ({ onClickModal, errors, register, address }: AddressInputP
           color='pastelred'
           children='찾기'
           onClick={onClickModal}
-          className='self-end mt-2'
+          className='mt-2 self-end'
           type='button'
         />
-        {errors.address && <span className='text-red text-xs absolute top-[300px]'>주소를 입력해주세요</span>}
+        {errors.address && <span className='absolute top-[300px] text-xs text-red'>주소를 입력해주세요</span>}
       </fieldset>
     </>
   );
