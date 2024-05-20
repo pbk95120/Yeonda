@@ -13,7 +13,6 @@ const ResetPassword = () => {
   } = useForm<{ password: string; password_check: string }>();
   const navigate = useNavigate();
   const onSubmit = ({ password, password_check }: { password: string; password_check: string }) => {
-    console.log(password, password_check);
     resetPassword({ password, password_check }).then(
       () => {
         alert('비밀번호 변경 성공');

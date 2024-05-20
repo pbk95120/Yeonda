@@ -24,11 +24,13 @@ export const createClient = (config?: AxiosRequestConfig) => {
     (error) => {
       if (error.response && error.response.status === 401) {
         refreshToken().then(
-          () => {},
+          () => {
+            window.location.reload();
+          },
           () => {
             alert('로그인이 만료되었습니다.');
             useAuthStore.getState().storeLogout();
-            window.location.replace('/login');
+            window.location.href = '/login';
           },
         );
       }

@@ -1,7 +1,7 @@
 import DiariesList from '@/components/diaries/DiariesList';
 import DiaryHeader from '@/components/diaries/DiaryHeader';
 import Dropdown from '@/components/common/Dropdown';
-import useDiaries from '@/hooks/diary/useDiaries'; // 추후 API 연결 시 이용
+// import useDiaries from '@/hooks/diary/useDiaries'; // 추후 API 연결 시 이용
 import diariesData from '@/mocks/diaryData';
 import { FaSortAmountDownAlt } from 'react-icons/fa';
 import Toast from '@/components/common/Toast';
