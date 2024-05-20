@@ -2,7 +2,7 @@ import TestSVG from '@/assets/images/logo.svg?react';
 import axios from 'axios';
 import { example } from '@/api/sample.api';
 import DaumPostcode from 'react-daum-postcode';
-import { getEmail, useAuthStore } from '@/store/authStore';
+import { useAuthStore } from '@/store/authStore';
 
 import { logout } from '@/api/user.api';
 
@@ -38,7 +38,7 @@ const TestPage = () => {
   return (
     <>
       <div>
-        {getEmail()}
+        {data.email}
         {data.isLoggedIn ? (
           <p>
             {data.gender} {data.start_age} {data.end_age} {data.distance}

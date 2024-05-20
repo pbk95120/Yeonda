@@ -18,7 +18,8 @@ const AgeRangeInput = ({ setValue, getValues, startAge, endAge, className }: Age
   useEffect(() => {
     setValue('startAge', startAge);
     setValue('endAge', endAge);
-  }, []);
+    setAge([startAge, endAge]);
+  }, [startAge, endAge]);
 
   const handleChange = (_: Event, newValue: number | number[]) => {
     setAge(newValue as number[]);

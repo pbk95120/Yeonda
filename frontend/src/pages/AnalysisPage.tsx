@@ -6,6 +6,7 @@ import Sidebar from '@/components/admin/Sidebar';
 import UserList from '@/components/admin/UserList';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export interface DormantUser {
   id: number;
@@ -19,6 +20,8 @@ interface avgData {
 }
 
 const AnalysisPage = () => {
+  const navigate = useNavigate();
+
   const [male, setMale] = useState<number>(0);
   const [female, setFemale] = useState<number>(0);
   const [avgDiaryCount, setAvgDiaryCount] = useState<number[]>([]);
@@ -45,13 +48,13 @@ const AnalysisPage = () => {
           },
           () => {
             alert('admin만 접근 가능합니다.');
-            window.location.href = '/othersdiary/suggestion';
+            navigate('/othersdiary/suggestion');
           },
         );
       },
       () => {
         alert('admin만 접근 가능합니다.');
-        window.location.href = '/othersdiary/suggestion';
+        navigate('/othersdiary/suggestion');
       },
     );
   }, []);

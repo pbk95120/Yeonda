@@ -17,9 +17,9 @@ const NicknameInput = ({ register, errors, nickname }: NicknameInputProps) => {
         placeholder='닉네임'
         defaultValue={nickname}
         register={{ ...register('nickname', { required: true, maxLength: 20 }) }}
-        className='w-full p-2 border rounded'
+        className='w-full rounded border p-2'
       />
-      {errors.nickname && <span className='text-red text-xs text-end '>올바른 닉네임을 입력하세요 (2-10자).</span>}
+      {errors.nickname && <span className='text-end text-xs text-red '>올바른 닉네임을 입력하세요 (2-10자).</span>}
     </fieldset>
   );
 };

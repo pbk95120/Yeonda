@@ -4,6 +4,7 @@ import Sidebar from '@/components/admin/Sidebar';
 import { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { refreshToken } from '@/api/user.api';
+import { useNavigate } from 'react-router-dom';
 
 const StatisticsPage = () => {
   const [weeklyDiaryCount, setWeeklyDiaryCount] = useState<number[]>([]);
@@ -15,6 +16,7 @@ const StatisticsPage = () => {
     const date = dayjs().subtract(i, 'day').format('M/D');
     dates.push(date);
   }
+  const navigate = useNavigate();
   useEffect(() => {
     refreshToken().then(
       () => {
@@ -26,13 +28,13 @@ const StatisticsPage = () => {
           },
           () => {
             alert('admin만 접근 가능합니다.');
-            window.location.href = '/othersdiary/suggestion';
+            navigate('/othersdiary/suggestion');
           },
         );
       },
       () => {
         alert('admin만 접근 가능합니다.');
-        window.location.href = '/othersdiary/suggestion';
+        navigate('/othersdiary/suggestion');
       },
     );
   }, []);
