@@ -21,10 +21,12 @@ export const partnerChatlistSchema = Joi.object({
   couple_id: Joi.number().integer().positive().required(),
   user1_id: Joi.number().integer().positive().required(),
   user2_id: Joi.number().integer().positive().required(),
-  email: Joi.string().required(),
-  picture_url: Joi.string(),
-  nickname: Joi.string().required(),
-  message: Joi.string().required(),
+  email: Joi.string().email().max(320).required(),
+  picture_url: Joi.string()
+    .pattern(/^.+\.(jpg|jpeg|png|webp)$/)
+    .allow(null),
+  nickname: Joi.string().max(20).required(),
+  message: Joi.string().max(500).required(),
   is_read: Joi.number().integer().required(),
   commu_streak: Joi.number().integer().required(),
 });

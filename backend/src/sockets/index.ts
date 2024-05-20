@@ -1,6 +1,7 @@
 import { Server } from 'socket.io';
 import { setupChat, exchangeMessages } from '@sockets/controller';
 import { S3_SaveController } from '@sockets/middleware';
+import { authorizationSchema, chatMessageSchema } from '@sockets/schemas';
 import { getUserInfoFromCookie } from '@sockets/util';
 import logger from '@src/logger';
 
@@ -21,7 +22,14 @@ const socketHandler = (io: Server) => {
     socket.on('joinRoom', async (data) => {
       try {
         const { couple_id, partner_id } = data;
-        const result = await setupChat(parseInt(couple_id), parseInt(partner_id));
+        const { error } = authorizationSchema.validate(couple_id, partner_id);
+        if (error) {
+          socket.emit('error', '입장 정보를 확인해주세요.');
+          socket.disconnect();
+          return error;
+        }
+
+        const result = await setupChat(couple_id, partner_id);
 
         socket.join(couple_id);
         await io.to(couple_id).emit('partnerInfo', result);
@@ -34,6 +42,11 @@ const socketHandler = (io: Server) => {
     socket.on('sendMessage', async (data) => {
       try {
         const user_id = socket.data.user_id;
+        const { error } = chatMessageSchema.validate(data);
+        if (error) {
+          socket.emit('error', '입력 데이터가 잘못되었습니다.');
+          return error;
+        }
         const { couple_id, message, file, fileName } = data;
 
         const now = new Date();

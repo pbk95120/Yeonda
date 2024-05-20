@@ -1,7 +1,7 @@
 import { selectYourDiary } from '@databases/yourDiary/selectYourDiary.database';
 import { selectYourDiaryDetail } from '@databases/yourDiary/selectYourDiaryDetail.database';
 import { databaseConnector } from '@middlewares/databaseConnector.middleware';
-import { selectDiarySchemas, diaryIdSchemas } from '@schemas/yourDiary.schema';
+import { selectDiarySchemas, diaryIdSchemas, yourDiarySchema, yourDiaryListSchema } from '@schemas/yourDiary.schema';
 import { Controller } from '@schemas/controller.schema';
 import { scaleNumber } from '@src/utils/scaleNumber';
 import CustomError from '@src/error';
@@ -20,6 +20,9 @@ export const getYourDiary: Controller = async (req, res) => {
       tags: JSON.parse(item.tags),
     };
   });
+
+  const result = yourDiaryListSchema.validate(transTags).error;
+  if (result) throw new CustomError(http.NOT_FOUND, '요청 결과 없습니다.', error);
   res.status(http.OK).json(transTags);
 };
 
@@ -35,5 +38,7 @@ export const getYourDiaryDetail: Controller = async (req, res) => {
       tags: JSON.parse(item.tags),
     };
   });
-  res.status(http.OK).json(transTags);
+  const result = yourDiarySchema.validate(transTags[0]).error;
+  if (result) throw new CustomError(http.NOT_FOUND, '요청 결과 없습니다.', error);
+  res.status(http.OK).json(transTags[0]);
 };

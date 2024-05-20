@@ -10,21 +10,23 @@ export const selectMyDiary = async (
   const sorted = sort === 1 ? 'd.likes DESC' : 'd.created_at DESC';
   const offset = (currentPage - 1) * limit;
 
-  const sql = `SELECT 
-        d.id, u.nickname, u.picture_url, d.title, d.content AS content, d.created_at, d.likes, JSON_ARRAYAGG(dt.tag_id) AS tags
-    FROM 
+  const sql = `SELECT d.id, u.nickname, u.picture_url, d.title, d.content, d.created_at, d.likes,
+        json_arrayagg(json_object('id', t.id, 'name', t.name)) as tags
+    FROM
         user u
-    JOIN 
+    JOIN
         diary d ON u.id = d.user_id
-    LEFT JOIN 
+    LEFT JOIN
         diary_tag dt ON d.id = dt.diary_id
-    WHERE 
+    LEFT JOIN
+        tag t ON dt.tag_id = t.id
+    WHERE
         u.id = :my_id
-    GROUP BY 
-        d.id
-    ORDER BY 
+    GROUP BY
+        d.id, u.nickname, u.picture_url, d.title, d.content, d.created_at, d.likes
+    ORDER BY
         ${sorted}
-    LIMIT 
+    LIMIT
         :limit OFFSET :offset
     `;
 

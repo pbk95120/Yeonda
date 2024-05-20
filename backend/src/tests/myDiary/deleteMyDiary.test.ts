@@ -7,7 +7,7 @@ import { Connection } from 'mysql2/promise';
 import request from 'supertest';
 
 const cleanUp = async (conn: Connection) => {
-  const testData = `INSERT INTO diary (id, user_id, title, content, created_at, updated_at, likes) VALUES (4, 1, 'Title 4', 'Content 4', '2024-04-25 10:28:03', NULL, 15)`;
+  const testData = `INSERT INTO diary (user_id, title, content, created_at, updated_at, likes) VALUES (1, 'Title 4', 'Content 4', '2024-04-25 10:28:03', NULL, 1)`;
   await conn.execute(testData);
   return;
 };
@@ -29,15 +29,19 @@ afterAll(async () => {
 describe('DELETE /diary/my/:id 내 일기 삭제', () => {
   it('정상 요청', async () => {
     const token = issueAccessToken(1, 'user1@example.com');
-    const response = await request(server).delete('/diary/my/4').set('Cookie', `access-token=${token}`);
-    console.log(response.body);
-    expect(response.status).toBe(http.OK);
     const diary = await databaseConnector(async (conn: Connection) => {
-      const sql = 'select title, content from diary where id = 4';
+      const sql = `SELECT id FROM diary WHERE user_id = 1 AND title = 'Title 4' AND content = 'Content 4' AND created_at = '2024-04-25 10:28:03' AND updated_at IS NULL AND likes = 1`;
       const [result] = await conn.execute(sql);
       return result;
     })();
-    expect(diary).toEqual([]);
+    const response = await request(server).delete(`/diary/my/${diary[0].id}`).set('Cookie', `access-token=${token}`);
+    expect(response.status).toBe(http.OK);
+    const test = await databaseConnector(async (conn: Connection) => {
+      const sql = `select * from diary where id = :id`;
+      const [result] = await conn.execute(sql, { id: diary[0].id });
+      return result;
+    })();
+    expect(test).toEqual([]);
   });
 
   it('토큰 없음', async () => {
