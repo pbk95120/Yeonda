@@ -1,5 +1,4 @@
 import DiaryItem from '@/components/diaries/DiaryItem';
-import useDiaries from '@/hooks/diary/useDiaries'; // 추후 API 연결 시 이용
 import diariesData from '@/mocks/diaryData';
 import Cancel from '@/assets/images/cancel.svg?react';
 import { FaHeart } from 'react-icons/fa';
