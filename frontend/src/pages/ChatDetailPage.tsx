@@ -4,7 +4,7 @@ import MyChatBubble from '@/components/chat/MyChatBubble';
 import ReceiveChatBubble from '@/components/chat/ReceiveChatBubble';
 import useDateVisibility from '@/hooks/chat/useDateVisibility';
 import { useParams } from 'react-router-dom';
-import { socket } from '@/api/socket';
+import { socketConnect } from '@/api/socket';
 
 const ChatDetailPage = () => {
   const mockMessages = [
@@ -75,10 +75,10 @@ const ChatDetailPage = () => {
     return;
   }
 
-  const socketInstances = socket(params.id);
+  const socket = socketConnect(params.id);
+  console.log(socket);
 
   useEffect(() => {
-    console.log(socketInstances);
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messagesWithDateVisibility]);
 
