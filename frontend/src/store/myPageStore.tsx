@@ -1,3 +1,4 @@
+import { Tag } from '@/components/join/Interest';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
@@ -16,12 +17,14 @@ interface Info {
 interface StoreState {
   changePref: (pref: Pref) => void;
   changeInfo: (info: Info) => void;
+  changeTags: (tags: Tag[]) => void;
   gender: string;
   start_age: number;
   end_age: number;
   distance: number;
   picture: string;
   address: string;
+  myTags: Tag[];
 }
 
 export const myPageStore = create(
@@ -33,7 +36,7 @@ export const myPageStore = create(
       distance: 160,
       picture: '',
       address: '',
-
+      myTags: [],
       changePref: (pref: Pref) => {
         set({
           gender: pref.gender,
@@ -46,6 +49,11 @@ export const myPageStore = create(
         set({
           address: info.address,
           picture: info.picture,
+        });
+      },
+      changeTags: (tags: Tag[]) => {
+        set({
+          myTags: tags,
         });
       },
     }),

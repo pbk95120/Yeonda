@@ -17,6 +17,10 @@ export const patchMyInfoPicture = async (imageFormData: FormData) => {
   return response.data;
 };
 
+export const deleteMyPicture = async () => {
+  return await requestHandler('delete', '/profile/my/setting/picture');
+};
+
 export const patchMyInfoAddress = async (address: string) => {
   return await requestHandler('patch', '/profile/my/setting/address', { address });
 };

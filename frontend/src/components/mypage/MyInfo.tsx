@@ -8,6 +8,7 @@ import { logout } from '@/api/user.api';
 import { useAuthStore } from '@/store/authStore';
 import { getMyPageMyInfo, patchMyInfoAddress, patchMyInfoPicture } from '@/api/mypage.api';
 import { useForm } from 'react-hook-form';
+import { myPageStore } from '@/store/myPageStore';
 
 interface PreferenceFormInputs {
   address: string;
@@ -17,6 +18,7 @@ interface PreferenceFormInputs {
 const MyInfo = () => {
   const { setValue, getValues } = useForm<PreferenceFormInputs>();
   const { storeLogout } = useAuthStore();
+  const { changeInfo } = myPageStore();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const navigate = useNavigate();
   const [afterPicture, setAfterPicture] = useState<string>('');
@@ -24,30 +26,30 @@ const MyInfo = () => {
   const [newAddress, setNewAddress] = useState<string>('');
   const [beforePicture, setBeforePicture] = useState<string>('');
 
-  const saveBtn = (detail: string) => {
-    let save = document.querySelector('#myPrefBtn');
-    let back = document.querySelector('#backBtn');
-    if (detail !== newAddress && newAddress.length > 0) {
-      back?.addEventListener('click', () => {
-        patchMyInfoAddress(getValues('address')).then(() => console.log('주소변경 완료'));
-      });
-      save?.addEventListener('click', () => {
-        patchMyInfoAddress(getValues('address')).then(() => console.log('주소변경 완료'));
-      });
-    }
-    if (beforePicture !== afterPicture && afterPicture.length > 0) {
-      back?.addEventListener('click', () => {
-        let imageFormData = new FormData();
-        imageFormData.append('picture', getValues('picture'));
-        patchMyInfoPicture(imageFormData).then(() => console.log('사진변경 완료'));
-      });
-      save?.addEventListener('click', () => {
-        let imageFormData = new FormData();
-        imageFormData.append('picture', getValues('picture'));
-        patchMyInfoPicture(imageFormData).then(() => console.log('사진변경 완료'));
-      });
-    }
-  };
+  // const saveBtn = (detail: string) => {
+  //   let save = document.querySelector('#myPrefBtn');
+  //   let back = document.querySelector('#backBtn');
+  //   if (detail !== newAddress && newAddress.length > 0) {
+  //     back?.addEventListener('click', () => {
+  //       patchMyInfoAddress(getValues('address')).then(() => console.log('주소변경 완료'));
+  //     });
+  //     save?.addEventListener('click', () => {
+  //       patchMyInfoAddress(getValues('address')).then(() => console.log('주소변경 완료'));
+  //     });
+  //   }
+  //   if (beforePicture !== afterPicture && afterPicture.length > 0) {
+  //     back?.addEventListener('click', () => {
+  //       let imageFormData = new FormData();
+  //       imageFormData.append('picture', getValues('picture'));
+  //       patchMyInfoPicture(imageFormData).then(() => console.log('사진변경 완료'));
+  //     });
+  //     save?.addEventListener('click', () => {
+  //       let imageFormData = new FormData();
+  //       imageFormData.append('picture', getValues('picture'));
+  //       patchMyInfoPicture(imageFormData).then(() => console.log('사진변경 완료'));
+  //     });
+  //   }
+  // };
 
   const handleAddressSelection = (address: string) => {
     console.log(address);
@@ -64,19 +66,41 @@ const MyInfo = () => {
   };
 
   useEffect(() => {
-    getMyPageMyInfo().then(
-      (data) => {
-        const { picture_url, detail } = data;
-        setBeforePicture(picture_url);
-        setAddress(detail);
-        saveBtn(detail);
-        console.log('detail: ' + detail + ', address: ' + address + ', newAddress: ' + newAddress);
-        console.log('beforePicture: ' + beforePicture + ', picture_url: ' + picture_url);
-      },
-      () => {
-        alert('내 정보 수정을 가져오는데 실패하였습니다!!!');
-      },
-    );
+    let localData = myPageStore.getState();
+    console.log(localData.address, localData.picture);
+    setAddress(localData.address);
+    setBeforePicture(localData.picture);
+    if (localData.address !== newAddress && newAddress.length > 0) {
+      patchMyInfoAddress(getValues('address')).then(() => {
+        let changedAddress = getValues('address');
+        console.log('주소변경 완료');
+        setAddress(changedAddress);
+        changeInfo({ address: changedAddress, picture: beforePicture });
+      });
+    }
+    if (localData.picture !== afterPicture && afterPicture) {
+      let imageFormData = new FormData();
+      imageFormData.append('picture', getValues('picture'));
+      patchMyInfoPicture(imageFormData).then(() => {
+        let changedPicture = afterPicture;
+        console.log('사진변경 완료');
+        setBeforePicture(changedPicture);
+        changeInfo({ address: localData.address, picture: changedPicture });
+      });
+    }
+    // getMyPageMyInfo().then(
+    //   (data) => {
+    //     const { picture_url, detail } = data;
+    //     setBeforePicture(picture_url);
+    //     setAddress(detail);
+    //     saveBtn(detail);
+    //     console.log('detail: ' + detail + ', address: ' + address + ', newAddress: ' + newAddress);
+    //     console.log('beforePicture: ' + beforePicture + ', picture_url: ' + picture_url);
+    //   },
+    //   () => {
+    //     alert('내 정보 수정을 가져오는데 실패하였습니다!!!');
+    //   },
+    // );
   }, [newAddress, afterPicture]);
 
   return (
