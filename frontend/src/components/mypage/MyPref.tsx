@@ -10,6 +10,7 @@ import { getMyPageMyPref, getMyTag, patchMyPageMyPref } from '@/api/mypage.api';
 import { Tag } from '../join/Interest';
 import { useAuthStore } from '@/store/authStore';
 import { myPageStore } from '@/store/myPageStore';
+import Button from '../common/Button';
 
 interface PreferenceFormInputs {
   gender: string;
@@ -32,7 +33,7 @@ const MyPref = () => {
   const [startAge, setStartAge] = useState<number>(localData.start_age);
   const [endAge, setEndAge] = useState<number>(localData.end_age);
 
-  useEffect(() => {
+  const patchBtn = () => {
     patchMyPageMyPref({
       gender: getValues('preferGender'),
       distance: getValues('distance'),
@@ -46,14 +47,23 @@ const MyPref = () => {
           end_age: getValues('startAge'),
           distance: getValues('endAge'),
         });
+
         alert('내 선호도 변경 완료!!!');
       },
       () => {
         alert('내 선호도 변경 실패!!!');
       },
     );
-  }, [tags, distance, startAge, endAge]);
-
+  };
+  useEffect(() => {
+    getMyPageMyPref().then((data) => {
+      const { gender, distance, start_age, end_age } = data;
+      setDistance(distance);
+      setStartAge(start_age);
+      setEndAge(end_age);
+      setSelectedGender(gender);
+    });
+  }, []);
   const openModal = () => setOpen(true);
   const closeModal = () => setOpen(false);
 
@@ -119,6 +129,7 @@ const MyPref = () => {
           setValue={setValue}
         />
       )}
+      <Button size='large' color='pastelred' children='완료' className='mt-3' onClick={patchBtn} />
     </div>
   );
 };
