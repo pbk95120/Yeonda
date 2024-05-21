@@ -3,12 +3,19 @@ import { server } from '@src/app';
 import Database from '@src/db';
 import { issueAccessToken } from '@utils/issueToken';
 import http from 'http-status-codes';
-import { Connection } from 'mysql2/promise';
+import { Connection, RowDataPacket } from 'mysql2/promise';
 import request from 'supertest';
 
-const cleanUp = async (conn: Connection) => {
-  const resetSql = `update diary set title = :title, content = :content where id = 10`;
-  await conn.execute(resetSql, { title: 'Title 1', content: 'Content 1' });
+const cleanUp = async (conn: Connection): Promise<void> => {
+  let sql = 'delete from diary_tag where diary_id = 1';
+  await conn.execute(sql);
+
+  sql = `
+  update diary 
+  set title = '테스트', content = '테스트 본문', updated_at = null 
+  where id = 1 and user_id = 1
+  `;
+  await conn.execute(sql);
   return;
 };
 
@@ -26,30 +33,162 @@ afterAll(async () => {
   }
 });
 
-describe('PUT /diary/my/:id 내 일기 수정', () => {
-  it('정상 요청', async () => {
-    const token = issueAccessToken(1, 'user1@example.com');
-    const response = await request(server).put('/diary/my/10').set('Cookie', `access-token=${token}`).send({
-      title: '테스트',
-      content: '테스트 본문',
-    });
+describe('PUT /diary/my/:id 일기 수정', () => {
+  let token;
+  let form;
 
+  beforeEach(() => {
+    token = issueAccessToken(1, 'constant@gmail.com');
+    form = {
+      title: '수정한 제목',
+      content: '수정한 내용',
+      tags: [1, 2, 3],
+    };
+  });
+
+  it('정상 요청', async () => {
+    const response = await request(server).put('/diary/my/1').set('Cookie', `access-token=${token}`).send(form);
     expect(response.status).toBe(http.OK);
-    const diary = await databaseConnector(async (conn: Connection) => {
-      const sql = 'select title, content from diary where id = 10';
-      const [result] = await conn.execute(sql);
-      return result;
+
+    await databaseConnector(async (conn: Connection) => {
+      let sql = 'select title, content, updated_at from diary where id = 1 and user_id = 1';
+      let [result] = await conn.execute(sql);
+      expect(result[0].title).toEqual(form.title);
+      expect(result[0].content).toEqual(form.content);
+      expect(result[0].updated_at).not.toBeNull();
+
+      sql = 'select tag_id from diary_tag where diary_id = 1 order by tag_id asc';
+      [result] = await conn.execute<RowDataPacket[]>(sql);
+      for (let i = 0; i < result.length; i++) {
+        expect(result[i].tag_id).toBe(form.tags[i]);
+      }
     })();
-    expect(diary).toEqual([
-      {
-        title: '테스트',
-        content: '테스트 본문',
-      },
-    ]);
+  });
+
+  it('태그가 전부 삭제됐을 경우', async () => {
+    form.tags = [];
+    const response = await request(server).put('/diary/my/1').set('Cookie', `access-token=${token}`).send(form);
+    expect(response.status).toBe(http.OK);
+
+    await databaseConnector(async (conn: Connection) => {
+      let sql = 'select title, content, updated_at from diary where id = 1 and user_id = 1';
+      let [result] = await conn.execute(sql);
+      expect(result[0].title).toEqual(form.title);
+      expect(result[0].content).toEqual(form.content);
+      expect(result[0].updated_at).not.toBeNull();
+
+      sql = 'select tag_id from diary_tag where diary_id = 1 order by tag_id asc';
+      [result] = await conn.execute<RowDataPacket[]>(sql);
+      expect(result[0]).toBeUndefined();
+    })();
+  });
+
+  it('잘못된 파라미터', async () => {
+    const response = await request(server).put('/diary/my/-123').set('Cookie', `access-token=${token}`).send(form);
+    expect(response.status).toBe(http.BAD_REQUEST);
   });
 
   it('토큰 없음', async () => {
-    const response = await request(server).get('/diary/my/1');
+    const response = await request(server).put('/diary/my/-123').send(form);
     expect(response.status).toBe(http.UNAUTHORIZED);
+  });
+
+  it('누락된 양식', async () => {
+    const { title, ...form2 } = form;
+    const response = await request(server).put('/diary/my/1').set('Cookie', `access-token=${token}`).send(form2);
+    expect(response.status).toBe(http.BAD_REQUEST);
+  });
+
+  it('잘못된 태그 양식', async () => {
+    form.tags = '1,2,3';
+    const response = await request(server).put('/diary/my/1').set('Cookie', `access-token=${token}`).send(form);
+    expect(response.status).toBe(http.BAD_REQUEST);
+  });
+
+  it('너무 긴 제목', async () => {
+    form.title = `정말이지너무나도긴제목정말이지너무나도긴제목정말이지너무나도긴제목정말이지너무나도긴제목정말이지너무나도긴제목정말이지너무나도긴제목
+    정말이지너무나도긴제목정말이지너무나도긴제목정말이지너무나도긴제목정말이지너무나도긴제목정말이지너무나도긴제목`;
+    const response = await request(server).put('/diary/my/1').set('Cookie', `access-token=${token}`).send(form);
+    expect(response.status).toBe(http.BAD_REQUEST);
+  });
+
+  it('너무 긴 내용', async () => {
+    form.content = `
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐이게말이되는본문의길이냐
+    `;
+    const response = await request(server).put('/diary/my/1').set('Cookie', `access-token=${token}`).send(form);
+    expect(response.status).toBe(http.BAD_REQUEST);
+  });
+
+  it('잘못된 대상', async () => {
+    const response = await request(server).put('/diary/my/2').set('Cookie', `access-token=${token}`).send(form);
+    expect(response.status).toBe(http.NOT_FOUND);
   });
 });

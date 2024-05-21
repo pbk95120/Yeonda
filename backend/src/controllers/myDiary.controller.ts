@@ -3,16 +3,16 @@ import { selectMyDiary } from '@databases/myDiary/selectMyDiary.database';
 import { selectMyDiaryDetail } from '@databases/myDiary/selectMyDiaryDetail.database';
 import { updateMyDiary } from '@databases/myDiary/updateMyDiary.database';
 import { databaseConnector } from '@middlewares/databaseConnector.middleware';
-import {
-  selectDiarySchemas,
-  diarySchema,
-  diaryListSchema,
-  updateDiarySchemas,
-  diaryIdSchemas,
-} from '@schemas/myDiary.shema';
 import { Controller } from '@schemas/controller.schema';
-import { scaleNumber } from '@src/utils/scaleNumber';
+import {
+  diaryIdSchemas,
+  diaryListSchema,
+  diarySchema,
+  selectDiarySchemas,
+  updateDiarySchemas,
+} from '@schemas/myDiary.shema';
 import CustomError from '@src/error';
+import { scaleNumber } from '@utils/scaleNumber';
 import http from 'http-status-codes';
 
 export const getMyDiary: Controller = async (req, res) => {
@@ -52,16 +52,11 @@ export const getMyDiaryDetail: Controller = async (req, res) => {
 };
 
 export const changeMyDiary: Controller = async (req, res) => {
-  const { title, content } = req.body;
-  const { error } = updateDiarySchemas.validate({
-    id: parseInt(req.params.id),
-    title: title,
-    content: content,
-  });
-  if (error) throw new CustomError(http.BAD_REQUEST, '유효하지 않은 일기 작성 양식', error);
+  req.body.id = parseInt(req.params?.id);
+  const { error } = updateDiarySchemas.validate(req.body);
+  if (error) throw new CustomError(http.BAD_REQUEST, '유효하지 않은 일기 수정 양식', error);
 
-  const { id } = req.params;
-  await databaseConnector(updateMyDiary)(parseInt(id), title, content);
+  await databaseConnector(updateMyDiary)(req.body);
   res.sendStatus(http.OK);
 };
 

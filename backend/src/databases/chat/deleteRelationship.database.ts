@@ -1,8 +1,8 @@
-import { Connection } from 'mysql2/promise';
-import { transactionWrapper } from '@src/middlewares/transactionWrapper.middleware';
+import { transactionWrapper } from '@middlewares/transactionWrapper.middleware';
 import { partnerSchema } from '@schemas/chat.schema';
 import CustomError from '@src/error';
 import http from 'http-status-codes';
+import { Connection } from 'mysql2/promise';
 
 const selectPartnerDiaryLikes = async (
   conn: Connection,
