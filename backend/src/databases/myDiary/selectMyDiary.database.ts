@@ -1,4 +1,5 @@
 import { Connection } from 'mysql2/promise';
+import { myDiaryResults } from '@schemas/myDiary.shema';
 
 export const selectMyDiary = async (
   conn: Connection,
@@ -6,7 +7,7 @@ export const selectMyDiary = async (
   currentPage: number,
   limit: number,
   sort: number,
-) => {
+): Promise<myDiaryResults[]> => {
   const sorted = sort === 1 ? 'd.likes DESC' : 'd.created_at DESC';
   const offset = (currentPage - 1) * limit;
 
@@ -33,5 +34,5 @@ export const selectMyDiary = async (
   const values = { my_id: my_id, limit: limit, offset: offset };
   const [result] = await conn.execute(sql, values);
 
-  return result;
+  return result as myDiaryResults[];
 };

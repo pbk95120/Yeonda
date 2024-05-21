@@ -14,6 +14,7 @@ const socketHandler = (io: Server) => {
       socket.data.email = email;
       next();
     } catch (error) {
+      logger.error(error);
       next(error);
     }
   });
@@ -22,15 +23,15 @@ const socketHandler = (io: Server) => {
     socket.on('joinRoom', async (data) => {
       try {
         const { couple_id, partner_id } = data;
-        const { error } = authorizationSchema.validate(couple_id, partner_id);
+        const { error } = authorizationSchema.validate(data);
         if (error) {
           socket.emit('error', '입장 정보를 확인해주세요.');
           socket.disconnect();
           return error;
         }
 
+        socket.data.partner_id = partner_id;
         const result = await setupChat(couple_id, partner_id);
-
         socket.join(couple_id);
         await io.to(couple_id).emit('partnerInfo', result);
       } catch (error) {
@@ -41,6 +42,10 @@ const socketHandler = (io: Server) => {
 
     socket.on('sendMessage', async (data) => {
       try {
+        if (!socket.data.partner_id) {
+          socket.emit('error', '파트너 정보가 없습니다.');
+          socket.disconnect();
+        }
         const user_id = socket.data.user_id;
         const { error } = chatMessageSchema.validate(data);
         if (error) {
@@ -51,13 +56,13 @@ const socketHandler = (io: Server) => {
 
         const now = new Date();
         const send_at = now.toISOString().slice(0, 19).replace('T', ' ');
-        const picture_url = file === (null || 'null') ? null : await S3_SaveController(file, fileName);
+        const picture_url = file === null || file === 'null' ? null : await S3_SaveController(file, fileName);
 
         const room = io.sockets.adapter.rooms.get(couple_id);
         const is_read = room ? (room.size == 2 ? 1 : 0) : 0;
 
         await exchangeMessages(parseInt(couple_id), parseInt(user_id), picture_url, message, send_at, is_read);
-        io.to(couple_id).emit('receiveMessage', {
+        await io.to(couple_id.toString()).emit('receiveMessage', {
           user_id: user_id,
           message: message,
           picture_url: picture_url,
@@ -65,7 +70,6 @@ const socketHandler = (io: Server) => {
           is_read: is_read,
         });
       } catch (error) {
-        console.log(error);
         socket.emit('error', error);
         logger.error(error.stack);
       }

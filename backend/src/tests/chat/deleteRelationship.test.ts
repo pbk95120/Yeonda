@@ -10,7 +10,7 @@ import 'dotenv/config';
 const cleanUp = async (conn: Connection) => {
   let sql;
 
-  sql = `INSERT INTO likes (diary_id, user_id) VALUES (4, :user_id)`;
+  sql = `INSERT INTO likes (diary_id, user_id) VALUES (5, :user_id)`;
   await conn.execute(sql, { user_id: parseInt(process.env.TEST_ID) });
 
   sql = `INSERT INTO couple (user1_id, user2_id) VALUES (:user1_id, :user2_id)`;
@@ -53,7 +53,7 @@ describe('DELETE /chatlist/:user2_id 채팅 목록', () => {
       const [result] = await conn.execute(sql);
       return result;
     })();
-    expect(like_validate.length).toEqual(4);
+    expect(like_validate.length).toEqual(3);
   });
 
   it('토큰 없음', async () => {

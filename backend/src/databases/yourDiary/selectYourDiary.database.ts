@@ -1,8 +1,12 @@
-import CustomError from '@src/error';
-import http from 'http-status-codes';
 import { Connection } from 'mysql2/promise';
+import { yourDiaryResults } from '@schemas/yourDiary.schema';
 
-export const selectYourDiary = async (conn: Connection, your_id: number, currentPage: number, limit: number) => {
+export const selectYourDiary = async (
+  conn: Connection,
+  your_id: number,
+  currentPage: number,
+  limit: number,
+): Promise<yourDiaryResults[]> => {
   const offset = (currentPage - 1) * limit;
   const sql = `SELECT 
         d.id, u.nickname, u.picture_url, d.title, d.content, d.created_at, d.likes, JSON_ARRAYAGG(dt.tag_id) AS tags
@@ -22,7 +26,7 @@ export const selectYourDiary = async (conn: Connection, your_id: number, current
         :limit OFFSET :offset
     `;
 
-  const values: {} = { your_id: your_id, limit: limit, offset: offset };
+  const values = { your_id: your_id, limit: limit, offset: offset };
   const [result] = await conn.execute(sql, values);
-  return result;
+  return result as yourDiaryResults[];
 };

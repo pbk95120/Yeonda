@@ -1,5 +1,16 @@
 import Joi from 'joi';
 
+export interface yourDiaryResults {
+  id: number;
+  nikname: string;
+  picture_url: string;
+  title: string;
+  content: string;
+  created_at: string;
+  likes: number;
+  tags: number[];
+}
+
 export const selectDiarySchemas = Joi.object({
   currentPage: Joi.string()
     .pattern(/^[1-9]\d*$/)

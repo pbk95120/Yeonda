@@ -28,7 +28,7 @@ const selectDiaryCount = async (conn: Connection) => {
     created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)
   `;
 
-  const [originResult] = await conn.execute(sql);
+  const [originResult] = await conn.query(sql);
   const scaledResult = scaledArray(originResult);
   return scaledResult;
 };
@@ -48,7 +48,7 @@ const selectmatchingCount = async (conn: Connection) => {
     created_at >= DATE_SUB(NOW(), INTERVAL 7 DAY)
   `;
 
-  const [originResult] = await conn.execute(sql);
+  const [originResult] = await conn.query(sql);
   const scaledResult = scaledArray(originResult);
   return scaledResult;
 };
@@ -64,7 +64,7 @@ const selectuserCount = async (conn: Connection) => {
     (SELECT COUNT(*) FROM user WHERE DATE(created_at) = CURDATE()) AS today_count
   `;
 
-  const [originResult] = await conn.execute(sql);
+  const [originResult] = await conn.query(sql);
   const scaledResult = scaledArray(originResult);
   return scaledResult;
 };
