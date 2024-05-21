@@ -7,9 +7,10 @@ import Toast from '@/components/common/Toast';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDiaryItemStore } from '@/store/diaryStore';
 import { useDiariesInfinite } from '@/hooks/diary/useDiariesInfinite';
+import LoadingIndicator from '@/components/common/LoadingIndicator';
 
 const MyDiaryPage = () => {
-  const { diaries, pagination, isDiariesLoading, error, observerElem, setSort } = useDiariesInfinite();
+  const { diaries, isDiariesLoading, pagination, isEmpty, error, observerElem, setSort } = useDiariesInfinite();
 
   const [toast, setToast] = useState<boolean>(false);
   const [value, setValue] = useState<string>('');
@@ -32,6 +33,22 @@ const MyDiaryPage = () => {
       setIsMyDiaryPage(false);
     };
   }, [setIsMyDiaryPage]);
+
+  if (isEmpty) {
+    return (
+      <span className='-t absolute left-[50%] top-[50%] -translate-x-2/4 -translate-y-2/4 text-gray'>
+        작성된 일기가 없습니다.
+      </span>
+    );
+  }
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
+  if (!diaries || isDiariesLoading) {
+    return <LoadingIndicator />;
+  }
 
   return (
     <section className='relative'>

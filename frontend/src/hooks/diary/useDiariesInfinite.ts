@@ -41,11 +41,15 @@ export const useDiariesInfinite = () => {
     };
   }, [handleObserver]);
 
+  const diaries = result.data?.pages.flatMap((page) => page) || [];
+  const isEmpty = diaries.length == 0;
+
   return {
-    diaries: result.data?.pages.flatMap((page) => page) || [],
+    diaries,
     pagination: result,
+    isEmpty,
     isDiariesLoading: result.isLoading,
-    error: result.isError ? '다이어리 정보를 가져오는 중에 오류가 발생했습니다.' : null,
+    error: result.isError ? '일기를 가져오는 중에 오류가 발생했습니다.' : null,
     observerElem,
     setSort,
   };

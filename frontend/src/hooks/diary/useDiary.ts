@@ -5,17 +5,20 @@ import { useParams } from 'react-router-dom';
 
 export const useDiary = () => {
   const { id: diaryId } = useParams<{ id: string }>();
-
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [diary, setDiary] = useState<Diary>();
 
   useEffect(() => {
     const loadDiary = async () => {
+      setIsLoading(true);
       if (diaryId) {
         try {
           const diaryData = await fetchDiary(diaryId);
-          setDiary(diaryData[0]);
+          setDiary(diaryData);
+          setIsLoading(false);
         } catch (error) {
           console.error('일기 불러오기 실패:', error);
+          setIsLoading(false);
         }
       }
     };
@@ -27,5 +30,5 @@ export const useDiary = () => {
     setDiary((prevDiary) => (prevDiary ? { ...prevDiary, [field]: value } : undefined));
   };
 
-  return { diary, diaryId, handleDiaryChange };
+  return { diary, diaryId, handleDiaryChange, isLoading };
 };
