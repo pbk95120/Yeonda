@@ -15,12 +15,6 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
-      '/socket.io': {
-        target: 'http://yeonda.prgms-fullcycle.com:4040/',
-        changeOrigin: true,
-        ws: true,
-        rewrite: (path) => path.replace(/^\/socket.io/, ''),
-      },
     },
   },
   resolve: {

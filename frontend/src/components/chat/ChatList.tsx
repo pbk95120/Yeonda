@@ -4,10 +4,13 @@ import { ChatListProps } from '@/types/type';
 /**
  * 채팅 목록 리스트 컴포넌트
  */
-const ChatList = ({ couple_id, picture_url, nickname, message, is_read }: ChatListProps) => {
+const ChatList = ({ couple_id, picture_url, nickname, message, is_read, user1_id, user2_id }: ChatListProps) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
+    localStorage.setItem('couple_id', couple_id.toString());
+    localStorage.setItem('user1_id', user1_id.toString());
+    localStorage.setItem('user2_id', user2_id.toString());
     navigate(`/chat/${couple_id}`);
   };
 

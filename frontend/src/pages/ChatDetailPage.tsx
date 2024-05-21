@@ -66,7 +66,7 @@ const ChatDetailPage = () => {
     },
   ];
 
-  const [userName, setUserName] = useState('UserName');
+  const [userName] = useState('UserName');
   const messagesWithDateVisibility = useDateVisibility(mockMessages);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -75,12 +75,33 @@ const ChatDetailPage = () => {
     return;
   }
 
-  const socket = socketConnect(params.id);
-  console.log(socket);
-
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messagesWithDateVisibility]);
+
+  useEffect(() => {
+    const socket = socketConnect();
+    console.log(socket);
+    socket.on('connect_error', (err) => {
+      console.log(err);
+      console.log(err.message);
+    });
+    socket.emit('joinRoom', {
+      couple_id: localStorage.getItem('couple_id') || '',
+      user1_id: localStorage.getItem('user1_id') || '',
+      user2_id: localStorage.getItem('user2_id') || '',
+    });
+    socket.on('partner-info', (data) => {
+      console.log(data);
+    });
+    socket.on('receiveMessage', (data) => {
+      console.log(data);
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
 
   return (
     <div className='flex h-screen max-h-content flex-col'>
