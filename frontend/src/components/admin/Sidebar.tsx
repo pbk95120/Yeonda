@@ -12,6 +12,9 @@ const Sidebar = () => {
         <Link to='/admin/statistics' className='block cursor-pointer p-4'>
           이용자 통계
         </Link>
+        <Link to='/admin/settings' className='block cursor-pointer p-4'>
+          태그 설정
+        </Link>
       </div>
     </aside>
   );

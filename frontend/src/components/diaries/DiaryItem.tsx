@@ -4,7 +4,6 @@ import { formatDate, formatNumber } from '@/utils/format';
 import type { DiaryContent, Tag } from '@/types/type';
 import { useDiaryItemStore } from '@/store/diaryStore';
 import FixTags from './FixTags';
-import { on } from 'stream';
 
 interface DiaryItemProps {
   diary: DiaryContent;
@@ -15,7 +14,6 @@ const DiaryItem = ({ diary, onDiaryChange }: DiaryItemProps) => {
   const { isMyDiaryPage, isEditing, isSuggestionPage, isPopularPage } = useDiaryItemStore();
 
   const tags = diary.tags;
-  console.log(tags);
 
   const renderTitle = () => {
     if (isEditing) {
@@ -32,7 +30,7 @@ const DiaryItem = ({ diary, onDiaryChange }: DiaryItemProps) => {
 
   const renderDate = () => {
     if (isEditing || isSuggestionPage || isPopularPage) return null;
-    return <span className='font-sans text-xs text-lightgray'>{formatDate(diary.created_at)}</span>;
+    return <span className='font-sans text-xs text-lightgray'>{diary.created_at && formatDate(diary.created_at)}</span>;
   };
 
   const renderLike = () => {
@@ -40,7 +38,7 @@ const DiaryItem = ({ diary, onDiaryChange }: DiaryItemProps) => {
     return (
       <div className='flex items-center gap-[5px] font-sans text-xs'>
         <RiHeartFill className='fill-pastelred' style={{ width: '18px', height: '18px' }} />
-        <span>{formatNumber(diary.likes)}</span>
+        <span>{diary.likes && formatNumber(diary.likes)}</span>
       </div>
     );
   };
@@ -69,7 +67,7 @@ const DiaryItem = ({ diary, onDiaryChange }: DiaryItemProps) => {
     }
     return (
       <div className='flex flex-wrap gap-[16px]'>
-        {tags.map((item: Tag, idx: number) => (
+        {diary.tags.map((item: Tag, idx: number) => (
           <div className='flex items-center text-xl' key={idx}>
             <span className='text-lightgray'>
               <RiHashtag />

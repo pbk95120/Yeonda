@@ -1,7 +1,7 @@
 import Input from '@/components/common/Input';
 import { Tag } from '@/components/join/Interest';
 import { useEffect, useState } from 'react';
-import { MAX_TAGS, MIN_TAGS } from '@/constants/constants';
+import { MAX_TAGS } from '@/constants/constants';
 import Tags from '@/components/common/Tags';
 import { getTags } from '@/api/user.api';
 
@@ -28,12 +28,6 @@ const FixTags = ({ inputTags, onDiaryChange }: FixTagsProps) => {
     onDiaryChange ? onDiaryChange('tags', updatedTags) : null;
   };
 
-  // const tagIdToNumber = (tags: Tag[]) => {
-  //   let tagIdArr = tags.map((el: Tag) => el.id);
-
-  //   return tagIdArr;
-  // };
-
   const handleAddTag = (tag: Tag) => {
     if (tags.length < MAX_TAGS && !tags.some((t) => t.id === tag.id)) {
       let copyTags = [...tags];
@@ -46,18 +40,17 @@ const FixTags = ({ inputTags, onDiaryChange }: FixTagsProps) => {
   const filteredTags = alltags.filter((tag) => tag.name.toLowerCase().includes(inputText.toLowerCase()));
 
   return (
-    <div className='w-full'>
+    <div className='w-full font-sans'>
       <form>
         <div className='items-start justify-center'>
           <fieldset>
-            <legend className='mb-4 text-sm'>관심사</legend>
             {tags.map((tag, i) => (
               <Tags key={i} className='px-1 py-1' i={i} tag={tag} handleRemoveTag={handleRemoveTag} />
             ))}
             <Input
               inputFor='search'
               type='text'
-              className='w-full flex-grow p-2'
+              className='mt-2 w-full flex-grow p-2'
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
               placeholder='검색'

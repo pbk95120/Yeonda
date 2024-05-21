@@ -26,7 +26,7 @@ const MainFooter = () => {
         <Link to='/mydiary'>
           <BiSolidBook
             className={cls(
-              currentPage === '/mydiary'
+              currentPage.includes('/mydiary')
                 ? 'h-6 w-7 cursor-pointer fill-pastelred'
                 : 'h-6 w-7 cursor-pointer fill-gray hover:fill-pastelred',
             )}

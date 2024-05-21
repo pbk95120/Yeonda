@@ -20,7 +20,7 @@ const DiaryPopularPage = () => {
 
   return (
     <div className='mt-[23px]'>
-      <div className='ml-[35px] flex flex-wrap gap-[15px]'>
+      <div className='mx-10 flex flex-wrap items-center justify-start gap-x-[8px] gap-y-[8px]'>
         {profile.map((item: Tag, idx: number) => (
           <button
             key={item.id}

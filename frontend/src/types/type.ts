@@ -43,8 +43,8 @@ export interface Diary {
   title: string;
   content: string;
   tags: Tag[];
-  created_at: string;
-  likes: number;
+  created_at?: string;
+  likes?: number;
 }
 
 export interface FetchDiariesParams {

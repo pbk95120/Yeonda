@@ -21,19 +21,15 @@ export const fetchPopularDiariesByTag = async (tagId: number) => {
 };
 
 export const fetchFirstSuggestionDiary = async (preferData: PreferData) => {
-  return await requestHandler('post', 'diary/pre-random', preferData);
+  return await requestHandler('post', '/diary/pre-random', preferData);
 };
 
 export const fetchSuggestionDiary = async (preferId: number) => {
-  return await requestHandler('post', 'diary/random', { prefer_id: preferId });
-};
-
-export const fetchPreference = async () => {
-  return await requestHandler<PreferData>('get', 'profile/my/preference');
+  return await requestHandler('post', '/diary/random', { prefer_id: preferId });
 };
 
 export const likeDiary = async (diaryId: number | undefined) => {
-  return await requestHandler('post', `diary/like/${diaryId}`);
+  return await requestHandler('post', `/diary/like/${diaryId}`);
 };
 
 export const fetchProfile = async () => {
@@ -53,8 +49,4 @@ export const changeDiary = async (diaryId: string, changeDiary: DiaryChange) => 
 
 export const removeDiary = async (diaryId: string) => {
   return await requestHandler('delete', `/diary/my/${diaryId}`);
-};
-
-export const fetchTag = async () => {
-  return await requestHandler<Tag[]>('get', `/tag`);
 };

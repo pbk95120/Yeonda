@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDiaryItemStore } from '@/store/diaryStore';
 import { useSuggestion } from '@/hooks/diary/useSuggestion';
 import DiaryItem from '@/components/diaries/DiaryItem';
@@ -8,7 +8,7 @@ import LoadingIndicator from '@/components/common/LoadingIndicator';
 
 const DiarySuggestionPage = () => {
   const { setIsSuggestionPage } = useDiaryItemStore();
-  const { diaryData, fetchDiary, isLoading, likeReqDiary } = useSuggestion();
+  const { suggestionDiary, fetchDiary, isLoading, likeReqDiary } = useSuggestion();
 
   useEffect(() => {
     setIsSuggestionPage(true);
@@ -20,7 +20,7 @@ const DiarySuggestionPage = () => {
   return (
     <div>
       {isLoading && <LoadingIndicator />}
-      {diaryData && !isLoading && <DiaryItem diary={diaryData} />}
+      {suggestionDiary && !isLoading && <DiaryItem diary={suggestionDiary} />}
       <div className='absolute bottom-[100px] flex w-full justify-center gap-[83px]'>
         <button
           className='flex h-[54px] w-[54px] items-center justify-center rounded-full border border-lightgray bg-white shadow-lg'
@@ -35,7 +35,7 @@ const DiarySuggestionPage = () => {
             fetchDiary();
           }}
         >
-          <FaHeart className='fill-orange' style={{ width: '34px', height: '34px' }} />
+          <FaHeart className=' fill-orange active:animate-ping' style={{ width: '34px', height: '34px' }} />
         </button>
       </div>
     </div>
