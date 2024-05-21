@@ -105,7 +105,13 @@ const PreferencePage = () => {
               </fieldset>
             </div>
             <div className='absolute top-[580px] flex gap-x-2'>
-              <Button size='large' children='완료' disabled={tags.length < MIN_TAGS} onClick={(e) => putTag(tags, e)} />
+              <Button
+                size='large'
+                children='완료'
+                color='pastelred'
+                disabled={tags.length < MIN_TAGS}
+                onClick={(e) => putTag(tags, e)}
+              />
             </div>
           </form>
         </div>
