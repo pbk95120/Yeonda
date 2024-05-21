@@ -8,11 +8,12 @@ import Modal from '@/components/common/Modal';
 import { useDiary } from '@/hooks/diary/useDiary';
 import { useDiaryChange } from '@/hooks/diary/useDiaryChange';
 import { useDiaryRemove } from '@/hooks/diary/useDiaryRemove';
+import LoadingIndicator from '@/components/common/LoadingIndicator';
 
 const MyDiaryDetailPage = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-  const { diary, diaryId, handleDiaryChange } = useDiary();
+  const { diary, diaryId, handleDiaryChange, isLoading } = useDiary();
 
   const { editSave, editDiary, editCancel, isEditing, toast, setToast } = useDiaryChange({ diary, diaryId });
 
@@ -28,6 +29,7 @@ const MyDiaryDetailPage = () => {
 
   return (
     <div className='relative'>
+      {isLoading && <LoadingIndicator />}
       {diary && <DiaryHeader diariesData={diary} />}
       {isEditing ? (
         <div className='my-[20px] flex justify-around'>
