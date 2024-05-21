@@ -20,7 +20,7 @@ const DiarySuggestionPage = () => {
   return (
     <div>
       {isLoading && <LoadingIndicator />}
-      {diaryData && <DiaryItem diary={diaryData} />}
+      {diaryData && !isLoading && <DiaryItem diary={diaryData} />}
       <div className='absolute bottom-[100px] flex w-full justify-center gap-[83px]'>
         <button
           className='flex h-[54px] w-[54px] items-center justify-center rounded-full border border-lightgray bg-white shadow-lg'
@@ -30,9 +30,9 @@ const DiarySuggestionPage = () => {
         </button>
         <button
           className='flex h-[54px] w-[54px] items-center justify-center rounded-full border border-lightgray bg-white shadow-lg'
-          onClick={() => {
-            fetchDiary;
-            likeReqDiary;
+          onClick={async () => {
+            await likeReqDiary();
+            fetchDiary();
           }}
         >
           <FaHeart className='fill-orange' style={{ width: '34px', height: '34px' }} />

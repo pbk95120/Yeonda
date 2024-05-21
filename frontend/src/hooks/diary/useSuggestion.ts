@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { fetchFirstSuggestionDiary, fetchPreference, fetchSuggestionDiary, likeDiary } from '@/api/diaries.api';
+import { fetchFirstSuggestionDiary, fetchSuggestionDiary, likeDiary } from '@/api/diaries.api';
 import { DiaryContent } from '@/types/type';
 
 export const useSuggestion = () => {
@@ -27,22 +27,19 @@ export const useSuggestion = () => {
         setIsLoading(false);
         const preferData = loadFromLocalStorage('preference');
         const diary = await fetchFirstSuggestionDiary({
-          distance: preferData.distance,
-          end_age: preferData.end_age,
-          start_age: preferData.start_age,
-          gender: preferData.gender,
+          distance: preferData.state.distance,
+          end_age: preferData.state.end_age,
+          start_age: preferData.state.start_age,
+          gender: preferData.state.gender,
         });
         setDiaryData(diary);
         setPreferId(diary.prefer_id);
       } else {
         setIsLoading(false);
         const diary = await fetchSuggestionDiary(preferId[0]);
-        console.log(diary);
-
         setDiaryData(diary);
         setPreferId((prevIds) => prevIds.slice(1));
       }
-      setIsLoading(false);
     } catch (error) {
       setPreferId((prevIds) => prevIds.slice(1));
       setIsLoading(true);
@@ -50,7 +47,7 @@ export const useSuggestion = () => {
   };
 
   const likeReqDiary = async () => {
-    likeDiary(diaryData?.id);
+    await likeDiary(diaryData?.id);
   };
 
   useEffect(() => {
