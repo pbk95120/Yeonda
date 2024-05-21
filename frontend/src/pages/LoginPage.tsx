@@ -25,11 +25,13 @@ const LoginPage = () => {
     try {
       await login(data);
       const pref = await getMyPageMyPref();
-      console.log('Preferences:', pref);
       storeLogin(data.email, pref);
-
       alert('로그인 성공');
-      navigate('/othersdiary/suggestion');
+      if (data.email === 'admin@admin.com') {
+        navigate('/admin/analysis');
+      } else {
+        navigate('/othersdiary/suggestion');
+      }
     } catch (error) {
       alert('이메일과 비밀번호를 다시 확인해주세요.');
     }
