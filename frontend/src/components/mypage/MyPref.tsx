@@ -35,17 +35,17 @@ const MyPref = () => {
 
   const patchBtn = () => {
     patchMyPageMyPref({
-      gender: getValues('preferGender'),
-      distance: getValues('distance'),
-      start_age: getValues('startAge'),
-      end_age: getValues('endAge'),
+      gender: getValues('preferGender') ? getValues('preferGender') : localData.gender,
+      distance: getValues('distance') ? getValues('distance') : localData.distance,
+      start_age: getValues('startAge') ? getValues('startAge') : localData.start_age,
+      end_age: getValues('endAge') ? getValues('endAge') : localData.end_age,
     }).then(
       () => {
         changePref({
-          gender: getValues('preferGender'),
-          start_age: getValues('distance'),
-          end_age: getValues('startAge'),
-          distance: getValues('endAge'),
+          gender: getValues('preferGender') ? getValues('preferGender') : localData.gender,
+          start_age: getValues('startAge') ? getValues('startAge') : localData.start_age,
+          end_age: getValues('endAge') ? getValues('endAge') : localData.end_age,
+          distance: getValues('distance') ? getValues('distance') : localData.end_age,
         });
 
         alert('내 선호도 변경 완료!!!');
@@ -129,7 +129,7 @@ const MyPref = () => {
           setValue={setValue}
         />
       )}
-      <Button size='large' color='pastelred' children='완료' className='mt-3' onClick={patchBtn} />
+      <Button size='large' color='pastelred' children='완료' className='mt-7' onClick={patchBtn} />
     </div>
   );
 };

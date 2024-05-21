@@ -8,8 +8,10 @@ import { getMyPage, getMyPageMyPref } from '@/api/mypage.api';
 import { Tag } from '@/components/join/Interest';
 import LoadingIndicator from '@/components/common/LoadingIndicator';
 import { myPageStore } from '@/store/myPageStore';
+import { useAuthStore } from '@/store/authStore';
 
 const MyPage = () => {
+  const isLogin = useAuthStore.getState().isLoggedIn;
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [gender, setGender] = useState<'Male' | 'Female'>('Male');
   const [nickname, setNickname] = useState<string>('defalut');
@@ -38,10 +40,18 @@ const MyPage = () => {
     }
     return age;
   };
+  // useEffect(() => {
+  //   if (isLoading) {
+  //     const interval = setInterval(() => {
+  //       fetchDiary();
+  //     }, 1000);
 
+  //     return () => clearInterval(interval);
+  //   }
+  // }, [isLoading]);
   useEffect(() => {
-    getMyPage().then(
-      (data) => {
+    getMyPage()
+      .then((data) => {
         goToSettingPage();
         const { nickname, gender, birth, tags, picture_url, detail } = data;
         changeInfo({ address: detail, picture: picture_url });
@@ -53,22 +63,20 @@ const MyPage = () => {
         setPicture_url(picture_url);
         setAddress(detail);
         setIsLoading(true);
-      },
-      () => {
-        alert('마이페이지를 불러오는데 실패했습니다.');
-      },
-    );
-    getMyPageMyPref().then(
-      (data) => {
-        const { gender, distance, start_age, end_age } = data;
-        changePref({ gender, start_age, end_age, distance });
-        const aData = myPageStore.getState();
-        console.log(aData);
-      },
-      () => {
-        alert('내 취향 수정 정보를 가져오지 못했습니다.');
-      },
-    );
+      })
+      .then(() => {
+        getMyPageMyPref().then(
+          (data) => {
+            const { gender, start_age, end_age, distance } = data;
+            changePref({ gender, start_age, end_age, distance });
+            const aData = myPageStore.getState();
+            console.log(aData);
+          },
+          () => {
+            alert('마이페이지 정보를 불러오지 못했습니다!!!');
+          },
+        );
+      });
   }, []);
 
   return (

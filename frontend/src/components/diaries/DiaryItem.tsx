@@ -12,7 +12,7 @@ interface DiaryItemProps {
 const DiaryItem = ({ diary, onDiaryChange }: DiaryItemProps) => {
   const { isMyDiaryPage, isEditing, isSuggestionPage, isPopularPage } = useDiaryItemStore();
 
-  const tags = typeof diary.tags === 'string' ? JSON.parse(diary.tags) : diary.tags;
+  const tags = diary.tags;
 
   const renderTitle = () => {
     if (isEditing) {
@@ -64,7 +64,7 @@ const DiaryItem = ({ diary, onDiaryChange }: DiaryItemProps) => {
             <span className='text-lightgray'>
               <RiHashtag />
             </span>
-            <div className='ml-[6px]'>{item.name}</div>
+            <div className='ml-[6px]'>{item?.name}</div>
           </div>
         ))}
       </div>
