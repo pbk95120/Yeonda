@@ -33,9 +33,7 @@ const DiaryPopularPage = () => {
       </div>
 
       {loading ? (
-        <div className='mt-[120px] flex h-full items-center justify-center'>
-          <LoadingIndicator />
-        </div>
+        <LoadingIndicator />
       ) : error ? (
         <div className='mt-[120px] flex h-full items-center justify-center'>
           <p className='text-gray'>조건에 맞는 일기가 없습니다.</p>
