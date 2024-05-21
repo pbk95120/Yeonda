@@ -1,9 +1,8 @@
 import { Link } from 'react-router-dom';
 import { RiHashtag, RiHeartFill } from 'react-icons/ri';
 import { formatDate, formatNumber } from '@/utils/format';
-import type { DiaryContent } from '@/types/type';
+import type { DiaryContent, Tag } from '@/types/type';
 import { useDiaryItemStore } from '@/store/diaryStore';
-import { useTags } from '@/hooks/diary/useTags';
 
 interface DiaryItemProps {
   diary: DiaryContent;
@@ -14,8 +13,6 @@ const DiaryItem = ({ diary, onDiaryChange }: DiaryItemProps) => {
   const { isMyDiaryPage, isEditing, isSuggestionPage, isPopularPage } = useDiaryItemStore();
 
   const tags = typeof diary.tags === 'string' ? JSON.parse(diary.tags) : diary.tags;
-
-  const { tagNames } = useTags(tags);
 
   const renderTitle = () => {
     if (isEditing) {
@@ -62,12 +59,12 @@ const DiaryItem = ({ diary, onDiaryChange }: DiaryItemProps) => {
   const renderTags = () => {
     return (
       <div className='flex flex-wrap gap-[16px]'>
-        {tagNames.map((name, idx) => (
+        {tags.map((item: Tag, idx: number) => (
           <div className='flex items-center text-xl' key={idx}>
             <span className='text-lightgray'>
               <RiHashtag />
             </span>
-            <div className='ml-[6px]'>{name}</div>
+            <div className='ml-[6px]'>{item.name}</div>
           </div>
         ))}
       </div>
