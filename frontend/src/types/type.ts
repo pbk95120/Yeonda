@@ -23,6 +23,7 @@ export interface ChatMessageProps {
   id: number;
   message: string;
   sendAt: string;
+  pictureUrl: string;
   showDate?: boolean;
 }
 
