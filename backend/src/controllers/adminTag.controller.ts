@@ -7,9 +7,6 @@ import { PositiveIntegerURLSchema } from '@schemas/diary.schema';
 import { CreateTagSchema } from '@schemas/openai.schema';
 import CustomError from '@src/error';
 import http from 'http-status-codes';
-import OpenAI from 'openai';
-
-const openai = new OpenAI();
 
 export const createTag: Controller = async (req, res) => {
   const { error: notAdmin } = AdminSchema.validate({ user_id: req.body?.user_id, email: req.body?.email });
