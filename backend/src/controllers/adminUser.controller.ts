@@ -1,8 +1,8 @@
-import { selectAnalysis } from '@databases/admin/selectAnalysis.database';
-import { selectWeeklyStatistic } from '@databases/admin/selectWeeklyStatistic.database';
 import { databaseConnector } from '@middlewares/databaseConnector.middleware';
 import { AdminSchema, analysisSchema, statisticSchema } from '@schemas/admin.schema';
 import { Controller } from '@schemas/controller.schema';
+import { selectAnalysis } from '@src/databases/adminUser/selectAnalysis.database';
+import { selectWeeklyStatistic } from '@src/databases/adminUser/selectWeeklyStatistic.database';
 import CustomError from '@src/error';
 import http from 'http-status-codes';
 
