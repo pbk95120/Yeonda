@@ -1,5 +1,6 @@
 import { errorHandler } from '@middlewares/errorHandler.middleware';
 import AdminTagRoute from '@routes/adminTag.route';
+import AdminUserRoute from '@routes/adminUser.route';
 import ChatRoute from '@routes/chat.route';
 import DiaryRoute from '@routes/diary.route';
 import LoginRoute from '@routes/login.route';
@@ -19,7 +20,6 @@ import 'dotenv/config';
 import express from 'express';
 import http from 'http';
 import { Server } from 'socket.io';
-import AdminUserRoute from './routes/adminUser.route';
 
 const app = express();
 
