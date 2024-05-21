@@ -58,6 +58,7 @@ export const selectFirstRandomDiary = async (
   while (prefer_id.length > 0) {
     const random_id = selectRandomElementInArray(prefer_id);
     prefer_id = prefer_id.filter((num) => num !== random_id);
+
     sql = `
     select d.*, 
     json_arrayagg(
@@ -79,6 +80,7 @@ export const selectFirstRandomDiary = async (
     `;
     values = { user_id: user_id, random_id: random_id };
     [result] = await conn.execute(sql, values);
+
     if (!result[0]) continue;
     else {
       response = result[0];
