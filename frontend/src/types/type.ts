@@ -42,7 +42,7 @@ export interface Diary {
   picture_url: string;
   title: string;
   content: string;
-  tags: number[];
+  tags: Tag[];
   created_at: string;
   likes: number;
 }

@@ -12,8 +12,6 @@ interface DiaryItemProps {
 const DiaryItem = ({ diary, onDiaryChange }: DiaryItemProps) => {
   const { isMyDiaryPage, isEditing, isSuggestionPage, isPopularPage } = useDiaryItemStore();
 
-  const tags = typeof diary.tags === 'string' ? JSON.parse(diary.tags) : diary.tags;
-
   const renderTitle = () => {
     if (isEditing) {
       return (
@@ -59,7 +57,7 @@ const DiaryItem = ({ diary, onDiaryChange }: DiaryItemProps) => {
   const renderTags = () => {
     return (
       <div className='flex flex-wrap gap-[16px]'>
-        {tags.map((item: Tag, idx: number) => (
+        {diary.tags.map((item: Tag, idx: number) => (
           <div className='flex items-center text-xl' key={idx}>
             <span className='text-lightgray'>
               <RiHashtag />
