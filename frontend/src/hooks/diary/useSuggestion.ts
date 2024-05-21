@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { fetchFirstSuggestionDiary, fetchSuggestionDiary, likeDiary } from '@/api/diaries.api';
 import { DiaryContent } from '@/types/type';
+import { useDiaryItemStore } from '@/store/diaryStore';
 
 export const useSuggestion = () => {
-  const [preferId, setPreferId] = useState<number[]>([]);
-  const [diaryData, setDiaryData] = useState<DiaryContent | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { preferId, setPreferId, setDiaryData, suggestionDiary } = useDiaryItemStore();
 
   const loadFromLocalStorage = (key: string) => {
     const storedValue = localStorage.getItem(key);
@@ -38,16 +38,16 @@ export const useSuggestion = () => {
         setIsLoading(false);
         const diary = await fetchSuggestionDiary(preferId[0]);
         setDiaryData(diary);
-        setPreferId((prevIds) => prevIds.slice(1));
+        setPreferId(preferId);
       }
     } catch (error) {
-      setPreferId((prevIds) => prevIds.slice(1));
+      setPreferId(preferId);
       setIsLoading(true);
     }
   };
 
   const likeReqDiary = async () => {
-    await likeDiary(diaryData?.id);
+    await likeDiary(suggestionDiary?.id);
   };
 
   useEffect(() => {
@@ -61,8 +61,10 @@ export const useSuggestion = () => {
   }, [isLoading]);
 
   useEffect(() => {
-    fetchDiary();
+    if (preferId.length === 0) {
+      fetchDiary();
+    }
   }, []);
 
-  return { diaryData, fetchDiary, isLoading, likeReqDiary };
+  return { suggestionDiary, fetchDiary, isLoading, likeReqDiary };
 };
