@@ -25,7 +25,7 @@ const PreferencePage = () => {
   const tagIdToString = (tags: Tag[]) => {
     let tagIdArr = tags.map((el: Tag) => el.id);
     let result = tagIdArr.join();
-    console.group(result);
+
     return result;
   };
   const putTag = (tags: Tag[], e: Event) => {
