@@ -1,5 +1,5 @@
 import { fetchDiary } from '@/api/diaries.api';
-import { Diary } from '@/types/type';
+import { Diary, Tag } from '@/types/type';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
@@ -28,7 +28,7 @@ export const useDiary = () => {
     loadDiary();
   }, [diaryId]);
 
-  const handleDiaryChange = (field: string, value: string) => {
+  const handleDiaryChange = (field: string, value: string | Tag[]) => {
     setDiary((prevDiary) => (prevDiary ? { ...prevDiary, [field]: value } : undefined));
   };
 
