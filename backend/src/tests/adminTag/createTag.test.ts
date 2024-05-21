@@ -27,7 +27,7 @@ afterAll(async () => {
   }
 });
 
-describe('POST /openai/embedding/tag 태그 생성', () => {
+describe('POST /admin/tag 태그 생성', () => {
   let token;
 
   beforeEach(() => {
@@ -35,7 +35,7 @@ describe('POST /openai/embedding/tag 태그 생성', () => {
   });
 
   it('정상 요청', async () => {
-    const response = await request(server).post('/openai/embedding/tag').set('Cookie', `access-token=${token}`).send({
+    const response = await request(server).post('/admin/tag').set('Cookie', `access-token=${token}`).send({
       tag: '새로운 태그 생성 테스트',
     });
     expect(response.status).toBe(http.CREATED);
@@ -48,7 +48,7 @@ describe('POST /openai/embedding/tag 태그 생성', () => {
   });
 
   it('토큰 없음', async () => {
-    const response = await request(server).post('/openai/embedding/tag').send({
+    const response = await request(server).post('/admin/tag').send({
       tag: '새로운 태그 생성 테스트',
     });
     expect(response.status).toBe(http.UNAUTHORIZED);
@@ -56,35 +56,35 @@ describe('POST /openai/embedding/tag 태그 생성', () => {
 
   it('관리자 아님', async () => {
     token = issueAccessToken(1, 'constant@gmail.com');
-    const response = await request(server).post('/openai/embedding/tag').set('Cookie', `access-token=${token}`).send({
+    const response = await request(server).post('/admin/tag').set('Cookie', `access-token=${token}`).send({
       tag: '새로운 태그 생성 테스트',
     });
     expect(response.status).toBe(http.UNAUTHORIZED);
   });
 
   it('키가 잘못된 요청 양식', async () => {
-    const response = await request(server).post('/openai/embedding/tag').set('Cookie', `access-token=${token}`).send({
+    const response = await request(server).post('/admin/tag').set('Cookie', `access-token=${token}`).send({
       tags: '새로운 태그 생성 테스트',
     });
     expect(response.status).toBe(http.BAD_REQUEST);
   });
 
   it('값이 잘못된 요청 양식', async () => {
-    const response = await request(server).post('/openai/embedding/tag').set('Cookie', `access-token=${token}`).send({
+    const response = await request(server).post('/admin/tag').set('Cookie', `access-token=${token}`).send({
       tag: 123,
     });
     expect(response.status).toBe(http.BAD_REQUEST);
   });
 
   it('이름이 너무 긴 태그', async () => {
-    const response = await request(server).post('/openai/embedding/tag').set('Cookie', `access-token=${token}`).send({
+    const response = await request(server).post('/admin/tag').set('Cookie', `access-token=${token}`).send({
       tag: '이름이 너무 긴 태그이름이 너무 긴 태그이름이 너무 긴 태그이름이 너무 긴 태그이름이 너무 긴 태그이름이 너무 긴 태그이름이 너무 긴 태그',
     });
     expect(response.status).toBe(http.BAD_REQUEST);
   });
 
   it('이미 존재하는 태그', async () => {
-    const response = await request(server).post('/openai/embedding/tag').set('Cookie', `access-token=${token}`).send({
+    const response = await request(server).post('/admin/tag').set('Cookie', `access-token=${token}`).send({
       tag: '카페',
     });
     expect(response.status).toBe(http.CONFLICT);
