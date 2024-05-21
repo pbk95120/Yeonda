@@ -11,6 +11,8 @@ const ChatList = ({ couple_id, picture_url, nickname, message, is_read, user1_id
     localStorage.setItem('couple_id', couple_id.toString());
     localStorage.setItem('user1_id', user1_id.toString());
     localStorage.setItem('user2_id', user2_id.toString());
+    localStorage.setItem('nickname', nickname);
+    localStorage.setItem('profileImg', picture_url);
     navigate(`/chat/${couple_id}`);
   };
 

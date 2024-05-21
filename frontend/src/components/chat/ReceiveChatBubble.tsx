@@ -8,6 +8,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 const ReceiveChatBubble = ({ id, message, sendAt, showDate, pictureUrl }: ChatMessageProps) => {
   const navigate = useNavigate();
   const params = useParams();
+  const profileImg = localStorage.getItem('profileImg') || undefined;
 
   const handleImageClick = () => {
     navigate(`/chat/profile/${params.id}`);
@@ -19,7 +20,7 @@ const ReceiveChatBubble = ({ id, message, sendAt, showDate, pictureUrl }: ChatMe
       <div className='mb-3 ml-6 flex items-end'>
         <div className='flex items-center'>
           <img
-            src={'https://placehold.co/60x60'}
+            src={profileImg}
             alt='Thumbnail'
             className='mr-3 h-7 w-7 cursor-pointer rounded-full'
             onClick={handleImageClick}
