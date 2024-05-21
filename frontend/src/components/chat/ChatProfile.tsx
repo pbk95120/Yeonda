@@ -3,11 +3,17 @@ import { motion, useAnimation } from 'framer-motion';
 import { ChatProfileProps } from '@/types/type';
 import { useNavigate } from 'react-router-dom';
 import Modal from '@/components/common/Modal';
+import { fetchProfile } from '@/api/chat.api';
 
 /**
  * 채팅 상대 프로필 페이지 컴포넌트
  */
 const ChatProfile = ({ profileImage, nickName }: ChatProfileProps) => {
+  const userId = localStorage.getItem('user2_id');
+  const [userData, setUserData] = useState({
+    nickName: '',
+    profileImage: '',
+  });
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [scroll, setScroll] = useState<boolean>(false);
 
@@ -22,6 +28,18 @@ const ChatProfile = ({ profileImage, nickName }: ChatProfileProps) => {
   };
 
   useEffect(() => {
+    fetchProfile(Number(userId)).then((data) => {
+      if (!data) {
+        return;
+      }
+      setUserData({
+        nickName: data.nickname,
+        profileImage: data.picture_url,
+      });
+
+      console.log(userData);
+    });
+
     const mainContent = document.getElementById('main-content');
     if (mainContent) {
       const handleScroll = () => {

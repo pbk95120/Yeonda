@@ -2,72 +2,14 @@ import { useState, useRef, useEffect } from 'react';
 import ChatTextarea from '@/components/chat/ChatTextarea';
 import MyChatBubble from '@/components/chat/MyChatBubble';
 import ReceiveChatBubble from '@/components/chat/ReceiveChatBubble';
-import useDateVisibility from '@/hooks/chat/useDateVisibility';
+
 import { useParams } from 'react-router-dom';
 import { socketConnect } from '@/api/socket';
+import { ChatMessageGetProps } from '@/types/type';
 
 const ChatDetailPage = () => {
-  const mockMessages = [
-    {
-      id: 1,
-      nickname: 'UserName',
-      message:
-        '채팅 내용입니다. 채팅 내용입니다. 채팅 내용입니다. 채팅 내용입니다. 채팅 내용 입니다. 채팅 내용입니다. 채팅 내용입니다.',
-      send_at: '2024-04-27T08:26:49',
-    },
-    {
-      id: 2,
-      nickname: 'NickName',
-      message:
-        '채팅 내용입니다. 채팅 내용입니다. 채팅 내용입니다. 채팅 내용입니다. 채팅 내용 입니다. 채팅 내용입니다. 채팅 내용입니다.',
-      send_at: '2024-04-27T08:26:49',
-    },
-    {
-      id: 3,
-      nickname: 'UserName',
-      message:
-        '채팅 내용입니다. 채팅 내용입니다. 채팅 내용입니다. 채팅 내용입니다. 채팅 내용 입니다. 채팅 내용입니다. 채팅 내용입니다.',
-      send_at: '2024-05-01T08:26:49',
-    },
-    {
-      id: 4,
-      nickname: 'UserName',
-      message:
-        '채팅 내용입니다. 채팅 내용입니다. 채팅 내용입니다. 채팅 내용입니다. 채팅 내용 입니다. 채팅 내용입니다. 채팅 내용입니다.',
-      send_at: '2024-05-01T08:26:49',
-    },
-    {
-      id: 5,
-      nickname: 'NickName',
-      message:
-        '채팅 내용입니다. 채팅 내용입니다. 채팅 내용입니다. 채팅 내용입니다. 채팅 내용 입니다. 채팅 내용입니다. 채팅 내용입니다.',
-      send_at: '2024-05-02T08:26:49',
-    },
-    {
-      id: 6,
-      nickname: 'NickName',
-      message:
-        '채팅 내용입니다. 채팅 내용입니다. 채팅 내용입니다. 채팅 내용입니다. 채팅 내용 입니다. 채팅 내용입니다. 채팅 내용입니다.',
-      send_at: '2024-05-02T08:26:49',
-    },
-    {
-      id: 7,
-      nickname: 'NickName',
-      message:
-        '채팅 내용입니다. 채팅 내용입니다. 채팅 내용입니다. 채팅 내용입니다. 채팅 내용 입니다. 채팅 내용입니다. 채팅 내용입니다.',
-      send_at: '2024-05-02T08:26:49',
-    },
-    {
-      id: 8,
-      nickname: 'NickName',
-      message:
-        '채팅 내용입니다. 채팅 내용입니다. 채팅 내용입니다. 채팅 내용입니다. 채팅 내용 입니다. 채팅 내용입니다. 채팅 내용입니다.',
-      send_at: '2024-05-02T08:26:49',
-    },
-  ];
-
-  const [userName] = useState('UserName');
-  const messagesWithDateVisibility = useDateVisibility(mockMessages);
+  const [message, setMessage] = useState<ChatMessageGetProps | null>(null);
+  const myId = localStorage.getItem('user1_id') ? Number(localStorage.getItem('user1_id')) : '';
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const params = useParams();
@@ -77,7 +19,7 @@ const ChatDetailPage = () => {
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messagesWithDateVisibility]);
+  }, [message]);
 
   useEffect(() => {
     const socket = socketConnect();
@@ -91,7 +33,8 @@ const ChatDetailPage = () => {
       user1_id: localStorage.getItem('user1_id') || '',
       user2_id: localStorage.getItem('user2_id') || '',
     });
-    socket.on('partner-info', (data) => {
+    socket.on('partnerInfo', (data) => {
+      setMessage(data);
       console.log(data);
     });
     socket.on('receiveMessage', (data) => {
@@ -106,19 +49,26 @@ const ChatDetailPage = () => {
   return (
     <div className='flex h-screen max-h-content flex-col'>
       <section className='flex basis-11/12 flex-col'>
-        {messagesWithDateVisibility.map((msg) =>
-          msg.nickname === userName ? (
-            <MyChatBubble key={msg.id} id={msg.id} message={msg.message} sendAt={msg.send_at} showDate={msg.showDate} />
-          ) : (
-            <ReceiveChatBubble
-              key={msg.id}
-              id={msg.id}
-              message={msg.message}
-              sendAt={msg.send_at}
-              showDate={msg.showDate}
-            />
-          ),
-        )}
+        {message &&
+          message.chat.map((msg, idx) =>
+            msg.user_id === myId ? (
+              <MyChatBubble
+                key={idx}
+                id={msg.user_id}
+                message={msg.message}
+                sendAt={msg.send_at}
+                // showDate={msg.showDate}
+              />
+            ) : (
+              <ReceiveChatBubble
+                key={idx}
+                id={msg.user_id}
+                message={msg.message}
+                sendAt={msg.send_at}
+                // showDate={msg.showDate}
+              />
+            ),
+          )}
       </section>
       <section className='basis-1/12 pb-3'>
         <ChatTextarea />
