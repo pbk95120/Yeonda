@@ -61,6 +61,7 @@ const MyInfo = () => {
   const myInfoLogout = async () => {
     logout().then(() => {
       storeLogout();
+      alert('로그아웃되었습니다!!!');
       navigate('/login');
     });
   };
@@ -120,7 +121,7 @@ const MyInfo = () => {
           </div>
         </div>
       </div>
-      <div className='absolute bottom-20 flex flex-col items-center justify-center space-y-4 p-2'>
+      <div className='mt-7 flex flex-col items-center justify-center space-y-4 p-2'>
         <Button size='large' children='로그아웃' className='' color='lightgray' onClick={myInfoLogout} />
         <Button size='large' children='회원탈퇴' color='pastelred' onClick={() => navigate('/withdrawal')} />
       </div>

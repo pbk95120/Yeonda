@@ -3,14 +3,20 @@ import { RiHashtag, RiHeartFill } from 'react-icons/ri';
 import { formatDate, formatNumber } from '@/utils/format';
 import type { DiaryContent, Tag } from '@/types/type';
 import { useDiaryItemStore } from '@/store/diaryStore';
+import FixTags from './FixTags';
+import { on } from 'stream';
 
 interface DiaryItemProps {
   diary: DiaryContent;
-  onDiaryChange?: (field: string, value: string) => void;
+  onDiaryChange?: (field: string, value: string | Tag[]) => void;
 }
 
 const DiaryItem = ({ diary, onDiaryChange }: DiaryItemProps) => {
   const { isMyDiaryPage, isEditing, isSuggestionPage, isPopularPage } = useDiaryItemStore();
+
+
+  const tags = diary.tags;
+  console.log(tags);
 
   const renderTitle = () => {
     if (isEditing) {
@@ -55,6 +61,13 @@ const DiaryItem = ({ diary, onDiaryChange }: DiaryItemProps) => {
   };
 
   const renderTags = () => {
+    if (isEditing) {
+      return (
+        <>
+          <FixTags inputTags={tags} onDiaryChange={onDiaryChange ? onDiaryChange : null} />
+        </>
+      );
+    }
     return (
       <div className='flex flex-wrap gap-[16px]'>
         {diary.tags.map((item: Tag, idx: number) => (
@@ -62,7 +75,7 @@ const DiaryItem = ({ diary, onDiaryChange }: DiaryItemProps) => {
             <span className='text-lightgray'>
               <RiHashtag />
             </span>
-            <div className='ml-[6px]'>{item.name}</div>
+            <div className='ml-[6px]'>{item?.name}</div>
           </div>
         ))}
       </div>

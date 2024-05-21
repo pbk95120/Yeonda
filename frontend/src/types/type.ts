@@ -69,4 +69,4 @@ export type DiaryHeader = Pick<Diary, 'nickname' | 'picture_url'>;
 
 export type DiaryContent = Omit<Diary, 'nickname' | 'picture_url'>;
 
-export type DiaryChange = Pick<Diary, 'title' | 'content'>;
+export type DiaryChange = Pick<Diary, 'title' | 'content' | 'tags'>;

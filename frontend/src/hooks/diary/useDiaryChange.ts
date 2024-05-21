@@ -25,7 +25,7 @@ export const useDiaryChange = ({ diary, diaryId, setToast, setValid, setValue }:
   const editSave = useCallback(async () => {
     if (diary && diaryId) {
       try {
-        await changeDiary(diaryId, { title: diary.title, content: diary.content });
+        await changeDiary(diaryId, { title: diary.title, content: diary.content, tags: diary.tags });
         setIsEditing(false);
         setToast(true);
         setValue('수정이 완료되었습니다.');

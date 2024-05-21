@@ -41,7 +41,10 @@ export const writeDiary = async (diaryData: FormData) => {
 };
 
 export const changeDiary = async (diaryId: string, changeDiary: DiaryChange) => {
-  return await requestHandler('put', `/diary/my/${diaryId}`, changeDiary);
+  const { title, content, tags } = changeDiary;
+  let changedTags = tags?.map((tag: Tag) => tag.id);
+  console.log(changedTags);
+  return await requestHandler('put', `/diary/my/${diaryId}`, { title: title, content: content, tags: changedTags });
 };
 
 export const removeDiary = async (diaryId: string) => {
