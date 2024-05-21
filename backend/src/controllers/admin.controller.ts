@@ -1,13 +1,13 @@
 import { selectAnalysis } from '@databases/admin/selectAnalysis.database';
 import { selectWeeklyStatistic } from '@databases/admin/selectWeeklyStatistic.database';
 import { databaseConnector } from '@middlewares/databaseConnector.middleware';
-import { adminSchema, analysisSchema, statisticSchema } from '@schemas/admin.schema';
+import { AdminSchema, analysisSchema, statisticSchema } from '@schemas/admin.schema';
 import { Controller } from '@schemas/controller.schema';
 import CustomError from '@src/error';
 import http from 'http-status-codes';
 
 export const getStatistic: Controller = async (req, res) => {
-  const { error } = adminSchema.validate(req.body);
+  const { error } = AdminSchema.validate(req.body);
   if (error) throw new CustomError(http.UNAUTHORIZED, '잘못된 접근', error);
 
   const statistic = await databaseConnector(selectWeeklyStatistic)();
@@ -17,7 +17,7 @@ export const getStatistic: Controller = async (req, res) => {
 };
 
 export const getAnalysis: Controller = async (req, res) => {
-  const { error } = adminSchema.validate(req.body);
+  const { error } = AdminSchema.validate(req.body);
   if (error) throw new CustomError(http.UNAUTHORIZED, '잘못된 접근', error);
 
   const analysis = await databaseConnector(selectAnalysis)();

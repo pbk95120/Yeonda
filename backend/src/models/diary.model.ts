@@ -23,9 +23,18 @@ export const DiarySchema = Joi.object({
   likes: Joi.number().min(0).strict().required(),
 });
 
-export interface DiaryUpdate extends Pick<Diary, 'title' | 'content'> {}
+export interface DiaryCreate extends Pick<Diary, 'title' | 'content'> {}
 
-export const DiaryUpdateSchema = Joi.object({
+export const DiaryCreateSchema = Joi.object({
+  id: Joi.number().integer().positive().strict().required(),
   title: Joi.string().min(1).max(100).required(),
   content: Joi.string().min(1).max(3000).required(),
 });
+
+export interface DiaryUpdate extends Pick<Diary, 'id' | 'title' | 'content'> {}
+
+export const DiaryUpdateSchema = DiaryCreateSchema.concat(
+  Joi.object({
+    id: Joi.number().integer().positive().strict().required(),
+  }),
+);

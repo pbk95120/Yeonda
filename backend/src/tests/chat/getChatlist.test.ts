@@ -1,10 +1,10 @@
 import { partnerChatlistSchema } from '@schemas/chat.schema';
 import { server } from '@src/app';
 import Database from '@src/db';
-import { issueAccessToken } from '@src/utils/issueToken';
+import { issueAccessToken } from '@utils/issueToken';
+import 'dotenv/config';
 import http from 'http-status-codes';
 import request from 'supertest';
-import 'dotenv/config';
 
 beforeAll(async () => {
   Database.switchToTest();

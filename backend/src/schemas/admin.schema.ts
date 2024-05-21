@@ -1,7 +1,7 @@
-import Joi from 'joi';
 import 'dotenv/config';
+import Joi from 'joi';
 
-export const adminSchema = Joi.object({
+export const AdminSchema = Joi.object({
   user_id: Joi.number().valid(parseInt(process.env.ADMIN_ID)).required(),
   email: Joi.string().valid(process.env.ADMIN_EMAIL).required(),
 });

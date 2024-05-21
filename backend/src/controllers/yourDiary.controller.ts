@@ -1,10 +1,10 @@
 import { selectYourDiary } from '@databases/yourDiary/selectYourDiary.database';
 import { selectYourDiaryDetail } from '@databases/yourDiary/selectYourDiaryDetail.database';
 import { databaseConnector } from '@middlewares/databaseConnector.middleware';
-import { selectDiarySchemas, diaryIdSchemas, yourDiarySchema, yourDiaryListSchema } from '@schemas/yourDiary.schema';
 import { Controller } from '@schemas/controller.schema';
-import { scaleNumber } from '@src/utils/scaleNumber';
+import { diaryIdSchemas, selectDiarySchemas, yourDiaryListSchema, yourDiarySchema } from '@schemas/yourDiary.schema';
 import CustomError from '@src/error';
+import { scaleNumber } from '@utils/scaleNumber';
 import http from 'http-status-codes';
 
 export const getYourDiary: Controller = async (req, res) => {
