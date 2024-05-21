@@ -10,7 +10,7 @@ import { useDiariesInfinite } from '@/hooks/diary/useDiariesInfinite';
 import LoadingIndicator from '@/components/common/LoadingIndicator';
 
 const MyDiaryPage = () => {
-  const { diaries, isDiariesLoading, pagination, isEmpty, error, observerElem, setSort } = useDiariesInfinite();
+  const { diaries, isDiariesLoading, pagination, isEmpty, observerElem, setSort } = useDiariesInfinite();
 
   const [toast, setToast] = useState<boolean>(false);
   const [value, setValue] = useState<string>('');
@@ -40,10 +40,6 @@ const MyDiaryPage = () => {
         작성된 일기가 없습니다.
       </span>
     );
-  }
-
-  if (error) {
-    return <div>{error}</div>;
   }
 
   if (!diaries || isDiariesLoading) {

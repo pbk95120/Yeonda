@@ -64,7 +64,14 @@ export const useAuthStore = create(
         });
       },
       storeLogout: () => {
-        useAuthStore.persist.clearStorage();
+        set({
+          isLoggedIn: false,
+          gender: '',
+          start_age: 0,
+          end_age: 100,
+          distance: 160,
+          email: '',
+        });
       },
     }),
     {

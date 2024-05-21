@@ -1,18 +1,18 @@
 import { changeDiary } from '@/api/diaries.api';
 import { useDiaryItemStore } from '@/store/diaryStore';
 import { Diary } from '@/types/type';
-import { useCallback, useState } from 'react';
+import { Dispatch, SetStateAction, useCallback, useState } from 'react';
 
 interface DiaryChangeProps {
   diary: Diary | undefined;
   diaryId: string | undefined;
+  setToast: Dispatch<SetStateAction<boolean>>;
+  setValue: Dispatch<SetStateAction<string>>;
+  setValid: Dispatch<SetStateAction<boolean>>;
 }
 
-export const useDiaryChange = ({ diary, diaryId }: DiaryChangeProps) => {
-  const [toast, setToast] = useState<boolean>(false);
+export const useDiaryChange = ({ diary, diaryId, setToast, setValid, setValue }: DiaryChangeProps) => {
   const { setIsEditing, isEditing } = useDiaryItemStore();
-  let value: string = '';
-  let valid: boolean = false;
 
   const editDiary = useCallback(() => {
     setIsEditing(true);
@@ -28,15 +28,17 @@ export const useDiaryChange = ({ diary, diaryId }: DiaryChangeProps) => {
         await changeDiary(diaryId, { title: diary.title, content: diary.content, tags: diary.tags });
         setIsEditing(false);
         setToast(true);
-        value = '수정이 완료되었습니다.';
-        valid = true;
+        setValue('수정이 완료되었습니다.');
+        setValid(true);
       } catch (error) {
         console.error('일기 수정 실패:', error);
-        value = '수정에 실패했습니다. 다시 시도 해주세요.';
-        valid = false;
+        setIsEditing(false);
+        setToast(true);
+        setValue('수정 실패했습니다. 다시 시도 해주세요.');
+        setValid(false);
       }
     }
   }, [diary, diaryId, setIsEditing]);
 
-  return { editSave, editDiary, editCancel, isEditing, setToast, toast, value, valid };
+  return { editSave, editDiary, editCancel, isEditing, setToast };
 };
