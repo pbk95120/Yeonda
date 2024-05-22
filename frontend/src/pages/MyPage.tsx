@@ -69,8 +69,6 @@ const MyPage = () => {
           (data) => {
             const { gender, start_age, end_age, distance } = data;
             changePref({ gender, start_age, end_age, distance });
-            const aData = myPageStore.getState();
-            console.log(aData);
           },
           () => {
             alert('마이페이지 정보를 불러오지 못했습니다!!!');

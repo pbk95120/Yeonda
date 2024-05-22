@@ -26,12 +26,12 @@ const EmailAuthentication = ({ setPage }: EmailAuthenticationProps) => {
     setTimerActive(true);
   };
 
-  const onSubmit = (data: FormValues) => {
+  const onSubmit = () => {
     setPage(1);
   };
 
   useEffect(() => {
-    let interval: NodeJS.Timeout;
+    let interval: ReturnType<typeof setInterval>;
     if (timerActive && timer > 0) {
       interval = setInterval(() => {
         setTimer((prevTimer) => prevTimer - 1);
