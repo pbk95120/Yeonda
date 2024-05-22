@@ -76,6 +76,7 @@ export const useAuthStore = create(
     }),
     {
       name: 'preference',
+      getStorage: () => localStorage,
     },
   ),
 );

@@ -9,6 +9,7 @@ import LoadingIndicator from '@/components/common/LoadingIndicator';
 const DiarySuggestionPage = () => {
   const { setIsSuggestionPage } = useDiaryItemStore();
   const { suggestionDiary, fetchDiary, isLoading, likeReqDiary } = useSuggestion();
+  const [showHeart, setShowHeart] = useState(false);
 
   useEffect(() => {
     setIsSuggestionPage(true);
@@ -17,27 +18,41 @@ const DiarySuggestionPage = () => {
     };
   }, [setIsSuggestionPage]);
 
+  const handleLikeClick = async () => {
+    setShowHeart(true);
+    await likeReqDiary();
+    fetchDiary();
+    setTimeout(() => {
+      setShowHeart(false);
+    }, 1000);
+  };
+
   return (
-    <div>
-      {isLoading && <LoadingIndicator />}
-      {suggestionDiary && !isLoading && <DiaryItem diary={suggestionDiary} />}
-      <div className='absolute bottom-[100px] flex w-full justify-center gap-[83px]'>
-        <button
-          className='flex h-[54px] w-[54px] items-center justify-center rounded-full border border-lightgray bg-white shadow-lg'
-          onClick={fetchDiary}
-        >
-          <Cancel />
-        </button>
-        <button
-          className='flex h-[54px] w-[54px] items-center justify-center rounded-full border border-lightgray bg-white shadow-lg'
-          onClick={async () => {
-            await likeReqDiary();
-            fetchDiary();
-          }}
-        >
-          <FaHeart className=' fill-orange active:animate-ping' style={{ width: '34px', height: '34px' }} />
-        </button>
+    <div className=''>
+      <div>
+        {isLoading && <LoadingIndicator />}
+        {suggestionDiary && !isLoading && <DiaryItem diary={suggestionDiary} />}
+        <div className='absolute bottom-[100px] flex w-full justify-center gap-[83px]'>
+          <button
+            className='flex h-[54px] w-[54px] items-center justify-center rounded-full border border-lightgray bg-white shadow-lg'
+            onClick={fetchDiary}
+          >
+            <Cancel />
+          </button>
+          <button
+            className='flex h-[54px] w-[54px] items-center justify-center rounded-full border border-lightgray bg-white shadow-lg'
+            onClick={handleLikeClick}
+          >
+            <FaHeart className=' fill-orange ' style={{ width: '34px', height: '34px' }} />
+          </button>
+        </div>
       </div>
+      {showHeart && (
+        <FaHeart
+          className='animate-heartBeat absolute right-[140px] top-[300px] transform text-red '
+          style={{ width: '100px', height: '100px' }}
+        />
+      )}
     </div>
   );
 };
