@@ -13,7 +13,7 @@ const ChatProfile = () => {
   const userId = Number(localStorage.getItem('user2_id'));
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [scroll] = useState<boolean>(false);
+  const [scroll, setScroll] = useState<boolean>(false);
 
   const controls = useAnimation();
   const navigate = useNavigate();
@@ -29,8 +29,8 @@ const ChatProfile = () => {
     const mainContent = document.getElementById('main-content');
     if (mainContent) {
       const handleScroll = () => {
-        // console.log('mainContent.scrollTop : ', mainContent.scrollTop);
-        // setScroll(mainContent.scrollTop > 20);
+        console.log('mainContent.scrollTop : ', mainContent.scrollTop);
+        setScroll(mainContent.scrollTop > 20);
       };
 
       mainContent.addEventListener('scroll', handleScroll);

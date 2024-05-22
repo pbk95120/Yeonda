@@ -41,6 +41,7 @@ export const useOtherDiary = () => {
   }, [handleObserver]);
 
   const diaries = result.data?.pages.flatMap((page) => page) || [];
+  console.log('diaries : ', result.data);
   const isEmpty = diaries.length == 0;
 
   return {
