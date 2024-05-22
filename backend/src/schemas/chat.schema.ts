@@ -10,7 +10,7 @@ export interface partnerChatlist {
   user1_id: number;
   user2_id: number;
   email: string;
-  picture_url: string;
+  picture_url: string | null;
   nickname: string;
   message: string;
   is_read: number;

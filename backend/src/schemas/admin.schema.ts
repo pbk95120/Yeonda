@@ -44,7 +44,7 @@ export const analysisSchema = Joi.object({
       Joi.object({
         id: Joi.number().integer().min(0).required(),
         email: Joi.string().email().required(),
-        picture_url: Joi.string().required(),
+        picture_url: Joi.string().allow(null).required(),
       }),
     )
     .min(0)

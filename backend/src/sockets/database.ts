@@ -28,7 +28,7 @@ const updateIsRead = async (conn: Connection, couple_id: number, user_id: number
 };
 
 const getRecordChat = async (conn: Connection, couple_id: number): Promise<RecordChat[]> => {
-  const sql = `SELECT user_id, message, picture_url, send_at, is_read 
+  const sql = `SELECT id, user_id, message, picture_url, send_at
     FROM chat 
     WHERE couple_id = :couple_id`;
   const values = { couple_id: couple_id };
@@ -37,11 +37,36 @@ const getRecordChat = async (conn: Connection, couple_id: number): Promise<Recor
   return result as RecordChat[];
 };
 
+const getShowDate = async (record: RecordChat[]) => {
+  if (record.length === 0) return [];
+
+  const records = record.map((currentRecord, index) => {
+    const sendAtDate = new Date(currentRecord.send_at);
+    let isDateChanged = false;
+
+    if (index === 0) {
+      isDateChanged = true;
+    } else {
+      const prevRecord = record[index - 1];
+      const prevSendAtDate = new Date(prevRecord.send_at);
+      isDateChanged = sendAtDate.toDateString() !== prevSendAtDate.toDateString();
+    }
+
+    return {
+      ...currentRecord,
+      show_date: isDateChanged,
+    };
+  });
+
+  return records as RecordChat[];
+};
+
 export const selectChatInfo = async (conn: Connection, couple_id: number, partner_id: number): Promise<ChatInfo> => {
   const partnerInfo = await databaseConnector(getPartnerInfo)(partner_id);
   await databaseConnector(updateIsRead)(couple_id, partner_id);
   const recordChat = await databaseConnector(getRecordChat)(couple_id);
-  partnerInfo['chat'] = recordChat;
+  const showDate = await getShowDate(recordChat);
+  partnerInfo['chat'] = showDate;
   return partnerInfo as ChatInfo;
 };
 
@@ -49,13 +74,13 @@ export const createChat = async (
   conn: Connection,
   couple_id: number,
   user_id: number,
-  picture_url: string,
+  picture_url: string | null,
   message: string,
   send_at: string,
   is_read: number,
 ): Promise<void> => {
   const callback = async (couple_id, user_id, picture_url, message, send_at, is_read): Promise<void> => {
-    const sql = `INSERT INTO chat (couple_id, user_id, picture_url, message, send_at, is_read)  VALUES(:couple_id, :user_id, :picture_url, :message, :send_at, :is_read)`;
+    const sql = `INSERT INTO chat (couple_id, user_id, picture_url, message, send_at, is_read)  VALUES (:couple_id, :user_id, :picture_url, :message, :send_at, :is_read)`;
     const values = {
       couple_id: couple_id,
       user_id: user_id,

@@ -18,19 +18,13 @@ import http from 'http-status-codes';
 export const getMyDiary: Controller = async (req, res) => {
   const { error } = selectDiarySchemas.validate(req.query);
   if (error) throw new CustomError(http.BAD_REQUEST, '잘못된 다이어리 요청', error);
+
   const { currentPage, limit, sort } = scaleNumber(req.query);
   const MyDiary = await databaseConnector(selectMyDiary)(req.body.user_id, currentPage, limit, sort);
 
-  const transTags = MyDiary.map((item) => {
-    return {
-      ...item,
-      tags: JSON.parse(item.tags),
-    };
-  });
-
-  const result = diaryListSchema.validate(transTags).error;
+  const result = diaryListSchema.validate(MyDiary).error;
   if (result) throw new CustomError(http.NOT_FOUND, '요청 결과 없습니다.', error);
-  res.status(http.OK).json(transTags);
+  res.status(http.OK).json(MyDiary);
 };
 
 export const getMyDiaryDetail: Controller = async (req, res) => {
@@ -39,16 +33,9 @@ export const getMyDiaryDetail: Controller = async (req, res) => {
   if (error) throw new CustomError(http.BAD_REQUEST, '잘못된 다이어리 ID', error);
   const MyDiaryDetail = await databaseConnector(selectMyDiaryDetail)(req.body.user_id, parseInt(id));
 
-  const transTags = MyDiaryDetail.map((item) => {
-    return {
-      ...item,
-      tags: JSON.parse(item.tags),
-    };
-  });
-
-  const result = diarySchema.validate(transTags[0]).error;
+  const result = diarySchema.validate(MyDiaryDetail[0]).error;
   if (result) throw new CustomError(http.NOT_FOUND, '요청 결과 없습니다.', error);
-  res.status(http.OK).json(transTags[0]);
+  res.status(http.OK).json(MyDiaryDetail[0]);
 };
 
 export const changeMyDiary: Controller = async (req, res) => {

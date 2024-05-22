@@ -32,7 +32,7 @@ export const selectMyDiary = async (
     `;
 
   const values = { my_id: my_id, limit: limit, offset: offset };
-  const [result] = await conn.execute(sql, values);
+  const [result] = await conn.query(sql, values);
 
   return result as myDiaryResults[];
 };
