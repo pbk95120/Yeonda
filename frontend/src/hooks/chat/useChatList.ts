@@ -11,6 +11,7 @@ export const useChatList = () => {
         return;
       }
       setChatList(data);
+      console.log(data);
     });
   }, []);
 

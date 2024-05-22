@@ -30,7 +30,7 @@ const ChatProfile = () => {
     if (mainContent) {
       const handleScroll = () => {
         console.log('mainContent.scrollTop : ', mainContent.scrollTop);
-        setScroll(mainContent.scrollTop > 20);
+        // setScroll(mainContent.scrollTop > 20);
       };
 
       mainContent.addEventListener('scroll', handleScroll);
@@ -66,7 +66,7 @@ const ChatProfile = () => {
         src={profileImg}
         alt='profile'
         className='h-[16.2rem] w-[16.2rem] rounded-full'
-        animate={scroll ? { x: 140, y: 55, scale: 0.15 } : { x: 0.1, scale: 1 }}
+        animate={scroll ? { x: 140, y: 55, scale: 0.15 } : { x: 0, scale: 1 }}
         transition={{ duration: 0.8, ease: 'easeInOut' }}
       />
       <motion.p
