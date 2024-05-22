@@ -12,8 +12,8 @@ import LoadingIndicator from '@/components/common/LoadingIndicator';
 
 const MyDiaryDetailPage = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [toast, setToast] = useState<boolean>(false);
   const { diary, diaryId, handleDiaryChange, isLoading, error } = useDiary();
+  const [toast, setToast] = useState<boolean>(false);
   const [value, setValue] = useState<string>('');
   const [valid, setValid] = useState<boolean>(false);
 

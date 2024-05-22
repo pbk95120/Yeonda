@@ -1,7 +1,13 @@
+import Toast from '@/components/common/Toast';
 import { useWrite } from '@/hooks/diary/useWrite';
+import { useState } from 'react';
 
 const WriteDiaryPage = () => {
-  const { title, content, setTitle, setContent } = useWrite();
+  const [toast, setToast] = useState<boolean>(false);
+  const [value, setValue] = useState<string>('');
+  const [valid, setValid] = useState<boolean>(false);
+  const { title, content, setTitle, setContent } = useWrite({ setToast, setValue, setValid });
+
   return (
     <div className='mx-auto w-[316px]'>
       <input
@@ -20,6 +26,7 @@ const WriteDiaryPage = () => {
       <button id='completeBtn' className='bg-blue-500 mt-4 rounded px-4 py-2 text-white'>
         작성 완료
       </button>
+      {toast && <Toast className='left-[50%] -translate-x-1/2' value={value} valid={valid} setToast={setToast} />}
     </div>
   );
 };
