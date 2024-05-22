@@ -4,6 +4,7 @@ import react from '@vitejs/plugin-react';
 import svgr from 'vite-plugin-svgr';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { loadEnv } from 'vite';
+import { resolve } from 'path';
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
@@ -14,6 +15,7 @@ export default defineConfig(({ mode }) => {
         external: [/tests\/.*/, /.*\.test\.(js|ts|jsx|tsx)$/],
       },
     },
+    base: '/',
     plugins: [react(), svgr({ include: '**/*.svg?react' }), tsconfigPaths()],
     server: {
       port: 3000,

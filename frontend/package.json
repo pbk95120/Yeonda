@@ -1,8 +1,9 @@
 {
-  "name": "yeonda-frontend",
+  "name": "yeonda-client",
   "private": false,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "./",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
