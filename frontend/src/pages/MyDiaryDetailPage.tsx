@@ -2,7 +2,7 @@ import DiaryItem from '@/components/diaries/DiaryItem';
 import DiaryHeader from '@/components/diaries/DiaryHeader';
 import Dropdown from '@/components/common/Dropdown';
 import { RiMoreFill } from 'react-icons/ri';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import Toast from '@/components/common/Toast';
 import Modal from '@/components/common/Modal';
 import { useDiary } from '@/hooks/diary/useDiary';
