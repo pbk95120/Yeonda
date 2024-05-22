@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 /**
  * 상대 채팅 메세지 컴포넌트
  */
-const ReceiveChatBubble = ({ id, message, sendAt, showDate, pictureUrl }: ChatMessageProps) => {
+const ReceiveChatBubble = ({ message, sendAt, showDate, pictureUrl }: ChatMessageProps) => {
   const navigate = useNavigate();
   const params = useParams();
   const profileImg = localStorage.getItem('profileImg') || undefined;
