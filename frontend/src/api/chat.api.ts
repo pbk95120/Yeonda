@@ -15,3 +15,11 @@ export const fetchChatList = async () => {
 export const deleteChat = async (userId: number) => {
   return await requestHandler('delete', `/likes/${userId}`);
 };
+
+/**
+ * 상대유저 프로필 GET API
+ * @param userDate
+ */
+export const fetchProfile = async (userId: number) => {
+  return await requestHandler('get', `/profile/your/${userId}`);
+};
