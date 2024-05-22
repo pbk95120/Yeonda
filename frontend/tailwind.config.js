@@ -53,7 +53,18 @@ export default {
         'Noto Color Emoji',
       ],
     },
-    extend: {},
+    extend: {
+      keyframes: {
+        heartBeat: {
+          '0%': { transform: 'scale(0)', opacity: '1' },
+          '50%': { transform: 'scale(1.5)', opacity: '1' },
+          '100%': { transform: 'scale(2)', opacity: '0' },
+        },
+      },
+      animation: {
+        heartBeat: 'heartBeat 1s ease-out forwards',
+      },
+    },
   },
   plugins: [],
 };
