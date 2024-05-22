@@ -49,7 +49,8 @@ const ChatDetailPage = () => {
     });
 
     return () => {
-      socket.disconnect();
+      socket.emit('disconnectRequest');
+      console.log('disconnect');
     };
   }, []);
 

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, useAnimation } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import Modal from '@/components/common/Modal';
+import { deleteChat } from '@/api/chat.api';
 
 /**
  * 채팅 상대 프로필 페이지 컴포넌트
@@ -9,6 +10,7 @@ import Modal from '@/components/common/Modal';
 const ChatProfile = () => {
   const nickName = localStorage.getItem('nickname');
   const profileImg = localStorage.getItem('profileImg') || undefined;
+  const userId = Number(localStorage.getItem('user2_id'));
 
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [scroll, setScroll] = useState<boolean>(false);
@@ -18,8 +20,8 @@ const ChatProfile = () => {
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
-  const deleteChat = () => {
-    console.log('삭제완료');
+  const handleDeleteChat = () => {
+    deleteChat(userId);
     navigate('/chat');
   };
 
@@ -88,7 +90,7 @@ const ChatProfile = () => {
         closeModal={closeModal}
         cautionMsg='정말 유저와의 채팅을 삭제하시겠습니까?'
         purposeMsg='차단 및 채팅 삭제'
-        onClick={deleteChat}
+        onClick={handleDeleteChat}
       />
     </motion.div>
   );

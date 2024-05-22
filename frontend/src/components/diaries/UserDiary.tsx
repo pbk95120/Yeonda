@@ -1,37 +1,31 @@
-import { useState, useEffect } from 'react';
 import DiariesList from '@/components/diaries/DiariesList';
-import diariesData from '@/mocks/diaryData';
-import { useDiaryItemStore } from '@/store/diaryStore';
+import { useOtherDiary } from '@/hooks/chat/useOtherDiary';
+import LoadingIndicator from '@/components/common/LoadingIndicator';
 
 const UserDiary = () => {
-  const [scroll, setScroll] = useState(false);
-  const { setIsChatProfilePage } = useDiaryItemStore();
-  const isChatProfilePage = () => {
-    setIsChatProfilePage(true);
-    return () => {
-      setIsChatProfilePage(false);
-    };
-  };
+  const { diaries, isDiariesLoading, pagination, isEmpty, observerElem } = useOtherDiary();
 
-  useEffect(isChatProfilePage, []);
+  if (isEmpty) {
+    return (
+      <span className='-t absolute left-[50%] top-[50%] -translate-x-2/4 -translate-y-2/4 text-gray'>
+        작성된 일기가 없습니다.
+      </span>
+    );
+  }
 
-  useEffect(() => {
-    const mainContent = document.getElementById('main-content');
-    if (mainContent) {
-      const handleScroll = () => {
-        setScroll(mainContent.scrollTop > 20);
-      };
-      mainContent.addEventListener('scroll', handleScroll);
-      return () => {
-        mainContent.removeEventListener('scroll', handleScroll);
-      };
-    }
-  }, []);
+  if (!diaries || isDiariesLoading) {
+    return <LoadingIndicator />;
+  }
 
   return (
-    <div>
-      <DiariesList diariesData={diariesData} />
-    </div>
+    !isEmpty && (
+      <section className='relative'>
+        <DiariesList diariesData={diaries} />
+        <div ref={observerElem} className='loading'>
+          {pagination.isFetchingNextPage && <p>Loading more...</p>}
+        </div>
+      </section>
+    )
   );
 };
 

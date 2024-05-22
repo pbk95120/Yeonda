@@ -28,6 +28,12 @@ export interface ChatListProps {
   email: string;
 }
 
+export interface FetchOtherDiariesProps {
+  currentPage: number;
+  limit: number;
+  userId: number;
+}
+
 // Diary ================================================
 
 export interface Diary {
