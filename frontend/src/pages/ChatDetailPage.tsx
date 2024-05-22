@@ -18,7 +18,7 @@ const ChatDetailPage = () => {
   useEffect(() => {
     const socket = socketConnect();
 
-    socket.on('connect_error', (err) => {
+    socket.on('connect_error', (err: any) => {
       console.log(err);
       console.log(err.message);
     });
@@ -29,14 +29,12 @@ const ChatDetailPage = () => {
       user2_id: localStorage.getItem('user2_id') || '',
     });
 
-    socket.on('partnerInfo', (data) => {
+    socket.on('partnerInfo', (data: any) => {
       setMessage(data);
       console.log(data);
     });
 
-    console.log(message);
-
-    socket.on('receiveMessage', (data) => {
+    socket.on('receiveMessage', (data: any) => {
       console.log(data);
       setMessage((prevMessage) => {
         if (!prevMessage) return null;
@@ -50,6 +48,7 @@ const ChatDetailPage = () => {
 
     return () => {
       socket.disconnect();
+      console.log('disconnect');
     };
   }, []);
 
@@ -85,8 +84,8 @@ const ChatDetailPage = () => {
       </section>
       <section className='basis-1/12 pb-3'>
         <ChatTextarea socket={socket} />
-        <div ref={messagesEndRef}></div>
       </section>
+      <div ref={messagesEndRef}></div>
     </div>
   );
 };

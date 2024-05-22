@@ -1,5 +1,5 @@
 import ChatProfile from '@/components/chat/ChatProfile';
-import UserDiary from '@/components/diaries/UserDiary';
+import UserDiary from '@/components/chat/UserDiary';
 
 const ChatProfilePage = () => {
   return (
