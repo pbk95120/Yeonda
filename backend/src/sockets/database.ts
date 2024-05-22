@@ -61,6 +61,26 @@ const getShowDate = async (record: RecordChat[]) => {
   return records as RecordChat[];
 };
 
+const addInfoChat = async (conn: Connection, couple_id: number) => {
+  const sql = `SELECT id, send_at FROM chat where couple_id = :couple_id ORDER BY id DESC LIMIT 2`;
+  const values = { couple_id: couple_id };
+  const [result] = await conn.execute(sql, values);
+
+  if (!result[1]) {
+    return { id: result[0].id, show_date: true };
+  }
+
+  const currentDate = new Date(result[0].send_at).toISOString().split('T')[0];
+  const previousDate = new Date(result[1].send_at).toISOString().split('T')[0];
+
+  const info = {
+    id: result[0].id,
+    show_date: currentDate !== previousDate,
+  };
+
+  return info;
+};
+
 export const selectChatInfo = async (conn: Connection, couple_id: number, partner_id: number): Promise<ChatInfo> => {
   const partnerInfo = await databaseConnector(getPartnerInfo)(partner_id);
   await databaseConnector(updateIsRead)(couple_id, partner_id);
@@ -78,7 +98,7 @@ export const createChat = async (
   message: string,
   send_at: string,
   is_read: number,
-): Promise<void> => {
+) => {
   const callback = async (couple_id, user_id, picture_url, message, send_at, is_read): Promise<void> => {
     const sql = `INSERT INTO chat (couple_id, user_id, picture_url, message, send_at, is_read)  VALUES (:couple_id, :user_id, :picture_url, :message, :send_at, :is_read)`;
     const values = {
@@ -93,4 +113,7 @@ export const createChat = async (
   };
 
   await transactionWrapper(conn, callback)(couple_id, user_id, picture_url, message, send_at, is_read);
+
+  const chat_info = await addInfoChat(conn, couple_id);
+  return chat_info;
 };

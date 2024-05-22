@@ -48,12 +48,21 @@ const socketHandler = (io: Server) => {
         const room = io.sockets.adapter.rooms.get(couple_id);
         const is_read = room ? (room.size == 2 ? 1 : 0) : 0;
 
-        await exchangeMessages(parseInt(couple_id), parseInt(user_id), picture_url, message, send_at, is_read);
+        const chatInfo = await exchangeMessages(
+          parseInt(couple_id),
+          parseInt(user_id),
+          picture_url,
+          message,
+          send_at,
+          is_read,
+        );
         await io.to(couple_id.toString()).emit('receiveMessage', {
+          id: chatInfo.id,
           user_id: user_id,
           message: message,
           picture_url: picture_url,
           send_at: send_at,
+          show_date: chatInfo.show_date,
         });
       } catch (error) {
         socket.emit('error', error.message);
