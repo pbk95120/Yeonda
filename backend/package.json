@@ -4,24 +4,12 @@
   "description": "일기 공유 기반 매칭 웹 어플리케이션 '연다 (Yeonda)' 의 Backend 코드",
   "main": "build/index.js",
   "scripts": {
-    "start": "node build/index.js",
+    "build": "tsc && tsc-alias",
+    "start": "node build/src/index.js",
     "dev": "nodemon",
     "test": "jest --detectOpenHandles",
     "lint": "eslint 'src/**/*.{js,ts,tsx}' --quiet",
     "format": "prettier --write 'src/**/*.{js,ts,tsx,css,md}'"
-  },
-  "_moduleAliases": {
-    "@src": "./src",
-    "@routes": "./src/routes",
-    "@controllers": "./src/controllers",
-    "@databases": "./src/databases",
-    "@models": "./src/models",
-    "@middlewares": "./src/middlewares",
-    "@utils": "./src/utils",
-    "@storage": "./src/storage",
-    "@schemas": "./src/schemas",
-    "@sockets": "./src/sockets",
-    "@tests": "./src/tests"
   },
   "repository": {
     "type": "git",
@@ -52,6 +40,7 @@
     "openai": "^4.38.5",
     "socket.io": "^4.7.5",
     "supertest": "^7.0.0",
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.4.5",
     "uuid": "^9.0.1",
     "winston": "^3.13.0",
@@ -74,11 +63,11 @@
     "geolib": "^3.3.4",
     "globals": "^15.0.0",
     "jest": "^29.7.0",
-    "module-alias": "^2.2.3",
     "nodemon": "^3.1.0",
     "prettier": "^3.2.5",
     "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
+    "tsc-alias": "^1.8.10",
     "typescript-eslint": "^7.7.1"
   }
 }
