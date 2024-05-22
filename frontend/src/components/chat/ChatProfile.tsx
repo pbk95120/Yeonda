@@ -29,7 +29,7 @@ const ChatProfile = () => {
     const mainContent = document.getElementById('main-content');
     if (mainContent) {
       const handleScroll = () => {
-        console.log('mainContent.scrollTop : ', mainContent.scrollTop);
+        // console.log('mainContent.scrollTop : ', mainContent.scrollTop);
         // setScroll(mainContent.scrollTop > 20);
       };
 
