@@ -2,61 +2,48 @@ import { Server } from 'socket.io';
 import { setupChat, exchangeMessages } from '@sockets/controller';
 import { S3_SaveController } from '@sockets/middleware';
 import { authorizationSchema, chatMessageSchema } from '@sockets/schemas';
-import { getUserInfoFromCookie } from '@sockets/util';
-import logger from '@src/logger';
+import logError from '@sockets/util';
 
 const socketHandler = (io: Server) => {
-  io.use((socket, next) => {
-    try {
-      const cookies = socket.handshake.headers.cookie;
-      const [user_id, email] = getUserInfoFromCookie(cookies);
-      socket.data.user_id = user_id;
-      socket.data.email = email;
-      next();
-    } catch (error) {
-      logger.error(error);
-      next(error);
-    }
-  });
-
   io.on('connection', (socket) => {
     socket.on('joinRoom', async (data) => {
       try {
-        const { couple_id, partner_id } = data;
         const { error } = authorizationSchema.validate(data);
         if (error) {
-          socket.emit('error', '입장 정보를 확인해주세요.');
           socket.disconnect();
-          return error;
+          throw new Error(data);
         }
 
-        socket.data.partner_id = partner_id;
-        const result = await setupChat(couple_id, partner_id);
+        const { couple_id, user1_id, user2_id } = data;
+        socket.data.couple_id = couple_id;
+        socket.data.my_id = user1_id;
+        socket.data.partner_id = user2_id;
+
+        const result = await setupChat(couple_id, user2_id);
         socket.join(couple_id);
-        await io.to(couple_id).emit('partnerInfo', result);
+        io.to(socket.id).emit('partnerInfo', result);
       } catch (error) {
         socket.emit('error', error);
-        logger.error(error);
+        logError('joinRoom: 에러 발생', error);
       }
     });
 
     socket.on('sendMessage', async (data) => {
       try {
         if (!socket.data.partner_id) {
-          socket.emit('error', '파트너 정보가 없습니다.');
           socket.disconnect();
+          throw new Error('파트너 정보가 없습니다.');
         }
-        const user_id = socket.data.user_id;
+        const user_id = socket.data.my_id;
         const { error } = chatMessageSchema.validate(data);
         if (error) {
-          socket.emit('error', '입력 데이터가 잘못되었습니다.');
-          return error;
+          throw new Error('입력 데이터가 잘못되었습니다.');
         }
-        const { couple_id, message, file, fileName } = data;
 
+        const { couple_id, message, file, fileName } = data;
         const now = new Date();
         const send_at = now.toISOString().slice(0, 19).replace('T', ' ');
-        const picture_url = file === null || file === 'null' ? null : await S3_SaveController(file, fileName);
+        const picture_url = !file ? null : await S3_SaveController(file, fileName);
 
         const room = io.sockets.adapter.rooms.get(couple_id);
         const is_read = room ? (room.size == 2 ? 1 : 0) : 0;
@@ -67,19 +54,18 @@ const socketHandler = (io: Server) => {
           message: message,
           picture_url: picture_url,
           send_at: send_at,
-          is_read: is_read,
         });
       } catch (error) {
-        socket.emit('error', error);
-        logger.error(error.stack);
+        socket.emit('error', error.message);
+        logError('sendMessage: 에러 발생', error);
       }
     });
 
     socket.on('disconnectRequest', async () => {
       try {
         socket.disconnect();
-      } catch (erorr) {
-        logger.error('연결 해제 실패');
+      } catch (error) {
+        logError(socket.id, error);
       }
     });
   });

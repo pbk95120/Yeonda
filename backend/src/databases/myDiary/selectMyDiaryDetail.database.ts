@@ -23,7 +23,7 @@ export const selectMyDiaryDetail = async (
     `;
 
   const values: {} = { user_id: user_id, diary_id: diary_id };
-  const [result] = await conn.execute(sql, values);
+  const [result] = await conn.query(sql, values);
 
   return result as myDiaryResults[];
 };

@@ -27,6 +27,6 @@ export const selectYourDiary = async (
     `;
 
   const values = { your_id: your_id, limit: limit, offset: offset };
-  const [result] = await conn.execute(sql, values);
+  const [result] = await conn.query(sql, values);
   return result as yourDiaryResults[];
 };
