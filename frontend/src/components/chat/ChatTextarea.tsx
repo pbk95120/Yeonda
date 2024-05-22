@@ -1,12 +1,11 @@
 import { useState, useRef, useEffect } from 'react';
 import { RiGalleryLine } from 'react-icons/ri';
-import { socketConnect } from '@/api/socket';
 
 /**
  * 채팅 textarea form 컴포넌트
  */
-const ChatTextarea = () => {
-  const [uploadImg, setUploadImg] = useState<string>();
+const ChatTextarea = ({ socket }: any) => {
+  const [uploadImg, setUploadImg] = useState<string>('');
   const [message, setMessage] = useState<string>('');
   const [isFocused, setIsFocused] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -25,27 +24,40 @@ const ChatTextarea = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // console.log(uploadImg);
-    // console.log(message);
-    // console.log('submit');
 
-    setUploadImg('');
-    setMessage('');
-
-    // form data post
-
-    const socket = socketConnect();
     socket.emit('joinRoom', {
       couple_id: localStorage.getItem('couple_id') || '',
       user1_id: localStorage.getItem('user1_id') || '',
       user2_id: localStorage.getItem('user2_id') || '',
     });
-    socket.emit('sendMessage', {
-      couple_id: localStorage.getItem('couple_id') || '',
-      message: message,
-      file: null,
-      fileName: 'test',
-    });
+
+    if (uploadImg) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const fileData = reader.result;
+        socket.emit('sendMessage', {
+          couple_id: localStorage.getItem('couple_id') || '',
+          message: message,
+          file: fileData,
+          fileName: uploadImg,
+        });
+      };
+      console.log('파일있는전송');
+    } else {
+      socket.emit('sendMessage', {
+        couple_id: localStorage.getItem('couple_id') || '',
+        message: message,
+        file: null,
+        fileName: null,
+      });
+      console.log('파일없는전송');
+    }
+
+    console.log('message:', message);
+    console.log('uploadImg:', uploadImg);
+
+    setUploadImg('');
+    setMessage('');
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -54,11 +66,6 @@ const ChatTextarea = () => {
       handleSubmit(e as any);
     }
   };
-
-  useEffect(() => {
-    // console.log('스크롤이동');
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [uploadImg]);
 
   return (
     <div>

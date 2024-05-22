@@ -1,10 +1,19 @@
 // Chat ================================================
 export interface ChatMessage {
+  id: number;
   user_id: number;
   message: string;
   picture_url: string;
   send_at: string;
   is_read: number;
+  show_date: boolean;
+}
+
+export interface addChatMessage {
+  partner_id: number;
+  nickname: string;
+  picture_url: string | null;
+  user_id: number;
 }
 
 export interface ChatMessageGetProps {
@@ -15,20 +24,7 @@ export interface ChatMessageGetProps {
   chat: ChatMessage[];
 }
 
-export interface ChatMessageWithDate extends ChatMessageGetProps {
-  showDate: boolean;
-}
-
-export interface ChatMessageProps {
-  id: number;
-  message: string;
-  sendAt: string;
-  pictureUrl: string;
-  showDate?: boolean;
-}
-
 export interface ChatListProps {
-  commu_streak?: number;
   couple_id: number;
   is_read: number;
   message: string;
@@ -37,11 +33,6 @@ export interface ChatListProps {
   user2_id: number;
   user1_id: number;
   email: string;
-}
-
-export interface ChatProfileProps {
-  profileImage: string;
-  nickName: string;
 }
 
 // Diary ================================================

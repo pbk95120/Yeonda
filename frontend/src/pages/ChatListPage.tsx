@@ -3,7 +3,7 @@ import ChatList from '@/components/chat/ChatList';
 
 const ChatListPage = () => {
   const { chatList } = useChatList();
-
+  console.log('chatList : ', chatList);
   return (
     <>
       <section>

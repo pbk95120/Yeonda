@@ -63,7 +63,7 @@ const ChatProfile = () => {
       <motion.img
         src={profileImg}
         alt='profile'
-        className='rounded-full'
+        className='h-[16.2rem] w-[16.2rem] rounded-full'
         animate={scroll ? { x: 140, y: 55, scale: 0.15 } : { x: 0.1, scale: 1 }}
         transition={{ duration: 0.8, ease: 'easeInOut' }}
       />
