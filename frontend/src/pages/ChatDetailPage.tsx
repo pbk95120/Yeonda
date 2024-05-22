@@ -8,7 +8,6 @@ import { ChatMessageGetProps } from '@/types/type';
 
 const ChatDetailPage = () => {
   const [message, setMessage] = useState<ChatMessageGetProps | null>(null);
-  const [addMessage, setAddMessage] = useState();
   const myId = localStorage.getItem('user1_id') ? Number(localStorage.getItem('user1_id')) : '';
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const params = useParams();
@@ -38,6 +37,7 @@ const ChatDetailPage = () => {
     console.log(message);
 
     socket.on('receiveMessage', (data) => {
+      console.log(data);
       setMessage((prevMessage) => {
         if (!prevMessage) return null;
         return {
@@ -45,6 +45,7 @@ const ChatDetailPage = () => {
           chat: [...prevMessage.chat, data],
         };
       });
+      console.log(message);
     });
 
     return () => {

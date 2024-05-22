@@ -67,10 +67,14 @@ const ChatTextarea = ({ socket }: any) => {
     }
   };
 
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [message, uploadImg]);
+
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        {uploadImg && <img src={'https://placehold.co/60x60'} alt='Thumbnail' className='mx-6 mb-2 rounded-lg' />}
+        {uploadImg && <img src={uploadImg} alt='첨부이미지' className='mx-6 mb-2 h-[3.75rem] w-[3.75rem] rounded-lg' />}
         <div
           className={`relative flex items-center border ${isFocused ? 'border-pastelred' : 'border-gray'} mx-6 min-h-[2.375rem] min-w-[20.425rem] rounded-xl`}
         >

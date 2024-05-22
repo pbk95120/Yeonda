@@ -9,13 +9,6 @@ export interface ChatMessage {
   show_date: boolean;
 }
 
-export interface addChatMessage {
-  partner_id: number;
-  nickname: string;
-  picture_url: string | null;
-  user_id: number;
-}
-
 export interface ChatMessageGetProps {
   partner_id: number;
   nickname: string;
