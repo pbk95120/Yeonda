@@ -15,7 +15,7 @@ const MyDiaryPage = () => {
   const [toast, setToast] = useState<boolean>(false);
   const [value, setValue] = useState<string>('');
 
-  const { setIsMyDiaryPage } = useDiaryItemStore();
+  const { setIsMyDiaryPage, setIsEditing } = useDiaryItemStore();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -29,6 +29,7 @@ const MyDiaryPage = () => {
 
   useEffect(() => {
     setIsMyDiaryPage(true);
+    setIsEditing(false);
     return () => {
       setIsMyDiaryPage(false);
     };

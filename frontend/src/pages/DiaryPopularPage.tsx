@@ -7,10 +7,11 @@ import { Tag } from '@/types/type';
 
 const DiaryPopularPage = () => {
   const { diariesData, sortDiariesByTag, profile, loading, error } = usePopular();
-  const { setIsPopularPage } = useDiaryItemStore();
+  const { setIsPopularPage, setIsEditing } = useDiaryItemStore();
 
   useEffect(() => {
     setIsPopularPage(true);
+    setIsEditing(false);
     return () => {
       setIsPopularPage(false);
     };

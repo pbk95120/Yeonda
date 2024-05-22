@@ -7,12 +7,13 @@ import { FaHeart } from 'react-icons/fa';
 import LoadingIndicator from '@/components/common/LoadingIndicator';
 
 const DiarySuggestionPage = () => {
-  const { setIsSuggestionPage } = useDiaryItemStore();
+  const { setIsSuggestionPage, setIsEditing } = useDiaryItemStore();
   const { suggestionDiary, fetchDiary, isLoading, likeReqDiary } = useSuggestion();
   const [showHeart, setShowHeart] = useState(false);
 
   useEffect(() => {
     setIsSuggestionPage(true);
+    setIsEditing(false);
     return () => {
       setIsSuggestionPage(false);
     };
@@ -49,7 +50,7 @@ const DiarySuggestionPage = () => {
       </div>
       {showHeart && (
         <FaHeart
-          className='animate-heartBeat absolute right-[140px] top-[300px] transform text-red '
+          className='absolute right-[140px] top-[300px] transform animate-heartBeat text-red '
           style={{ width: '100px', height: '100px' }}
         />
       )}
