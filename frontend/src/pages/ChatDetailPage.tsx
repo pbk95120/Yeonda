@@ -18,11 +18,6 @@ const ChatDetailPage = () => {
   useEffect(() => {
     const socket = socketConnect();
 
-    socket.on('connect_error', (err: any) => {
-      console.log(err);
-      console.log(err.message);
-    });
-
     socket.emit('joinRoom', {
       couple_id: localStorage.getItem('couple_id') || '',
       user1_id: localStorage.getItem('user1_id') || '',
@@ -31,11 +26,9 @@ const ChatDetailPage = () => {
 
     socket.on('partnerInfo', (data: any) => {
       setMessage(data);
-      console.log(data);
     });
 
     socket.on('receiveMessage', (data: any) => {
-      console.log(data);
       setMessage((prevMessage) => {
         if (!prevMessage) return null;
         return {
@@ -48,7 +41,6 @@ const ChatDetailPage = () => {
 
     return () => {
       socket.disconnect();
-      console.log('disconnect');
     };
   }, []);
 
