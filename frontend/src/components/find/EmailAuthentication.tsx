@@ -63,6 +63,7 @@ const EmailAuthentication = ({ setPage }: EmailAuthenticationProps) => {
                   resetRequest(getValues('email')).then(
                     () => {
                       startTimer();
+                      alert('인증번호 전송 완료');
                       setConfirmBtnDisabled(true);
                     },
                     (err) => {

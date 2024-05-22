@@ -8,6 +8,7 @@ import { getTags } from '@/api/user.api';
 
 import { getMyPage, putMyTag } from '@/api/mypage.api';
 import LoadingIndicator from '@/components/common/LoadingIndicator';
+import { myPageStore } from '@/store/myPageStore';
 
 const PreferencePage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -15,6 +16,7 @@ const PreferencePage = () => {
   const [tags, setTags] = useState<Tag[]>([]);
   const [alltags, setAllTags] = useState<Tag[]>([]);
   const filteredTags = alltags.filter((tag) => tag.name.toLowerCase().includes(inputText.toLowerCase()));
+  const { changeTags } = myPageStore();
 
   const handleRemoveTag = (indexToRemove: number) => {
     const updatedTags = tags.filter((_, index) => index !== indexToRemove);
@@ -23,10 +25,11 @@ const PreferencePage = () => {
   const tagIdToString = (tags: Tag[]) => {
     let tagIdArr = tags.map((el: Tag) => el.id);
     let result = tagIdArr.join();
-    console.group(result);
+
     return result;
   };
   const putTag = (tags: Tag[], e: Event) => {
+    changeTags(tags);
     e.preventDefault();
     let tagToString = tagIdToString(tags);
     putMyTag(tagToString).then(
@@ -34,7 +37,7 @@ const PreferencePage = () => {
         let backBtn = document.querySelector('#backBtn');
         backBtn?.addEventListener('click', () => history.back());
         alert('태그 수정 완료!!!');
-        setIsLoading(true);
+        setIsLoading(false);
       },
       () => {
         alert('태그 수정 실패!!!');

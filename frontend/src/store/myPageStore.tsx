@@ -1,3 +1,4 @@
+import { Tag } from '@/components/join/Interest';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
@@ -14,41 +15,28 @@ interface Info {
 }
 
 interface StoreState {
-  isLoggedIn: boolean;
-  storeLogin: (email: string, pref: Pref) => void;
-  storeLogout: () => void;
   changePref: (pref: Pref) => void;
   changeInfo: (info: Info) => void;
-  email: string;
+  changeTags: (tags: Tag[]) => void;
   gender: string;
   start_age: number;
   end_age: number;
   distance: number;
   picture: string;
   address: string;
+  myTags: Tag[];
 }
 
-export const useAuthStore = create(
+export const myPageStore = create(
   persist<StoreState>(
     (set) => ({
-      email: '',
-      isLoggedIn: false,
       gender: '',
       start_age: 0,
       end_age: 100,
       distance: 160,
       picture: '',
       address: '',
-      storeLogin: (emailInput: string, pref: Pref) => {
-        set({
-          isLoggedIn: true,
-          gender: pref.gender,
-          start_age: pref.start_age,
-          end_age: pref.end_age,
-          distance: pref.distance,
-          email: emailInput,
-        });
-      },
+      myTags: [],
       changePref: (pref: Pref) => {
         set({
           gender: pref.gender,
@@ -63,19 +51,14 @@ export const useAuthStore = create(
           picture: info.picture,
         });
       },
-      storeLogout: () => {
+      changeTags: (tags: Tag[]) => {
         set({
-          isLoggedIn: false,
-          gender: '',
-          start_age: 0,
-          end_age: 100,
-          distance: 160,
-          email: '',
+          myTags: tags,
         });
       },
     }),
     {
-      name: 'preference',
+      name: 'myAllInfo',
     },
   ),
 );

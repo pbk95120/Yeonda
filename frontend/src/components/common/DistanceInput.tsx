@@ -13,10 +13,10 @@ interface DistanceInputProps {
 }
 
 const DistanceInput = ({ setValue, getValues, distance, className, sliderClassName }: DistanceInputProps) => {
-  const [currentDistance, setCurrentDistance] = useState(distance);
+  const [currentDistance, setCurrentDistance] = useState(distance ? distance : DEFAULT_DISTANCE);
 
   useEffect(() => {
-    distance ? setCurrentDistance(distance) : setValue('distance', DEFAULT_DISTANCE);
+    setCurrentDistance(distance);
   }, [distance]);
 
   const handleChange = (_: Event, value: number | number[]) => {

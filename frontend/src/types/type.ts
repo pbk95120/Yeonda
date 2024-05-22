@@ -36,9 +36,9 @@ export interface Diary {
   picture_url: string;
   title: string;
   content: string;
-  tags: number[];
-  created_at: string;
-  likes: number;
+  tags: Tag[];
+  created_at?: string;
+  likes?: number;
 }
 
 export interface FetchDiariesParams {
@@ -52,8 +52,15 @@ export interface Tag {
   name: string;
 }
 
+export interface PreferData {
+  distance: number;
+  end_age: number;
+  start_age: number;
+  gender: string;
+}
+
 export type DiaryHeader = Pick<Diary, 'nickname' | 'picture_url'>;
 
 export type DiaryContent = Omit<Diary, 'nickname' | 'picture_url'>;
 
-export type DiaryChange = Pick<Diary, 'title' | 'content'>;
+export type DiaryChange = Pick<Diary, 'title' | 'content' | 'tags'>;

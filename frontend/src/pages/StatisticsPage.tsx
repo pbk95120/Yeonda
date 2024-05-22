@@ -18,19 +18,11 @@ const StatisticsPage = () => {
   }
   const navigate = useNavigate();
   useEffect(() => {
-    refreshToken().then(
-      () => {
-        statistic().then(
-          (data) => {
-            setWeeklyDiaryCount(data.weekly_diary_count);
-            setWeeklyMatchCount(data.weekly_matching_count);
-            setweeklyUserCount(data.weekly_user_count);
-          },
-          () => {
-            alert('admin만 접근 가능합니다.');
-            navigate('/othersdiary/suggestion');
-          },
-        );
+    statistic().then(
+      (data) => {
+        setWeeklyDiaryCount(data.weekly_diary_count);
+        setWeeklyMatchCount(data.weekly_matching_count);
+        setweeklyUserCount(data.weekly_user_count);
       },
       () => {
         alert('admin만 접근 가능합니다.');

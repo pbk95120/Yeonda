@@ -8,15 +8,14 @@ import Modal from '@/components/common/Modal';
 import { useDiary } from '@/hooks/diary/useDiary';
 import { useDiaryChange } from '@/hooks/diary/useDiaryChange';
 import { useDiaryRemove } from '@/hooks/diary/useDiaryRemove';
+import LoadingIndicator from '@/components/common/LoadingIndicator';
 
 const MyDiaryDetailPage = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-
-  const { diary, diaryId, handleDiaryChange } = useDiary();
-
-  const { editSave, editDiary, editCancel, isEditing, toast, setToast } = useDiaryChange({ diary, diaryId });
-
-  const { deleteDiary } = useDiaryRemove({ diaryId });
+  const [toast, setToast] = useState<boolean>(false);
+  const { diary, diaryId, handleDiaryChange, isLoading, error } = useDiary();
+  const [value, setValue] = useState<string>('');
+  const [valid, setValid] = useState<boolean>(false);
 
   const modalOpen = useCallback(() => {
     setIsModalOpen(true);
@@ -25,6 +24,28 @@ const MyDiaryDetailPage = () => {
   const modalClose = useCallback(() => {
     setIsModalOpen(false);
   }, []);
+
+  const { editSave, editDiary, editCancel, isEditing } = useDiaryChange({
+    diary,
+    diaryId,
+    setToast,
+    setValue,
+    setValid,
+  });
+
+  const { deleteDiary } = useDiaryRemove({ diaryId, setToast, setValue, setValid, modalClose });
+
+  if (error) {
+    return (
+      <span className='-t absolute left-[50%] top-[50%] -translate-x-2/4 -translate-y-2/4 text-gray'>
+        일기 데이터를 불러오는데 실패했습니다.
+      </span>
+    );
+  }
+
+  if (!diary || isLoading) {
+    return <LoadingIndicator />;
+  }
 
   return (
     <div className='relative'>
@@ -55,14 +76,7 @@ const MyDiaryDetailPage = () => {
               </div>
             </div>
           </Dropdown>
-          {toast && (
-            <Toast
-              className='left-[50%] -translate-x-1/2'
-              value='수정이 완료되었습니다.'
-              valid={true}
-              setToast={setToast}
-            />
-          )}
+          {toast && <Toast className='left-[50%] -translate-x-1/2' value={value} valid={valid} setToast={setToast} />}
           <Modal
             isOpen={isModalOpen}
             closeModal={modalClose}

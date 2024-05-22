@@ -15,7 +15,7 @@ const ErrorPage = () => {
           size='large'
           color='pastelred'
           onClick={() => {
-            navigate('/');
+            navigate('/othersdiary/suggestion');
           }}
         />
       </div>

@@ -1,23 +1,24 @@
 import { fetchPopularDiaries, fetchPopularDiariesByTag, fetchProfile } from '@/api/diaries.api';
-import { DiaryContent } from '@/types/type';
+import { DiaryContent, Tag } from '@/types/type';
 import { useEffect, useState } from 'react';
-
-interface Profile {
-  tags: string[];
-}
 
 export const usePopular = () => {
   const [diariesData, setDiariesData] = useState<DiaryContent[]>([]);
-  const [error, setError] = useState<string | null>(null);
-  const [profile, setProfile] = useState<Profile | null>(null);
+  const [error, setError] = useState<boolean>(false);
+  const [profile, setProfile] = useState<Tag[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const loadPopularDiaries = async () => {
+      setLoading(true);
       try {
         const data = await fetchPopularDiaries();
         setDiariesData(data);
       } catch (error) {
-        setError('일기 가져오기 실패');
+        setError(true);
+      } finally {
+        setLoading(false);
+        setError(false);
       }
     };
 
@@ -26,25 +27,34 @@ export const usePopular = () => {
 
   useEffect(() => {
     const loadProfile = async () => {
+      setLoading(true);
       try {
         const data = await fetchProfile();
-        setProfile(data);
+        setProfile(data.tags);
       } catch (error) {
-        setError('유저 데이터 가져오기 실패');
+        setError(true);
+      } finally {
+        setLoading(false);
+        setError(false);
       }
     };
 
     loadProfile();
   }, []);
 
-  const sortDiariesByTag = async (tagId: string) => {
+  const sortDiariesByTag = async (tagId: number) => {
+    setLoading(true);
     try {
       const data = await fetchPopularDiariesByTag(tagId);
       setDiariesData(data);
+      setLoading(false);
+      setError(false);
     } catch (error) {
-      setError('Failed to load diaries by tag');
+      setLoading(false);
+      setError(true);
+      setDiariesData([]);
     }
   };
 
-  return { diariesData, sortDiariesByTag, profile, error };
+  return { diariesData, sortDiariesByTag, profile, error, loading };
 };

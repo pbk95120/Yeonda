@@ -4,7 +4,6 @@ import '@/index.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Layout from '@/layout/Layout';
-import TestPage from '@/pages/TestPage';
 import LoginPage from '@/pages/LoginPage';
 import JoinPage from '@/pages/JoinPage';
 import FindPassWordPage from '@/pages/FindPassWordPage';
@@ -25,6 +24,7 @@ import ChatProfilePage from '@/pages/ChatProfilePage';
 import ErrorPage from '@/pages/ErrorPage';
 import OthersDiaryPage from './pages/OthersDiaryPage';
 import PreferencePage from './pages/PreferencePage';
+import TagSetting from './pages/TagSetting';
 
 const queryClient = new QueryClient();
 
@@ -43,7 +43,7 @@ const queryClient = new QueryClient();
 const routeList = [
   {
     path: '/',
-    element: <TestPage />,
+    element: <TutorialPage />,
     showHeader: true,
     chatHeader: false,
     showFooter: false,
@@ -81,18 +81,18 @@ const routeList = [
     cancelStr: true,
   },
   {
-    path: '/tutorial',
-    element: <TutorialPage />,
-    showHeader: false,
-    showFooter: false,
-    onlyLogo: false,
-    value: '박상하킹갓',
-    backBtn: false,
-    cancelStr: false,
-  },
-  {
     path: '/admin/statistics',
     element: <StatisticsPage />,
+    showHeader: true,
+    showFooter: false,
+    onlyLogo: true,
+    value: '박상하킹갓',
+    backBtn: false,
+    cancelStr: true,
+  },
+  {
+    path: '/admin/settings',
+    element: <TagSetting />,
     showHeader: true,
     showFooter: false,
     onlyLogo: true,

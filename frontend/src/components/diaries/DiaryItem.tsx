@@ -1,18 +1,19 @@
 import { Link } from 'react-router-dom';
 import { RiHashtag, RiHeartFill } from 'react-icons/ri';
 import { formatDate, formatNumber } from '@/utils/format';
-import type { DiaryContent } from '@/types/type';
+import type { DiaryContent, Tag } from '@/types/type';
 import { useDiaryItemStore } from '@/store/diaryStore';
-import { useTags } from '@/hooks/diary/useTags';
+import FixTags from './FixTags';
 
 interface DiaryItemProps {
   diary: DiaryContent;
-  onDiaryChange?: (field: string, value: string) => void;
+  onDiaryChange?: (field: string, value: string | Tag[]) => void;
 }
 
 const DiaryItem = ({ diary, onDiaryChange }: DiaryItemProps) => {
   const { isMyDiaryPage, isEditing, isSuggestionPage, isPopularPage } = useDiaryItemStore();
-  const { tagNames } = useTags(diary.tags);
+
+  const tags = diary.tags;
 
   const renderTitle = () => {
     if (isEditing) {
@@ -29,7 +30,7 @@ const DiaryItem = ({ diary, onDiaryChange }: DiaryItemProps) => {
 
   const renderDate = () => {
     if (isEditing || isSuggestionPage || isPopularPage) return null;
-    return <span className='font-sans text-xs text-lightgray'>{formatDate(diary.created_at)}</span>;
+    return <span className='font-sans text-xs text-lightgray'>{diary.created_at && formatDate(diary.created_at)}</span>;
   };
 
   const renderLike = () => {
@@ -37,7 +38,7 @@ const DiaryItem = ({ diary, onDiaryChange }: DiaryItemProps) => {
     return (
       <div className='flex items-center gap-[5px] font-sans text-xs'>
         <RiHeartFill className='fill-pastelred' style={{ width: '18px', height: '18px' }} />
-        <span>{formatNumber(diary.likes)}</span>
+        <span>{diary.likes && formatNumber(diary.likes)}</span>
       </div>
     );
   };
@@ -57,14 +58,21 @@ const DiaryItem = ({ diary, onDiaryChange }: DiaryItemProps) => {
   };
 
   const renderTags = () => {
+    if (isEditing) {
+      return (
+        <>
+          <FixTags inputTags={tags} onDiaryChange={onDiaryChange ? onDiaryChange : null} />
+        </>
+      );
+    }
     return (
       <div className='flex flex-wrap gap-[16px]'>
-        {tagNames.map((name, idx) => (
+        {diary.tags.map((item: Tag, idx: number) => (
           <div className='flex items-center text-xl' key={idx}>
             <span className='text-lightgray'>
               <RiHashtag />
             </span>
-            <div className='ml-[6px]'>{name}</div>
+            <div className='ml-[6px]'>{item?.name}</div>
           </div>
         ))}
       </div>
