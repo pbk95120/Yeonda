@@ -34,7 +34,7 @@ describe('ChatList 컴포넌트 테스트', () => {
   test('pendingRead가 0일 때, 알림이 표시되지 않는지 확인', () => {
     render(
       <Router>
-        <ChatList {...mockProps} is_read={0} />
+        <ChatList {...mockProps} />
       </Router>,
     );
 
