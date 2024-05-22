@@ -58,7 +58,7 @@ const socketHandler = (io: Server) => {
         );
         await io.to(couple_id.toString()).emit('receiveMessage', {
           id: chatInfo.id,
-          user_id: user_id,
+          user_id: parseInt(user_id),
           message: message,
           picture_url: picture_url,
           send_at: send_at,
