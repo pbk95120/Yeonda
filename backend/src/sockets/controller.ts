@@ -20,5 +20,7 @@ export const exchangeMessages = async (couple_id, user_id, picture_url, message,
   });
   if (error) throw new Error('입력 값 오류');
 
-  await databaseConnector(createChat)(couple_id, user_id, picture_url, message, send_at, is_read);
+  const returnMessage = await databaseConnector(createChat)(couple_id, user_id, picture_url, message, send_at, is_read);
+
+  return returnMessage;
 };
