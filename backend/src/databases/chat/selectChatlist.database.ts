@@ -48,7 +48,7 @@ const selectPartnerChatInfo = async (
 
       const chat_sql = `
       SELECT 
-        message, is_read, TIMESTAMPDIFF(DAY, send_at, NOW()) AS commu_streak
+        message, TIMESTAMPDIFF(DAY, send_at, NOW()) AS commu_streak
       FROM 
         chat
       WHERE 
@@ -60,6 +60,14 @@ const selectPartnerChatInfo = async (
       const chat_values = { couple_id: couple_id };
       const [chat_info] = await conn.execute(chat_sql, chat_values);
 
+      const is_read_sql = `
+      SELECT count(*) AS is_read
+      FROM chat
+      WHERE couple_id = :couple_id AND user_id = :partner_id AND is_read = 1
+      `;
+      const is_read_values = { couple_id: couple_id, partner_id: partner_id };
+      const [isRead] = await conn.execute(is_read_sql, is_read_values);
+
       return {
         couple_id: couple_id,
         user1_id: user_id,
@@ -68,7 +76,7 @@ const selectPartnerChatInfo = async (
         picture_url: partnerInfo[0].picture_url,
         nickname: partnerInfo[0].nickname,
         message: chat_info[0].message,
-        is_read: chat_info[0].is_read,
+        is_read: isRead[0].is_read,
         commu_streak: chat_info[0].commu_streak,
       };
     }),
