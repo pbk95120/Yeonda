@@ -56,7 +56,6 @@ const PreferencePage = () => {
     getMyPage().then(
       (data) => {
         const { tags } = data;
-        console.log(tags);
         setTags(tags);
         getTags().then((data) => {
           setAllTags(data);

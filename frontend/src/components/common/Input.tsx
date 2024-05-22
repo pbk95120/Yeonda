@@ -75,7 +75,6 @@ const Input = ({
     useEffect(() => {
       if (typeof contentImage === 'string') {
         setContentImageUrl(contentImage);
-        console.log(contentImageUrl);
       }
     }, [contentImage]);
 
