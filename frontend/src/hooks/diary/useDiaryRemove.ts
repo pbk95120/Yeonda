@@ -21,7 +21,7 @@ export const useDiaryRemove = ({ diaryId, setToast, setValid, setValue, modalClo
       console.error('일기 삭제 실패:', error);
       modalClose();
       setToast(true);
-      setValue('삭제에 실패했습니다. 다시 시도 해주세요.');
+      setValue('삭제 실패했습니다. 다시 시도 해주세요.');
       setValid(false);
     }
   }, [diaryId, navigate]);

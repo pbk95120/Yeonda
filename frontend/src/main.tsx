@@ -44,7 +44,7 @@ const routeList = [
   {
     path: '/',
     element: <TutorialPage />,
-    showHeader: true,
+    showHeader: false,
     chatHeader: false,
     showFooter: false,
     onlyLogo: false,

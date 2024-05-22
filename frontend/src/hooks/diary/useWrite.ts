@@ -1,8 +1,14 @@
 import { writeDiary } from '@/api/diaries.api';
-import { useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-export const useWrite = () => {
+interface DiaryRemoveProps {
+  setToast: Dispatch<SetStateAction<boolean>>;
+  setValue: Dispatch<SetStateAction<string>>;
+  setValid: Dispatch<SetStateAction<boolean>>;
+}
+
+export const useWrite = ({ setToast, setValid, setValue }: DiaryRemoveProps) => {
   const navigate = useNavigate();
   const [title, setTitle] = useState<string>('');
   const [content, setContent] = useState<string>('');
@@ -18,6 +24,9 @@ export const useWrite = () => {
         navigate('/mydiary', { state: '일기 작성이 완료되었습니다.' });
       } catch (error) {
         console.error('일기 작성 실패:', error);
+        setToast(true);
+        setValue('작성 실패했습니다. 다시 시도 해주세요.');
+        setValid(false);
       }
     };
 

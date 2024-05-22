@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
 import { motion, useAnimation } from 'framer-motion';
-import { ChatProfileProps } from '@/types/type';
 import { useNavigate } from 'react-router-dom';
 import Modal from '@/components/common/Modal';
 
 /**
  * 채팅 상대 프로필 페이지 컴포넌트
  */
-const ChatProfile = ({ profileImage, nickName }: ChatProfileProps) => {
+const ChatProfile = () => {
+  const nickName = localStorage.getItem('nickname');
+  const profileImg = localStorage.getItem('profileImg') || undefined;
+
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [scroll, setScroll] = useState<boolean>(false);
 
@@ -59,9 +61,9 @@ const ChatProfile = ({ profileImage, nickName }: ChatProfileProps) => {
       animate={controls}
     >
       <motion.img
-        src={profileImage}
+        src={profileImg}
         alt='profile'
-        className='rounded-full'
+        className='h-[16.2rem] w-[16.2rem] rounded-full'
         animate={scroll ? { x: 140, y: 55, scale: 0.15 } : { x: 0.1, scale: 1 }}
         transition={{ duration: 0.8, ease: 'easeInOut' }}
       />

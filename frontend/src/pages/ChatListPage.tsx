@@ -3,7 +3,7 @@ import ChatList from '@/components/chat/ChatList';
 
 const ChatListPage = () => {
   const { chatList } = useChatList();
-
+  console.log('chatList : ', chatList);
   return (
     <>
       <section>
@@ -20,7 +20,7 @@ const ChatListPage = () => {
             message={data.message}
             is_read={data.is_read}
             email={data.email}
-            user_id={data.user_id}
+            user1_id={data.user1_id}
           />
         ))}
       </section>
