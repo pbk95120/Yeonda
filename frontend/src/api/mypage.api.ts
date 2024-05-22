@@ -1,6 +1,5 @@
 import { patchMyPref } from '@/types/mypage';
 import { requestHandler, httpClient } from './http';
-import { Tag } from '@/components/join/Interest';
 
 export const getMyPage = async () => {
   return await requestHandler('get', '/profile/my');

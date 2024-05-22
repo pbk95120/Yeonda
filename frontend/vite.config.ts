@@ -9,6 +9,11 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
 
   return {
+    build: {
+      rollupOptions: {
+        external: [/tests\/.*/, /.*\.test\.(js|ts|jsx|tsx)$/],
+      },
+    },
     plugins: [react(), svgr({ include: '**/*.svg?react' }), tsconfigPaths()],
     server: {
       port: 3000,

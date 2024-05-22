@@ -1,5 +1,5 @@
-import { ChatMessageProps } from '@/types/type';
 import { formatToKoreaDate, formatToKoreaTime } from '@/utils/format';
+import { ChatMessageProps } from '@/types/type';
 
 /**
  * 내 채팅 메세지 컴포넌트

@@ -17,6 +17,13 @@ export interface ChatMessageGetProps {
   chat: ChatMessage[];
 }
 
+export interface ChatMessageProps {
+  message: string;
+  sendAt: string;
+  showDate: boolean;
+  pictureUrl: string;
+}
+
 export interface ChatListProps {
   couple_id: number;
   is_read: number;

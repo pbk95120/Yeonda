@@ -64,7 +64,6 @@ const ChatDetailPage = () => {
             msg.user_id === myId ? (
               <MyChatBubble
                 key={msg.id}
-                id={msg.user_id}
                 message={msg.message}
                 pictureUrl={msg.picture_url}
                 sendAt={msg.send_at}
@@ -73,7 +72,6 @@ const ChatDetailPage = () => {
             ) : (
               <ReceiveChatBubble
                 key={msg.id}
-                id={msg.user_id}
                 message={msg.message}
                 pictureUrl={msg.picture_url}
                 sendAt={msg.send_at}
