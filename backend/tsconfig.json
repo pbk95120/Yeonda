@@ -3,20 +3,22 @@
     "module": "commonjs",
     "target": "es2021",
     "esModuleInterop": true,
-    "baseUrl": ".",
+    "baseUrl": "./src",
     "paths": {
-      "@src/*": ["src/*"],
-      "@routes/*": ["src/routes/*"],
-      "@controllers/*": ["src/controllers/*"],
-      "@databases/*": ["src/databases/*"],
-      "@models/*": ["src/models/*"],
-      "@middlewares/*": ["src/middlewares/*"],
-      "@utils/*": ["src/utils/*"],
-      "@storage/*": ["src/storage/*"],
-      "@schemas/*": ["src/schemas/*"],
-      "@tests/*": ["src/tests/*"],
-      "@sockets/*": ["src/sockets/*"]
+      "@src/*": ["*"],
+      "@routes/*": ["routes/*"],
+      "@controllers/*": ["controllers/*"],
+      "@databases/*": ["databases/*"],
+      "@models/*": ["models/*"],
+      "@middlewares/*": ["middlewares/*"],
+      "@utils/*": ["utils/*"],
+      "@storage/*": ["storage/*"],
+      "@schemas/*": ["schemas/*"],
+      "@tests/*": ["tests/*"],
+      "@sockets/*": ["sockets/*"]
     },
-    "outDir": "build/src"
+    "outDir": "build",
   },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "build"]
 }

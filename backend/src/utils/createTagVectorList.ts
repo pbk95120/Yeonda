@@ -6,7 +6,7 @@ import path from 'path';
 export let tagsJSON: any[] = [];
 
 const createTagVectorList = () => {
-  const location = path.resolve(__dirname, '..', 'storage/tags/tags.json');
+  const location = path.resolve(__dirname, '..', 'storage/tags.json');
   const buffer = fs.readFileSync(location, 'utf8');
 
   tagsJSON = JSON.parse(buffer) as Tag[];

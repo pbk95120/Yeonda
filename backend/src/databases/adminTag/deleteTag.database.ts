@@ -11,7 +11,7 @@ export const deleteTag = async (conn: Connection, id: number): Promise<void> => 
 
   const callback = async (id: number) => {
     sql = 'delete from tag where id = :id';
-    conn.execute(sql, values);
+    await conn.execute(sql, values);
   };
 
   await transactionWrapper(conn, callback)(id);
