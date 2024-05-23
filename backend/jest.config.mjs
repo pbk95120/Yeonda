@@ -15,4 +15,7 @@ export default {
     '^@tests/(.*)$': '<rootDir>/src/tests/$1',
     '^@mocks/(.*)$': '<rootDir>/src/mocks/$1',
   },
+  testPathIgnorePatterns: [
+    '<rootDir>/build/'
+  ],
 };
