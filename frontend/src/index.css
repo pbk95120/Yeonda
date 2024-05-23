@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Noto Sans KR';
+  font-weight: normal;
+  src: url('@/assets/fonts/NotoSansKR-VariableFont_wght.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Noto Sans KR';
+  font-weight: 700;
+  src: url('@/assets/fonts/NotoSansKR-VariableFont_wght.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'The Day Diary';
+  font-weight: normal;
+  src: url('@/assets/fonts/thedaydiary.ttf') format('truetype');
+}
