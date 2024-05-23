@@ -82,6 +82,7 @@
  
 
 ## 📁 Directory Structure
+### BE
 ```
 📦src
   ┣ 📂controllers	: 비즈니스 로직 컨트롤러
@@ -106,6 +107,28 @@
 ┣📜.eslintrc.js : ESLint 설정
 ┗📜.prettierrc : Prettier 설정
 
+```
+### FE
+```
+📦src
+  ┣ 📂api		: rest api 호출
+  ┣ 📂assets		: 이미지, 폰트 파일
+  ┣ 📂components	: 컴포넌트
+  ┣ 📂constants	: 상수
+  ┣ 📂hooks		: 커스텀 훅
+  ┣ 📂layout 		: 레이아웃
+  ┣ 📂mocks		: mock data
+  ┣ 📂pages		: Route 관리
+  ┣ 📂store		: 전역 상태 관리	
+  ┣ 📂test		: Jest 테스트
+  ┣ 📂types		: Type관리
+  ┣ 📂utils		: 날짜,숫자 등 유틸 함수
+┣ 📜jest.config.js	: Jest 설정
+┣ 📜tailwind.config.js	: Tailwind 설정
+┣ 📜tsconfig.json	: TypeScript설정
+┣ 📜vite.config.ts	: Vite설정
+┣ 📜.eslintrc.cjs 	: ESLint 설정
+┗ 📜.prettierrc :	: Prettier 설정
 ```
 
 ## 팀원
