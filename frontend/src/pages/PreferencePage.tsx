@@ -9,12 +9,15 @@ import { getTags } from '@/api/user.api';
 import { getMyPage, putMyTag } from '@/api/mypage.api';
 import LoadingIndicator from '@/components/common/LoadingIndicator';
 import { myPageStore } from '@/store/myPageStore';
+import Toast from '@/components/common/Toast';
 
 const PreferencePage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [inputText, setInputText] = useState('');
   const [tags, setTags] = useState<Tag[]>([]);
   const [alltags, setAllTags] = useState<Tag[]>([]);
+  const [toast, setToast] = useState<boolean>(false);
+  const [valid, setValid] = useState<boolean>(false);
   const filteredTags = alltags.filter((tag) => tag.name.toLowerCase().includes(inputText.toLowerCase()));
   const { changeTags } = myPageStore();
 
@@ -36,11 +39,13 @@ const PreferencePage = () => {
       () => {
         let backBtn = document.querySelector('#backBtn');
         backBtn?.addEventListener('click', () => history.back());
-        alert('태그 수정 완료!!!');
+        setValid(true);
+        setToast(true);
         setIsLoading(false);
       },
       () => {
-        alert('태그 수정 실패!!!');
+        setValid(false);
+        setToast(true);
       },
     );
   };
@@ -53,18 +58,13 @@ const PreferencePage = () => {
     }
   };
   useEffect(() => {
-    getMyPage().then(
-      (data) => {
-        const { tags } = data;
-        setTags(tags);
-        getTags().then((data) => {
-          setAllTags(data);
-        });
-      },
-      () => {
-        alert('태그 가져오기 실패!!!!');
-      },
-    );
+    getMyPage().then((data) => {
+      const { tags } = data;
+      setTags(tags);
+      getTags().then((data) => {
+        setAllTags(data);
+      });
+    });
   }, []);
 
   return (
@@ -113,6 +113,13 @@ const PreferencePage = () => {
               />
             </div>
           </form>
+          {toast && (
+            <Toast
+              valid={valid}
+              value={`${valid ? '태그 수정이 완료되었습니다.' : '태그 수정에 실패하였습니다.'}`}
+              setToast={setToast}
+            />
+          )}
         </div>
       )}
     </>

@@ -9,6 +9,7 @@ import { useAuthStore } from '@/store/authStore';
 import { getMyPageMyInfo, patchMyInfoAddress, patchMyInfoPicture } from '@/api/mypage.api';
 import { useForm } from 'react-hook-form';
 import { myPageStore } from '@/store/myPageStore';
+import Toast from '../common/Toast';
 
 interface PreferenceFormInputs {
   address: string;
@@ -25,6 +26,9 @@ const MyInfo = () => {
   const [address, setAddress] = useState<string>('');
   const [newAddress, setNewAddress] = useState<string>('');
   const [beforePicture, setBeforePicture] = useState<string>('');
+  const [toast, setToast] = useState<boolean>(false);
+  const [valid, setValid] = useState<boolean>(false);
+  const [toastValue, setToastValue] = useState<string>('');
 
   const handleAddressSelection = (address: string) => {
     setNewAddress(address);
@@ -33,11 +37,21 @@ const MyInfo = () => {
   };
 
   const myInfoLogout = async () => {
-    logout().then(() => {
-      storeLogout();
-      alert('로그아웃되었습니다!!!');
-      navigate('/login');
-    });
+    logout().then(
+      () => {
+        storeLogout();
+
+        setValid(true);
+        setToastValue('로그아웃이 완료되었습니다!!');
+        setToast(true);
+        setTimeout(() => navigate('/login'), 1200);
+      },
+      () => {
+        setValid(false);
+        setToastValue('로그아웃에 실패하였습니다!!');
+        setToast(true);
+      },
+    );
   };
 
   useEffect(() => {
@@ -45,20 +59,40 @@ const MyInfo = () => {
     setAddress(localData.address);
     setBeforePicture(localData.picture);
     if (localData.address !== newAddress && newAddress.length > 0) {
-      patchMyInfoAddress(getValues('address')).then(() => {
-        let changedAddress = getValues('address');
-        setAddress(changedAddress);
-        changeInfo({ address: changedAddress, picture: beforePicture });
-      });
+      patchMyInfoAddress(getValues('address')).then(
+        () => {
+          let changedAddress = getValues('address');
+          setAddress(changedAddress);
+          changeInfo({ address: changedAddress, picture: beforePicture });
+          setValid(true);
+          setToastValue('주소 저장 완료!');
+          setToast(true);
+        },
+        () => {
+          setValid(false);
+          setToastValue('주소 저장 실패!');
+          setToast(true);
+        },
+      );
     }
     if (localData.picture !== afterPicture && afterPicture) {
       let imageFormData = new FormData();
       imageFormData.append('picture', getValues('picture'));
-      patchMyInfoPicture(imageFormData).then(() => {
-        let changedPicture = afterPicture;
-        setBeforePicture(changedPicture);
-        changeInfo({ address: localData.address, picture: changedPicture });
-      });
+      patchMyInfoPicture(imageFormData).then(
+        () => {
+          let changedPicture = afterPicture;
+          setBeforePicture(changedPicture);
+          changeInfo({ address: localData.address, picture: changedPicture });
+          setValid(true);
+          setToastValue('이미지 저장 완료!');
+          setToast(true);
+        },
+        () => {
+          setValid(false);
+          setToastValue('이미지 저장 실패!');
+          setToast(true);
+        },
+      );
     }
   }, [newAddress, afterPicture]);
 
@@ -88,6 +122,7 @@ const MyInfo = () => {
         onClose={() => setIsModalOpen(false)}
         onSelectAddress={handleAddressSelection}
       />
+      {toast && <Toast valid={valid} setToast={setToast} value={toastValue} />}
     </div>
   );
 };
