@@ -11,6 +11,7 @@ import { Tag } from '../join/Interest';
 import { useAuthStore } from '@/store/authStore';
 import { myPageStore } from '@/store/myPageStore';
 import Button from '../common/Button';
+import Toast from '../common/Toast';
 
 interface PreferenceFormInputs {
   gender: string;
@@ -29,9 +30,11 @@ const MyPref = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [selectedGender, setSelectedGender] = useState<string>(localData.gender);
   const [tags, setTags] = useState<Tag[]>(localData.myTags);
+  const [valid, setValid] = useState<boolean>(false);
   const [distance, setDistance] = useState<number>(localData.distance);
   const [startAge, setStartAge] = useState<number>(localData.start_age);
   const [endAge, setEndAge] = useState<number>(localData.end_age);
+  const [toast, setToast] = useState<boolean>(false);
 
   const patchBtn = () => {
     patchMyPageMyPref({
@@ -47,11 +50,12 @@ const MyPref = () => {
           end_age: getValues('endAge') ? getValues('endAge') : localData.end_age,
           distance: getValues('distance') ? getValues('distance') : localData.end_age,
         });
-
-        alert('내 선호도 변경 완료!!!');
+        setValid(true);
+        setToast(true);
       },
       () => {
-        alert('내 선호도 변경 실패!!!');
+        setValid(false);
+        setToast(true);
       },
     );
   };
@@ -130,6 +134,7 @@ const MyPref = () => {
         />
       )}
       <Button size='large' color='pastelred' children='완료' className='mt-7' onClick={patchBtn} />
+      {toast && <Toast valid={valid} value='변경이 완료되었습니다.' setToast={setToast} className='bottom-11' />}
     </div>
   );
 };

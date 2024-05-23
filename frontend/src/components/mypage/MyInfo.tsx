@@ -9,6 +9,7 @@ import { useAuthStore } from '@/store/authStore';
 import { getMyPageMyInfo, patchMyInfoAddress, patchMyInfoPicture } from '@/api/mypage.api';
 import { useForm } from 'react-hook-form';
 import { myPageStore } from '@/store/myPageStore';
+import Toast from '../common/Toast';
 
 interface PreferenceFormInputs {
   address: string;
@@ -25,6 +26,7 @@ const MyInfo = () => {
   const [address, setAddress] = useState<string>('');
   const [newAddress, setNewAddress] = useState<string>('');
   const [beforePicture, setBeforePicture] = useState<string>('');
+  const [toast, setToast] = useState<boolean>(false);
 
   const handleAddressSelection = (address: string) => {
     setNewAddress(address);
@@ -36,6 +38,7 @@ const MyInfo = () => {
     logout().then(() => {
       storeLogout();
       alert('로그아웃되었습니다!!!');
+      setToast(true);
       navigate('/login');
     });
   };
@@ -88,6 +91,7 @@ const MyInfo = () => {
         onClose={() => setIsModalOpen(false)}
         onSelectAddress={handleAddressSelection}
       />
+      {toast && <Toast valid={true} setToast={setToast} value='로그아웃이 완료되었습니다!!!' />}
     </div>
   );
 };
