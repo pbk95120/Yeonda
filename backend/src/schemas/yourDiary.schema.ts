@@ -8,7 +8,7 @@ export interface yourDiaryResults {
   content: string;
   created_at: string;
   likes: number;
-  tags: number[];
+  tags: { id: number; name: string }[];
 }
 
 export const selectDiarySchemas = Joi.object({
@@ -38,7 +38,12 @@ export const yourDiarySchema = Joi.object({
   content: Joi.string().min(1).max(3000).required(),
   created_at: Joi.string().isoDate().required(),
   likes: Joi.number().required(),
-  tags: Joi.array().items(Joi.number().allow(null)).required(),
+  tags: Joi.array().items(
+    Joi.object({
+      id: Joi.number().integer().positive().strict().allow(null).required(),
+      name: Joi.string().max(50).allow(null).required(),
+    }),
+  ),
 });
 
 export const yourDiaryListSchema = Joi.array().items(yourDiarySchema);
