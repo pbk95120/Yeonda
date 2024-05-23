@@ -2,6 +2,7 @@ import { signOut } from '@/api/mypage.api';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import Modal from '@/components/common/Modal';
+import Toast from '@/components/common/Toast';
 import { useAuthStore } from '@/store/authStore';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -11,6 +12,9 @@ const WithdrawalPage = () => {
   const navigate = useNavigate();
   const [open, isOpen] = useState<boolean>(false);
   const [password, setPassword] = useState<string>('');
+  const [toast, setToast] = useState<boolean>(false);
+  const [valid, setValid] = useState<boolean>(false);
+  const [toastValue, setToastValue] = useState<string>('');
   const openModal = () => {
     isOpen(true);
   };
@@ -23,10 +27,15 @@ const WithdrawalPage = () => {
       try {
         signOut(password).then(() => {
           storeLogout();
-          navigate('/join');
+          setValid(true);
+          setToastValue('회원탈퇴 완료되었습니다!!!');
+          setToast(true);
+          setTimeout(() => navigate('/join'), 1200);
         });
       } catch {
-        alert('비밀번호가 일치하지 않습니다.탈퇴가 불가능합니다');
+        setValid(false);
+        setToastValue('회원탈퇴 실패하였습니다!!!');
+        setToast(true);
       }
     });
   };
@@ -58,6 +67,7 @@ const WithdrawalPage = () => {
           onClick={withdrawalBtn}
         />
       )}
+      {toast && <Toast valid={valid} setToast={setToast} value={toastValue} />}
     </div>
   );
 };

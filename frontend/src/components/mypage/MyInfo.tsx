@@ -37,11 +37,21 @@ const MyInfo = () => {
   };
 
   const myInfoLogout = async () => {
-    logout().then(() => {
-      storeLogout();
-      setToast(true);
-      navigate('/login');
-    });
+    logout().then(
+      () => {
+        storeLogout();
+
+        setValid(true);
+        setToastValue('로그아웃이 완료되었습니다!!');
+        setToast(true);
+        setTimeout(() => navigate('/login'), 1200);
+      },
+      () => {
+        setValid(false);
+        setToastValue('로그아웃에 실패하였습니다!!');
+        setToast(true);
+      },
+    );
   };
 
   useEffect(() => {
