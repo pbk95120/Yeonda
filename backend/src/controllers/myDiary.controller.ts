@@ -9,7 +9,7 @@ import {
   diaryListSchema,
   diarySchema,
   selectDiarySchemas,
-  updateDiarySchemas,
+  UpdateDiarySchemas,
 } from '@schemas/myDiary.shema';
 import CustomError from '@src/error';
 import { scaleNumber } from '@utils/scaleNumber';
@@ -40,7 +40,7 @@ export const getMyDiaryDetail: Controller = async (req, res) => {
 
 export const changeMyDiary: Controller = async (req, res) => {
   req.body.id = parseInt(req.params?.id);
-  const { error } = updateDiarySchemas.validate(req.body);
+  const { error } = UpdateDiarySchemas.validate(req.body);
   if (error) throw new CustomError(http.BAD_REQUEST, '유효하지 않은 일기 수정 양식', error);
 
   await databaseConnector(updateMyDiary)(req.body);

@@ -51,7 +51,7 @@ export interface UpdateDiary extends Logon, DiaryUpdate {
   tags: Tag['id'][];
 }
 
-export const updateDiarySchemas = LogonSchema.concat(DiaryUpdateSchema).concat(
+export const UpdateDiarySchemas = LogonSchema.concat(DiaryUpdateSchema).concat(
   Joi.object({
     tags: PositiveIntegerArraySchema.min(0),
   }),

@@ -26,7 +26,6 @@ export const DiarySchema = Joi.object({
 export interface DiaryCreate extends Pick<Diary, 'title' | 'content'> {}
 
 export const DiaryCreateSchema = Joi.object({
-  id: Joi.number().integer().positive().strict().required(),
   title: Joi.string().min(1).max(100).required(),
   content: Joi.string().min(1).max(3000).required(),
 });
