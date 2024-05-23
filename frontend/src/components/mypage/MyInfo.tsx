@@ -37,7 +37,6 @@ const MyInfo = () => {
   const myInfoLogout = async () => {
     logout().then(() => {
       storeLogout();
-      alert('로그아웃되었습니다!!!');
       setToast(true);
       navigate('/login');
     });
