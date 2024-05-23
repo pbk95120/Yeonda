@@ -8,7 +8,13 @@ export const selectYourDiaryDetail = async (
 ): Promise<yourDiaryResults[]> => {
   const sql = `SELECT 
         d.id, u.nickname, u.picture_url, d.title, d.content, d.created_at, d.likes, 
-        COALESCE(JSON_ARRAYAGG(JSON_OBJECT('id', t.id, 'name', t.name)), JSON_ARRAY()) as tags
+        json_arrayagg(
+            case
+              when t.id is not null
+              then json_object('id', t.id, 'name', t.name)
+              else null
+            end
+          ) as tags 
     FROM
         user u
     JOIN

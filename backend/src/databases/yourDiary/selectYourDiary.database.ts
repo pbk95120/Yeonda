@@ -10,7 +10,13 @@ export const selectYourDiary = async (
   const offset = (currentPage - 1) * limit;
   const sql = `SELECT 
         d.id, u.nickname, u.picture_url, d.title, d.content, d.created_at, d.likes, 
-        json_arrayagg(json_object('id', t.id, 'name', t.name)) as tags
+        json_arrayagg(
+            case
+              when t.id is not null
+              then json_object('id', t.id, 'name', t.name)
+              else null
+            end
+          ) as tags 
     FROM
         user u
     JOIN

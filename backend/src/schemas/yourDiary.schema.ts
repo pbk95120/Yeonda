@@ -42,7 +42,10 @@ export const yourDiarySchema = Joi.object({
     Joi.object({
       id: Joi.number().integer().positive().strict().allow(null).required(),
       name: Joi.string().max(50).allow(null).required(),
-    }),
+    })
+      .allow(null)
+      .min(0)
+      .required(),
   ),
 });
 
