@@ -2,6 +2,9 @@ import { IoIosArrowBack } from 'react-icons/io';
 import { RiMenu4Line } from 'react-icons/ri';
 import { useNavigate, useParams } from 'react-router-dom';
 
+/**
+ * 채팅 페이지 헤더 컴포넌트
+ */
 const ChatHeader = () => {
   const navigate = useNavigate();
   const params = useParams();

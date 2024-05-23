@@ -67,14 +67,15 @@ const DiaryItem = ({ diary, onDiaryChange }: DiaryItemProps) => {
     }
     return (
       <div className='flex flex-wrap gap-[16px]'>
-        {diary.tags.map((item: Tag, idx: number) => (
-          <div className='flex items-center text-xl' key={idx}>
-            <span className='text-lightgray'>
-              <RiHashtag />
-            </span>
-            <div className='ml-[6px]'>{item?.name}</div>
-          </div>
-        ))}
+        {tags.length > 1 &&
+          diary.tags.map((item: Tag, idx: number) => (
+            <div className='flex items-center text-xl' key={idx}>
+              <span className='text-lightgray'>
+                <RiHashtag />
+              </span>
+              <div className='ml-[6px]'>{item?.name}</div>
+            </div>
+          ))}
       </div>
     );
   };

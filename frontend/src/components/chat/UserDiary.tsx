@@ -2,6 +2,9 @@ import DiariesList from '@/components/diaries/DiariesList';
 import { useOtherDiary } from '@/hooks/chat/useOtherDiary';
 import LoadingIndicator from '@/components/common/LoadingIndicator';
 
+/**
+ * 채팅 상대의 일기 목록 컴포넌트
+ */
 const UserDiary = () => {
   const { diaries, isDiariesLoading, pagination, isEmpty, observerElem } = useOtherDiary();
 

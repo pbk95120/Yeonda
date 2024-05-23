@@ -36,7 +36,6 @@ const ChatDetailPage = () => {
           chat: [...prevMessage.chat, data],
         };
       });
-      console.log(message);
     });
 
     return () => {

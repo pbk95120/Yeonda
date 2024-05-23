@@ -42,7 +42,6 @@ const ChatTextarea = ({ socket }: any) => {
           fileName: uploadImg,
         });
       };
-      console.log('파일있는전송');
     } else {
       socket.emit('sendMessage', {
         couple_id: localStorage.getItem('couple_id') || '',
@@ -50,11 +49,7 @@ const ChatTextarea = ({ socket }: any) => {
         file: null,
         fileName: null,
       });
-      console.log('파일없는전송');
     }
-
-    console.log('message:', message);
-    console.log('uploadImg:', uploadImg);
 
     setUploadImg('');
     setMessage('');
