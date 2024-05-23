@@ -40,15 +40,7 @@ const MyPage = () => {
     }
     return age;
   };
-  // useEffect(() => {
-  //   if (isLoading) {
-  //     const interval = setInterval(() => {
-  //       fetchDiary();
-  //     }, 1000);
 
-  //     return () => clearInterval(interval);
-  //   }
-  // }, [isLoading]);
   useEffect(() => {
     getMyPage()
       .then((data) => {

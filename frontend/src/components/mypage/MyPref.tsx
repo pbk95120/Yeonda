@@ -59,6 +59,7 @@ const MyPref = () => {
       },
     );
   };
+
   useEffect(() => {
     getMyPageMyPref().then((data) => {
       const { gender, distance, start_age, end_age } = data;
