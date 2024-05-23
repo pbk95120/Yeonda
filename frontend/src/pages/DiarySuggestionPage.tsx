@@ -1,34 +1,59 @@
+import { useEffect, useRef, useState } from 'react';
+import { useDiaryItemStore } from '@/store/diaryStore';
+import { useSuggestion } from '@/hooks/diary/useSuggestion';
 import DiaryItem from '@/components/diaries/DiaryItem';
-import useDiaries from '@/hooks/useDiaries'; // 추후 API 연결 시 이용
-import diariesData from '@/mocks/diaryData';
 import Cancel from '@/assets/images/cancel.svg?react';
 import { FaHeart } from 'react-icons/fa';
-import { useDiaryItemStore } from '@/store/diaryStore';
-import { useEffect } from 'react';
+import LoadingIndicator from '@/components/common/LoadingIndicator';
 
 const DiarySuggestionPage = () => {
-  const { setIsSuggestionPage } = useDiaryItemStore();
+  const { setIsSuggestionPage, setIsEditing } = useDiaryItemStore();
+  const { suggestionDiary, fetchDiary, isLoading, likeReqDiary } = useSuggestion();
+  const [showHeart, setShowHeart] = useState(false);
 
-  const isSuggestionPage = () => {
+  useEffect(() => {
     setIsSuggestionPage(true);
+    setIsEditing(false);
     return () => {
       setIsSuggestionPage(false);
     };
+  }, [setIsSuggestionPage]);
+
+  const handleLikeClick = async () => {
+    setShowHeart(true);
+    await likeReqDiary();
+    fetchDiary();
+    setTimeout(() => {
+      setShowHeart(false);
+    }, 1000);
   };
 
-  useEffect(isSuggestionPage, []);
-
   return (
-    <div>
-      <DiaryItem diary={diariesData[0]} />
-      <div className='flex justify-center w-full gap-[83px] absolute bottom-[100px]'>
-        <button className='flex items-center justify-center rounded-full w-[54px] h-[54px] bg-white border border-lightgray shadow-lg'>
-          <Cancel />
-        </button>
-        <button className='flex items-center justify-center rounded-full w-[54px] h-[54px] bg-white border border-lightgray shadow-lg'>
-          <FaHeart className='fill-orange' style={{ width: '34px', height: '34px' }} />
-        </button>
+    <div className=''>
+      <div>
+        {isLoading && <LoadingIndicator />}
+        {suggestionDiary && !isLoading && <DiaryItem diary={suggestionDiary} />}
+        <div className='absolute bottom-[100px] flex w-full justify-center gap-[83px]'>
+          <button
+            className='flex h-[54px] w-[54px] items-center justify-center rounded-full border border-lightgray bg-white shadow-lg'
+            onClick={fetchDiary}
+          >
+            <Cancel />
+          </button>
+          <button
+            className='flex h-[54px] w-[54px] items-center justify-center rounded-full border border-lightgray bg-white shadow-lg'
+            onClick={handleLikeClick}
+          >
+            <FaHeart className=' fill-orange ' style={{ width: '34px', height: '34px' }} />
+          </button>
+        </div>
       </div>
+      {showHeart && (
+        <FaHeart
+          className='absolute right-[140px] top-[300px] transform animate-heartBeat text-red '
+          style={{ width: '100px', height: '100px' }}
+        />
+      )}
     </div>
   );
 };

@@ -17,39 +17,39 @@ interface HeaderProps {
  */
 const MainHeader = ({ value, onlyLogo, setting, backBtn, cancelStr, complete }: HeaderProps) => {
   return (
-    <header className='flex flex-row w-full max-w-sm h-20 relative '>
+    <header className='relative flex h-20 w-full max-w-sm flex-row '>
       {onlyLogo ? (
-        <div className='flex h-20 justify-between items-center w-full relative'>
+        <div className='relative flex h-20 w-full items-center justify-between'>
           {backBtn ? (
-            <div className='absolute z-20 left-7 flex justify-center items-center'>
-              <IoIosArrowBack className='w-6 h-6 fill-gray' onClick={() => history.back()} />
+            <div className='absolute left-7 z-20 flex items-center justify-center'>
+              <IoIosArrowBack className='h-6 w-6 fill-gray' onClick={() => window.history.back()} />
             </div>
           ) : null}
-          <SVG className='h-20 py-3 fixed' />
+          <SVG className='fixed h-20 py-3' />
         </div>
       ) : (
-        <div className='flex h-20 justify-between items-center w-full relative'>
+        <div className='relative flex h-20 w-full items-center justify-between'>
           {cancelStr ? (
-            <div className='absolute left-7 flex justify-center items-center'>
-              <div className='font-sans text-gray text-xs' onClick={() => history.back()}>
+            <div className='absolute left-7 flex items-center justify-center'>
+              <div className='font-sans text-xs text-gray' onClick={() => window.history.back()}>
                 취소
               </div>
             </div>
           ) : null}
           {backBtn ? (
-            <div className='absolute left-7 flex justify-center items-center'>
-              <IoIosArrowBack className='w-6 h-6 fill-gray' onClick={() => history.back()} />
+            <div className='absolute left-7 flex items-center justify-center'>
+              <IoIosArrowBack id='backBtn' className='h-6 w-6 fill-gray' onClick={() => window.history.back()} />
             </div>
           ) : null}
-          <h1 className='font-bold text-lg text-center w-full pb-1'>{value}</h1>
+          <h1 className='w-full pb-1 text-center text-lg font-bold'>{value}</h1>
           {setting ? (
-            <div className='absolute right-5 flex justify-center items-center'>
-              <IoSettings className='w-5 h-10 fill-gray' />
+            <div className='absolute right-5 flex items-center justify-center'>
+              <IoSettings id='setting' className='h-10 w-5 fill-gray' />
             </div>
           ) : null}
           {complete ? (
-            <div className='absolute right-7 flex justify-center items-center'>
-              <button id='completeBtn' className='right-7 text-sans text-xs text-pastelred'>
+            <div className='absolute right-7 flex items-center justify-center'>
+              <button id='completeBtn' className='text-sans right-7 text-xs text-pastelred'>
                 완료
               </button>
             </div>

@@ -13,22 +13,22 @@ const MainFooter = () => {
   const currentPage = location.pathname;
   return (
     <>
-      <footer id='tab container' className='flex flex-row justify-around items-center w-full h-20 absolute bottom-0'>
+      <footer id='tab container' className='absolute bottom-0 flex h-20 w-full flex-row items-center justify-around'>
         <Link to='/othersdiary/suggestion'>
           <MdOutlineMenuBook
             className={cls(
               currentPage === '/othersdiary/suggestion'
-                ? 'fill-pastelred w-7 h-6 cursor-pointer'
-                : 'fill-gray hover:fill-pastelred w-7 h-6 cursor-pointer',
+                ? 'h-6 w-7 cursor-pointer fill-pastelred'
+                : 'h-6 w-7 cursor-pointer fill-gray hover:fill-pastelred',
             )}
           />
         </Link>
         <Link to='/mydiary'>
           <BiSolidBook
             className={cls(
-              currentPage === '/mydiary'
-                ? 'fill-pastelred w-7 h-6 cursor-pointer'
-                : 'fill-gray hover:fill-pastelred w-7 h-6 cursor-pointer',
+              currentPage.includes('/mydiary')
+                ? 'h-6 w-7 cursor-pointer fill-pastelred'
+                : 'h-6 w-7 cursor-pointer fill-gray hover:fill-pastelred',
             )}
           />
         </Link>
@@ -36,8 +36,8 @@ const MainFooter = () => {
           <RiPencilFill
             className={cls(
               currentPage === '/writeDiary'
-                ? 'fill-pastelred w-7 h-6 cursor-pointer'
-                : 'fill-gray hover:fill-pastelred w-7 h-6 cursor-pointer',
+                ? 'h-6 w-7 cursor-pointer fill-pastelred'
+                : 'h-6 w-7 cursor-pointer fill-gray hover:fill-pastelred',
             )}
           />
         </Link>
@@ -45,8 +45,8 @@ const MainFooter = () => {
           <BsChatHeartFill
             className={cls(
               currentPage === '/chat'
-                ? 'fill-pastelred w-7 h-6 cursor-pointer'
-                : 'fill-gray hover:fill-pastelred w-7 h-6 cursor-pointer',
+                ? 'h-6 w-7 cursor-pointer fill-pastelred'
+                : 'h-6 w-7 cursor-pointer fill-gray hover:fill-pastelred',
             )}
           />
         </Link>
@@ -54,8 +54,8 @@ const MainFooter = () => {
           <FaUserLarge
             className={cls(
               currentPage === '/mypage'
-                ? 'fill-pastelred w-7 h-6 cursor-pointer'
-                : 'fill-gray hover:fill-pastelred w-7 h-6 cursor-pointer',
+                ? 'h-6 w-7 cursor-pointer fill-pastelred'
+                : 'h-6 w-7 cursor-pointer fill-gray hover:fill-pastelred',
             )}
           />
         </Link>

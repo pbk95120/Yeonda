@@ -8,23 +8,25 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+
 import { Line } from 'react-chartjs-2';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-const labels = ['일', '월', '화', '수', '목', '금', '토'];
-
 interface GraphProps {
   title: string;
+  datas: number[];
+  dates: string[];
 }
 
-const Graph = ({ title }: GraphProps) => {
+const Graph = ({ title, datas, dates }: GraphProps) => {
+  const labels = dates;
   const data = {
     labels,
     datasets: [
       {
         label: title,
-        data: [0, 20, 30, 40, 100, 120, 170],
+        data: datas,
         borderColor: 'rgb(255, 99, 132)',
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
       },
@@ -33,9 +35,9 @@ const Graph = ({ title }: GraphProps) => {
 
   return (
     <div>
-      <h1 className='text-xl p-2 font-bold'>{title}</h1>
+      <h1 className='p-2 text-xl font-bold'>{title}</h1>
       <hr className='text-lightgray' />
-      <div className='w-3/4 mx-auto h-90'>
+      <div className='h-90 mx-auto w-3/4'>
         <Line data={data} />
       </div>
     </div>

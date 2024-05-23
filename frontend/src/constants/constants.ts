@@ -1,4 +1,4 @@
-export const LOAD_DAIRY = 4; // 내 일기 목록 무한 스크롤로 가져 올 떄 한번에 불러올 개수, 다른 이름이나 방식 있으면 수정예정
+export const LOAD_DAIRY = 2; // 내 일기 목록 무한 스크롤로 가져 올 떄 한번에 불러올 개수, 다른 이름이나 방식 있으면 수정예정
 export const IMAGE_LIMIT = 5;
 export const TAG_LIMIT = 5;
 export const DEFAULT_TIMEOUT = 30000;
@@ -33,4 +33,4 @@ export const TUTORIAL_PAGE_CONTENT = [
   '마이페이지에서는 내 정보를 확인하거나 수정할 수 있습니다',
 ];
 
-export const TAIL_LOCATION = [50, 112, 175, 237, 300];
+export const TUTORIAL_PAGE_BALLOON_POSITION = [50, 112, 175, 237, 300];

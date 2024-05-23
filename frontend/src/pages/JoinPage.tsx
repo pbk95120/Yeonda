@@ -2,8 +2,11 @@ import { useState } from 'react';
 import Account from '@/components/join/Account';
 import PersonalInformation from '@/components/join/PersonalInformation';
 import Preference from '@/components/join/Preference';
-import Interest from '@/components/join/Interest';
+import Interest, { Tag } from '@/components/join/Interest';
 import { DEFAULT_DISTANCE, DEFAULT_ENDAGE, DEFAULT_STARTAGE } from '@/constants/constants';
+import { WithUnauthenticated } from '@/components/hoc/WithUnauthenticated';
+import { signup } from '@/api/user.api';
+import { formatBirth } from '@/utils/format';
 
 const JoinPage = () => {
   const [page, setPage] = useState<number>(0);
@@ -18,7 +21,7 @@ const JoinPage = () => {
   const [month, setMonth] = useState<number>(0);
   const [day, setDay] = useState<number>(0);
   const [address, setAddress] = useState<string>('');
-  const [picture, setPicture] = useState<File | null>(null);
+  const [picture_url, setPicture_url] = useState<File | null>();
 
   const [gender, setGender] = useState<string>('');
   const [preferGender, setPreferGender] = useState<string>('');
@@ -26,7 +29,40 @@ const JoinPage = () => {
   const [startAge, setStartAge] = useState<number>(DEFAULT_STARTAGE);
   const [endAge, setEndAge] = useState<number>(DEFAULT_ENDAGE);
 
-  const [tags, setTags] = useState<string[]>([]);
+  const [tags, setTags] = useState<Tag[]>([]);
+
+  const join = () => {
+    const formData = new FormData();
+    formData.append('nickname', nickname);
+    formData.append('email', email);
+    formData.append('password', password);
+    formData.append('password_check', passwordCheck);
+    formData.append('birth', formatBirth(year, month, day));
+    formData.append('address', address);
+    formData.append('gender', gender);
+    formData.append('prefer_gender', preferGender);
+    formData.append('distance', distance.toString());
+    formData.append('start_age', startAge.toString());
+    formData.append('end_age', endAge.toString());
+    formData.append(
+      'tags',
+      tags
+        .map((tag) => tag.id)
+        .join(',')
+        .toString(),
+    );
+
+    picture_url ? formData.append('picture', picture_url) : null;
+
+    signup(formData).then(
+      () => {
+        alert('회원가입 성공');
+      },
+      () => {
+        alert('회원가입 실패');
+      },
+    );
+  };
 
   return (
     <>
@@ -48,7 +84,7 @@ const JoinPage = () => {
       {page === 1 && (
         <PersonalInformation
           setPage={setPage}
-          setPicture={setPicture}
+          setPicture_url={setPicture_url}
           year={year}
           setYear={setYear}
           month={month}
@@ -74,9 +110,9 @@ const JoinPage = () => {
           setEndAge={setEndAge}
         />
       )}
-      {page == 3 && <Interest setTags={setTags} setPage={setPage} tags={tags} />}
+      {page == 3 && <Interest setTags={setTags} setPage={setPage} tags={tags} join={join} />}
     </>
   );
 };
 
-export default JoinPage;
+export default WithUnauthenticated(JoinPage);

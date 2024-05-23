@@ -4,7 +4,6 @@ import '@/index.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Layout from '@/layout/Layout';
-import TestPage from '@/pages/TestPage';
 import LoginPage from '@/pages/LoginPage';
 import JoinPage from '@/pages/JoinPage';
 import FindPassWordPage from '@/pages/FindPassWordPage';
@@ -19,11 +18,13 @@ import MyPage from '@/pages/MyPage';
 import SettingPage from '@/pages/SettingPage';
 import WithdrawalPage from '@/pages/WithdrawalPage';
 import WriteDiaryPage from '@/pages/WriteDiaryPage';
-import ChatPage from '@/pages/ChatPage';
+import ChatPage from '@/pages/ChatListPage';
 import ChatDetailPage from '@/pages/ChatDetailPage';
 import ChatProfilePage from '@/pages/ChatProfilePage';
 import ErrorPage from '@/pages/ErrorPage';
 import OthersDiaryPage from './pages/OthersDiaryPage';
+import PreferencePage from './pages/PreferencePage';
+import TagSetting from './pages/TagSetting';
 
 const queryClient = new QueryClient();
 
@@ -42,8 +43,8 @@ const queryClient = new QueryClient();
 const routeList = [
   {
     path: '/',
-    element: <TestPage />,
-    showHeader: true,
+    element: <TutorialPage />,
+    showHeader: false,
     chatHeader: false,
     showFooter: false,
     onlyLogo: false,
@@ -80,8 +81,8 @@ const routeList = [
     cancelStr: true,
   },
   {
-    path: '/tutorial',
-    element: <TutorialPage />,
+    path: '/admin/statistics',
+    element: <StatisticsPage />,
     showHeader: true,
     showFooter: false,
     onlyLogo: true,
@@ -90,8 +91,8 @@ const routeList = [
     cancelStr: true,
   },
   {
-    path: '/admin/statistics',
-    element: <StatisticsPage />,
+    path: '/admin/settings',
+    element: <TagSetting />,
     showHeader: true,
     showFooter: false,
     onlyLogo: true,
@@ -158,10 +159,20 @@ const routeList = [
     element: <SettingPage />,
     showHeader: true,
     showFooter: false,
-    onlyLogo: true,
-    value: '박상하킹갓',
-    backBtn: false,
-    cancelStr: true,
+    onlyLogo: false,
+    value: '설정',
+    backBtn: true,
+    cancelStr: false,
+  },
+  {
+    path: '/mypage/setting/preference',
+    element: <PreferencePage />,
+    showHeader: true,
+    showFooter: false,
+    onlyLogo: false,
+    value: '관심사',
+    backBtn: true,
+    cancelStr: false,
   },
   {
     path: '/withdrawal',
@@ -170,8 +181,8 @@ const routeList = [
     showFooter: false,
     onlyLogo: true,
     value: '박상하킹갓',
-    backBtn: false,
-    cancelStr: true,
+    backBtn: true,
+    cancelStr: false,
   },
   {
     path: '/writeDiary',
@@ -236,7 +247,11 @@ const router = createBrowserRouter(
           )}
         </>
       ),
-      errorElement: <ErrorPage />,
+      errorElement: (
+        <Layout showFooter={false}>
+          <ErrorPage />
+        </Layout>
+      ),
     };
   }),
 );

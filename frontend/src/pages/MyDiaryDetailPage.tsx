@@ -1,84 +1,82 @@
 import DiaryItem from '@/components/diaries/DiaryItem';
 import DiaryHeader from '@/components/diaries/DiaryHeader';
 import Dropdown from '@/components/common/Dropdown';
-import useDiaries from '@/hooks/useDiaries'; // 추후 API 연결 시 이용
-import diariesData from '@/mocks/diaryData';
 import { RiMoreFill } from 'react-icons/ri';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import Toast from '@/components/common/Toast';
 import Modal from '@/components/common/Modal';
-import { useDiaryItemStore } from '@/store/diaryStore';
+import { useDiary } from '@/hooks/diary/useDiary';
+import { useDiaryChange } from '@/hooks/diary/useDiaryChange';
+import { useDiaryRemove } from '@/hooks/diary/useDiaryRemove';
+import LoadingIndicator from '@/components/common/LoadingIndicator';
 
 const MyDiaryDetailPage = () => {
-  const navigate = useNavigate();
-  const { id } = useParams();
-  const [toast, setToast] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const { setIsEditing, isEditing } = useDiaryItemStore();
+  const { diary, diaryId, handleDiaryChange, isLoading, error } = useDiary();
+  const [toast, setToast] = useState<boolean>(false);
+  const [value, setValue] = useState<string>('');
+  const [valid, setValid] = useState<boolean>(false);
 
-  const editSuccess = () => {
-    setIsEditing(false);
-    setToast(true);
-  };
-
-  const editDiary = () => {
-    setIsEditing(true);
-  };
-
-  const deleteDiary = () => {
-    navigate('/mydiary', { state: '삭제가 완료되었습니다.' });
-  };
-
-  const editCancel = () => {
-    setIsEditing(false);
-  };
-
-  const modalOpen = () => {
+  const modalOpen = useCallback(() => {
     setIsModalOpen(true);
-  };
+  }, []);
 
-  const modalClose = () => {
+  const modalClose = useCallback(() => {
     setIsModalOpen(false);
-  };
+  }, []);
+
+  const { editSave, editDiary, editCancel, isEditing } = useDiaryChange({
+    diary,
+    diaryId,
+    setToast,
+    setValue,
+    setValid,
+  });
+
+  const { deleteDiary } = useDiaryRemove({ diaryId, setToast, setValue, setValid, modalClose });
+
+  if (error) {
+    return (
+      <span className='-t absolute left-[50%] top-[50%] -translate-x-2/4 -translate-y-2/4 text-gray'>
+        일기 데이터를 불러오는데 실패했습니다.
+      </span>
+    );
+  }
+
+  if (!diary || isLoading) {
+    return <LoadingIndicator />;
+  }
 
   return (
     <div className='relative'>
-      <DiaryHeader diariesData={diariesData[0]} />
+      {diary && <DiaryHeader diariesData={diary} />}
       {isEditing ? (
-        <div className='flex justify-around my-[20px]'>
+        <div className='my-[20px] flex justify-around'>
           <button onClick={editCancel} className='text-base'>
             취소
           </button>
-          <h1 className='font-bold text-lg'>일기 수정</h1>
-          <button onClick={editSuccess} className='text-base text-pastelred'>
+          <h1 className='text-lg font-bold'>일기 수정</h1>
+          <button onClick={editSave} className='text-base text-pastelred'>
             완료
           </button>
         </div>
       ) : (
         <div className='absolute right-[14px] top-[90px] '>
-          <Dropdown className='absolute top-[20px] right-[0px]' toggleButton={<RiMoreFill className='fill-gray' />}>
+          <Dropdown className='absolute right-[0px] top-[20px]' toggleButton={<RiMoreFill className='fill-gray' />}>
             <div className='text-xs'>
               <div className='hover:bg-lightgray'>
                 <button onClick={modalOpen} className='p-[15px] text-pastelred'>
                   삭제
                 </button>
               </div>
-              <div className='hover:bg-lightgray border-t border-lightgray'>
+              <div className='border-t border-lightgray hover:bg-lightgray'>
                 <button onClick={editDiary} className='p-[15px]'>
                   수정
                 </button>
               </div>
             </div>
           </Dropdown>
-          {toast && (
-            <Toast
-              className='left-[50%] -translate-x-1/2'
-              value='수정이 완료되었습니다.'
-              valid={true}
-              setToast={setToast}
-            />
-          )}
+          {toast && <Toast className='left-[50%] -translate-x-1/2' value={value} valid={valid} setToast={setToast} />}
           <Modal
             isOpen={isModalOpen}
             closeModal={modalClose}
@@ -88,7 +86,7 @@ const MyDiaryDetailPage = () => {
           />
         </div>
       )}
-      <DiaryItem diary={diariesData[Number(id) - 1]} />
+      {diary && <DiaryItem diary={diary} onDiaryChange={handleDiaryChange} />}
     </div>
   );
 };

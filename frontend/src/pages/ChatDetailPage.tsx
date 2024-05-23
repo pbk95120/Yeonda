@@ -2,98 +2,79 @@ import { useState, useRef, useEffect } from 'react';
 import ChatTextarea from '@/components/chat/ChatTextarea';
 import MyChatBubble from '@/components/chat/MyChatBubble';
 import ReceiveChatBubble from '@/components/chat/ReceiveChatBubble';
-import useDateVisibility from '@/hooks/useDateVisibility';
+import { useParams } from 'react-router-dom';
+import { socketConnect } from '@/api/socket';
+import { ChatMessageGetProps } from '@/types/type';
 
 const ChatDetailPage = () => {
-  const mockMessages = [
-    {
-      id: 1,
-      nickname: 'UserName',
-      message:
-        '채팅 내용입니다. 채팅 내용입니다. 채팅 내용입니다. 채팅 내용입니다. 채팅 내용 입니다. 채팅 내용입니다. 채팅 내용입니다.',
-      send_at: '2024-04-27T08:26:49',
-    },
-    {
-      id: 2,
-      nickname: 'NickName',
-      message:
-        '채팅 내용입니다. 채팅 내용입니다. 채팅 내용입니다. 채팅 내용입니다. 채팅 내용 입니다. 채팅 내용입니다. 채팅 내용입니다.',
-      send_at: '2024-04-27T08:26:49',
-    },
-    {
-      id: 3,
-      nickname: 'UserName',
-      message:
-        '채팅 내용입니다. 채팅 내용입니다. 채팅 내용입니다. 채팅 내용입니다. 채팅 내용 입니다. 채팅 내용입니다. 채팅 내용입니다.',
-      send_at: '2024-05-01T08:26:49',
-    },
-    {
-      id: 4,
-      nickname: 'UserName',
-      message:
-        '채팅 내용입니다. 채팅 내용입니다. 채팅 내용입니다. 채팅 내용입니다. 채팅 내용 입니다. 채팅 내용입니다. 채팅 내용입니다.',
-      send_at: '2024-05-01T08:26:49',
-    },
-    {
-      id: 5,
-      nickname: 'NickName',
-      message:
-        '채팅 내용입니다. 채팅 내용입니다. 채팅 내용입니다. 채팅 내용입니다. 채팅 내용 입니다. 채팅 내용입니다. 채팅 내용입니다.',
-      send_at: '2024-05-02T08:26:49',
-    },
-    {
-      id: 6,
-      nickname: 'NickName',
-      message:
-        '채팅 내용입니다. 채팅 내용입니다. 채팅 내용입니다. 채팅 내용입니다. 채팅 내용 입니다. 채팅 내용입니다. 채팅 내용입니다.',
-      send_at: '2024-05-02T08:26:49',
-    },
-    {
-      id: 7,
-      nickname: 'NickName',
-      message:
-        '채팅 내용입니다. 채팅 내용입니다. 채팅 내용입니다. 채팅 내용입니다. 채팅 내용 입니다. 채팅 내용입니다. 채팅 내용입니다.',
-      send_at: '2024-05-02T08:26:49',
-    },
-    {
-      id: 8,
-      nickname: 'NickName',
-      message:
-        '채팅 내용입니다. 채팅 내용입니다. 채팅 내용입니다. 채팅 내용입니다. 채팅 내용 입니다. 채팅 내용입니다. 채팅 내용입니다.',
-      send_at: '2024-05-02T08:26:49',
-    },
-  ];
-
-  const [userName, setUserName] = useState('UserName');
-  const messagesWithDateVisibility = useDateVisibility(mockMessages);
+  const [message, setMessage] = useState<ChatMessageGetProps | null>(null);
+  const myId = localStorage.getItem('user1_id') ? Number(localStorage.getItem('user1_id')) : '';
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const params = useParams();
+  const socket = socketConnect();
+
+  if (!params.id) return;
 
   useEffect(() => {
-    console.log('스크롤이동');
+    const socket = socketConnect();
+
+    socket.emit('joinRoom', {
+      couple_id: localStorage.getItem('couple_id') || '',
+      user1_id: localStorage.getItem('user1_id') || '',
+      user2_id: localStorage.getItem('user2_id') || '',
+    });
+
+    socket.on('partnerInfo', (data: any) => {
+      setMessage(data);
+    });
+
+    socket.on('receiveMessage', (data: any) => {
+      setMessage((prevMessage) => {
+        if (!prevMessage) return null;
+        return {
+          ...prevMessage,
+          chat: [...prevMessage.chat, data],
+        };
+      });
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messagesWithDateVisibility]);
+  }, [message?.chat]);
 
   return (
-    <div className='flex flex-col h-screen max-h-content'>
-      <section className='flex flex-col basis-11/12'>
-        {messagesWithDateVisibility.map((msg) =>
-          msg.nickname === userName ? (
-            <MyChatBubble key={msg.id} id={msg.id} message={msg.message} sendAt={msg.send_at} showDate={msg.showDate} />
-          ) : (
-            <ReceiveChatBubble
-              key={msg.id}
-              id={msg.id}
-              message={msg.message}
-              sendAt={msg.send_at}
-              showDate={msg.showDate}
-            />
-          ),
-        )}
+    <div className='flex h-screen max-h-content flex-col'>
+      <section className='flex basis-11/12 flex-col'>
+        {message &&
+          message.chat.map((msg) =>
+            msg.user_id === myId ? (
+              <MyChatBubble
+                key={msg.id}
+                message={msg.message}
+                pictureUrl={msg.picture_url}
+                sendAt={msg.send_at}
+                showDate={msg.show_date}
+              />
+            ) : (
+              <ReceiveChatBubble
+                key={msg.id}
+                message={msg.message}
+                pictureUrl={msg.picture_url}
+                sendAt={msg.send_at}
+                showDate={msg.show_date}
+              />
+            ),
+          )}
       </section>
       <section className='basis-1/12 pb-3'>
-        <ChatTextarea />
-        <div ref={messagesEndRef}></div>
+        <ChatTextarea socket={socket} />
       </section>
+      <div ref={messagesEndRef}></div>
     </div>
   );
 };

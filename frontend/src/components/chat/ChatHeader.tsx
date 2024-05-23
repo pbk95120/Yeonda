@@ -1,13 +1,18 @@
 import { IoIosArrowBack } from 'react-icons/io';
 import { RiMenu4Line } from 'react-icons/ri';
-import Profile from '@/assets/images/Profile.svg?react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
+/**
+ * 채팅 페이지 헤더 컴포넌트
+ */
 const ChatHeader = () => {
   const navigate = useNavigate();
+  const params = useParams();
+  const nickName = localStorage.getItem('nickname');
+  const profileImg = localStorage.getItem('profileImg') || undefined;
 
   const handleClick = () => {
-    navigate(`/chat/profile/1`);
+    navigate(`/chat/profile/${params.id}`);
   };
 
   return (
@@ -17,11 +22,16 @@ const ChatHeader = () => {
           <IoIosArrowBack className='absolute left-7 h-6 w-6 cursor-pointer fill-gray' onClick={() => navigate(-1)} />
         </div>
         <div>
-          <Profile className='absolute bottom-0.5 left-[3.5rem] h-8 w-8 cursor-pointer' onClick={handleClick} />
+          <img
+            src={profileImg}
+            alt='프로필이미지'
+            className='absolute bottom-0.5 left-[3.5rem] h-8 w-8 cursor-pointer'
+            onClick={handleClick}
+          />
         </div>
         <div>
           <p className='absolute bottom-2 left-[6rem] cursor-pointer font-bold' onClick={handleClick}>
-            UserName
+            {nickName}
           </p>
         </div>
         <div>

@@ -4,8 +4,8 @@ import { RiGalleryLine } from 'react-icons/ri';
 /**
  * 채팅 textarea form 컴포넌트
  */
-const ChatTextarea = () => {
-  const [uploadImg, setUploadImg] = useState<string>();
+const ChatTextarea = ({ socket }: any) => {
+  const [uploadImg, setUploadImg] = useState<string>('');
   const [message, setMessage] = useState<string>('');
   const [isFocused, setIsFocused] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -24,14 +24,35 @@ const ChatTextarea = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(uploadImg);
-    console.log(message);
-    console.log('submit');
+
+    socket.emit('joinRoom', {
+      couple_id: localStorage.getItem('couple_id') || '',
+      user1_id: localStorage.getItem('user1_id') || '',
+      user2_id: localStorage.getItem('user2_id') || '',
+    });
+
+    if (uploadImg) {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const fileData = reader.result;
+        socket.emit('sendMessage', {
+          couple_id: localStorage.getItem('couple_id') || '',
+          message: message,
+          file: fileData,
+          fileName: uploadImg,
+        });
+      };
+    } else {
+      socket.emit('sendMessage', {
+        couple_id: localStorage.getItem('couple_id') || '',
+        message: message,
+        file: null,
+        fileName: null,
+      });
+    }
 
     setUploadImg('');
     setMessage('');
-
-    // form data post
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -42,19 +63,18 @@ const ChatTextarea = () => {
   };
 
   useEffect(() => {
-    console.log('스크롤이동');
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [uploadImg]);
+  }, [message, uploadImg]);
 
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        {uploadImg && <img src={'https://placehold.co/60x60'} alt='Thumbnail' className='mx-6 mb-2 rounded-lg' />}
+        {uploadImg && <img src={uploadImg} alt='첨부이미지' className='mx-6 mb-2 h-[3.75rem] w-[3.75rem] rounded-lg' />}
         <div
-          className={`relative flex items-center border ${isFocused ? 'border-pastelred' : 'border-gray'} mx-6 rounded-xl min-h-[2.375rem] min-w-[20.425rem]`}
+          className={`relative flex items-center border ${isFocused ? 'border-pastelred' : 'border-gray'} mx-6 min-h-[2.375rem] min-w-[20.425rem] rounded-xl`}
         >
           {!uploadImg && (
-            <label htmlFor='imageUpload' className='pl-2 py-1.5 cursor-pointer'>
+            <label htmlFor='imageUpload' className='cursor-pointer py-1.5 pl-2'>
               <RiGalleryLine className='text-2xl text-gray hover:text-pastelred' />
             </label>
           )}
@@ -67,7 +87,7 @@ const ChatTextarea = () => {
           />
           <textarea
             rows={1}
-            className='pl-2 w-8/12 h[2.25rem] text-xs resize-none focus:outline-none focus:ring-0 overflow-hidden'
+            className='h[2.25rem] w-8/12 resize-none overflow-hidden pl-2 text-xs focus:outline-none focus:ring-0'
             placeholder='메세지 입력...'
             value={message}
             onChange={handleMessageChange}
@@ -75,7 +95,7 @@ const ChatTextarea = () => {
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
           ></textarea>
-          <button className='absolute right-0 w-14 h-[2.4rem] bg-pastelred text-white text-xs rounded-xl'>전송</button>
+          <button className='absolute right-0 h-[2.4rem] w-14 rounded-xl bg-pastelred text-xs text-white'>전송</button>
         </div>
       </form>
       <div ref={messagesEndRef}></div>

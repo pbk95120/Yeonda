@@ -1,32 +1,44 @@
 // Chat ================================================
-export interface ChatMessageGetProps {
+export interface ChatMessage {
   id: number;
-  nickname: string;
+  user_id: number;
   message: string;
+  picture_url: string;
   send_at: string;
+  is_read: number;
+  show_date: boolean;
 }
 
-export interface ChatMessageWithDate extends ChatMessageGetProps {
-  showDate: boolean;
+export interface ChatMessageGetProps {
+  partner_id: number;
+  nickname: string;
+  picture_url: string;
+  user_id: number;
+  chat: ChatMessage[];
 }
 
 export interface ChatMessageProps {
-  id: number;
   message: string;
   sendAt: string;
   showDate: boolean;
+  pictureUrl: string;
 }
 
 export interface ChatListProps {
-  id: number;
-  nickName: string;
+  couple_id: number;
+  is_read: number;
   message: string;
-  pendingRead: number;
+  nickname: string;
+  picture_url: string;
+  user2_id: number;
+  user1_id: number;
+  email: string;
 }
 
-export interface ChatProfileProps {
-  profileImage: string;
-  nickName: string;
+export interface FetchOtherDiariesProps {
+  currentPage: number;
+  limit: number;
+  userId: number;
 }
 
 // Diary ================================================
@@ -37,11 +49,31 @@ export interface Diary {
   picture_url: string;
   title: string;
   content: string;
-  tags: string[];
-  created_at: string;
-  likes: number;
+  tags: Tag[];
+  created_at?: string;
+  likes?: number;
+}
+
+export interface FetchDiariesParams {
+  currentPage: number;
+  limit: number;
+  sort: number;
+}
+
+export interface Tag {
+  id: number;
+  name: string;
+}
+
+export interface PreferData {
+  distance: number;
+  end_age: number;
+  start_age: number;
+  gender: string;
 }
 
 export type DiaryHeader = Pick<Diary, 'nickname' | 'picture_url'>;
 
 export type DiaryContent = Omit<Diary, 'nickname' | 'picture_url'>;
+
+export type DiaryChange = Pick<Diary, 'title' | 'content' | 'tags'>;

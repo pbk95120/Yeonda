@@ -1,12 +1,11 @@
 import ChatProfile from '@/components/chat/ChatProfile';
-import UserDiary from '@/components/diaries/UserDiary';
+import UserDiary from '@/components/chat/UserDiary';
 
 const ChatProfilePage = () => {
-  const mockProfile = { picture_url: 'https://placehold.co/259x259', nickname: 'nickname' };
   return (
     <>
       <section>
-        <ChatProfile profileImage={mockProfile.picture_url} nickName={mockProfile.nickname} />
+        <ChatProfile />
       </section>
       <section>
         <UserDiary />

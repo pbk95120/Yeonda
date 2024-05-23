@@ -30,7 +30,10 @@ const Dropdown = ({ children, toggleButton, isOpen = false, className }: Props) 
     <div ref={dropdownRef}>
       <button onClick={() => setOpen(!open)}>{toggleButton}</button>
       {open && (
-        <div className={cls(`overflow-hidden rounded-xl text-center bg-white shadow-lg w-[130px] ${className}`)}>
+        <div
+          onClick={() => setOpen(false)}
+          className={cls(`w-[130px] overflow-hidden rounded-xl bg-white text-center shadow-lg ${className}`)}
+        >
           {children}
         </div>
       )}
