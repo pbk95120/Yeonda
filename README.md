@@ -79,6 +79,13 @@
   <img width="1200" src="https://velog.velcdn.com/images/geun99/post/dbaa27e2-c638-4d2a-8069-fa64d1c0993d/image.gif">
 </details>
 
+### ✔︎ Error 페이지
+- 잘못된 주소로 접속을 요청하거나, 에러가 발생한 경우 에러 페이지로 이동시켜줍니다.
+<details markdown="1">
+<summary>Error</summary>
+  <img width="300" src="https://velog.velcdn.com/images/geun99/post/6c5effda-5d94-45a0-aeea-5800ab67af6b/image.png">
+</details>
+
  
 
 ## 📁 Directory Structure
