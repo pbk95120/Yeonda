@@ -1,30 +1,30 @@
-import React from 'react';
+import React, { lazy } from 'react';
 import ReactDOM from 'react-dom/client';
 import '@/index.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Layout from '@/layout/Layout';
-import LoginPage from '@/pages/LoginPage';
-import JoinPage from '@/pages/JoinPage';
-import FindPassWordPage from '@/pages/FindPassWordPage';
-import TutorialPage from '@/pages/TutorialPage';
-import StatisticsPage from '@/pages/StatisticsPage';
-import AnalysisPage from '@/pages/AnalysisPage';
-import MyDiaryPage from '@/pages/MyDiaryPage';
-import MyDiaryDetailPage from '@/pages/MyDiaryDetailPage';
-import DiarySuggestionPage from '@/pages/DiarySuggestionPage';
-import DiaryPopularPage from '@/pages/DiaryPopularPage';
-import MyPage from '@/pages/MyPage';
-import SettingPage from '@/pages/SettingPage';
-import WithdrawalPage from '@/pages/WithdrawalPage';
-import WriteDiaryPage from '@/pages/WriteDiaryPage';
-import ChatPage from '@/pages/ChatListPage';
-import ChatDetailPage from '@/pages/ChatDetailPage';
-import ChatProfilePage from '@/pages/ChatProfilePage';
-import ErrorPage from '@/pages/ErrorPage';
-import OthersDiaryPage from './pages/OthersDiaryPage';
-import PreferencePage from './pages/PreferencePage';
-import TagSetting from './pages/TagSetting';
+const LoginPage = lazy(() => import('@/pages/LoginPage'));
+const JoinPage = lazy(() => import('@/pages/JoinPage'));
+const FindPassWordPage = lazy(() => import('@/pages/FindPassWordPage'));
+const TutorialPage = lazy(() => import('@/pages/TutorialPage'));
+const StatisticsPage = lazy(() => import('@/pages/StatisticsPage'));
+const AnalysisPage = lazy(() => import('@/pages/AnalysisPage'));
+const MyDiaryPage = lazy(() => import('@/pages/MyDiaryPage'));
+const MyDiaryDetailPage = lazy(() => import('@/pages/MyDiaryDetailPage'));
+const DiarySuggestionPage = lazy(() => import('@/pages/DiarySuggestionPage'));
+const DiaryPopularPage = lazy(() => import('@/pages/DiaryPopularPage'));
+const MyPage = lazy(() => import('@/pages/MyPage'));
+const SettingPage = lazy(() => import('@/pages/SettingPage'));
+const WithdrawalPage = lazy(() => import('@/pages/WithdrawalPage'));
+const WriteDiaryPage = lazy(() => import('@/pages/WriteDiaryPage'));
+const ChatListPage = lazy(() => import('@/pages/ChatListPage'));
+const ChatDetailPage = lazy(() => import('./pages/ChatDetailPage'));
+const ChatProfilePage = lazy(() => import('./pages/ChatProfilePage'));
+const ErrorPage = lazy(() => import('@/pages/ErrorPage'));
+const OthersDiaryPage = lazy(() => import('@/pages/OthersDiaryPage'));
+const PreferencePage = lazy(() => import('@/pages/PreferencePage'));
+const TagSetting = lazy(() => import('@/pages/TagSetting'));
 
 const queryClient = new QueryClient();
 
@@ -197,7 +197,7 @@ const routeList = [
   },
   {
     path: '/chat',
-    element: <ChatPage />,
+    element: <ChatListPage />,
     showHeader: true,
     showFooter: true,
     value: '채팅',
