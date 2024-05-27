@@ -70,7 +70,15 @@
   <img width="300" src="https://velog.velcdn.com/images/geun99/post/423d995e-c595-40de-b5d9-497872094bc2/image.png">
   <img width="300" src="https://velog.velcdn.com/images/geun99/post/de7c2377-1b8f-4ef7-a44e-07a29bcd1f30/image.png">
 </details>
-  
+
+### ✔︎ 채팅 페이지
+- 채팅 페이지에서는 서로 연결된 사용자간 채팅이 가능합니다.
+<details markdown="1">
+<summary>Chat</summary>
+   <img width="200" src="https://velog.velcdn.com/images/kyuuu_ul/post/27a4c776-b2bb-436b-aebf-9a1f28cb4888/image.png">
+  <img width="400" src="https://velog.velcdn.com/images/kyuuu_ul/post/17b77041-24a3-4e45-a019-a05938f1ab37/image.gif">
+  <img width="200" src="https://velog.velcdn.com/images/kyuuu_ul/post/417d568e-156c-4768-b57e-879154ed1e10/image.gif">
+</details>
 
 ### ✔︎ Admin 페이지
 - Admin 페이지에서는 이용자 분석, 통계를 확인하거나 태그 설정을 할 수 있습니다.
