@@ -10,14 +10,18 @@
 ## 📎 [연다 바로가기](http://yeonda.prgms-fullcycle.com/)
 
 ## 💡 프로젝트 소개
+
 일기를 기반으로 한 소개팅 서비스<br/>
 매칭 선호를 기반으로 하여 일기를 보여주고, 좋아요를 통해 매칭을 해주는 일기 소개팅 서비스입니다.
 
 ## 🎬 프로젝트 진행상황
+
 ### ✔︎ 진행기간 : 2024.4.19 ~ 5.23
 
 ## 🛠 사용한 기술 스택
+
 ### BackEnd
+
 - Express
 - Socket.io
 - OpenAI
@@ -26,8 +30,9 @@
 - Joi
 - aws-sdk/client-s3
 - multer
-  
+
 ### FrontEnd
+
 - React
 - TypeScript
 - Vite
@@ -40,7 +45,9 @@
 - Jest
 
 ## 🛠 주요 기능
-### ✔︎ 튜토리얼 
+
+### ✔︎ 튜토리얼
+
 - 처음 접속하면 전체 서비스들에 대한 소개가 있는 튜토리얼 페이지로 이동합니다.
 - 튜토리얼 페이지를 모두 확인하면 로그인 페이지로 이동합니다.
 <details markdown="1">
@@ -49,6 +56,7 @@
 </details>
 
 ### ✔︎ 로그인/회원가입/비밀번호 찾기
+
 - Email 인증을 통해 회원가입/비밀번호 찾기를 수행할 수 있고, 계정정보 뿐만 아니라, 성별, 연령대, 거리 등 매칭 상대의 취향을 선택할 수 있습니다.
 - 로그인시 Access-Token과 Refreash-Token으로 인증정보를 쿠키에 저장합니다.
 <details markdown="1">
@@ -71,7 +79,63 @@
   <img width="300" src="https://velog.velcdn.com/images/geun99/post/de7c2377-1b8f-4ef7-a44e-07a29bcd1f30/image.png">
 </details>
 
+### ✔︎ 추천 일기 페이지
+
+- 사용자가 선호하는 성별, 거리, 나이대를 가진 작성자가 작성한 일기를 랜덤으로 보여줍니다.
+- 좋아요 버튼을 클릭 했을 때 화면은 반응하며 정보가 갱신됩니다
+- X 버튼을 클릭하면 다른 일기를 보여줍니다
+- 서로 좋아요 상태가 될 때도 알려줍니다
+- 내부적으로 선택, 연산 작업 최적화가 되어 있습니다
+<details markdown="1">
+<summary>Suggestion</summary>
+  <img width="300" src="https://github.com/pbk95120/Yeonda/assets/84204779/d6611e5f-c0fe-4fb1-823f-8410785365a3">
+  <img width="300" src="https://github.com/pbk95120/Yeonda/assets/84204779/dc8c8148-71a6-4170-8010-54b33f4995fb">
+</details>
+
+### ✔︎ 인기 일기 페이지
+
+- 기본적으로 최근 좋아요를 많이 받은 5개의 일기 목록을 보여줍니다
+- 상단에는 사용자가 관심사로 설정한 태그들이 있습니다
+- 이 태그들을 클릭하면 그 태그가 포함된 인기 일기 5개가 따로 보여집니다.
+<details markdown="1">
+<summary>Popular</summary>
+  <img width="300" src="https://github.com/pbk95120/Yeonda/assets/84204779/2c9ca908-abf7-4a35-b785-966ffd645038">  
+</details>
+
+### ✔︎ 일기 작성 페이지
+
+- 사용자는 제목과 내용 작성에만 집중할 수 있고
+- 태깅은 Open AI 엠베딩과 데이터 베이스 내 태그 목록과 연계해 자동으로 이루어집니다
+<details markdown="1">
+<summary>Write</summary>
+  <img width="300" src="https://github.com/pbk95120/Yeonda/assets/84204779/f4be896c-de62-4afc-9fb6-2e118e80ced9">  
+</details>
+
+### ✔︎ 내 일기 페이지
+
+- tanstack/react-query에 useInfiniteQuery,
+- 기본 Web intersection observer API를 사용해서 무한 스크롤을 구현했습니다.
+- 최신 날짜순, 좋아요 많은 순 정렬 기능이 있습니다
+- 추후 달력 버튼을 추가해서 날짜별로 조회하는 기능도 구현 예정입니다
+<details markdown="1">
+<summary>MyDiary</summary>
+  <img width="300" src="https://github.com/pbk95120/Yeonda/assets/84204779/1c8712b6-4a3d-4d26-ae20-d1607753c820">
+  <img width="300" src="https://github.com/pbk95120/Yeonda/assets/84204779/4f672904-c89a-498e-9694-21ae99e92b68">
+</details>
+
+### ✔︎ 일기 상세보기 페이지
+
+- 조회, 수정, 삭제 등 기본적인 동작이 가능합니다
+- 첫 작성시 자동 태깅되었던 태그들을
+- 자신이 원하는 태그로도 수정할 수 있습니다
+<details markdown="1">
+<summary>DiaryDetail</summary>
+  <img width="300" src="https://github.com/pbk95120/Yeonda/assets/84204779/7f3b959d-57a3-4137-9d03-aab494cd1e29">
+  <img width="300" src="https://github.com/pbk95120/Yeonda/assets/84204779/f7cda4ca-73ee-4760-b520-8228103f6ac6">
+</details>
+
 ### ✔︎ 채팅 페이지
+
 - 채팅 페이지에서는 서로 연결된 사용자간 채팅이 가능합니다.
 <details markdown="1">
 <summary>Chat</summary>
@@ -81,6 +145,7 @@
 </details>
 
 ### ✔︎ Admin 페이지
+
 - Admin 페이지에서는 이용자 분석, 통계를 확인하거나 태그 설정을 할 수 있습니다.
 <details markdown="1">
 <summary>Admin</summary>
@@ -88,16 +153,17 @@
 </details>
 
 ### ✔︎ Error 페이지
+
 - 잘못된 주소로 접속을 요청하거나, 에러가 발생한 경우 에러 페이지로 이동시켜줍니다.
 <details markdown="1">
 <summary>Error</summary>
   <img width="300" src="https://velog.velcdn.com/images/geun99/post/6c5effda-5d94-45a0-aeea-5800ab67af6b/image.png">
 </details>
 
- 
-
 ## 📁 Directory Structure
+
 ### BE
+
 ```
 📦src
   ┣ 📂controllers	: 비즈니스 로직 컨트롤러
@@ -109,7 +175,7 @@
   ┣ 📂schemas : 스키마
   ┣ 📂sockets	: 소켓
   ┣ 📂storage	: 저장소
-  ┣ 📂tests	: Jest 통합 테스트	
+  ┣ 📂tests	: Jest 통합 테스트
   ┣ 📂utils	: 유틸
   ┣ 📜app.ts	: Express/Socket.io 및 라우팅
   ┣ 📜db.ts	: DB 연결 싱글턴 객체
@@ -123,7 +189,9 @@
 ┗📜.prettierrc : Prettier 설정
 
 ```
+
 ### FE
+
 ```
 📦src
   ┣ 📂api		: rest api 호출
@@ -134,7 +202,7 @@
   ┣ 📂layout 		: 레이아웃
   ┣ 📂mocks		: mock data
   ┣ 📂pages		: Route 관리
-  ┣ 📂store		: 전역 상태 관리	
+  ┣ 📂store		: 전역 상태 관리
   ┣ 📂test		: Jest 테스트
   ┣ 📂types		: Type관리
   ┣ 📂utils		: 날짜,숫자 등 유틸 함수
@@ -147,7 +215,8 @@
 ```
 
 ## 팀원
-### BE 
+
+### BE
 
 <table >
   <tbody>
