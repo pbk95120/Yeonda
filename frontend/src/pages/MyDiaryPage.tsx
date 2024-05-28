@@ -69,7 +69,7 @@ const MyDiaryPage = () => {
           </div>
         </Dropdown>
       </div>
-      {toast && <Toast className='left-[50%] -translate-x-1/2' value={value} valid={true} setToast={setToast} />}
+      {toast && <Toast className='left-[50%] -translate-x-1/2' valid={true} setToast={setToast} />}
       <DiariesList diariesData={diaries} />
       <div ref={observerElem} className='loading'>
         {pagination.isFetchingNextPage && <p>Loading more...</p>}

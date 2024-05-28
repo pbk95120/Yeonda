@@ -1,18 +1,17 @@
 import { cls } from '@/utils/cls';
 import { IoInformationCircle } from 'react-icons/io5';
-import { FaCircleCheck } from 'react-icons/fa6';
+import { FaCircleCheck, FaHeart } from 'react-icons/fa6';
 import { useEffect } from 'react';
 
 interface ToastProps {
-  value?: string;
   className?: string;
   valid: boolean;
   setToast: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Toast = ({ value, className, valid, setToast }: ToastProps) => {
+const Toast = ({ className, valid, setToast }: ToastProps) => {
   let defaultCls =
-    'opacity-75 z-20 font-sans w-[313px] h-[54px] space-x-2 flex fixed items-center rounded-md bottom-24 justify-center bg-gray shadow-lg';
+    'opacity-95 gap-[20px] pl-[30px] z-20 font-sans w-[313px] h-[70px] space-x-2 flex fixed items-center rounded-md bottom-24 bg-gray shadow-lg';
   useEffect(() => {
     const timer = setTimeout(() => {
       setToast(false);
@@ -23,10 +22,12 @@ const Toast = ({ value, className, valid, setToast }: ToastProps) => {
   }, [setToast]);
 
   return (
-    <div className='flex flex-col justify-center items-center'>
+    <div className='flex flex-col items-center justify-center'>
       <div className={cls(defaultCls, className ? className : '')}>
-        {valid ? <FaCircleCheck className='fill-green' /> : <IoInformationCircle className='fill-red' />}
-        <div className='font-sans text-white'>{value}</div>
+        {valid ? <FaHeart className='fill-pastelred' /> : <IoInformationCircle className='fill-red' />}
+        <div className='font-sans text-white'>
+          서로 좋아요가 되었습니다. <br /> 채팅창을 확인해보세요.{' '}
+        </div>
       </div>
     </div>
   );

@@ -5,11 +5,13 @@ import DiaryItem from '@/components/diaries/DiaryItem';
 import Cancel from '@/assets/images/cancel.svg?react';
 import { FaHeart } from 'react-icons/fa';
 import LoadingIndicator from '@/components/common/LoadingIndicator';
+import Toast from '@/components/common/Toast';
 
 const DiarySuggestionPage = () => {
   const { setIsSuggestionPage, setIsEditing } = useDiaryItemStore();
   const { suggestionDiary, fetchDiary, isLoading, likeReqDiary } = useSuggestion();
   const [showHeart, setShowHeart] = useState(false);
+  const [toast, setToast] = useState<boolean>(false);
 
   useEffect(() => {
     setIsSuggestionPage(true);
@@ -20,6 +22,7 @@ const DiarySuggestionPage = () => {
   }, [setIsSuggestionPage]);
 
   const handleLikeClick = async () => {
+    setToast(true);
     setShowHeart(true);
     await likeReqDiary();
     fetchDiary();
@@ -54,6 +57,7 @@ const DiarySuggestionPage = () => {
           style={{ width: '100px', height: '100px' }}
         />
       )}
+      {toast && <Toast className='left-[50%] -translate-x-1/2' valid={true} setToast={setToast} />}
     </div>
   );
 };

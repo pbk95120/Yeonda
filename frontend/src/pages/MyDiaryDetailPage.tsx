@@ -76,7 +76,7 @@ const MyDiaryDetailPage = () => {
               </div>
             </div>
           </Dropdown>
-          {toast && <Toast className='left-[50%] -translate-x-1/2' value={value} valid={valid} setToast={setToast} />}
+          {toast && <Toast className='left-[50%] -translate-x-1/2' valid={valid} setToast={setToast} />}
           <Modal
             isOpen={isModalOpen}
             closeModal={modalClose}
