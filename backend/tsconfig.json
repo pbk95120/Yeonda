@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2021",
+    "esModuleInterop": true,
+    "baseUrl": "./src",
+    "paths": {
+      "@src/*": ["*"],
+      "@routes/*": ["routes/*"],
+      "@controllers/*": ["controllers/*"],
+      "@databases/*": ["databases/*"],
+      "@models/*": ["models/*"],
+      "@middlewares/*": ["middlewares/*"],
+      "@utils/*": ["utils/*"],
+      "@storage/*": ["storage/*"],
+      "@schemas/*": ["schemas/*"],
+      "@tests/*": ["tests/*"],
+      "@sockets/*": ["sockets/*"]
+    },
+    "outDir": "build",
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "build"]
+}
