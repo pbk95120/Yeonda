@@ -144,6 +144,32 @@
   <img width="200" src="https://velog.velcdn.com/images/kyuuu_ul/post/417d568e-156c-4768-b57e-879154ed1e10/image.gif">
 </details>
 
+### ✔︎ 마이 페이지
+
+- 현재 유저의 성별, 프로필, 주소, 닉네임, 선호 취향을 보여줍니다.
+<details markdown="1">
+<summary>MyPage</summary>
+   <img width="200" src="https://github.com/pbk95120/Yeonda/assets/96029891/af7bd431-edf3-4c66-b511-53b292360903">
+   <img width="200" src="https://github.com/pbk95120/Yeonda/assets/96029891/0cbb6ce8-88dd-40d0-b5d3-1433a5e6eb7b">
+</details>
+
+### ✔︎ 세팅 페이지
+
+- 유저의 주소, 프로필 사진 변경 가능
+- 로그아웃, 회원탈퇴 가능
+- 상대방의 연령대, 거리, 성별 선택 가능
+- 본인이 선호하는 취향의 일기를 탐색하기 위해 태그 최대 5개까지 설정 가능
+<details markdown="1">
+<summary>SettingPage</summary>
+   <img width="200" src="https://github.com/pbk95120/Yeonda/assets/96029891/475a77c4-0c5a-4e03-823e-ce90066b9260">
+   <img width="200" src="https://github.com/pbk95120/Yeonda/assets/96029891/d37b93f7-862b-4308-8030-b1a426336bd9">
+   <img width="200" src="https://github.com/pbk95120/Yeonda/assets/96029891/41132e5c-4c3f-4b6e-a1e9-600a13a82840">
+   <img width="200" src="https://github.com/pbk95120/Yeonda/assets/96029891/503088dd-2425-4f13-ad91-eca774e0b883">
+   <img width="200" src="https://github.com/pbk95120/Yeonda/assets/96029891/cc076cdb-2b8b-4de1-99af-a9667a7ecdd7">
+   <img width="200" src="https://github.com/pbk95120/Yeonda/assets/96029891/c53aa887-d478-4254-a399-62f8a74a6dea">
+   <img width="200" src="https://github.com/pbk95120/Yeonda/assets/96029891/c86bf8d9-d408-4c26-91dc-97597f5dca5c">
+</details>
+
 ### ✔︎ Admin 페이지
 
 - Admin 페이지에서는 이용자 분석, 통계를 확인하거나 태그 설정을 할 수 있습니다.
